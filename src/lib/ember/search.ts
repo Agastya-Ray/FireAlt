@@ -85,6 +85,48 @@ function fromDdgJson(data: DdgJson): SearchHit[] {
   return hits;
 }
 
+const API_TIMEOUT_MS = 9000;
+
+async function searchBrave(query: string, count: number, key: string): Promise<SearchHit[]> {
+  const res = await fetch(
+    `https://api.search.brave.com/res/v1/web/search?q=${encodeURIComponent(query)}&count=${count}`,
+    {
+      headers: { Accept: "application/json", "X-Subscription-Token": key },
+      signal: AbortSignal.timeout(API_TIMEOUT_MS),
+    },
+  );
+  if (!res.ok) return [];
+  const data = (await res.json()) as {
+    web?: { results?: Array<{ title?: string; url?: string; description?: string }> };
+  };
+  return (data.web?.results ?? [])
+    .filter((r) => r.url)
+    .map((r) => ({
+      title: decodeEntities(r.title ?? ""),
+      url: r.url as string,
+      snippet: decodeEntities(r.description ?? ""),
+    }));
+}
+
+// SEARXNG_URL is operator-configured and trusted: intentionally not run through the public-host guard.
+async function searchSearxng(query: string, base: string): Promise<SearchHit[]> {
+  const res = await fetch(
+    `${base.replace(/\/+$/, "")}/search?q=${encodeURIComponent(query)}&format=json`,
+    { headers: { Accept: "application/json" }, signal: AbortSignal.timeout(API_TIMEOUT_MS) },
+  );
+  if (!res.ok) return [];
+  const data = (await res.json()) as {
+    results?: Array<{ title?: string; url?: string; content?: string }>;
+  };
+  return (data.results ?? [])
+    .filter((r) => r.url)
+    .map((r) => ({
+      title: decodeEntities(r.title ?? ""),
+      url: r.url as string,
+      snippet: decodeEntities(r.content ?? ""),
+    }));
+}
+
 export async function searchWeb(req: SearchRequest): Promise<SearchResult> {
   const query = req.query.trim();
   if (!query) {
@@ -103,14 +145,25 @@ export async function searchWeb(req: SearchRequest): Promise<SearchResult> {
     }
   };
 
+  const braveKey = process.env.BRAVE_API_KEY?.trim();
+  const searxng = process.env.SEARXNG_URL?.trim();
   try {
-    const bing = await fetchPage(
-      `https://www.bing.com/search?q=${encodeURIComponent(query)}&setlang=en`,
-      { timeoutMs: 9000 },
-    );
-    pushAll(parseBing(bing.body));
+    if (braveKey) pushAll(await searchBrave(query, limit, braveKey));
+    else if (searxng) pushAll(await searchSearxng(query, searxng));
   } catch {
-    /* fall through */
+    /* fall through to HTML scrape */
+  }
+
+  if (hits.length < limit) {
+    try {
+      const bing = await fetchPage(
+        `https://www.bing.com/search?q=${encodeURIComponent(query)}&setlang=en`,
+        { timeoutMs: 9000 },
+      );
+      pushAll(parseBing(bing.body));
+    } catch {
+      /* fall through */
+    }
   }
 
   if (hits.length < limit) {

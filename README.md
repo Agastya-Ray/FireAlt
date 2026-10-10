@@ -21,7 +21,8 @@ The build is already Vercel-ready (`nitro` preset + `vercel.json`).
 1. Go to [vercel.com](https://vercel.com) → **Add New** → **Project**.
 2. Import the GitHub repo.
 3. Leave the defaults (build command is `npm run build`).
-4. Optional env vars in the Vercel project:
+4. Env vars in the Vercel project (see [Configuration](#configuration)):
+   - `EMBER_API_KEYS` — **required**. Set it to the key generated on the app's **Connect** page (`emb_...`). Without it every API/MCP call returns 401.
    - `XAI_API_KEY` — only if you want Extract to use Grok
 5. Deploy. Copy the production host, e.g. `https://ember-xxxx.vercel.app`.
 
@@ -44,11 +45,11 @@ Any other host that can run `npm run build` and serve the Nitro/Vercel output al
 1. Claude → **Customize → Connectors** → **+ Add** → **Add custom connector**.
    Team/Enterprise owners: **Add → Custom → Web**.
 2. Name: `ember`
-3. MCP server URL: `https://YOUR_DOMAIN/api/mcp`
+3. MCP server URL: `https://YOUR_DOMAIN/api/mcp?key=emb_...` (Claude.ai connectors use a bare URL, so the key goes in the query string)
 4. **Authentication: No sign-in** (no OAuth).
 5. Transport: **Streamable HTTP** (not SSE).
-6. Optional **Request headers**:
-   - `Authorization` = `Bearer emb_…` (generate a key in the live app’s **Connect** page)
+6. Optional **Request headers** (clients that support them can use these instead of `?key=`):
+   - `Authorization` = `Bearer emb_…` or `X-Ember-Key` = `emb_…` (generate a key in the live app’s **Connect** page)
    - `X-Ember-LLM-Key` / `X-Ember-LLM-Provider` if you want Extract
 7. **Add**. In a chat: **+** → **Connectors** → enable Ember.
 8. Ask: `Use Ember to scrape https://example.com and return compact markdown.`
@@ -56,6 +57,23 @@ Any other host that can run `npm run build` and serve the Nitro/Vercel output al
 Free Claude: one custom connector.
 
 **Claude Desktop** uses the same Connectors UI (it still hits the public URL, not localhost).
+
+## Configuration
+
+Server env vars (Vercel → Project → Settings → Environment Variables):
+
+| Var | Default | Purpose |
+| --- | --- | --- |
+| `EMBER_API_KEYS` | unset | Comma-separated allowed keys. Sent as `Authorization: Bearer`, `X-Ember-Key`, or `?key=`. Unset = all requests rejected (401). |
+| `EMBER_ALLOW_OPEN` | unset | `1` allows unauthenticated access when `EMBER_API_KEYS` is empty. Local dev only. |
+| `EMBER_RATE_PER_MIN` | `60` | Requests per minute per key (per IP if no key). Best-effort, in-memory, per serverless instance. |
+| `BRAVE_API_KEY` | unset | Use Brave Search API for `search` (falls back to Bing/DDG scraping). |
+| `SEARXNG_URL` | unset | Use a SearXNG instance for `search` if no Brave key. Operator-trusted URL. |
+| `EMBER_RENDER` | `jina` | `jina` = fall back to Jina Reader for JS-heavy pages (<300 chars extracted), PDFs, or `render:true`. `off` disables. |
+| `JINA_API_KEY` | unset | Optional Jina Reader key (higher rate limits). |
+| `XAI_API_KEY` | unset | Built-in Grok for `extract`. |
+
+`scrape`, `batch_scrape` and `/api/v1/scrape` accept `render: true` to force the Jina Reader path.
 
 ## 4. Claude Code (works with no public URL)
 

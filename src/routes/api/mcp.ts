@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { handleMcpMessage, mcpMetadata } from "@/lib/ember/mcp";
-import { corsHeaders, json, preflight, readJson } from "@/lib/ember/http";
+import { corsHeaders, guardMcp, json, preflight, readJson } from "@/lib/ember/http";
 
 export const Route = createFileRoute("/api/mcp")({
   server: {
@@ -17,6 +17,8 @@ export const Route = createFileRoute("/api/mcp")({
         return json(mcpMetadata());
       },
       POST: async ({ request }) => {
+        const denied = guardMcp(request);
+        if (denied) return denied;
         let body: unknown = {};
         try {
           body = await readJson(request);

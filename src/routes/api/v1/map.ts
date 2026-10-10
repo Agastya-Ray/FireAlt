@@ -6,6 +6,7 @@ import {
   fail,
   json,
   numField,
+  guardV1,
   preflight,
   readJson,
   strField,
@@ -16,6 +17,8 @@ export const Route = createFileRoute("/api/v1/map")({
     handlers: {
       OPTIONS: async () => preflight(),
       POST: async ({ request }) => {
+        const denied = guardV1(request);
+        if (denied) return denied;
         try {
           const body = asRecord(await readJson(request));
           const url = strField(body.url);

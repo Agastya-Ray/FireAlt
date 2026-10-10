@@ -2,10 +2,12 @@ import { createFileRoute } from "@tanstack/react-router";
 import { scrapeUrl } from "@/lib/ember/scrape";
 import {
   asRecord,
+  boolField,
   errorToResponse,
   fail,
   json,
   numField,
+  guardV1,
   preflight,
   readJson,
   strArray,
@@ -16,6 +18,8 @@ export const Route = createFileRoute("/api/v1/batch")({
     handlers: {
       OPTIONS: async () => preflight(),
       POST: async ({ request }) => {
+        const denied = guardV1(request);
+        if (denied) return denied;
         try {
           const body = asRecord(await readJson(request));
           const urls = strArray(body.urls)?.slice(0, 8);
@@ -29,6 +33,7 @@ export const Route = createFileRoute("/api/v1/batch")({
                   format: "compact",
                   maxTokens,
                   onlyMainContent: true,
+                  render: boolField(body.render),
                 });
                 return { success: true as const, data };
               } catch (err) {

@@ -91,7 +91,7 @@ const TOOLS = [
   {
     name: "extract",
     description:
-      "Scrape url(s) and return JSON matching prompt/schema. Uses built-in Grok unless llmApiKey is set (OpenAI, Anthropic, Gemini, Groq, Mistral, OpenRouter, custom).",
+      "Scrape url(s) and return JSON matching prompt/schema. Uses the request's llmApiKey if given, otherwise the server's stored key list (EMBER_LLM_KEYS) with automatic fallback. llmProvider is optional: with llmApiKey it names that key's provider (default xai); without a key it only restricts which stored keys are tried.",
     inputSchema: {
       type: "object",
       additionalProperties: false,
@@ -232,8 +232,8 @@ async function callTool(
         ? args.urls.filter((u): u is string => typeof u === "string")
         : [];
       const url = str(args.url);
-      const providerRaw = str(args.llmProvider) || headerProvider || "xai";
-      const llmProvider: LlmProviderId = isProviderId(providerRaw) ? providerRaw : "xai";
+      const providerRaw = str(args.llmProvider) || headerProvider;
+      const llmProvider: LlmProviderId | undefined = isProviderId(providerRaw) ? providerRaw : undefined;
       return extractStructured({
         url: url || undefined,
         urls: urls.length ? urls : undefined,

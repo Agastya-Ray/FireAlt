@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/connect",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Ember",
+      "hasCanvas": false,
+      "bodyTextLen": 2972,
+      "bodyTextHash": "692bf7deed51a914ebd36284745514755dec1af3d0345e119a1432b4a47d5cdb",
+      "bodyTextPrefix": "Ember Playground Connect API CONNECT TO CLAUDE Add Ember as a cu",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/connect-preview.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Ember",
+      "hasCanvas": false,
+      "bodyTextLen": 2949,
+      "bodyTextHash": "514ba63bce7b78200d0dc5f53582ecba7411df98004d479f42d1191b7f7ac133",
+      "bodyTextPrefix": "Ember CONNECT TO CLAUDE Add Ember as a custom connector. Claude.",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/connect-preview-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/connect-preview.json"
+}

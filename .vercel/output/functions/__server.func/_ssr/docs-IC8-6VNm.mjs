@@ -1,6 +1,7 @@
 import { S as require_jsx_runtime } from "../_libs/@tanstack/react-router+[...].mjs";
-import { n as Badge, t as AppShell } from "./badge-DVWwez0r.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/docs-Cv5LNClx.js
+import { t as AppShell } from "./app-shell-Babv9TgK.mjs";
+import { t as Badge } from "./badge-Cg-i7kY-.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/docs-IC8-6VNm.js
 var import_jsx_runtime = require_jsx_runtime();
 var ENDPOINTS = [
 	{

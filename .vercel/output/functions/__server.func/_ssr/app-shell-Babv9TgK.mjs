@@ -2,7 +2,7 @@ import { S as require_jsx_runtime, b as Link, p as useRouterState } from "../_li
 import { c as KeyRound, l as Flame, m as BookOpen } from "../_libs/lucide-react.mjs";
 import { n as clsx } from "../_libs/class-variance-authority+clsx.mjs";
 import { t as twMerge } from "../_libs/tailwind-merge.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/badge-DVWwez0r.js
+//#region node_modules/.nitro/vite/services/ssr/assets/app-shell-Babv9TgK.js
 var import_jsx_runtime = require_jsx_runtime();
 function Spark({ className }) {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
@@ -80,16 +80,5 @@ function AppShell({ children }) {
 		]
 	});
 }
-function Badge({ className, tone = "muted", children }) {
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-		className: cn("inline-flex items-center rounded-sm px-2 py-0.5 text-xs font-medium tabular-nums", {
-			muted: "bg-raised text-muted shadow-[var(--shadow-border)]",
-			success: "bg-success/15 text-success",
-			warn: "bg-warn/15 text-warn",
-			accent: "bg-accent text-accent-fg"
-		}[tone], className),
-		children
-	});
-}
 //#endregion
-export { Badge as n, cn as r, AppShell as t };
+export { cn as n, AppShell as t };

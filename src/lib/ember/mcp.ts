@@ -13,11 +13,13 @@ type JsonRpcReq = {
   id?: JsonRpcId;
   method?: string;
   params?: unknown;
+  _meta?: unknown;
 };
 
 type ToolContent = { type: "text"; text: string };
 
 const SERVER_INFO = { name: "ember", version: "1.0.0" };
+const SUPPORTED_PROTOCOLS = ["2026-07-28", "2025-11-25", "2025-06-18", "2025-03-26"];
 
 const TOOLS = [
   {
@@ -270,11 +272,34 @@ export async function handleMcpJsonRpc(body: unknown, headers: Headers): Promise
   }
 
   switch (method) {
+    case "server/discover": {
+      const meta = asObj(req._meta);
+      const requested = str(meta.protocolVersion);
+      if (requested && !SUPPORTED_PROTOCOLS.includes(requested)) {
+        return {
+          jsonrpc: "2.0" as const,
+          id,
+          error: {
+            code: -32022,
+            message: "Unsupported protocol version",
+            data: { supported: SUPPORTED_PROTOCOLS, requested },
+          },
+        };
+      }
+      return ok(id, {
+        supported: SUPPORTED_PROTOCOLS,
+        serverInfo: SERVER_INFO,
+        capabilities: { tools: {} },
+      });
+    }
     case "initialize": {
       const params = asObj(req.params);
       const clientVersion = str(params.protocolVersion) || "2025-03-26";
+      const protocolVersion = SUPPORTED_PROTOCOLS.includes(clientVersion)
+        ? clientVersion
+        : "2025-03-26";
       return ok(id, {
-        protocolVersion: clientVersion.startsWith("202") ? clientVersion : "2025-03-26",
+        protocolVersion,
         capabilities: { tools: {} },
         serverInfo: SERVER_INFO,
         instructions:
@@ -282,9 +307,11 @@ export async function handleMcpJsonRpc(body: unknown, headers: Headers): Promise
       });
     }
     case "notifications/initialized":
+    case "initialized":
     case "notifications/cancelled":
       return null;
     case "ping":
+    case "logging/setLevel":
       return ok(id, {});
     case "tools/list":
       return ok(id, { tools: TOOLS });
@@ -306,12 +333,27 @@ export async function handleMcpJsonRpc(body: unknown, headers: Headers): Promise
     }
     case "resources/list":
       return ok(id, { resources: [] });
+    case "resources/templates/list":
+      return ok(id, { resourceTemplates: [] });
     case "prompts/list":
       return ok(id, { prompts: [] });
     default:
       if (method.startsWith("notifications/")) return null;
       return fail(id, -32601, `Unknown method: ${method}`);
   }
+}
+
+/** One JSON-RPC message or a batch. Null means the client should get 202 / no stdout line. */
+export async function handleMcpMessage(body: unknown, headers: Headers): Promise<unknown> {
+  if (Array.isArray(body)) {
+    const out: unknown[] = [];
+    for (const item of body) {
+      const result = await handleMcpJsonRpc(item, headers);
+      if (result !== null) out.push(result);
+    }
+    return out.length ? out : null;
+  }
+  return handleMcpJsonRpc(body, headers);
 }
 
 export function mcpMetadata() {

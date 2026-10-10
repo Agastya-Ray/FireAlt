@@ -3,7 +3,7 @@ import { J as require_react, S as require_jsx_runtime, _ as lazyRouteComponent, 
 import { n as TriangleAlert } from "../_libs/lucide-react.mjs";
 import { a as union, i as string, n as number, r as object, t as literal } from "../_libs/zod.mjs";
 import { t as parseHTML } from "../_libs/linkedom.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-UPJlAf9V.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-tvWYrQCP.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var __defProp = Object.defineProperty;
@@ -307,7 +307,7 @@ function PreviewHostBridge() {
 	}, [router]);
 	return null;
 }
-var styles_default = "/assets/styles-Bx0AE2s7.css";
+var styles_default = "/assets/styles-BjegiGrs.css";
 var APP_NAME = "Ember";
 var Route$11 = createRootRoute({
 	head: () => ({
@@ -374,11 +374,11 @@ var Route$11 = createRootRoute({
 		})]
 	})
 });
-var $$splitComponentImporter$2 = () => import("./routes-V5KCCPKP.mjs");
+var $$splitComponentImporter$2 = () => import("./routes-UOb1w8CU.mjs");
 var Route$10 = createFileRoute("/")({ component: lazyRouteComponent($$splitComponentImporter$2, "component") });
-var $$splitComponentImporter$1 = () => import("./connect-Y8AZBhdW.mjs");
+var $$splitComponentImporter$1 = () => import("./connect-4oxDthat.mjs");
 var Route$9 = createFileRoute("/connect")({ component: lazyRouteComponent($$splitComponentImporter$1, "component") });
-var $$splitComponentImporter = () => import("./docs-Cv5LNClx.mjs");
+var $$splitComponentImporter = () => import("./docs-IC8-6VNm.mjs");
 var Route$8 = createFileRoute("/docs")({ component: lazyRouteComponent($$splitComponentImporter, "component") });
 var BLOCKED_HOSTS = /* @__PURE__ */ new Set([
 	"localhost",
@@ -1548,6 +1548,12 @@ var SERVER_INFO = {
 	name: "ember",
 	version: "1.0.0"
 };
+var SUPPORTED_PROTOCOLS = [
+	"2026-07-28",
+	"2025-11-25",
+	"2025-06-18",
+	"2025-03-26"
+];
 var TOOLS = [
 	{
 		name: "scrape",
@@ -1845,18 +1851,40 @@ async function handleMcpJsonRpc(body, headers) {
 	const method = req.method ?? "";
 	if (req.jsonrpc && req.jsonrpc !== "2.0") return fail$1(id, -32600, "jsonrpc must be 2.0");
 	switch (method) {
+		case "server/discover": {
+			const requested = str(asObj(req._meta).protocolVersion);
+			if (requested && !SUPPORTED_PROTOCOLS.includes(requested)) return {
+				jsonrpc: "2.0",
+				id,
+				error: {
+					code: -32022,
+					message: "Unsupported protocol version",
+					data: {
+						supported: SUPPORTED_PROTOCOLS,
+						requested
+					}
+				}
+			};
+			return ok(id, {
+				supported: SUPPORTED_PROTOCOLS,
+				serverInfo: SERVER_INFO,
+				capabilities: { tools: {} }
+			});
+		}
 		case "initialize": {
 			const clientVersion = str(asObj(req.params).protocolVersion) || "2025-03-26";
 			return ok(id, {
-				protocolVersion: clientVersion.startsWith("202") ? clientVersion : "2025-03-26",
+				protocolVersion: SUPPORTED_PROTOCOLS.includes(clientVersion) ? clientVersion : "2025-03-26",
 				capabilities: { tools: {} },
 				serverInfo: SERVER_INFO,
 				instructions: "Ember scrapes the web into compact markdown. Prefer scrape for a known URL, map to discover, search when you have a query, extract for JSON. Responses already strip chrome — do not re-summarize unless asked."
 			});
 		}
 		case "notifications/initialized":
+		case "initialized":
 		case "notifications/cancelled": return null;
-		case "ping": return ok(id, {});
+		case "ping":
+		case "logging/setLevel": return ok(id, {});
 		case "tools/list": return ok(id, { tools: TOOLS });
 		case "tools/call": {
 			const params = asObj(req.params);
@@ -1876,11 +1904,24 @@ async function handleMcpJsonRpc(body, headers) {
 			}
 		}
 		case "resources/list": return ok(id, { resources: [] });
+		case "resources/templates/list": return ok(id, { resourceTemplates: [] });
 		case "prompts/list": return ok(id, { prompts: [] });
 		default:
 			if (method.startsWith("notifications/")) return null;
 			return fail$1(id, -32601, `Unknown method: ${method}`);
 	}
+}
+/** One JSON-RPC message or a batch. Null means the client should get 202 / no stdout line. */
+async function handleMcpMessage(body, headers) {
+	if (Array.isArray(body)) {
+		const out = [];
+		for (const item of body) {
+			const result = await handleMcpJsonRpc(item, headers);
+			if (result !== null) out.push(result);
+		}
+		return out.length ? out : null;
+	}
+	return handleMcpJsonRpc(body, headers);
 }
 function mcpMetadata() {
 	return {
@@ -1975,7 +2016,7 @@ var Route$7 = createFileRoute("/api/mcp")({ server: { handlers: {
 				}
 			}, 400);
 		}
-		const result = await handleMcpJsonRpc(body, request.headers);
+		const result = await handleMcpMessage(body, request.headers);
 		if (result === null) return new Response(null, {
 			status: 202,
 			headers: corsHeaders()

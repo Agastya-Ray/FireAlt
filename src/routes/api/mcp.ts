@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { handleMcpJsonRpc, mcpMetadata } from "@/lib/ember/mcp";
+import { handleMcpMessage, mcpMetadata } from "@/lib/ember/mcp";
 import { corsHeaders, json, preflight, readJson } from "@/lib/ember/http";
 
 export const Route = createFileRoute("/api/mcp")({
@@ -26,7 +26,7 @@ export const Route = createFileRoute("/api/mcp")({
             400,
           );
         }
-        const result = await handleMcpJsonRpc(body, request.headers);
+        const result = await handleMcpMessage(body, request.headers);
         if (result === null) {
           return new Response(null, { status: 202, headers: corsHeaders() });
         }

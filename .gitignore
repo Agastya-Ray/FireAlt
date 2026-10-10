@@ -3,3 +3,6 @@ node_modules/
 .github_repo
 .env
 .env.*
+
+# Vercel build output (built on deploy, never commit)
+.vercel/

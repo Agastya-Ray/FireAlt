@@ -71,7 +71,14 @@ Server env vars (Vercel → Project → Settings → Environment Variables):
 | `SEARXNG_URL` | unset | Use a SearXNG instance for `search` if no Brave key. Operator-trusted URL. |
 | `EMBER_RENDER` | `jina` | `jina` = fall back to Jina Reader for JS-heavy pages (<300 chars extracted), PDFs, or `render:true`. `off` disables. |
 | `JINA_API_KEY` | unset | Optional Jina Reader key (higher rate limits). |
-| `XAI_API_KEY` | unset | Built-in Grok for `extract`. |
+| `XAI_API_KEY` | unset | Built-in Grok for `extract` (tried last, after `EMBER_LLM_KEYS`). |
+| `EMBER_LLM_KEYS` | unset | JSON array of AI keys for `extract`, tried in order. List your AI keys in order; when one runs out Ember uses the next. A per-request `llmApiKey` always wins. `provider` is one of `xai openai anthropic google groq mistral together openrouter custom`; `model` and `baseUrl` are optional (`custom` needs `baseUrl`). |
+
+Example `EMBER_LLM_KEYS` (paste as one line):
+
+```json
+[{"provider":"google","key":"AIza..."},{"provider":"groq","key":"gsk_...","model":"llama-3.3-70b-versatile"},{"provider":"custom","key":"sk-...","baseUrl":"https://api.example.com/v1","model":"some-model"}]
+```
 
 `scrape`, `batch_scrape` and `/api/v1/scrape` accept `render: true` to force the Jina Reader path.
 

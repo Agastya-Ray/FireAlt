@@ -53,7 +53,9 @@ export function errorToResponse(err: unknown): Response {
         ? 504
         : code === "fetch_failed"
           ? 502
-          : code === "too_large" || code === "unsupported_type"
+          : code === "llm_failed"
+            ? 502
+            : code === "too_large" || code === "unsupported_type"
             ? 422
             : code === "no_llm_key"
               ? 401

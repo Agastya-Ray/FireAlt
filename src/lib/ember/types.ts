@@ -128,6 +128,7 @@ export type ExtractResult = {
   sources: Array<{ url: string; title: string; tokens: number }>;
   provider: string;
   model: string;
+  attempts: number;
 };
 
 export type EmberErrorBody = {

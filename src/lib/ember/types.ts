@@ -9,6 +9,8 @@ export type ScrapeRequest = {
   includeTags?: string[];
   excludeTags?: string[];
   waitFor?: number;
+  /** Force JS-rendering via the render fallback (Jina Reader). */
+  render?: boolean;
 };
 
 export type PageMetadata = {

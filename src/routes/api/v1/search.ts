@@ -7,6 +7,7 @@ import {
   fail,
   json,
   numField,
+  guardV1,
   preflight,
   readJson,
   strField,
@@ -17,6 +18,8 @@ export const Route = createFileRoute("/api/v1/search")({
     handlers: {
       OPTIONS: async () => preflight(),
       POST: async ({ request }) => {
+        const denied = guardV1(request);
+        if (denied) return denied;
         try {
           const body = asRecord(await readJson(request));
           const query = strField(body.query) ?? strField(body.q);

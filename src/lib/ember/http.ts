@@ -1,7 +1,8 @@
+import { checkAccess } from "./auth";
 import type { EmberErrorBody } from "./types";
 
 const ALLOW_HEADERS =
-  "Authorization, Content-Type, MCP-Protocol-Version, Mcp-Method, Mcp-Name, Mcp-Session-Id, Accept, X-Ember-LLM-Key, X-Ember-LLM-Provider, X-Ember-LLM-Model, X-Ember-LLM-Base";
+  "Authorization, Content-Type, MCP-Protocol-Version, Mcp-Method, Mcp-Name, Mcp-Session-Id, Accept, X-Ember-Key, X-Ember-LLM-Key, X-Ember-LLM-Provider, X-Ember-LLM-Model, X-Ember-LLM-Base";
 
 export function corsHeaders(extra?: HeadersInit): Headers {
   const h = new Headers(extra);
@@ -85,4 +86,25 @@ export function strArray(v: unknown): string[] | undefined {
   if (!Array.isArray(v)) return undefined;
   const out = v.filter((x): x is string => typeof x === "string" && x.trim().length > 0);
   return out.length ? out : undefined;
+}
+
+/** Returns a 401/429 Response for /api/v1/* handlers, or null when allowed. */
+export function guardV1(request: Request): Response | null {
+  const a = checkAccess(request);
+  if (a.ok) return null;
+  const res = fail(a.error, a.status, a.code);
+  if (a.retryAfter) res.headers.set("Retry-After", String(a.retryAfter));
+  return res;
+}
+
+/** Same for MCP: JSON-RPC error body with the HTTP status. */
+export function guardMcp(request: Request): Response | null {
+  const a = checkAccess(request);
+  if (a.ok) return null;
+  const res = json(
+    { jsonrpc: "2.0", id: null, error: { code: a.status === 429 ? -32029 : -32001, message: a.error, data: { code: a.code } } },
+    a.status,
+  );
+  if (a.retryAfter) res.headers.set("Retry-After", String(a.retryAfter));
+  return res;
 }

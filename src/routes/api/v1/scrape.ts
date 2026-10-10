@@ -7,6 +7,7 @@ import {
   fail,
   json,
   numField,
+  guardV1,
   preflight,
   readJson,
   strArray,
@@ -19,6 +20,8 @@ export const Route = createFileRoute("/api/v1/scrape")({
     handlers: {
       OPTIONS: async () => preflight(),
       POST: async ({ request }) => {
+        const denied = guardV1(request);
+        if (denied) return denied;
         try {
           const body = asRecord(await readJson(request));
           const url = strField(body.url);
@@ -32,6 +35,7 @@ export const Route = createFileRoute("/api/v1/scrape")({
             maxTokens: numField(body.maxTokens),
             includeTags: strArray(body.includeTags),
             excludeTags: strArray(body.excludeTags),
+            render: boolField(body.render),
           });
           return json({ success: true, data });
         } catch (err) {

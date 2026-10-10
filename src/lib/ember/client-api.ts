@@ -10,11 +10,16 @@ import type {
   SearchRequest,
   SearchResult,
 } from "./types";
+import { loadSettings } from "./settings";
 
 async function post<T>(path: string, body: unknown): Promise<T> {
+  const key = loadSettings().apiKey.trim();
   const res = await fetch(path, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      ...(key ? { Authorization: `Bearer ${key}` } : {}),
+    },
     body: JSON.stringify(body),
   });
   const data: unknown = await res.json().catch(() => ({}));

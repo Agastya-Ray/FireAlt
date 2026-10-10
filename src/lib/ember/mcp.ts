@@ -37,6 +37,10 @@ const TOOLS = [
           enum: ["compact", "markdown", "outline", "text"],
           description: "compact is default and cheapest.",
         },
+        render: {
+          type: "boolean",
+          description: "Force JS rendering via Jina Reader (auto for thin pages and PDFs).",
+        },
       },
       required: ["url"],
     },
@@ -115,6 +119,7 @@ const TOOLS = [
       properties: {
         urls: { type: "array", items: { type: "string" } },
         maxTokens: { type: "number", description: "Per URL. Default 800." },
+        render: { type: "boolean", description: "Force JS rendering via Jina Reader." },
       },
       required: ["urls"],
     },
@@ -172,6 +177,7 @@ async function callTool(
         maxTokens: num(args.maxTokens, 2000),
         format: ["compact", "markdown", "outline", "text"].includes(format) ? format : "compact",
         onlyMainContent: true,
+        render: bool(args.render),
       });
       return {
         url: result.url,
@@ -248,7 +254,13 @@ async function callTool(
       const pages = await Promise.all(
         urls.map(async (url) => {
           try {
-            const r = await scrapeUrl({ url, format: "compact", maxTokens, onlyMainContent: true });
+            const r = await scrapeUrl({
+              url,
+              format: "compact",
+              maxTokens,
+              onlyMainContent: true,
+              render: bool(args.render),
+            });
             return { url: r.url, title: r.title, tokens: r.tokens, markdown: r.markdown };
           } catch (err) {
             return { url, error: err instanceof Error ? err.message : "failed" };

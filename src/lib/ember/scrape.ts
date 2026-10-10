@@ -10,10 +10,61 @@ import {
 import { htmlToMarkdown, toOutline, toPlainText } from "./markdown";
 import { estimateTokens, tokenStats, trimToTokens } from "./tokens";
 import type { EmberFormat, PageMetadata, ScrapeRequest, ScrapeResult } from "./types";
-import { stripTracking } from "./url-guard";
+import { assertPublicHost, assertPublicHttpUrl, stripTracking } from "./url-guard";
 
 const DEFAULT_MAX_TOKENS = 2000;
 const HARD_CAP = 8000;
+const THIN_CHARS = 300;
+const JINA_TIMEOUT_MS = 25_000;
+const JINA_MAX_CHARS = 2_000_000;
+
+function renderEnabled(): boolean {
+  return (process.env.EMBER_RENDER ?? "jina").trim().toLowerCase() === "jina";
+}
+
+/** JS-rendering / PDF fallback via Jina Reader. Returns null on any failure. */
+async function renderViaJina(
+  target: string,
+  format: EmberFormat,
+  maxTokens: number,
+): Promise<ScrapeResult | null> {
+  try {
+    const u = assertPublicHttpUrl(target);
+    await assertPublicHost(u);
+    const headers: Record<string, string> = {
+      Accept: "text/markdown",
+      "X-Return-Format": "markdown",
+    };
+    if (process.env.JINA_API_KEY) headers.Authorization = `Bearer ${process.env.JINA_API_KEY}`;
+    const res = await fetch(`https://r.jina.ai/${u.toString()}`, {
+      method: "GET",
+      headers,
+      signal: AbortSignal.timeout(JINA_TIMEOUT_MS),
+    });
+    if (!res.ok) return null;
+    const raw = (await res.text()).slice(0, JINA_MAX_CHARS);
+    const title = raw.match(/^Title:\s*(.+)$/m)?.[1]?.trim() ?? "";
+    const marker = raw.indexOf("Markdown Content:");
+    let body = (marker >= 0 ? raw.slice(marker + "Markdown Content:".length) : raw).trim();
+    if (!body) return null;
+    const meta = { ...emptyMeta(), title, canonical: u.toString() };
+    const fm = frontMatter(meta, u.toString());
+    body = trimToTokens(body, Math.max(32, maxTokens - estimateTokens(fm)));
+    const titled = `${fm}\n${body}`.trim();
+    return {
+      url: u.toString(),
+      title: title || u.toString(),
+      markdown: titled,
+      text: toPlainText(body),
+      links: [],
+      metadata: meta,
+      tokens: tokenStats(raw, titled),
+      format,
+    };
+  } catch {
+    return null;
+  }
+}
 
 function emptyMeta(): PageMetadata {
   return {
@@ -53,10 +104,21 @@ function frontMatter(meta: PageMetadata, url: string): string {
 export async function scrapeUrl(req: ScrapeRequest): Promise<ScrapeResult> {
   const format = pickFormat(req);
   const maxTokens = Math.min(HARD_CAP, Math.max(64, req.maxTokens ?? DEFAULT_MAX_TOKENS));
-  const fetched = await fetchPage(req.url);
+  const renderOn = renderEnabled();
+  const fetched = await fetchPage(req.url, { allowPdf: renderOn });
   const url = stripTracking(fetched.url);
   const html = fetched.body;
   const ct = fetched.contentType.toLowerCase();
+
+  if (ct.includes("application/pdf") || (req.render && renderOn)) {
+    const rendered = await renderViaJina(url, format, maxTokens);
+    if (rendered) return rendered;
+    if (ct.includes("application/pdf")) {
+      throw Object.assign(new Error("Could not read PDF (render fallback failed)"), {
+        code: "fetch_failed",
+      });
+    }
+  }
 
   if (
     ct.includes("application/json") ||
@@ -89,6 +151,11 @@ export async function scrapeUrl(req: ScrapeRequest): Promise<ScrapeResult> {
   let markdown = htmlToMarkdown(main, compact);
   if (format === "outline") markdown = toOutline(markdown, meta.title, meta.description);
   if (format === "text") markdown = toPlainText(markdown);
+
+  if (renderOn && !req.render && toPlainText(markdown).trim().length < THIN_CHARS) {
+    const rendered = await renderViaJina(url, format, maxTokens);
+    if (rendered && rendered.text.length > toPlainText(markdown).trim().length) return rendered;
+  }
 
   const budget = Math.max(32, maxTokens - estimateTokens(frontMatter(meta, url)));
   markdown = trimToTokens(markdown, budget);

@@ -156,16 +156,22 @@ async function chatGoogle(opts: {
       contents: [{ parts: [{ text: opts.prompt }] }],
       generationConfig: {
         temperature: 0,
-        maxOutputTokens: opts.maxTokens,
+        // Thinking models spend output tokens on reasoning first; leave headroom.
+        maxOutputTokens: Math.max(4096, opts.maxTokens * 4),
         responseMimeType: "application/json",
       },
     }),
   });
   if (!res.ok) throw await llmHttpError(res);
   const data = (await res.json()) as {
-    candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+    candidates?: Array<{ content?: { parts?: Array<{ text?: string; thought?: boolean }> } }>;
   };
-  return data.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+  // Skip "thought" parts; join the real answer parts.
+  const parts = data.candidates?.[0]?.content?.parts ?? [];
+  return parts
+    .filter((p) => !p.thought && typeof p.text === "string")
+    .map((p) => p.text)
+    .join("");
 }
 
 /**

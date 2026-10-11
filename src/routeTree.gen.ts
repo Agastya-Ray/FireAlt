@@ -16,6 +16,7 @@ import { Route as ApiMcpRouteImport } from './routes/api/mcp'
 import { Route as ApiV1BatchRouteImport } from './routes/api/v1/batch'
 import { Route as ApiV1CrawlRouteImport } from './routes/api/v1/crawl'
 import { Route as ApiV1ExtractRouteImport } from './routes/api/v1/extract'
+import { Route as ApiV1JobsRouteImport } from './routes/api/v1/jobs'
 import { Route as ApiV1MapRouteImport } from './routes/api/v1/map'
 import { Route as ApiV1ScrapeRouteImport } from './routes/api/v1/scrape'
 import { Route as ApiV1SearchRouteImport } from './routes/api/v1/search'
@@ -56,6 +57,11 @@ const ApiV1ExtractRoute = ApiV1ExtractRouteImport.update({
   path: '/api/v1/extract',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiV1JobsRoute = ApiV1JobsRouteImport.update({
+  id: '/api/v1/jobs',
+  path: '/api/v1/jobs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiV1MapRoute = ApiV1MapRouteImport.update({
   id: '/api/v1/map',
   path: '/api/v1/map',
@@ -85,6 +91,7 @@ export interface FileRoutesByFullPath {
   '/api/v1/batch': typeof ApiV1BatchRoute
   '/api/v1/crawl': typeof ApiV1CrawlRoute
   '/api/v1/extract': typeof ApiV1ExtractRoute
+  '/api/v1/jobs': typeof ApiV1JobsRoute
   '/api/v1/map': typeof ApiV1MapRoute
   '/api/v1/scrape': typeof ApiV1ScrapeRoute
   '/api/v1/search': typeof ApiV1SearchRoute
@@ -98,6 +105,7 @@ export interface FileRoutesByTo {
   '/api/v1/batch': typeof ApiV1BatchRoute
   '/api/v1/crawl': typeof ApiV1CrawlRoute
   '/api/v1/extract': typeof ApiV1ExtractRoute
+  '/api/v1/jobs': typeof ApiV1JobsRoute
   '/api/v1/map': typeof ApiV1MapRoute
   '/api/v1/scrape': typeof ApiV1ScrapeRoute
   '/api/v1/search': typeof ApiV1SearchRoute
@@ -112,6 +120,7 @@ export interface FileRoutesById {
   '/api/v1/batch': typeof ApiV1BatchRoute
   '/api/v1/crawl': typeof ApiV1CrawlRoute
   '/api/v1/extract': typeof ApiV1ExtractRoute
+  '/api/v1/jobs': typeof ApiV1JobsRoute
   '/api/v1/map': typeof ApiV1MapRoute
   '/api/v1/scrape': typeof ApiV1ScrapeRoute
   '/api/v1/search': typeof ApiV1SearchRoute
@@ -127,6 +136,7 @@ export interface FileRouteTypes {
     | '/api/v1/batch'
     | '/api/v1/crawl'
     | '/api/v1/extract'
+    | '/api/v1/jobs'
     | '/api/v1/map'
     | '/api/v1/scrape'
     | '/api/v1/search'
@@ -140,6 +150,7 @@ export interface FileRouteTypes {
     | '/api/v1/batch'
     | '/api/v1/crawl'
     | '/api/v1/extract'
+    | '/api/v1/jobs'
     | '/api/v1/map'
     | '/api/v1/scrape'
     | '/api/v1/search'
@@ -153,6 +164,7 @@ export interface FileRouteTypes {
     | '/api/v1/batch'
     | '/api/v1/crawl'
     | '/api/v1/extract'
+    | '/api/v1/jobs'
     | '/api/v1/map'
     | '/api/v1/scrape'
     | '/api/v1/search'
@@ -167,6 +179,7 @@ export interface RootRouteChildren {
   ApiV1BatchRoute: typeof ApiV1BatchRoute
   ApiV1CrawlRoute: typeof ApiV1CrawlRoute
   ApiV1ExtractRoute: typeof ApiV1ExtractRoute
+  ApiV1JobsRoute: typeof ApiV1JobsRoute
   ApiV1MapRoute: typeof ApiV1MapRoute
   ApiV1ScrapeRoute: typeof ApiV1ScrapeRoute
   ApiV1SearchRoute: typeof ApiV1SearchRoute
@@ -224,6 +237,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiV1ExtractRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/v1/jobs': {
+      id: '/api/v1/jobs'
+      path: '/api/v1/jobs'
+      fullPath: '/api/v1/jobs'
+      preLoaderRoute: typeof ApiV1JobsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/v1/map': {
       id: '/api/v1/map'
       path: '/api/v1/map'
@@ -263,6 +283,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiV1BatchRoute: ApiV1BatchRoute,
   ApiV1CrawlRoute: ApiV1CrawlRoute,
   ApiV1ExtractRoute: ApiV1ExtractRoute,
+  ApiV1JobsRoute: ApiV1JobsRoute,
   ApiV1MapRoute: ApiV1MapRoute,
   ApiV1ScrapeRoute: ApiV1ScrapeRoute,
   ApiV1SearchRoute: ApiV1SearchRoute,

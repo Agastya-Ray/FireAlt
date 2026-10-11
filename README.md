@@ -137,8 +137,9 @@ curl -sS https://YOUR_DOMAIN/api/v1/scrape \
 | POST | `/api/v1/search` | Web search |
 | POST | `/api/v1/extract` | JSON via any LLM key |
 | POST | `/api/v1/batch` | Up to 8 URLs |
+| POST | `/api/v1/jobs` | Job listings from Greenhouse/Lever/Ashby/Remotive/WWR, filtered and ranked server-side |
 | POST | `/api/mcp` | MCP (Claude) |
 
-MCP tools: `scrape`, `map`, `crawl`, `search`, `extract`, `batch_scrape`.
+MCP tools: `scrape`, `map`, `crawl`, `search`, `extract`, `batch_scrape`, `jobs`.
 
 Scrape/map/crawl/search do not need an LLM key. Extract does (`llmApiKey` + `llmProvider`, or `XAI_API_KEY` on the server).

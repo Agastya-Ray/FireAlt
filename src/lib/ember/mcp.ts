@@ -3,6 +3,7 @@ import { crawlSite } from "./crawl";
 import { mapSite } from "./map";
 import { searchWeb } from "./search";
 import { extractStructured } from "./extract";
+import { findJobs, type JobsRequest } from "./jobs";
 import { isProviderId } from "./providers";
 import type { EmberFormat, LlmProviderId } from "./types";
 
@@ -111,6 +112,38 @@ const TOOLS = [
     },
   },
   {
+    name: "jobs",
+    description:
+      "Find job listings from Greenhouse/Lever/Ashby boards, Remotive and We Work Remotely. Filters and ranks on the server and returns a short list (no AI key needed). Prefer this over scrape for job boards.",
+    inputSchema: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        sources: {
+          type: "array",
+          maxItems: 25,
+          items: {
+            type: "object",
+            additionalProperties: false,
+            properties: {
+              type: { type: "string", enum: ["greenhouse", "lever", "ashby", "remotive", "wwr", "url"] },
+              board: { type: "string", description: "Company slug for greenhouse/lever/ashby." },
+              url: { type: "string", description: "JSON endpoint for type=url." },
+            },
+            required: ["type"],
+          },
+        },
+        include: { type: "array", items: { type: "string" }, description: "Title must contain ANY (case-insensitive)." },
+        exclude: { type: "array", items: { type: "string" }, description: "Drop if title contains ANY." },
+        locations: { type: "array", items: { type: "string" }, description: "Match if location contains any. 'remote' also matches remote flags." },
+        remoteOnly: { type: "boolean" },
+        postedWithinDays: { type: "number" },
+        limit: { type: "number", description: "Default 20, max 50." },
+      },
+      required: ["sources"],
+    },
+  },
+  {
     name: "batch_scrape",
     description: "Scrape up to 8 known URLs in parallel. Compact markdown.",
     inputSchema: {
@@ -186,6 +219,8 @@ async function callTool(
         markdown: result.markdown,
       };
     }
+    case "jobs":
+      return findJobs(args as unknown as JobsRequest);
     case "map": {
       const url = str(args.url);
       if (!url) throw new Error("url required");

@@ -157,21 +157,29 @@ async function chatGoogle(opts: {
       generationConfig: {
         temperature: 0,
         // Thinking models spend output tokens on reasoning first; leave headroom.
-        maxOutputTokens: Math.max(4096, opts.maxTokens * 4),
+        maxOutputTokens: Math.max(8192, opts.maxTokens * 8),
         responseMimeType: "application/json",
       },
     }),
   });
   if (!res.ok) throw await llmHttpError(res);
   const data = (await res.json()) as {
-    candidates?: Array<{ content?: { parts?: Array<{ text?: string; thought?: boolean }> } }>;
+    candidates?: Array<{
+      finishReason?: string;
+      content?: { parts?: Array<{ text?: string; thought?: boolean }> };
+    }>;
   };
+  const finish = data.candidates?.[0]?.finishReason;
   // Skip "thought" parts; join the real answer parts.
   const parts = data.candidates?.[0]?.content?.parts ?? [];
-  return parts
+  const text = parts
     .filter((p) => !p.thought && typeof p.text === "string")
     .map((p) => p.text)
     .join("");
+  if (finish && finish !== "STOP" && !text.trim().endsWith("}") && !text.trim().endsWith("]")) {
+    throw Object.assign(new Error(`Gemini stopped: ${finish}`), { code: "extract_parse", detail: finish });
+  }
+  return text;
 }
 
 /**
@@ -251,7 +259,7 @@ export async function runWithFallback(
               (err as { name?: string } | null)?.name === "AbortError"
             ? "timeout"
             : typeof code === "string" && code === "extract_parse"
-              ? "bad_response"
+              ? `bad_response${(err as { detail?: string }).detail ? "/" + (err as { detail?: string }).detail : ""}`
               : "network";
       tried.push(`${cand.provider}:${label}`);
     }

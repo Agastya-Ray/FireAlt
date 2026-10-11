@@ -353,8 +353,8 @@ function locationMatches(job: Job, locs: string[]): boolean {
 
 export async function findJobs(req: JobsRequest, deps: JobsDeps = {}): Promise<JobsResult> {
   const sources = (Array.isArray(req.sources) ? req.sources : []).filter((x) => x && typeof x === "object");
-  if (!sources.length) throw new Error("sources required");
-  if (sources.length > MAX_SOURCES) throw new Error(`At most ${MAX_SOURCES} sources`);
+  if (!sources.length) throw Object.assign(new Error("sources required"), { code: "bad_request" });
+  if (sources.length > MAX_SOURCES) throw Object.assign(new Error(`At most ${MAX_SOURCES} sources`), { code: "bad_request" });
 
   const fetchText = deps.fetchText ?? defaultFetchText;
   const now = (deps.now ?? Date.now)();

@@ -7,6 +7,8 @@ export type JobsRequest = {
   include?: string[];
   exclude?: string[];
   locations?: string[];
+  /** Drop if location mentions any of these, unless it also mentions a non-'remote' term from `locations` (e.g. India). */
+  excludeLocations?: string[];
   remoteOnly?: boolean;
   postedWithinDays?: number;
   limit?: number;
@@ -388,6 +390,8 @@ export async function findJobs(req: JobsRequest, deps: JobsDeps = {}): Promise<J
   const include = clean(req.include).map(kwRegex);
   const exclude = clean(req.exclude).map(kwRegex);
   const locs = clean(req.locations);
+  const exLocs = clean(req.excludeLocations).map((x) => x.toLowerCase());
+  const keepLocs = locs.map((x) => x.toLowerCase()).filter((x) => x !== "remote");
   const cutoff = req.postedWithinDays && req.postedWithinDays > 0 ? now - req.postedWithinDays * DAY_MS : null;
 
   const seenUrl = new Set<string>();
@@ -399,6 +403,10 @@ export async function findJobs(req: JobsRequest, deps: JobsDeps = {}): Promise<J
     if (include.length && !include.some((r) => r.test(job.title))) continue;
     if (exclude.some((r) => r.test(job.title))) continue;
     if (locs.length && !locationMatches(job, locs)) continue;
+    if (exLocs.length) {
+      const l = job.location.toLowerCase();
+      if (exLocs.some((x) => l.includes(x)) && !keepLocs.some((x) => l.includes(x))) continue;
+    }
     if (req.remoteOnly && job.remote !== "Remote") continue;
     const ts = job.posted ? Date.parse(job.posted) : null;
     if (cutoff !== null && (ts === null || ts < cutoff)) continue;

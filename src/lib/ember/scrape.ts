@@ -105,7 +105,23 @@ export async function scrapeUrl(req: ScrapeRequest): Promise<ScrapeResult> {
   const format = pickFormat(req);
   const maxTokens = Math.min(HARD_CAP, Math.max(64, req.maxTokens ?? DEFAULT_MAX_TOKENS));
   const renderOn = renderEnabled();
-  const fetched = await fetchPage(req.url, { allowPdf: renderOn });
+  if (req.render && renderOn) {
+    // Forced render: go straight to the reader (works on sites that block direct fetches).
+    const rendered = await renderViaJina(req.url, format, maxTokens);
+    if (rendered) return rendered;
+  }
+  let fetched: Awaited<ReturnType<typeof fetchPage>>;
+  try {
+    fetched = await fetchPage(req.url, { allowPdf: renderOn });
+  } catch (err) {
+    // Blocked or flaky site (403/429/5xx): try the reader before giving up.
+    const status = (err as { status?: number } | null)?.status;
+    if (renderOn && !req.render && status && (status === 403 || status === 429 || status >= 500)) {
+      const rendered = await renderViaJina(req.url, format, maxTokens);
+      if (rendered) return rendered;
+    }
+    throw err;
+  }
   const url = stripTracking(fetched.url);
   const html = fetched.body;
   const ct = fetched.contentType.toLowerCase();

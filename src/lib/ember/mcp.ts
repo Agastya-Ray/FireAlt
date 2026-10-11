@@ -136,6 +136,7 @@ const TOOLS = [
         include: { type: "array", items: { type: "string" }, description: "Title must contain ANY (case-insensitive)." },
         exclude: { type: "array", items: { type: "string" }, description: "Drop if title contains ANY." },
         locations: { type: "array", items: { type: "string" }, description: "Match if location contains any. 'remote' also matches remote flags." },
+        excludeLocations: { type: "array", items: { type: "string" }, description: "Drop if location mentions any (e.g. 'united states', 'canada', 'emea'), unless it also mentions a non-remote term from locations (e.g. 'india')." },
         remoteOnly: { type: "boolean" },
         postedWithinDays: { type: "number" },
         limit: { type: "number", description: "Default 20, max 50." },

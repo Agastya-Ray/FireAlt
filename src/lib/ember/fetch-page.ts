@@ -1,6 +1,9 @@
 import { assertPublicHost, assertPublicHttpUrl } from "./url-guard";
+import { readBodyCapped } from "./read-body";
 
 const MAX_BYTES = 2_000_000;
+/** Absolute ceiling for callers that ask for more (job boards such as large Ashby feeds). */
+const HARD_MAX_BYTES = 32_000_000;
 const DEFAULT_TIMEOUT_MS = 14_000;
 const MAX_REDIRECTS = 5;
 
@@ -49,7 +52,7 @@ export async function fetchPage(
   let current = assertPublicHttpUrl(rawUrl);
   const timeoutMs = opts.timeoutMs ?? DEFAULT_TIMEOUT_MS;
   const method = opts.method ?? "GET";
-  const maxBytes = Math.min(opts.maxBytes ?? MAX_BYTES, 10_000_000);
+  const maxBytes = Math.min(opts.maxBytes ?? MAX_BYTES, HARD_MAX_BYTES);
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
 
@@ -121,11 +124,7 @@ export async function fetchPage(
       });
     }
 
-    const buf = new Uint8Array(await res.arrayBuffer());
-    if (buf.byteLength > maxBytes) {
-      throw Object.assign(new Error(`Page is larger than ${Math.round(maxBytes / 1e6)}MB`), { code: "too_large" });
-    }
-    const body = new TextDecoder("utf-8", { fatal: false }).decode(buf);
+    const body = await readBodyCapped(res, maxBytes);
     return { url: finalUrl, status: res.status, contentType, body };
   } catch (err) {
     if (err instanceof Error && err.name === "AbortError") {

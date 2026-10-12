@@ -1,5 +1,6 @@
 import { fetchPage } from "./fetch-page";
 import { scrapeUrl } from "./scrape";
+import { isSearchEngineUrl, unwrapRedirect } from "./redirect.ts";
 import type { SearchHit, SearchRequest, SearchResult } from "./types";
 import { resolveUrl } from "./url-guard";
 
@@ -21,8 +22,8 @@ function parseBing(html: string): SearchHit[] {
     /<li class="b_algo"[\s\S]*?<h2[^>]*>\s*<a[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>[\s\S]*?(?:<p[^>]*>([\s\S]*?)<\/p>|<div class="b_caption"[\s\S]*?<p[^>]*>([\s\S]*?)<\/p>)?/gi;
   let m: RegExpExecArray | null;
   while ((m = blockRe.exec(html))) {
-    const url = m[1] ?? "";
-    if (!url.startsWith("http")) continue;
+    const url = unwrapRedirect((m[1] ?? "").replace(/&amp;/g, "&"));
+    if (!url.startsWith("http") || isSearchEngineUrl(url)) continue;
     hits.push({
       title: decodeEntities(m[2] ?? ""),
       url,
@@ -137,8 +138,8 @@ export async function searchWeb(req: SearchRequest): Promise<SearchResult> {
   const seen = new Set<string>();
   const pushAll = (arr: SearchHit[]) => {
     for (const h of arr) {
-      const resolved = resolveUrl("https://example.com", h.url) ?? h.url;
-      if (!resolved.startsWith("http") || seen.has(resolved)) continue;
+      const resolved = unwrapRedirect(resolveUrl("https://example.com", h.url) ?? h.url);
+      if (!resolved.startsWith("http") || isSearchEngineUrl(resolved) || seen.has(resolved)) continue;
       seen.add(resolved);
       hits.push({ ...h, url: resolved });
       if (hits.length >= limit) return;

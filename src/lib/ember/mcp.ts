@@ -114,7 +114,16 @@ const TOOLS = [
   {
     name: "jobs",
     description:
-      "Find job listings from Greenhouse/Lever/Ashby boards, Workday sites, Radancy TalentBrew listing pages, Remotive and We Work Remotely. Filters and ranks on the server and returns a short list (no AI key needed). Prefer this over scrape for job boards. Workday: type=workday, board=\"<tenant>.<wdN>/<site>\" taken from the careers URL https://<tenant>.<wdN>.myworkdayjobs.com/<site> (e.g. \"bpinternational.wd3/bpCareers\", \"shell.wd3/ShellCareers\"); `include` keywords are sent as Workday search text. TalentBrew: type=talentbrew, url=a listing page ending in /1 (e.g. https://careers.cargill.com/en/category/trading-jobs/23251/8144240/1); further pages are followed automatically.",
+      "Find job listings from company career systems and filter/rank them server-side (no AI key needed). Prefer this over scrape for job boards. " +
+      "Types (board = slug unless noted): greenhouse, lever (slug is case-sensitive, e.g. \"Sprinto\"), ashby, remotive, wwr, url (JSON endpoint). " +
+      "workday: board=\"<tenant>.<wdN>/<site>\" from https://<tenant>.<wdN>.myworkdayjobs.com/<site> (e.g. \"bpinternational.wd3/bpCareers\", \"shell.wd3/ShellCareers\"); `include` words are sent as Workday search text. " +
+      "talentbrew (Radancy): url=a listing page ending in /1 (e.g. https://careers.cargill.com/en/category/trading-jobs/23251/8144240/1); later pages are followed. " +
+      "smartrecruiters: board=company id from https://jobs.smartrecruiters.com/<board> (e.g. \"Vitol\", \"LouisDreyfusCompany\", \"fastmarkets\"); `include` words become the q search. " +
+      "workable: board=account from https://apply.workable.com/<board> (e.g. \"vortexa\", \"thesignalgroup\"). " +
+      "teamtailor: board=slug or careers host (e.g. \"careers.argusmedia.com\"); reads /jobs.rss, falls back to the /jobs list. " +
+      "successfactors (SAP career sites): url=site root (e.g. https://jobs.bunge.com, https://careers.ofi.com); `include` words become the site search. " +
+      "jobvite: board=slug from https://jobs.jobvite.com/<board> (e.g. \"enverus\"). " +
+      "html: url=a server-rendered listing page (may contain {offset} or {page} to follow pages, max 5) + pattern=regex that job link hrefs match (e.g. url \"https://recruitment.macquarie.com/en_US/careers/SearchJobs/?jobOffset={offset}\", pattern \"JobDetail\\\\?jobId=\\\\d+\"). Best-effort: title/location/date are read from the markup around each link, so use a native type when one exists.",
     inputSchema: {
       type: "object",
       additionalProperties: false,
@@ -126,9 +135,21 @@ const TOOLS = [
             type: "object",
             additionalProperties: false,
             properties: {
-              type: { type: "string", enum: ["greenhouse", "lever", "ashby", "remotive", "wwr", "url", "workday", "talentbrew"] },
-              board: { type: "string", description: "Company slug for greenhouse/lever/ashby. For workday: \"<tenant>.<wdN>/<site>\"." },
-              url: { type: "string", description: "JSON endpoint for type=url. For talentbrew: a server-rendered listing page URL ending in /1." },
+              type: {
+                type: "string",
+                enum: ["greenhouse", "lever", "ashby", "remotive", "wwr", "url", "workday", "talentbrew", "smartrecruiters", "workable", "teamtailor", "successfactors", "jobvite", "html"],
+              },
+              board: {
+                type: "string",
+                description:
+                  "Company slug for greenhouse/lever/ashby/smartrecruiters/workable/jobvite; slug or host for teamtailor. For workday: \"<tenant>.<wdN>/<site>\".",
+              },
+              url: {
+                type: "string",
+                description:
+                  "JSON endpoint for type=url. talentbrew: listing page URL ending in /1. successfactors: careers site root. html: listing page URL (optional {offset}/{page}).",
+              },
+              pattern: { type: "string", description: "type=html only: regex (case-insensitive) that a job link's href must match." },
             },
             required: ["type"],
           },

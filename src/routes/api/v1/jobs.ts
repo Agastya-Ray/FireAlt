@@ -32,6 +32,7 @@ export const Route = createFileRoute("/api/v1/jobs")({
             locations: strArray(body.locations),
             excludeLocations: strArray(body.excludeLocations),
             remoteOnly: boolField(body.remoteOnly),
+            details: boolField(body.details),
             postedWithinDays: numField(body.postedWithinDays),
             limit: numField(body.limit),
           });

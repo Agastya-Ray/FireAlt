@@ -137,7 +137,7 @@ curl -sS https://YOUR_DOMAIN/api/v1/scrape \
 | POST | `/api/v1/search` | Web search |
 | POST | `/api/v1/extract` | JSON via any LLM key |
 | POST | `/api/v1/batch` | Up to 8 URLs |
-| POST | `/api/v1/jobs` | Job listings from Greenhouse/Lever/Ashby/Workday/TalentBrew/Remotive/WWR, filtered and ranked server-side |
+| POST | `/api/v1/jobs` | Job listings from Greenhouse/Lever/Ashby/Workday/SmartRecruiters/Workable/Teamtailor/SuccessFactors/Jobvite/TalentBrew/HTML listings/Remotive/WWR, filtered and ranked server-side |
 | POST | `/api/mcp` | MCP (Claude) |
 
 MCP tools: `scrape`, `map`, `crawl`, `search`, `extract`, `batch_scrape`, `jobs`.
@@ -146,9 +146,15 @@ Job source types for `jobs` (`POST /api/v1/jobs` and the MCP tool):
 
 | `type` | Field | Example |
 | --- | --- | --- |
-| `greenhouse`, `lever`, `ashby` | `board` = company slug | `{ "type": "greenhouse", "board": "acme" }` |
+| `greenhouse`, `lever`, `ashby` | `board` = company slug (Lever slugs are case-sensitive, e.g. `Sprinto`) | `{ "type": "greenhouse", "board": "acme" }` |
 | `workday` | `board` = `<tenant>.<wdN>/<site>` from `https://<tenant>.<wdN>.myworkdayjobs.com/<site>`. `include` keywords (max 3) are sent as Workday search text; up to 100 postings per keyword. | `{ "type": "workday", "board": "bpinternational.wd3/bpCareers" }` |
 | `talentbrew` (Radancy) | `url` = server-rendered listing page ending in `/1`; later pages (`<url>/2`, ...) are followed, max 6 pages. | `{ "type": "talentbrew", "url": "https://careers.cargill.com/en/category/trading-jobs/23251/8144240/1" }` |
+| `smartrecruiters` | `board` = company id in `https://jobs.smartrecruiters.com/<board>`. Public `api.smartrecruiters.com/v1/companies/<board>/postings`, 100 per page, max 4 pages per `include` keyword (keywords become the `q` search, max 3). | `{ "type": "smartrecruiters", "board": "Vitol" }` |
+| `workable` | `board` = account in `https://apply.workable.com/<board>`. Public widget endpoint `apply.workable.com/api/v1/widget/accounts/<board>` (all published jobs). | `{ "type": "workable", "board": "vortexa" }` |
+| `teamtailor` | `board` = Teamtailor slug (`<slug>.teamtailor.com`) or a custom careers host. Reads `https://<host>/jobs.rss`; if that is empty or fails, falls back to the HTML list at `https://<host>/jobs`. | `{ "type": "teamtailor", "board": "careers.argusmedia.com" }` |
+| `successfactors` (SAP career sites) | `url` = site root. Walks `<root>/search/?q=<include keyword>&sortColumn=referencedate&sortDirection=desc&startrow=N`, 3 pages per keyword (max 3 keywords). Job links look like `/job/<title>/<id>`. | `{ "type": "successfactors", "url": "https://jobs.bunge.com" }` |
+| `jobvite` | `board` = slug in `https://jobs.jobvite.com/<board>`; reads `/<board>/jobs`. | `{ "type": "jobvite", "board": "enverus" }` |
+| `html` (generic fallback) | `url` = server-rendered listing page, `pattern` = case-insensitive regex that a job link's `href` must match. `url` may contain `{offset}` (jobs collected so far) or `{page}` (1-based) to follow pages, max 5. Title = link text (or the closest heading before an "Apply now" link); location and date come from `location` / `date` classes or the text after the link, so treat them as best-effort. Use a native type when one exists. Pages that need JavaScript to show jobs (no `<a href>` per job in the HTML) cannot be read. | `{ "type": "html", "url": "https://recruitment.macquarie.com/en_US/careers/SearchJobs/?jobOffset={offset}", "pattern": "JobDetail\\?jobId=\\d+" }` |
 | `remotive`, `wwr` | none | `{ "type": "remotive" }` |
 | `url` | `url` = JSON endpoint | `{ "type": "url", "url": "https://example.com/jobs.json" }` |
 

@@ -331,3 +331,246 @@ test("details: greenhouse content summarized, ashby pay surfaced, summary hidden
   const plain = await findJobs({ sources: srcs }, { fetchText, now: () => NOW });
   assert.ok(plain.jobs.every((j) => j.summary === undefined));
 });
+
+// ---------------------------------------------------------------------------
+// ATS coverage (ember-coverage-2)
+// ---------------------------------------------------------------------------
+const srPosting = (id: string, name: string, extra: Record<string, unknown> = {}) => ({
+  id,
+  name,
+  company: { identifier: "Vitol", name: "Vitol" },
+  releasedDate: "2026-10-12T09:09:11.663Z",
+  location: { city: "Singapore", country: "sg", remote: false, hybrid: false, fullLocation: "Singapore, , Singapore" },
+  ...extra,
+});
+
+test("smartrecruiters: pages with offset, q from include, maps location/remote/url", async () => {
+  const urls: string[] = [];
+  const all = Array.from({ length: 130 }, (_, i) => srPosting(String(744000000000000 + i), `Analyst ${i}`));
+  all[1] = srPosting("744000000000001", "Remote Trader", { location: { city: "London", country: "gb", remote: true, fullLocation: "London, England, United Kingdom" } });
+  all[2] = srPosting("744000000000002", "Hybrid Quant", { location: { city: "Geneva", region: "GE", country: "ch", hybrid: true, fullLocation: "Geneva, GE, Switzerland" } });
+  const fetchText = async (url: string) => {
+    urls.push(url);
+    const offset = Number(new URL(url).searchParams.get("offset"));
+    return JSON.stringify({ offset, limit: 100, totalFound: 130, content: all.slice(offset, offset + 100) });
+  };
+  const r = await findJobs({ sources: [{ type: "smartrecruiters", board: "Vitol" }], include: ["analyst", "trader", "quant"], limit: 50 }, { fetchText, now: () => NOW });
+  // three include terms x two pages each
+  assert.equal(urls.length, 6);
+  assert.ok(urls[0]!.startsWith("https://api.smartrecruiters.com/v1/companies/Vitol/postings?limit=100&offset=0&q=analyst"));
+  assert.ok(urls[1]!.includes("offset=100&q=analyst"));
+  const trader = r.jobs.find((j) => j.title === "Remote Trader")!;
+  assert.equal(trader.remote, "Remote");
+  assert.equal(trader.url, "https://jobs.smartrecruiters.com/Vitol/744000000000001-remote-trader");
+  assert.equal(trader.company, "Vitol");
+  assert.equal(trader.posted, "2026-10-12");
+  assert.equal(r.jobs.find((j) => j.title === "Hybrid Quant")!.remote, "Hybrid");
+  const plain = r.jobs.find((j) => j.title === "Analyst 0")!;
+  assert.equal(plain.location, "Singapore, Singapore");
+  assert.equal(plain.remote, "Onsite");
+  assert.equal(r.failed.length, 0);
+});
+
+test("smartrecruiters: needs a board; empty board is not an error", async () => {
+  const r = await findJobs(
+    { sources: [{ type: "smartrecruiters" }, { type: "smartrecruiters", board: "nobody" }] },
+    { fetchText: async () => JSON.stringify({ offset: 0, limit: 100, totalFound: 0, content: [] }), now: () => NOW },
+  );
+  assert.equal(r.failed.length, 1);
+  assert.match(r.failed[0]!.error, /needs a board/);
+  assert.equal(r.counts.fetched, 0);
+});
+
+const WORKABLE = {
+  name: "Hugging Face",
+  description: "…",
+  jobs: [
+    { title: "Open-Source Machine Learning Engineer - EMEA Remote", shortcode: "81B46579FE", telecommuting: true, department: "Open Source", url: "https://apply.workable.com/j/81B46579FE", shortlink: "https://apply.workable.com/j/81B46579FE", application_url: "https://apply.workable.com/j/81B46579FE/apply", published_on: "2026-05-29", created_at: "2026-05-29", country: "France", city: "Paris", state: "Île-de-France" },
+    { title: "Office Manager", shortcode: "AAAA", telecommuting: false, url: "https://apply.workable.com/j/AAAA", published_on: "", created_at: "2026-09-02", country: "United States", city: "", state: "" },
+  ],
+};
+
+test("workable: widget endpoint, telecommuting flag, location join, date fallback", async () => {
+  const urls: string[] = [];
+  const r = await findJobs(
+    { sources: [{ type: "workable", board: "huggingface" }] },
+    { fetchText: async (u) => (urls.push(u), JSON.stringify(WORKABLE)), now: () => NOW },
+  );
+  assert.deepEqual(urls, ["https://apply.workable.com/api/v1/widget/accounts/huggingface"]);
+  const ml = r.jobs.find((j) => j.url === "https://apply.workable.com/j/81B46579FE")!;
+  assert.deepEqual(ml, {
+    title: "Open-Source Machine Learning Engineer - EMEA Remote", company: "Hugging Face", location: "Paris, Île-de-France, France", remote: "Remote",
+    url: "https://apply.workable.com/j/81B46579FE", posted: "2026-05-29", pay: null, source: "workable:huggingface",
+  });
+  const om = r.jobs.find((j) => j.title === "Office Manager")!;
+  assert.equal(om.location, "United States");
+  assert.equal(om.posted, "2026-09-02");
+  assert.equal(om.remote, "Onsite");
+});
+
+const TT_RSS = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:tt="https://teamtailor.com/locations"><channel><title>Argus</title>
+<item><guid>https://careers.argusmedia.com/jobs/8520691-editor-biofuels-net-zero</guid><pubDate>Fri, 09 Oct 2026 06:52:33 +0100</pubDate>
+<title>Editor, Biofuels &amp; Net Zero</title><link>https://careers.argusmedia.com/jobs/8520691-editor-biofuels-net-zero</link><remoteStatus>hybrid</remoteStatus>
+<tt:locations><tt:location><tt:name>Singapore</tt:name><tt:city>Singapore</tt:city><tt:country>Singapore</tt:country></tt:location></tt:locations></item>
+<item><guid>https://careers.argusmedia.com/jobs/1-analyst</guid><pubDate>Thu, 08 Oct 2026 10:00:00 +0100</pubDate><title>Analyst</title><link>https://careers.argusmedia.com/jobs/1-analyst</link><remoteStatus>fully</remoteStatus>
+<tt:locations><tt:location><tt:name>London HQ</tt:name><tt:city>London</tt:city><tt:country>United Kingdom</tt:country></tt:location><tt:location><tt:name>Remote</tt:name></tt:location></tt:locations></item>
+</channel></rss>`;
+
+const TT_LIST = `<ul><li><a href="https://careers.argusmedia.com/jobs/8520691-editor-biofuels-net-zero">Editor, Biofuels &amp; Net Zero</a><span>Singapore</span><span>·</span><span>Hybrid</span></li>
+<li><a href="/jobs/8520673-market-analyst-chemicals">Market Analyst, Chemicals</a><div>Editorial</div><div>Shanghai</div></li></ul>`;
+
+test("teamtailor: parses jobs.rss (slug or custom host)", async () => {
+  const urls: string[] = [];
+  const f = async (u: string) => (urls.push(u), TT_RSS);
+  const r = await findJobs(
+    { sources: [{ type: "teamtailor", board: "careers.argusmedia.com" }, { type: "teamtailor", board: "acme" }] },
+    { fetchText: f, now: () => NOW },
+  );
+  assert.deepEqual(urls.sort(), ["https://acme.teamtailor.com/jobs.rss", "https://careers.argusmedia.com/jobs.rss"]);
+  const ed = r.jobs.find((j) => j.title === "Editor, Biofuels & Net Zero")!;
+  assert.equal(ed.location, "Singapore, Singapore");
+  assert.equal(ed.remote, "Hybrid");
+  assert.equal(ed.posted, "2026-10-09");
+  assert.equal(ed.company, "argusmedia");
+  const an = r.jobs.find((j) => j.title === "Analyst")!;
+  assert.equal(an.remote, "Remote");
+  assert.equal(an.location, "London, United Kingdom | Remote");
+});
+
+test("teamtailor: falls back to the HTML job list when the feed is empty or missing; bad host rejected", async () => {
+  const f = async (u: string) => {
+    if (u.endsWith("/jobs.rss")) throw new Error("Fetch failed (404)");
+    assert.equal(u, "https://careers.argusmedia.com/jobs");
+    return TT_LIST;
+  };
+  const r = await findJobs({ sources: [{ type: "teamtailor", board: "careers.argusmedia.com" }, { type: "teamtailor", board: "bad host/x y" }] }, { fetchText: f, now: () => NOW });
+  assert.equal(r.jobs.length, 2);
+  const mk = r.jobs.find((j) => j.title.startsWith("Market Analyst"))!;
+  assert.equal(mk.url, "https://careers.argusmedia.com/jobs/8520673-market-analyst-chemicals");
+  assert.equal(mk.location, "Editorial | Shanghai");
+  const ed = r.jobs.find((j) => j.title.startsWith("Editor,"))!;
+  assert.equal(ed.location, "Singapore | Hybrid");
+  assert.equal(ed.remote, "Hybrid");
+  assert.equal(r.failed.length, 1);
+  assert.match(r.failed[0]!.error, /slug or a hostname/);
+});
+
+const SF_PAGE = (rows: Array<[string, string, string, string]>) =>
+  `<table id="searchresults"><tbody>${rows
+    .map(
+      ([title, id, loc, date]) =>
+        `<tr class="data-row"><td class="colTitle"><span class="jobTitle hidden-phone"><a href="/job/${title.replace(/\W+/g, "-")}/${id}/" class="jobTitle-link">${title}</a></span>` +
+        `<span class="visible-phone"><a href="/job/${title.replace(/\W+/g, "-")}/${id}/">${title}</a></span></td>` +
+        `<td class="colLocation"><span class="jobLocation">${loc}</span></td><td class="colDate"><span class="jobDate">${date}</span></td></tr>`,
+    )
+    .join("")}</tbody></table><a href="/talentcommunity/apply/123">Join</a>`;
+
+test("successfactors: search pages by startrow, include becomes q, dedupes repeated title links", async () => {
+  const urls: string[] = [];
+  const p1 = SF_PAGE([["Millwright", "1001", "Fort Saskatchewan, AB, CA, T8L 2T4", "Oct 12, 2026"], ["Senior Analyst SAP Concur Systems", "1002", "PB, IN, 160059", "Oct 11, 2026"]]);
+  const p2 = SF_PAGE([["Commodity Trader", "1003", "Geneva, CH", "Oct 9, 2026"]]);
+  const f = async (u: string) => {
+    urls.push(u);
+    const start = Number(new URL(u).searchParams.get("startrow"));
+    return start === 0 ? p1 : start === 2 ? p2 : SF_PAGE([]);
+  };
+  const r = await findJobs({ sources: [{ type: "successfactors", url: "https://jobs.bunge.com/" }], limit: 50 }, { fetchText: f, now: () => NOW });
+  assert.equal(urls[0], "https://jobs.bunge.com/search/?q=&sortColumn=referencedate&sortDirection=desc&startrow=0");
+  assert.equal(urls[1], "https://jobs.bunge.com/search/?q=&sortColumn=referencedate&sortDirection=desc&startrow=2");
+  assert.equal(urls.length, 3);
+  assert.equal(r.jobs.length, 3);
+  const m = r.jobs.find((j) => j.title === "Millwright")!;
+  assert.equal(m.location, "Fort Saskatchewan, AB, CA, T8L 2T4");
+  assert.equal(m.posted, "2026-10-12");
+  assert.equal(m.company, "bunge");
+  assert.equal(m.url, "https://jobs.bunge.com/job/Millwright/1001/");
+  assert.equal(m.source, "successfactors:https://jobs.bunge.com/");
+
+  const q: string[] = [];
+  await findJobs({ sources: [{ type: "successfactors", url: "https://careers.ofi.com" }], include: ["trader", "risk analyst"] }, { fetchText: async (u) => (q.push(u), SF_PAGE([])), now: () => NOW });
+  assert.deepEqual(q.map((u) => new URL(u).searchParams.get("q")), ["trader", "risk analyst"]);
+});
+
+const JOBVITE = `<h3>Accounting</h3>
+<div class="jv-job-list"><a href="/enverus/job/ojyUAfw5">Accounts Receivable Specialist I - Billing - 26396</a><div class="jv-job-list-location">Bangalore,
+ India</div></div>
+<h3>Analytics</h3>
+<div><a href="/enverus/job/o57bAfwH">Associate, Intelligence - Power Supply Chain - 26209</a><div class="jv-job-list-location">Calgary,
+ Alberta</div></div>
+<div><a href="/enverus/job/o57bAfwH">Apply</a></div>
+<a href="/enverus/search?q=1">Search</a><a href="/other/job/zzz">Other company</a>`;
+
+test("jobvite: lists /<board>/jobs and keeps only that board's job links", async () => {
+  const urls: string[] = [];
+  const r = await findJobs({ sources: [{ type: "jobvite", board: "enverus" }] }, { fetchText: async (u) => (urls.push(u), JOBVITE), now: () => NOW });
+  assert.deepEqual(urls, ["https://jobs.jobvite.com/enverus/jobs"]);
+  assert.equal(r.jobs.length, 2);
+  const j = r.jobs.find((x) => x.url === "https://jobs.jobvite.com/enverus/job/o57bAfwH")!;
+  assert.equal(j.title, "Associate, Intelligence - Power Supply Chain - 26209");
+  assert.equal(j.location, "Calgary, Alberta");
+  assert.equal(j.company, "enverus");
+});
+
+const AVATURE = (rows: Array<[string, string, string, string]>) =>
+  rows
+    .map(
+      ([title, id, loc, date]) =>
+        `<article><h3><a href="https://recruitment.macquarie.com/en_US/careers/JobDetail?jobId=${id}">${title}</a></h3><div>ID</div><div>${id}</div><div>${loc}</div><div>${date}</div><div>Technology</div>` +
+        `<a href="https://recruitment.macquarie.com/en_US/careers/JobDetail?jobId=${id}">View details</a> <a href="https://recruitment.macquarie.com/en_US/careers/ApplicationMethods?jobId=${id}&record=${id}">Apply</a></article>`,
+    )
+    .join("");
+
+test("html: link pattern, {offset} paging, generic link text ignored, location/date heuristics", async () => {
+  const urls: string[] = [];
+  const f = async (u: string) => {
+    urls.push(u);
+    const off = Number(new URL(u).searchParams.get("jobOffset"));
+    if (off === 0) return AVATURE([["Data Business Analyst", "24576", "Sydney Office", "12 Oct 2026"], ["Futures Regulatory Reporting", "24545", "London Office", "12 Oct 2026"]]);
+    if (off === 2) return AVATURE([["Commodities Risk Manager", "24042", "Singapore Office", "09 Oct 2026"]]);
+    return "<html></html>";
+  };
+  const r = await findJobs(
+    { sources: [{ type: "html", url: "https://recruitment.macquarie.com/en_US/careers/SearchJobs/?jobOffset={offset}", pattern: "JobDetail\\?jobId=\\d+" }], limit: 50 },
+    { fetchText: f, now: () => NOW },
+  );
+  assert.equal(urls.length, 3);
+  assert.equal(r.jobs.length, 3);
+  const j = r.jobs.find((x) => x.title === "Commodities Risk Manager")!;
+  assert.equal(j.location, "Singapore Office");
+  assert.equal(j.posted, "2026-10-09");
+  assert.equal(j.company, "macquarie");
+  assert.equal(j.url, "https://recruitment.macquarie.com/en_US/careers/JobDetail?jobId=24042");
+});
+
+test("html: cards whose only link is 'Apply now' take the heading before it as the title", async () => {
+  const page = `<div><h3>Associate/ Senior Associate - Leverage Facility Management</h3><p>Structured Finance</p><p>Gurgaon, India</p>
+<a href="https://oxanepartners.zohorecruit.in/jobs/Careers/4750000010048482/Associate">Apply now</a><a href="https://oxanepartners.zohorecruit.in/jobs/Alumni-Portal">Referral by alumni</a></div>
+<div><h3>Senior Software Engineer</h3><p>Gurgaon, India</p><a href="/jobs/Careers/4750000015643963/Senior-Software-Engineer">Apply now</a></div>`;
+  const r = await findJobs(
+    { sources: [{ type: "html", url: "https://www.oxanepartners.com/open-positions", pattern: "zohorecruit\\.in/jobs/Careers/\\d+" }] },
+    { fetchText: async () => page, now: () => NOW },
+  );
+  assert.deepEqual(r.jobs.map((j) => j.title).sort(), ["Associate/ Senior Associate - Leverage Facility Management"]);
+});
+
+test("html: validates url/pattern; one page when no placeholder", async () => {
+  const calls: string[] = [];
+  const f = async (u: string) => (calls.push(u), "<a href='/jobs/1'>One</a>");
+  const r = await findJobs(
+    { sources: [{ type: "html", url: "https://x.test/careers" }, { type: "html", pattern: "/jobs/" }, { type: "html", url: "https://x.test/careers", pattern: "(" }, { type: "html", url: "https://x.test/careers", pattern: "/jobs/\\d+" }] },
+    { fetchText: f, now: () => NOW },
+  );
+  assert.equal(r.jobs.length, 1);
+  assert.deepEqual(calls, ["https://x.test/careers"]);
+  assert.equal(r.failed.length, 3);
+  assert.match(r.failed.map((x) => x.error).join("|"), /needs a pattern.*needs a url|needs a url.*needs a pattern|not a valid regular expression/s);
+});
+
+test("summaries are only built when details=true (large Ashby/Lever feeds stay cheap)", async () => {
+  const ashby = { jobs: [{ title: "A", location: "X", jobUrl: "https://ab.test/a", publishedAt: day(1), descriptionPlain: "Remote role. 5 years experience." }] };
+  const f = async () => JSON.stringify(ashby);
+  const off = await findJobs({ sources: [{ type: "ashby", board: "ab" }] }, { fetchText: f, now: () => NOW });
+  assert.equal("summary" in off.jobs[0]!, false);
+  const on = await findJobs({ sources: [{ type: "ashby", board: "ab" }], details: true }, { fetchText: f, now: () => NOW });
+  assert.match(on.jobs[0]!.summary ?? "", /Remote role/);
+});

@@ -298,3 +298,16 @@ test("talentbrew: parses listing anchors and follows pages", async () => {
   const bad = await findJobs({ sources: [{ type: "talentbrew" }] }, { fetchText, now: () => NOW });
   assert.equal(bad.failed.length, 1);
 });
+
+test("workday: keeps paging when later pages report total 0", async () => {
+  let n = 0;
+  const postJson = async (_u: string, body: unknown) => {
+    n++;
+    const off = (body as Record<string, number>).offset;
+    const posts = Array.from({ length: 20 }, (_, i) => ({ title: `Role ${off + i}`, externalPath: `/job/x/R${off + i}`, locationsText: "India", postedOn: "Posted Today" }));
+    return JSON.stringify({ total: off === 0 ? 45 : 0, jobPostings: posts });
+  };
+  const r = await findJobs({ sources: [{ type: "workday", board: "t.wd1/site" }], limit: 50 }, { postJson, now: () => NOW });
+  assert.equal(n, 3);
+  assert.equal(r.counts.fetched, 60);
+});

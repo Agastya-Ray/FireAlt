@@ -320,7 +320,7 @@ function normGeneric(body: string, label: string, pageUrl: string): Job[] {
 // Public CXS endpoint: POST https://<tenant>.<wdN>.myworkdayjobs.com/wday/cxs/<tenant>/<site>/jobs
 // ---------------------------------------------------------------------------
 const WORKDAY_PAGE = 20;
-const WORKDAY_MAX_PAGES = 5;
+const WORKDAY_MAX_PAGES = 3; // terms x pages run sequentially; keep well inside the serverless time limit
 const WORKDAY_MAX_TERMS = 3;
 
 export function parseWorkdayBoard(board: string): { tenant: string; wd: string; site: string } {
@@ -370,12 +370,15 @@ async function fetchWorkday(src: JobSource, req: JobsRequest, io: Io, label: str
   const searches = terms.length ? terms : [""];
   const out: Job[] = [];
   for (const searchText of searches) {
+    // Workday usually reports `total` only on the first page (later pages say 0), so keep the first non-zero value.
+    let knownTotal = 0;
     for (let page = 0; page < WORKDAY_MAX_PAGES; page++) {
       const offset = page * WORKDAY_PAGE;
       const body = await io.postJson(endpoint, { appliedFacets: {}, limit: WORKDAY_PAGE, offset, searchText });
       const { jobs, total } = normWorkday(body, b, label, io.now);
+      if (total > 0 && knownTotal === 0) knownTotal = total;
       out.push(...jobs);
-      if (!jobs.length || offset + WORKDAY_PAGE >= total) break;
+      if (!jobs.length || (knownTotal > 0 && offset + WORKDAY_PAGE >= knownTotal)) break;
     }
   }
   return out;

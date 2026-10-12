@@ -20,6 +20,8 @@ export type JobsRequest = {
   remoteOnly?: boolean;
   postedWithinDays?: number;
   limit?: number;
+  /** Also return `summary`: the job-description lines about remote/location/experience/pay (from the board API, no page scrape). */
+  details?: boolean;
 };
 
 export type RemoteMode = "Remote" | "Hybrid" | "Onsite" | "Unknown";
@@ -33,6 +35,8 @@ export type Job = {
   posted: string | null;
   pay: string | null;
   source: string;
+  /** Present when details=true and the source returns a description. */
+  summary?: string;
 };
 
 export type JobsResult = {
@@ -153,6 +157,38 @@ export function sourceLabel(src: JobSource): string {
   return src.type;
 }
 
+const SUMMARY_CHARS = 600;
+const KEY_RE = /remote|india|anywhere|worldwide|location|based in|time ?zone|years|experience|salary|compensation|pay range|ctc|lpa|usd|\$|€|£|visa|contract|full[- ]time|part[- ]time/i;
+
+function htmlToText(x: string): string {
+  return decodeXml(x)
+    .replace(/<(br|\/p|\/li|\/h\d|\/div)\s*\/?>/gi, "\n")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;|&#160;/g, " ")
+    .replace(/[ \t]+/g, " ")
+    .replace(/\n\s*\n+/g, "\n")
+    .trim();
+}
+
+/** Key lines of a job description (remote/location/experience/pay), capped; falls back to the opening text. */
+export function summarize(descHtmlOrText: string): string | undefined {
+  const text = htmlToText(descHtmlOrText);
+  if (!text) return undefined;
+  const parts = text.split(/\n|(?<=[.!?])\s+/).map((x) => x.trim()).filter((x) => x.length > 3);
+  const key = parts.filter((x) => KEY_RE.test(x));
+  const out: string[] = [];
+  let len = 0;
+  for (const x of key.length ? key : parts) {
+    if (len + x.length > SUMMARY_CHARS) {
+      if (!out.length) out.push(x.slice(0, SUMMARY_CHARS));
+      break;
+    }
+    out.push(x);
+    len += x.length + 1;
+  }
+  return out.join(" ") || undefined;
+}
+
 function normGreenhouse(body: string, board: string, label: string): Job[] {
   const data = rec(parseJson(body));
   return arr(data.jobs).map((j) => {
@@ -167,6 +203,7 @@ function normGreenhouse(body: string, board: string, label: string): Job[] {
       posted: toIso(r.updated_at),
       pay: null,
       source: label,
+      ...(typeof r.content === "string" ? { summary: summarize(r.content) } : {}),
     };
   });
 }
@@ -192,6 +229,9 @@ function normLever(body: string, board: string, label: string): Job[] {
       posted: toIso(r.createdAt),
       pay,
       source: label,
+      ...(typeof r.descriptionPlain === "string" || typeof r.additionalPlain === "string"
+        ? { summary: summarize(`${s(r.descriptionPlain)}\n${s(r.additionalPlain)}`) }
+        : {}),
     };
   });
 }
@@ -203,6 +243,8 @@ function normAshby(body: string, board: string, label: string): Job[] {
     const loc = s(r.location);
     const flag = remoteFromFlag(s(r.workplaceType));
     const remote: RemoteMode = flag ?? (r.isRemote === true ? "Remote" : remoteFromText(loc));
+    const comp = rec(r.compensation);
+    const pay = s(comp.compensationTierSummary) || s(comp.scrapeableCompensationSalarySummary) || null;
     return {
       title: s(r.title),
       company: board,
@@ -210,8 +252,11 @@ function normAshby(body: string, board: string, label: string): Job[] {
       remote,
       url: s(r.jobUrl),
       posted: toIso(r.publishedAt),
-      pay: null,
+      pay,
       source: label,
+      ...(typeof r.descriptionPlain === "string" || typeof r.descriptionHtml === "string"
+        ? { summary: summarize(s(r.descriptionPlain) || s(r.descriptionHtml)) }
+        : {}),
     };
   });
 }
@@ -229,6 +274,7 @@ function normRemotive(body: string, label: string): Job[] {
       posted: toIso(r.publication_date),
       pay: s(r.salary) || null,
       source: label,
+      ...(typeof r.description === "string" ? { summary: summarize(r.description) } : {}),
     };
   });
 }
@@ -249,6 +295,7 @@ function normWwr(xml: string, label: string): Job[] {
       posted: toIso(tag(it, "pubDate")),
       pay: null,
       source: label,
+      ...(tag(it, "description") ? { summary: summarize(tag(it, "description")) } : {}),
     };
   });
 }
@@ -453,7 +500,7 @@ async function fetchSource(src: JobSource, req: JobsRequest, io: Io): Promise<Jo
   switch (src.type) {
     case "greenhouse": {
       const b = needBoard(src);
-      return normGreenhouse(await fetchText(`https://boards-api.greenhouse.io/v1/boards/${enc(b)}/jobs`), b, label);
+      return normGreenhouse(await fetchText(`https://boards-api.greenhouse.io/v1/boards/${enc(b)}/jobs${req.details ? "?content=true" : ""}`), b, label);
     }
     case "lever": {
       const b = needBoard(src);
@@ -461,7 +508,7 @@ async function fetchSource(src: JobSource, req: JobsRequest, io: Io): Promise<Jo
     }
     case "ashby": {
       const b = needBoard(src);
-      return normAshby(await fetchText(`https://api.ashbyhq.com/posting-api/job-board/${enc(b)}`), b, label);
+      return normAshby(await fetchText(`https://api.ashbyhq.com/posting-api/job-board/${enc(b)}${req.details ? "?includeCompensation=true" : ""}`), b, label);
     }
     case "remotive": {
       const kw = req.include?.find((k) => k.trim())?.trim() ?? "";
@@ -585,7 +632,11 @@ export async function findJobs(req: JobsRequest, deps: JobsDeps = {}): Promise<J
   }
 
   scored.sort((a, b) => b.score - a.score);
-  const jobs = scored.slice(0, limit).map((x) => x.job);
+  const jobs = scored.slice(0, limit).map((x) => {
+    if (req.details) return x.job;
+    const { summary: _drop, ...rest } = x.job;
+    return rest;
+  });
   return {
     jobs,
     counts: { fetched: all.length, matched: scored.length, returned: jobs.length },

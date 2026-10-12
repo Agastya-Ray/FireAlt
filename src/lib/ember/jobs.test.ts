@@ -311,3 +311,23 @@ test("workday: keeps paging when later pages report total 0", async () => {
   assert.equal(n, 3);
   assert.equal(r.counts.fetched, 60);
 });
+
+test("details: greenhouse content summarized, ashby pay surfaced, summary hidden without details", async () => {
+  const gh = { jobs: [{ title: "Business Analyst", absolute_url: "https://g/1", location: { name: "Remote - India" }, updated_at: "2026-10-10T00:00:00Z",
+    content: "&lt;p&gt;We build things.&lt;/p&gt;&lt;p&gt;This role is fully remote within India.&lt;/p&gt;&lt;p&gt;You have 1-3 years of experience.&lt;/p&gt;" }] };
+  const ab = { jobs: [{ title: "Ops Analyst", jobUrl: "https://a/1", location: "Remote", isRemote: true, publishedAt: "2026-10-10",
+    descriptionPlain: "Join us. Open to candidates anywhere in APAC.", compensation: { compensationTierSummary: "$30K – $40K" } }] };
+  const urls: string[] = [];
+  const fetchText = async (u: string) => { urls.push(u); return JSON.stringify(u.includes("greenhouse") ? gh : ab); };
+  const srcs = [{ type: "greenhouse" as const, board: "acme" }, { type: "ashby" as const, board: "beta" }];
+  const r = await findJobs({ sources: srcs, details: true }, { fetchText, now: () => NOW });
+  assert.ok(urls.some((u) => u.endsWith("/jobs?content=true")));
+  assert.ok(urls.some((u) => u.endsWith("?includeCompensation=true")));
+  const g = r.jobs.find((j) => j.title === "Business Analyst")!;
+  assert.equal(g.summary, "This role is fully remote within India. You have 1-3 years of experience.");
+  const a = r.jobs.find((j) => j.title === "Ops Analyst")!;
+  assert.equal(a.pay, "$30K – $40K");
+  assert.ok(a.summary?.includes("anywhere in APAC"));
+  const plain = await findJobs({ sources: srcs }, { fetchText, now: () => NOW });
+  assert.ok(plain.jobs.every((j) => j.summary === undefined));
+});

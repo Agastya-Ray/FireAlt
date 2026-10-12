@@ -9,6 +9,7 @@ import {
 } from "./html";
 import { htmlToMarkdown, toOutline, toPlainText } from "./markdown";
 import { estimateTokens, tokenStats, trimToTokens } from "./tokens";
+import { stripLinkBoilerplate } from "./reader-clean";
 import type { EmberFormat, PageMetadata, ScrapeRequest, ScrapeResult } from "./types";
 import { assertPublicHost, assertPublicHttpUrl, stripTracking } from "./url-guard";
 
@@ -45,7 +46,7 @@ async function renderViaJina(
     const raw = (await res.text()).slice(0, JINA_MAX_CHARS);
     const title = raw.match(/^Title:\s*(.+)$/m)?.[1]?.trim() ?? "";
     const marker = raw.indexOf("Markdown Content:");
-    let body = (marker >= 0 ? raw.slice(marker + "Markdown Content:".length) : raw).trim();
+    let body = stripLinkBoilerplate((marker >= 0 ? raw.slice(marker + "Markdown Content:".length) : raw).trim());
     if (!body) return null;
     const meta = { ...emptyMeta(), title, canonical: u.toString() };
     const fm = frontMatter(meta, u.toString());

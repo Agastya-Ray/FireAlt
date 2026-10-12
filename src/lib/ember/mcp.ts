@@ -139,6 +139,11 @@ const TOOLS = [
         excludeLocations: { type: "array", items: { type: "string" }, description: "Drop if location mentions any (e.g. 'united states', 'canada', 'emea'), unless it also mentions a non-remote term from locations (e.g. 'india')." },
         remoteOnly: { type: "boolean" },
         postedWithinDays: { type: "number" },
+        details: {
+          type: "boolean",
+          description:
+            "Also return `summary` per job: the description lines about remote/location/experience/pay, read from the board API (Greenhouse, Lever, Ashby incl. pay, Remotive, WWR). Use it to verify jobs whose pages are JS-only or blocked.",
+        },
         limit: { type: "number", description: "Default 20, max 50." },
       },
       required: ["sources"],

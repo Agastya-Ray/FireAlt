@@ -114,7 +114,7 @@ const TOOLS = [
   {
     name: "jobs",
     description:
-      "Find job listings from Greenhouse/Lever/Ashby boards, Remotive and We Work Remotely. Filters and ranks on the server and returns a short list (no AI key needed). Prefer this over scrape for job boards.",
+      "Find job listings from Greenhouse/Lever/Ashby boards, Workday sites, Radancy TalentBrew listing pages, Remotive and We Work Remotely. Filters and ranks on the server and returns a short list (no AI key needed). Prefer this over scrape for job boards. Workday: type=workday, board=\"<tenant>.<wdN>/<site>\" taken from the careers URL https://<tenant>.<wdN>.myworkdayjobs.com/<site> (e.g. \"bpinternational.wd3/bpCareers\", \"shell.wd3/ShellCareers\"); `include` keywords are sent as Workday search text. TalentBrew: type=talentbrew, url=a listing page ending in /1 (e.g. https://careers.cargill.com/en/category/trading-jobs/23251/8144240/1); further pages are followed automatically.",
     inputSchema: {
       type: "object",
       additionalProperties: false,
@@ -126,9 +126,9 @@ const TOOLS = [
             type: "object",
             additionalProperties: false,
             properties: {
-              type: { type: "string", enum: ["greenhouse", "lever", "ashby", "remotive", "wwr", "url"] },
-              board: { type: "string", description: "Company slug for greenhouse/lever/ashby." },
-              url: { type: "string", description: "JSON endpoint for type=url." },
+              type: { type: "string", enum: ["greenhouse", "lever", "ashby", "remotive", "wwr", "url", "workday", "talentbrew"] },
+              board: { type: "string", description: "Company slug for greenhouse/lever/ashby. For workday: \"<tenant>.<wdN>/<site>\"." },
+              url: { type: "string", description: "JSON endpoint for type=url. For talentbrew: a server-rendered listing page URL ending in /1." },
             },
             required: ["type"],
           },
@@ -139,6 +139,11 @@ const TOOLS = [
         excludeLocations: { type: "array", items: { type: "string" }, description: "Drop if location mentions any (e.g. 'united states', 'canada', 'emea'), unless it also mentions a non-remote term from locations (e.g. 'india')." },
         remoteOnly: { type: "boolean" },
         postedWithinDays: { type: "number" },
+        details: {
+          type: "boolean",
+          description:
+            "Also return `summary` per job: the description lines about remote/location/experience/pay, read from the board API (Greenhouse, Lever, Ashby incl. pay, Remotive, WWR). Use it to verify jobs whose pages are JS-only or blocked.",
+        },
         limit: { type: "number", description: "Default 20, max 50." },
       },
       required: ["sources"],

@@ -1,4 +1,12 @@
-export type JobSourceType = "greenhouse" | "lever" | "ashby" | "remotive" | "wwr" | "url";
+export type JobSourceType =
+  | "greenhouse"
+  | "lever"
+  | "ashby"
+  | "remotive"
+  | "wwr"
+  | "url"
+  | "workday"
+  | "talentbrew";
 
 export type JobSource = { type: JobSourceType; board?: string; url?: string };
 
@@ -12,6 +20,8 @@ export type JobsRequest = {
   remoteOnly?: boolean;
   postedWithinDays?: number;
   limit?: number;
+  /** Also return `summary`: the job-description lines about remote/location/experience/pay (from the board API, no page scrape). */
+  details?: boolean;
 };
 
 export type RemoteMode = "Remote" | "Hybrid" | "Onsite" | "Unknown";
@@ -25,6 +35,8 @@ export type Job = {
   posted: string | null;
   pay: string | null;
   source: string;
+  /** Present when details=true and the source returns a description. */
+  summary?: string;
 };
 
 export type JobsResult = {
@@ -35,7 +47,15 @@ export type JobsResult = {
 
 export type JobsDeps = {
   fetchText?: (url: string) => Promise<string>;
+  /** POST a JSON body and return the response text (used by Workday). Injectable so tests stay offline. */
+  postJson?: (url: string, body: unknown) => Promise<string>;
   now?: () => number;
+};
+
+type Io = {
+  fetchText: (url: string) => Promise<string>;
+  postJson: (url: string, body: unknown) => Promise<string>;
+  now: number;
 };
 
 const MAX_SOURCES = 25;
@@ -46,6 +66,18 @@ const DAY_MS = 86_400_000;
 async function defaultFetchText(url: string): Promise<string> {
   const { fetchPage } = await import("./fetch-page");
   const page = await fetchPage(url, { timeoutMs: TIMEOUT_MS, maxBytes: 10_000_000 });
+  return page.body;
+}
+
+async function defaultPostJson(url: string, body: unknown): Promise<string> {
+  const { fetchPage } = await import("./fetch-page");
+  const page = await fetchPage(url, {
+    timeoutMs: TIMEOUT_MS,
+    maxBytes: 10_000_000,
+    method: "POST",
+    body: JSON.stringify(body),
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+  });
   return page.body;
 }
 
@@ -120,9 +152,41 @@ function needBoard(src: JobSource): string {
 }
 
 export function sourceLabel(src: JobSource): string {
-  if (src.type === "url") return `url:${src.url ?? ""}`;
+  if (src.type === "url" || src.type === "talentbrew") return `${src.type}:${src.url ?? ""}`;
   if (src.board) return `${src.type}:${src.board}`;
   return src.type;
+}
+
+const SUMMARY_CHARS = 600;
+const KEY_RE = /remote|india|anywhere|worldwide|location|based in|time ?zone|years|experience|salary|compensation|pay range|ctc|lpa|usd|\$|€|£|visa|contract|full[- ]time|part[- ]time/i;
+
+function htmlToText(x: string): string {
+  return decodeXml(x)
+    .replace(/<(br|\/p|\/li|\/h\d|\/div)\s*\/?>/gi, "\n")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;|&#160;/g, " ")
+    .replace(/[ \t]+/g, " ")
+    .replace(/\n\s*\n+/g, "\n")
+    .trim();
+}
+
+/** Key lines of a job description (remote/location/experience/pay), capped; falls back to the opening text. */
+export function summarize(descHtmlOrText: string): string | undefined {
+  const text = htmlToText(descHtmlOrText);
+  if (!text) return undefined;
+  const parts = text.split(/\n|(?<=[.!?])\s+/).map((x) => x.trim()).filter((x) => x.length > 3);
+  const key = parts.filter((x) => KEY_RE.test(x));
+  const out: string[] = [];
+  let len = 0;
+  for (const x of key.length ? key : parts) {
+    if (len + x.length > SUMMARY_CHARS) {
+      if (!out.length) out.push(x.slice(0, SUMMARY_CHARS));
+      break;
+    }
+    out.push(x);
+    len += x.length + 1;
+  }
+  return out.join(" ") || undefined;
 }
 
 function normGreenhouse(body: string, board: string, label: string): Job[] {
@@ -139,6 +203,7 @@ function normGreenhouse(body: string, board: string, label: string): Job[] {
       posted: toIso(r.updated_at),
       pay: null,
       source: label,
+      ...(typeof r.content === "string" ? { summary: summarize(r.content) } : {}),
     };
   });
 }
@@ -164,6 +229,9 @@ function normLever(body: string, board: string, label: string): Job[] {
       posted: toIso(r.createdAt),
       pay,
       source: label,
+      ...(typeof r.descriptionPlain === "string" || typeof r.additionalPlain === "string"
+        ? { summary: summarize(`${s(r.descriptionPlain)}\n${s(r.additionalPlain)}`) }
+        : {}),
     };
   });
 }
@@ -175,6 +243,8 @@ function normAshby(body: string, board: string, label: string): Job[] {
     const loc = s(r.location);
     const flag = remoteFromFlag(s(r.workplaceType));
     const remote: RemoteMode = flag ?? (r.isRemote === true ? "Remote" : remoteFromText(loc));
+    const comp = rec(r.compensation);
+    const pay = s(comp.compensationTierSummary) || s(comp.scrapeableCompensationSalarySummary) || null;
     return {
       title: s(r.title),
       company: board,
@@ -182,8 +252,11 @@ function normAshby(body: string, board: string, label: string): Job[] {
       remote,
       url: s(r.jobUrl),
       posted: toIso(r.publishedAt),
-      pay: null,
+      pay,
       source: label,
+      ...(typeof r.descriptionPlain === "string" || typeof r.descriptionHtml === "string"
+        ? { summary: summarize(s(r.descriptionPlain) || s(r.descriptionHtml)) }
+        : {}),
     };
   });
 }
@@ -201,6 +274,7 @@ function normRemotive(body: string, label: string): Job[] {
       posted: toIso(r.publication_date),
       pay: s(r.salary) || null,
       source: label,
+      ...(typeof r.description === "string" ? { summary: summarize(r.description) } : {}),
     };
   });
 }
@@ -221,6 +295,7 @@ function normWwr(xml: string, label: string): Job[] {
       posted: toIso(tag(it, "pubDate")),
       pay: null,
       source: label,
+      ...(tag(it, "description") ? { summary: summarize(tag(it, "description")) } : {}),
     };
   });
 }
@@ -286,16 +361,146 @@ function normGeneric(body: string, label: string, pageUrl: string): Job[] {
   });
 }
 
-async function fetchSource(
-  src: JobSource,
-  req: JobsRequest,
-  fetchText: (u: string) => Promise<string>,
-): Promise<Job[]> {
+
+// ---------------------------------------------------------------------------
+// Workday (myworkdayjobs.com). board = "<tenant>.<wdN>/<site>", e.g. "bpinternational.wd3/bpCareers".
+// Public CXS endpoint: POST https://<tenant>.<wdN>.myworkdayjobs.com/wday/cxs/<tenant>/<site>/jobs
+// ---------------------------------------------------------------------------
+const WORKDAY_PAGE = 20;
+const WORKDAY_MAX_PAGES = 3; // terms x pages run sequentially; keep well inside the serverless time limit
+const WORKDAY_MAX_TERMS = 3;
+
+export function parseWorkdayBoard(board: string): { tenant: string; wd: string; site: string } {
+  const m = board.trim().match(/^([a-z0-9-]+)\.(wd\d+)\/([A-Za-z0-9_.-]+)$/i);
+  if (!m) throw new Error('workday board must look like "<tenant>.<wdN>/<site>", e.g. "bpinternational.wd3/bpCareers"');
+  return { tenant: m[1]!, wd: m[2]!.toLowerCase(), site: m[3]! };
+}
+
+function workdayPosted(text: string, now: number): string | null {
+  const t = text.toLowerCase();
+  if (/today/.test(t)) return toIso(now);
+  if (/yesterday/.test(t)) return toIso(now - DAY_MS);
+  const m = t.match(/(\d+)(\+?)\s*days?\s*ago/);
+  if (m && !m[2]) return toIso(now - Number(m[1]) * DAY_MS);
+  return null;
+}
+
+function normWorkday(body: string, b: { tenant: string; wd: string; site: string }, label: string, now: number): { jobs: Job[]; total: number } {
+  const data = rec(parseJson(body));
+  const postings = arr(data.jobPostings);
+  const jobs = postings.flatMap((p) => {
+    const r = rec(p);
+    const path = s(r.externalPath);
+    const title = s(r.title);
+    if (!path || !title) return [];
+    const loc = s(r.locationsText);
+    return [
+      {
+        title,
+        company: b.tenant,
+        location: loc,
+        remote: remoteFromText(loc),
+        url: `https://${b.tenant}.${b.wd}.myworkdayjobs.com/en-US/${b.site}${path}`,
+        posted: workdayPosted(s(r.postedOn), now),
+        pay: null,
+        source: label,
+      },
+    ];
+  });
+  return { jobs, total: typeof data.total === "number" ? data.total : 0 };
+}
+
+async function fetchWorkday(src: JobSource, req: JobsRequest, io: Io, label: string): Promise<Job[]> {
+  const b = parseWorkdayBoard(needBoard(src));
+  const endpoint = `https://${b.tenant}.${b.wd}.myworkdayjobs.com/wday/cxs/${b.tenant}/${b.site}/jobs`;
+  const terms = clean(req.include).slice(0, WORKDAY_MAX_TERMS);
+  const searches = terms.length ? terms : [""];
+  const out: Job[] = [];
+  for (const searchText of searches) {
+    // Workday usually reports `total` only on the first page (later pages say 0), so keep the first non-zero value.
+    let knownTotal = 0;
+    for (let page = 0; page < WORKDAY_MAX_PAGES; page++) {
+      const offset = page * WORKDAY_PAGE;
+      const body = await io.postJson(endpoint, { appliedFacets: {}, limit: WORKDAY_PAGE, offset, searchText });
+      const { jobs, total } = normWorkday(body, b, label, io.now);
+      if (total > 0 && knownTotal === 0) knownTotal = total;
+      out.push(...jobs);
+      if (!jobs.length || (knownTotal > 0 && offset + WORKDAY_PAGE >= knownTotal)) break;
+    }
+  }
+  return out;
+}
+
+// ---------------------------------------------------------------------------
+// Radancy TalentBrew (e.g. careers.cargill.com). url = a server-rendered listing page whose path ends in
+// "/<page>" (e.g. https://careers.cargill.com/en/category/trading-jobs/23251/8144240/1); page N is "<url>/N".
+// ---------------------------------------------------------------------------
+const TB_MAX_PAGES = 6;
+
+function decodeHtml(x: string): string {
+  return x
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#0?39;|&apos;/g, "'")
+    .replace(/&nbsp;/g, " ");
+}
+
+function htmlText(x: string): string {
+  return decodeHtml(x.replace(/<[^>]*>/g, " ")).replace(/\s+/g, " ").trim();
+}
+
+function tbCompany(host: string): string {
+  const parts = host.toLowerCase().split(".");
+  return parts.length >= 2 ? parts[parts.length - 2]! : host;
+}
+
+function normTalentBrew(html: string, pageUrl: string, label: string): Job[] {
+  const company = tbCompany(new URL(pageUrl).hostname);
+  const out: Job[] = [];
+  const re = /<a\b[^>]*?href=(["'])([^"']*\/job\/[^"']+)\1[^>]*>([\s\S]*?)<\/a>/gi;
+  for (const m of html.matchAll(re)) {
+    const inner = m[3] ?? "";
+    const h = inner.match(/<h[1-6][^>]*>([\s\S]*?)<\/h[1-6]>/i);
+    const title = h ? htmlText(h[1] ?? "") : "";
+    if (!title) continue;
+    const locEl = inner.match(/<span[^>]*class=["'][^"']*job-location[^"']*["'][^>]*>([\s\S]*?)<\/span>/i);
+    const loc = locEl ? htmlText(locEl[1] ?? "") : htmlText(inner.replace(h![0], " "));
+    let url: string;
+    try {
+      url = new URL(decodeHtml(m[2]!), pageUrl).toString();
+    } catch {
+      continue;
+    }
+    out.push({ title, company, location: loc, remote: remoteFromText(loc), url, posted: null, pay: null, source: label });
+  }
+  return out;
+}
+
+async function fetchTalentBrew(src: JobSource, io: Io, label: string): Promise<Job[]> {
+  const base = src.url?.trim().replace(/\/+$/, "");
+  if (!base) throw new Error("talentbrew source needs a url (a listing page ending in /1)");
+  new URL(base);
+  const seen = new Set<string>();
+  const out: Job[] = [];
+  for (let page = 1; page <= TB_MAX_PAGES; page++) {
+    const pageUrl = page === 1 ? base : `${base}/${page}`;
+    const jobs = normTalentBrew(await io.fetchText(pageUrl), pageUrl, label).filter((j) => !seen.has(j.url));
+    if (!jobs.length) break;
+    jobs.forEach((j) => seen.add(j.url));
+    out.push(...jobs);
+  }
+  return out;
+}
+
+async function fetchSource(src: JobSource, req: JobsRequest, io: Io): Promise<Job[]> {
+  const fetchText = io.fetchText;
   const label = sourceLabel(src);
   switch (src.type) {
     case "greenhouse": {
       const b = needBoard(src);
-      return normGreenhouse(await fetchText(`https://boards-api.greenhouse.io/v1/boards/${enc(b)}/jobs`), b, label);
+      return normGreenhouse(await fetchText(`https://boards-api.greenhouse.io/v1/boards/${enc(b)}/jobs${req.details ? "?content=true" : ""}`), b, label);
     }
     case "lever": {
       const b = needBoard(src);
@@ -303,7 +508,7 @@ async function fetchSource(
     }
     case "ashby": {
       const b = needBoard(src);
-      return normAshby(await fetchText(`https://api.ashbyhq.com/posting-api/job-board/${enc(b)}`), b, label);
+      return normAshby(await fetchText(`https://api.ashbyhq.com/posting-api/job-board/${enc(b)}${req.details ? "?includeCompensation=true" : ""}`), b, label);
     }
     case "remotive": {
       const kw = req.include?.find((k) => k.trim())?.trim() ?? "";
@@ -320,6 +525,10 @@ async function fetchSource(
     }
     case "wwr":
       return normWwr(await fetchText("https://weworkremotely.com/remote-jobs.rss"), label);
+    case "workday":
+      return fetchWorkday(src, req, io, label);
+    case "talentbrew":
+      return fetchTalentBrew(src, io, label);
     case "url": {
       const u = src.url?.trim();
       if (!u) throw new Error("url source needs a url");
@@ -358,8 +567,8 @@ export async function findJobs(req: JobsRequest, deps: JobsDeps = {}): Promise<J
   if (!sources.length) throw Object.assign(new Error("sources required"), { code: "bad_request" });
   if (sources.length > MAX_SOURCES) throw Object.assign(new Error(`At most ${MAX_SOURCES} sources`), { code: "bad_request" });
 
-  const fetchText = deps.fetchText ?? defaultFetchText;
   const now = (deps.now ?? Date.now)();
+  const io: Io = { fetchText: deps.fetchText ?? defaultFetchText, postJson: deps.postJson ?? defaultPostJson, now };
   const limit = Math.min(50, Math.max(1, Math.floor(req.limit ?? 20)));
 
   const results: PromiseSettledResult<Job[]>[] = new Array(sources.length);
@@ -369,7 +578,7 @@ export async function findJobs(req: JobsRequest, deps: JobsDeps = {}): Promise<J
       const i = next++;
       const src = sources[i]!;
       try {
-        results[i] = { status: "fulfilled", value: await fetchSource(src, req, fetchText) };
+        results[i] = { status: "fulfilled", value: await fetchSource(src, req, io) };
       } catch (reason) {
         results[i] = { status: "rejected", reason };
       }
@@ -423,7 +632,11 @@ export async function findJobs(req: JobsRequest, deps: JobsDeps = {}): Promise<J
   }
 
   scored.sort((a, b) => b.score - a.score);
-  const jobs = scored.slice(0, limit).map((x) => x.job);
+  const jobs = scored.slice(0, limit).map((x) => {
+    if (req.details) return x.job;
+    const { summary: _drop, ...rest } = x.job;
+    return rest;
+  });
   return {
     jobs,
     counts: { fetched: all.length, matched: scored.length, returned: jobs.length },

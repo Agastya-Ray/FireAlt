@@ -45,7 +45,7 @@ const DAY_MS = 86_400_000;
 
 async function defaultFetchText(url: string): Promise<string> {
   const { fetchPage } = await import("./fetch-page");
-  const page = await fetchPage(url, { timeoutMs: TIMEOUT_MS });
+  const page = await fetchPage(url, { timeoutMs: TIMEOUT_MS, maxBytes: 10_000_000 });
   return page.body;
 }
 

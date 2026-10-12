@@ -36,10 +36,11 @@ function isTextType(ct: string): boolean {
 
 export async function fetchPage(
   rawUrl: string,
-  opts: { timeoutMs?: number; allowPdf?: boolean } = {},
+  opts: { timeoutMs?: number; allowPdf?: boolean; maxBytes?: number } = {},
 ): Promise<FetchedPage> {
   let current = assertPublicHttpUrl(rawUrl);
   const timeoutMs = opts.timeoutMs ?? DEFAULT_TIMEOUT_MS;
+  const maxBytes = Math.min(opts.maxBytes ?? MAX_BYTES, 10_000_000);
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
 
@@ -100,8 +101,8 @@ export async function fetchPage(
       return { url: finalUrl, status: res.status, contentType, body: "" };
     }
     const len = Number(res.headers.get("content-length") ?? "0");
-    if (len > MAX_BYTES) {
-      throw Object.assign(new Error("Page is larger than 2MB"), { code: "too_large" });
+    if (len > maxBytes) {
+      throw Object.assign(new Error(`Page is larger than ${Math.round(maxBytes / 1e6)}MB`), { code: "too_large" });
     }
     if (contentType && !isTextType(contentType) && !contentType.startsWith("text/")) {
       throw Object.assign(new Error(`Unsupported content type: ${contentType.split(";")[0]}`), {
@@ -110,8 +111,8 @@ export async function fetchPage(
     }
 
     const buf = new Uint8Array(await res.arrayBuffer());
-    if (buf.byteLength > MAX_BYTES) {
-      throw Object.assign(new Error("Page is larger than 2MB"), { code: "too_large" });
+    if (buf.byteLength > maxBytes) {
+      throw Object.assign(new Error(`Page is larger than ${Math.round(maxBytes / 1e6)}MB`), { code: "too_large" });
     }
     const body = new TextDecoder("utf-8", { fatal: false }).decode(buf);
     return { url: finalUrl, status: res.status, contentType, body };

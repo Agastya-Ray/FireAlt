@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { findJobs, remoteFromText } from "./jobs.ts";
+import { findJobs, parseWorkdayBoard, remoteFromText } from "./jobs.ts";
 
 const NOW = Date.parse("2026-10-12T00:00:00Z");
 const day = (n: number) => new Date(NOW - n * 86_400_000).toISOString();
@@ -206,4 +206,95 @@ test("max 6 concurrent fetches", async () => {
   };
   await findJobs({ sources: Array.from({ length: 20 }, (_, i) => ({ type: "greenhouse" as const, board: `b${i}` })) }, { fetchText: f, now: () => NOW });
   assert.ok(peak <= 6 && peak > 1);
+});
+
+// Fixtures follow the Workday CXS list shape (total + jobPostings[title, externalPath, locationsText, postedOn, bulletFields])
+// and public posting URLs observed on bpinternational.wd3.myworkdayjobs.com/bpCareers.
+const WD_PAGE1 = {
+  total: 3,
+  jobPostings: [
+    { title: "ARC Analyst", externalPath: "/job/India---Pune/ARC-Analyst_RQ115717", locationsText: "India - Pune", postedOn: "Posted Today", bulletFields: ["RQ115717"] },
+    { title: "Remote Trading Analyst", externalPath: "/job/Remote/Trading-Analyst_RQ2", locationsText: "Remote - UK", postedOn: "Posted 3 Days Ago", bulletFields: ["RQ2"] },
+  ],
+};
+const WD_PAGE2 = {
+  total: 3,
+  jobPostings: [{ title: "Old Role", externalPath: "/job/Malaysia---Kuala-Lumpur/Old-Role_RQ3", locationsText: "2 Locations", postedOn: "Posted 30+ Days Ago", bulletFields: ["RQ3"] }],
+};
+
+test("parseWorkdayBoard", () => {
+  assert.deepEqual(parseWorkdayBoard("bpinternational.wd3/bpCareers"), { tenant: "bpinternational", wd: "wd3", site: "bpCareers" });
+  assert.throws(() => parseWorkdayBoard("bpinternational"));
+  assert.throws(() => parseWorkdayBoard("https://x.wd3.myworkdayjobs.com/s"));
+});
+
+test("workday: POSTs CXS endpoint, paginates, maps fields", async () => {
+  const calls: Array<{ url: string; body: Record<string, unknown> }> = [];
+  const postJson = async (url: string, body: unknown) => {
+    const b = body as Record<string, unknown>;
+    calls.push({ url, body: b });
+    return JSON.stringify(b.offset === 0 ? { ...WD_PAGE1, total: 22 } : WD_PAGE2);
+  };
+  const r = await findJobs({ sources: [{ type: "workday", board: "bpinternational.wd3/bpCareers" }], limit: 50 }, { postJson, now: () => NOW });
+  assert.equal(calls.length, 2);
+  assert.equal(calls[0]!.url, "https://bpinternational.wd3.myworkdayjobs.com/wday/cxs/bpinternational/bpCareers/jobs");
+  assert.deepEqual(calls[0]!.body, { appliedFacets: {}, limit: 20, offset: 0, searchText: "" });
+  assert.equal(calls[1]!.body.offset, 20);
+  const by = (t: string) => r.jobs.find((j) => j.title === t)!;
+  assert.deepEqual(by("ARC Analyst"), {
+    title: "ARC Analyst", company: "bpinternational", location: "India - Pune", remote: "Onsite",
+    url: "https://bpinternational.wd3.myworkdayjobs.com/en-US/bpCareers/job/India---Pune/ARC-Analyst_RQ115717",
+    posted: day(0).slice(0, 10), pay: null, source: "workday:bpinternational.wd3/bpCareers",
+  });
+  assert.equal(by("Remote Trading Analyst").remote, "Remote");
+  assert.equal(by("Remote Trading Analyst").posted, day(3).slice(0, 10));
+  assert.equal(by("Old Role").posted, null);
+  assert.deepEqual(r.failed, []);
+});
+
+test("workday: include keywords become searchText; bad board reported", async () => {
+  const bodies: Array<Record<string, unknown>> = [];
+  const postJson = async (_u: string, body: unknown) => {
+    bodies.push(body as Record<string, unknown>);
+    return JSON.stringify({ total: 0, jobPostings: [] });
+  };
+  const r = await findJobs(
+    { sources: [{ type: "workday", board: "shell.wd3/ShellCareers" }, { type: "workday", board: "nope" }], include: ["trader", "analyst"] },
+    { postJson, now: () => NOW },
+  );
+  assert.deepEqual(bodies.map((b) => b.searchText), ["trader", "analyst"]);
+  assert.equal(r.failed.length, 1);
+  assert.equal(r.failed[0]!.source, "workday:nope");
+});
+
+// Shaped after https://careers.cargill.com/en/category/trading-jobs/23251/8144240/1 (job anchors with a heading and location text).
+const TB_P1 = `<ul>
+<li><a href="/en/job/geneva/tanker-trader/23251/101319918528"><h2>Tanker Trader</h2><span class="job-location">Geneva, Switzerland</span></a></li>
+<li><a href="/en/job/blair/commodity-trading-associate-2027-multiple-u-s-locations/23251/98714726992"><h2>Commodity Trading Associate 2027 &amp; Co</h2><span class="job-location">Blair, Nebraska | Wayzata, Minnesota</span></a></li>
+<li><a href="/en/category/trading-jobs/23251/8144240/1/2">Next</a></li></ul>`;
+const TB_P2 = `<ul><li><a href="/en/job/wayzata/risk-solutions-advisor/23251/100505485104"><h2>Risk Solutions Advisor</h2><span class="job-location">Remote, Minnesota</span></a></li>
+<li><a href="/en/job/geneva/tanker-trader/23251/101319918528"><h2>Tanker Trader</h2><span class="job-location">Geneva, Switzerland</span></a></li></ul>`;
+
+test("talentbrew: parses listing anchors and follows pages", async () => {
+  const log: string[] = [];
+  const base = "https://careers.cargill.com/en/category/trading-jobs/23251/8144240/1";
+  const fetchText = async (u: string) => {
+    log.push(u);
+    if (u === base) return TB_P1;
+    if (u === `${base}/2`) return TB_P2;
+    return "<html></html>";
+  };
+  const r = await findJobs({ sources: [{ type: "talentbrew", url: base }], limit: 50 }, { fetchText, now: () => NOW });
+  assert.deepEqual(log, [base, `${base}/2`, `${base}/3`]);
+  assert.equal(r.jobs.length, 3);
+  const t = r.jobs.find((j) => j.title === "Tanker Trader")!;
+  assert.deepEqual(t, {
+    title: "Tanker Trader", company: "cargill", location: "Geneva, Switzerland", remote: "Onsite",
+    url: "https://careers.cargill.com/en/job/geneva/tanker-trader/23251/101319918528",
+    posted: null, pay: null, source: `talentbrew:${base}`,
+  });
+  assert.ok(r.jobs.some((j) => j.title === "Commodity Trading Associate 2027 & Co"));
+  assert.equal(r.jobs.find((j) => j.title === "Risk Solutions Advisor")!.remote, "Remote");
+  const bad = await findJobs({ sources: [{ type: "talentbrew" }] }, { fetchText, now: () => NOW });
+  assert.equal(bad.failed.length, 1);
 });

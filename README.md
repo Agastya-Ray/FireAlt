@@ -137,9 +137,19 @@ curl -sS https://YOUR_DOMAIN/api/v1/scrape \
 | POST | `/api/v1/search` | Web search |
 | POST | `/api/v1/extract` | JSON via any LLM key |
 | POST | `/api/v1/batch` | Up to 8 URLs |
-| POST | `/api/v1/jobs` | Job listings from Greenhouse/Lever/Ashby/Remotive/WWR, filtered and ranked server-side |
+| POST | `/api/v1/jobs` | Job listings from Greenhouse/Lever/Ashby/Workday/TalentBrew/Remotive/WWR, filtered and ranked server-side |
 | POST | `/api/mcp` | MCP (Claude) |
 
 MCP tools: `scrape`, `map`, `crawl`, `search`, `extract`, `batch_scrape`, `jobs`.
+
+Job source types for `jobs` (`POST /api/v1/jobs` and the MCP tool):
+
+| `type` | Field | Example |
+| --- | --- | --- |
+| `greenhouse`, `lever`, `ashby` | `board` = company slug | `{ "type": "greenhouse", "board": "acme" }` |
+| `workday` | `board` = `<tenant>.<wdN>/<site>` from `https://<tenant>.<wdN>.myworkdayjobs.com/<site>`. `include` keywords (max 3) are sent as Workday search text; up to 100 postings per keyword. | `{ "type": "workday", "board": "bpinternational.wd3/bpCareers" }` |
+| `talentbrew` (Radancy) | `url` = server-rendered listing page ending in `/1`; later pages (`<url>/2`, ...) are followed, max 6 pages. | `{ "type": "talentbrew", "url": "https://careers.cargill.com/en/category/trading-jobs/23251/8144240/1" }` |
+| `remotive`, `wwr` | none | `{ "type": "remotive" }` |
+| `url` | `url` = JSON endpoint | `{ "type": "url", "url": "https://example.com/jobs.json" }` |
 
 Scrape/map/crawl/search do not need an LLM key. Extract does (`llmApiKey` + `llmProvider`, or `XAI_API_KEY` on the server).

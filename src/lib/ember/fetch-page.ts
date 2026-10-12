@@ -36,10 +36,19 @@ function isTextType(ct: string): boolean {
 
 export async function fetchPage(
   rawUrl: string,
-  opts: { timeoutMs?: number; allowPdf?: boolean; maxBytes?: number } = {},
+  opts: {
+    timeoutMs?: number;
+    allowPdf?: boolean;
+    maxBytes?: number;
+    /** Defaults to GET. POST is used for JSON search APIs (e.g. Workday). */
+    method?: "GET" | "POST";
+    body?: string;
+    headers?: Record<string, string>;
+  } = {},
 ): Promise<FetchedPage> {
   let current = assertPublicHttpUrl(rawUrl);
   const timeoutMs = opts.timeoutMs ?? DEFAULT_TIMEOUT_MS;
+  const method = opts.method ?? "GET";
   const maxBytes = Math.min(opts.maxBytes ?? MAX_BYTES, 10_000_000);
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
@@ -49,15 +58,17 @@ export async function fetchPage(
     for (let hop = 0; hop <= MAX_REDIRECTS; hop++) {
       await assertPublicHost(current);
       const r = await fetch(current.toString(), {
-        method: "GET",
+        method,
         redirect: "manual",
         signal: controller.signal,
+        ...(method === "POST" ? { body: opts.body ?? "" } : {}),
         headers: {
           "User-Agent": UA,
           Accept:
             "text/html,application/xhtml+xml,application/xml;q=0.9,text/plain;q=0.8,*/*;q=0.5",
           "Accept-Language": "en-US,en;q=0.9",
           "Cache-Control": "no-cache",
+          ...opts.headers,
         },
       });
       const loc = r.headers.get("location");

@@ -3,18 +3,7 @@ import { scrapeUrl } from "./scrape";
 import { isSearchEngineUrl, unwrapRedirect } from "./redirect.ts";
 import type { SearchHit, SearchRequest, SearchResult } from "./types";
 import { resolveUrl } from "./url-guard";
-
-function decodeEntities(s: string): string {
-  return s
-    .replace(/&/g, "&")
-    .replace(/"/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/</g, "<")
-    .replace(/>/g, ">")
-    .replace(/<[^>]+>/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-}
+import { decodeEntities, parseDdgLite, parseReaderResults } from "./search-parse.ts";
 
 function parseBing(html: string): SearchHit[] {
   const hits: SearchHit[] = [];
@@ -88,6 +77,15 @@ function fromDdgJson(data: DdgJson): SearchHit[] {
 
 const API_TIMEOUT_MS = 9000;
 
+/** Raw reader (Jina) markdown for a page, links kept. Cloud IPs are often blocked by search engines; the reader is not. */
+async function readerMarkdown(url: string): Promise<string> {
+  const headers: Record<string, string> = { Accept: "text/plain", "X-Return-Format": "markdown" };
+  if (process.env.JINA_API_KEY) headers.Authorization = `Bearer ${process.env.JINA_API_KEY}`;
+  const res = await fetch(`https://r.jina.ai/${url}`, { headers, signal: AbortSignal.timeout(20_000) });
+  if (!res.ok) throw new Error(`Reader failed (${res.status})`);
+  return (await res.text()).slice(0, 1_000_000);
+}
+
 async function searchBrave(query: string, count: number, key: string): Promise<SearchHit[]> {
   const res = await fetch(
     `https://api.search.brave.com/res/v1/web/search?q=${encodeURIComponent(query)}&count=${count}`,
@@ -107,6 +105,19 @@ async function searchBrave(query: string, count: number, key: string): Promise<S
       url: r.url as string,
       snippet: decodeEntities(r.description ?? ""),
     }));
+}
+
+/** Jina search (s.jina.ai), used when JINA_API_KEY is set. */
+async function searchJina(query: string, key: string): Promise<SearchHit[]> {
+  const res = await fetch(`https://s.jina.ai/?q=${encodeURIComponent(query)}`, {
+    headers: { Accept: "application/json", Authorization: `Bearer ${key}`, "X-Respond-With": "no-content" },
+    signal: AbortSignal.timeout(API_TIMEOUT_MS + 6000),
+  });
+  if (!res.ok) return [];
+  const data = (await res.json()) as { data?: Array<{ title?: string; url?: string; description?: string }> };
+  return (data.data ?? [])
+    .filter((r) => r.url)
+    .map((r) => ({ title: decodeEntities(r.title ?? ""), url: r.url as string, snippet: decodeEntities(r.description ?? "") }));
 }
 
 // SEARXNG_URL is operator-configured and trusted: intentionally not run through the public-host guard.
@@ -148,20 +159,28 @@ export async function searchWeb(req: SearchRequest): Promise<SearchResult> {
 
   const braveKey = process.env.BRAVE_API_KEY?.trim();
   const searxng = process.env.SEARXNG_URL?.trim();
+  const jinaKey = process.env.JINA_API_KEY?.trim();
   try {
     if (braveKey) pushAll(await searchBrave(query, limit, braveKey));
     else if (searxng) pushAll(await searchSearxng(query, searxng));
   } catch {
-    /* fall through to HTML scrape */
+    /* fall through */
   }
 
+  // Keyless engines, best first. DuckDuckGo Lite is server-rendered and returns relevant results from cloud IPs;
+  // Bing's HTML often returns off-topic results there, so it is only a last resort.
+  const liteUrl = `https://lite.duckduckgo.com/lite/?q=${encodeURIComponent(query)}&kl=wt-wt`;
   if (hits.length < limit) {
     try {
-      const bing = await fetchPage(
-        `https://www.bing.com/search?q=${encodeURIComponent(query)}&setlang=en`,
-        { timeoutMs: 9000 },
-      );
-      pushAll(parseBing(bing.body));
+      const lite = await fetchPage(liteUrl, { timeoutMs: 9000 });
+      pushAll(parseDdgLite(lite.body));
+    } catch {
+      /* blocked from this IP (403) - read it through the reader below */
+    }
+  }
+  if (hits.length < limit && (process.env.EMBER_RENDER ?? "jina").trim().toLowerCase() === "jina") {
+    try {
+      pushAll(parseReaderResults(await readerMarkdown(liteUrl)));
     } catch {
       /* fall through */
     }
@@ -174,6 +193,26 @@ export async function searchWeb(req: SearchRequest): Promise<SearchResult> {
         { timeoutMs: 9000 },
       );
       pushAll(parseDdg(ddg.body));
+    } catch {
+      /* fall through */
+    }
+  }
+
+  if (hits.length < limit && jinaKey) {
+    try {
+      pushAll(await searchJina(query, jinaKey));
+    } catch {
+      /* fall through */
+    }
+  }
+
+  if (hits.length < limit) {
+    try {
+      const bing = await fetchPage(
+        `https://www.bing.com/search?q=${encodeURIComponent(query)}&setlang=en`,
+        { timeoutMs: 9000 },
+      );
+      pushAll(parseBing(bing.body));
     } catch {
       /* fall through */
     }

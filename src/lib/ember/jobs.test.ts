@@ -574,3 +574,257 @@ test("summaries are only built when details=true (large Ashby/Lever feeds stay c
   const on = await findJobs({ sources: [{ type: "ashby", board: "ab" }], details: true }, { fetchText: f, now: () => NOW });
   assert.match(on.jobs[0]!.summary ?? "", /Remote role/);
 });
+
+// ---------------------------------------------------------------------------
+// Feeds and boards added in ember-coverage-3
+// ---------------------------------------------------------------------------
+import { detectAts, learnEtrmDate, parseCutshort, parseEtrmConnect, parseLearnEtrm, parseLinkedInHtml, parseLinkedInMarkdown, relDate } from "./jobs.ts";
+
+const sec = (n: number) => Math.floor((NOW - n * 86_400_000) / 1000);
+
+test("relDate", () => {
+  assert.equal(relDate("6 hours ago", NOW), "2026-10-11");
+  assert.equal(relDate("Posted 2 weeks ago", NOW), "2026-09-28");
+  assert.equal(relDate("30+ days ago", NOW), "2026-09-12");
+  assert.equal(relDate("Just now", NOW), "2026-10-12");
+  assert.equal(relDate("Actively Hiring", NOW), null);
+});
+
+test("himalayas: search params, India kept visible in long country lists, pay, paging stops on empty", async () => {
+  const log: string[] = [];
+  const page1 = {
+    jobs: [
+      { title: "Quality Analyst", companyName: "CPSI", locationRestrictions: ["India"], applicationLink: "https://himalayas.app/companies/cpsi/jobs/qa", pubDate: sec(2), minSalary: 900000, maxSalary: 1200000, currency: "INR", salaryPeriod: "annual", description: "<p>Remote in India. 2+ years experience.</p>" },
+      { title: "Analyst Relations Manager", companyName: "Canonical", locationRestrictions: ["Afghanistan", "Algeria", "Angola", "Australia", "Austria", "India", "Japan"], guid: "https://himalayas.app/companies/canonical/jobs/ar", pubDate: sec(1) },
+    ],
+  };
+  const r = await findJobs(
+    { sources: [{ type: "himalayas", board: "India" }], include: ["analyst"], details: true },
+    {
+      now: () => NOW,
+      fetchText: async (u) => {
+        log.push(u);
+        return JSON.stringify(u.includes("page=1") ? page1 : { jobs: [] });
+      },
+    },
+  );
+  assert.ok(log[0]!.startsWith("https://himalayas.app/jobs/api/search?q=analyst&country=India&page=1"));
+  assert.equal(log.length, 2);
+  const qa = r.jobs.find((j) => j.company === "CPSI")!;
+  assert.equal(qa.remote, "Remote");
+  assert.equal(qa.location, "India");
+  assert.equal(qa.pay, "900000-1200000 INR annual");
+  assert.equal(qa.posted, "2026-10-10");
+  assert.match(qa.summary ?? "", /Remote in India/);
+  assert.equal(r.jobs.find((j) => j.company === "Canonical")!.location, "India + 6 other countries");
+});
+
+test("jobicy: tag + geo, falls back to untagged feed when the tag is empty", async () => {
+  const log: string[] = [];
+  const feed = { jobs: [{ jobTitle: "Business Analyst &amp; Ops", companyName: "Acme", jobGeo: "APAC", url: "https://jobicy.com/jobs/1", pubDate: "2026-10-11 09:00:00" }] };
+  const r = await findJobs(
+    { sources: [{ type: "jobicy", board: "APAC" }], include: ["analyst"] },
+    {
+      now: () => NOW,
+      fetchText: async (u) => {
+        log.push(u);
+        return JSON.stringify(u.includes("tag=") ? { jobs: [] } : feed);
+      },
+    },
+  );
+  assert.equal(log[0], "https://jobicy.com/api/v2/remote-jobs?count=100&geo=apac&tag=analyst");
+  assert.equal(log[1], "https://jobicy.com/api/v2/remote-jobs?count=100&geo=apac");
+  assert.equal(r.jobs[0]!.title, "Business Analyst & Ops");
+  assert.equal(r.jobs[0]!.posted, "2026-10-11");
+});
+
+test("workingnomads and remoteok feeds", async () => {
+  const r = await findJobs(
+    { sources: [{ type: "workingnomads" }, { type: "remoteok" }] },
+    {
+      now: () => NOW,
+      fetchText: async (u) => {
+        if (u.includes("workingnomads")) return JSON.stringify([{ url: "https://wn.test/1", title: "Ops Analyst", company_name: "WN Co", location: "Anywhere", pub_date: day(1) }]);
+        if (u.includes("remoteok")) return JSON.stringify([{ legal: "terms" }, { position: "Support Analyst", company: "QuickMail", url: "https://remoteok.com/remote-jobs/1", date: day(2), salary_min: 40000, salary_max: 60000 }]);
+        throw new Error("unexpected " + u);
+      },
+    },
+  );
+  assert.equal(r.counts.fetched, 2);
+  const ro = r.jobs.find((j) => j.company === "QuickMail")!;
+  assert.equal(ro.pay, "40000-60000 USD");
+  assert.equal(ro.remote, "Remote");
+});
+
+test("learnEtrmDate decodes the base-36 timestamp in the slug", () => {
+  assert.equal(learnEtrmDate("https://jobs.learnetrm.com/jobs/partner-tech-and-impl-l1-mv6do581", NOW + 2 * 86_400_000), "2026-10-13");
+  assert.equal(learnEtrmDate("https://jobs.learnetrm.com/jobs/no-date", NOW), null);
+  assert.equal(learnEtrmDate("https://jobs.learnetrm.com/jobs/x-zzzzzzzz", NOW), null); // far future -> rejected
+});
+
+test("learnetrm: card wrapped in the link, and title-only link", () => {
+  const wrapped = `<ul><li><a href="/jobs/business-analyst-4a-mv6dnkk3"><h2>Business Analyst 4A</h2><p>Genpact</p><p>India · Remote · Permanent</p><p>Commodities: Power, Gas, Oil</p></a></li>
+<li><a href="/jobs/partner-tech-and-impl-l1-mv6do581"><h2>PARTNER - TECH &amp; IMPL L1</h2><p>Wipro</p><p>United States · Onsite · Permanent</p><p>USD 125,000 – 277,000 /yr (est.)</p></a></li></ul>`;
+  const a = parseLearnEtrm(wrapped, "https://jobs.learnetrm.com/jobs", NOW + 2 * 86_400_000, "learnetrm");
+  assert.equal(a.length, 2);
+  assert.deepEqual([a[0]!.title, a[0]!.company, a[0]!.location, a[0]!.remote], ["Business Analyst 4A", "Genpact", "India · Remote · Permanent", "Remote"]);
+  assert.equal(a[1]!.title, "PARTNER - TECH & IMPL L1");
+  assert.equal(a[1]!.pay, "USD 125,000 – 277,000 /yr (est.)");
+  assert.equal(a[1]!.remote, "Onsite");
+  assert.equal(a[1]!.posted, "2026-10-13");
+  const titleOnly = `<li><h2><a href="https://jobs.learnetrm.com/jobs/etrm-allegro-test-engineer-mv6dnj8i">ETRM Allegro Test Engineer</a></h2><div>Endureth Consulting</div><div><span>India · Remote · Permanent</span></div></li>`;
+  const b = parseLearnEtrm(titleOnly, "https://jobs.learnetrm.com/jobs", NOW + 2 * 86_400_000, "learnetrm");
+  assert.deepEqual([b[0]!.title, b[0]!.company, b[0]!.location], ["ETRM Allegro Test Engineer", "Endureth Consulting", "India · Remote · Permanent"]);
+});
+
+test("etrmconnect: title, company, location and age (age sits before the title link)", () => {
+  const html = `<div><span>12 hours ago</span><h3><a href="https://www.linkedin.com/jobs/view/director-at-lseg-4432669619">Director, Futures Clearing</a></h3><p>LSEG</p><p>New York, NY</p><a href="https://www.linkedin.com/jobs/view/director-at-lseg-4432669619">Apply Now for Director, Futures Clearing (opens LinkedIn in a new tab)</a></div>
+<div><span>2 days ago</span><h3><a href="https://uk.linkedin.com/jobs/view/senior-ba-at-auro-4476294844">Senior Business Analyst | London Hybrid</a></h3><p>Auro Recruitment Group</p><p>London Area, United Kingdom</p><a href="https://uk.linkedin.com/jobs/view/senior-ba-at-auro-4476294844">Apply Now for Senior Business Analyst</a></div>`;
+  const jobs = parseEtrmConnect(html, NOW, "etrmconnect");
+  assert.equal(jobs.length, 2);
+  assert.deepEqual([jobs[0]!.title, jobs[0]!.company, jobs[0]!.location, jobs[0]!.posted], ["Director, Futures Clearing", "LSEG", "New York, NY", "2026-10-11"]);
+  assert.deepEqual([jobs[1]!.company, jobs[1]!.location, jobs[1]!.posted, jobs[1]!.remote], ["Auro Recruitment Group", "London Area, United Kingdom", "2026-10-10", "Hybrid"]);
+});
+
+test("cutshort: one-line meta and span meta with svg noise", () => {
+  const html = `<div><h2><a href="https://cutshort.io/job/Senior-UX-Strategist-Ungrammary-myKbddEK">Senior UX Strategist</a></h2>
+<h3>at <a href="/company/ungrammary-85-Bwdu9Tqm">Ungrammary</a></h3><p>1 recruiter</p><p>Posted by Pronamika Goswami</p>
+<p>Remote only · 4 - 6 years · ₹10L - ₹12L / yr · Bootstrapped · Remote only · Posted 8 Oct 2026</p></div>
+<div><h2><a href="/job/Data-Analyst-Acme-AbCdEf12?src=list">Data Analyst</a></h2><h3>at <a href="/company/acme-1">Acme</a></h3>
+<div><span>Bengaluru</span><svg><path d="M7.92994 3.21536L7.92986"></path></svg><span>·</span><span>1 - 3 years</span><span>·</span><span>₹6L - ₹9L / yr</span><span>·</span><span>Posted 10 Oct 2026</span></div></div>`;
+  const jobs = parseCutshort(html, "https://cutshort.io/jobs/remote-jobs", "cutshort");
+  assert.equal(jobs.length, 2);
+  assert.deepEqual([jobs[0]!.company, jobs[0]!.location, jobs[0]!.remote, jobs[0]!.pay, jobs[0]!.posted], ["Ungrammary", "Remote only", "Remote", "₹10L - ₹12L / yr", "2026-10-08"]);
+  assert.equal(jobs[1]!.url, "https://cutshort.io/job/Data-Analyst-Acme-AbCdEf12");
+  assert.deepEqual([jobs[1]!.company, jobs[1]!.location, jobs[1]!.remote, jobs[1]!.pay, jobs[1]!.posted], ["Acme", "Bengaluru", "Onsite", "₹6L - ₹9L / yr", "2026-10-10"]);
+});
+
+test("instahyre: designation searches", async () => {
+  const log: string[] = [];
+  const r = await findJobs(
+    { sources: [{ type: "instahyre" }], include: ["Business Analyst"] },
+    {
+      now: () => NOW,
+      fetchText: async (u) => {
+        log.push(u);
+        return JSON.stringify({ objects: [{ title: "Business Analyst", employer: { company_name: "Acme" }, locations: "Work From Home", public_url: "https://www.instahyre.com/job-1/" }] });
+      },
+    },
+  );
+  assert.ok(log[0]!.endsWith("&designations=Business%20Analyst"));
+  assert.equal(r.jobs[0]!.company, "Acme");
+});
+
+const LI_HTML = `<li><div class="base-card"><a class="base-card__full-link" href="https://in.linkedin.com/jobs/view/business-analyst-ctrm-at-genpact-4473203355?position=1&amp;pageNum=0&amp;refId=x"><span class="sr-only">Business Analyst - CTRM</span></a>
+<h3 class="base-search-card__title">Business Analyst - CTRM</h3><h4 class="base-search-card__subtitle"><a href="https://in.linkedin.com/company/genpact">Genpact</a></h4>
+<span class="job-search-card__location">Bengaluru, Karnataka, India</span><time class="job-search-card__listdate" datetime="2026-10-09">3 days ago</time></div></li>`;
+const LI_MD = `Title: x
+
+Markdown Content:
+*   [Trade Surveillance](https://in.linkedin.com/jobs/view/trade-surveillance-at-tradeweb-4440961973?position=2&pageNum=0)![Image 2](https://x) ### Trade Surveillance
+
+#### [Tradeweb](https://www.linkedin.com/company/tradeweb)
+
+ Bengaluru, Karnataka, India  Actively Hiring   5 days ago    
+*   [Functional Architect](https://in.linkedin.com/jobs/view/functional-architect-at-credence-hr-services-4476425933?position=3) ### Functional Architect
+
+ Pune, Maharashtra, India  Be an early applicant   6 hours ago    
+`;
+
+test("linkedin parsers: guest HTML and reader markdown", () => {
+  const h = parseLinkedInHtml(LI_HTML, NOW, true, "linkedin");
+  assert.deepEqual(
+    [h[0]!.title, h[0]!.company, h[0]!.location, h[0]!.remote, h[0]!.posted, h[0]!.url],
+    ["Business Analyst - CTRM", "Genpact", "Bengaluru, Karnataka, India (LinkedIn: remote)", "Remote", "2026-10-09", "https://in.linkedin.com/jobs/view/business-analyst-ctrm-at-genpact-4473203355"],
+  );
+  const m = parseLinkedInMarkdown(LI_MD, NOW, false, "linkedin");
+  assert.equal(m.length, 2);
+  assert.deepEqual([m[0]!.title, m[0]!.company, m[0]!.location, m[0]!.posted], ["Trade Surveillance", "Tradeweb", "Bengaluru, Karnataka, India", "2026-10-07"]);
+  assert.deepEqual([m[1]!.company, m[1]!.location, m[1]!.posted], ["credence hr services", "Pune, Maharashtra, India", "2026-10-11"]);
+  assert.equal(m[1]!.url, "https://in.linkedin.com/jobs/view/functional-architect-at-credence-hr-services-4476425933");
+});
+
+test("linkedin: blocked direct fetch falls back to the reader; remote + recency filters in the URL", async () => {
+  const direct: string[] = [];
+  const reader: string[] = [];
+  const r = await findJobs(
+    { sources: [{ type: "linkedin" }], include: ["ctrm"], remoteOnly: true, postedWithinDays: 7 },
+    {
+      now: () => NOW,
+      fetchText: async (u) => {
+        direct.push(u);
+        throw Object.assign(new Error("Fetch failed (999)"), { status: 999 });
+      },
+      fetchReader: async (u) => {
+        reader.push(u);
+        return u.includes("start=0") ? LI_MD : "Markdown Content:\n";
+      },
+    },
+  );
+  const q = new URL(direct[0]!).searchParams;
+  assert.deepEqual([q.get("keywords"), q.get("location"), q.get("f_WT"), q.get("f_TPR")], ["ctrm", "India", "2", "r604800"]);
+  assert.equal(reader.length, 2);
+  assert.equal(r.failed.length, 0);
+  assert.equal(r.counts.fetched, 2);
+  assert.ok(r.jobs.every((j) => j.remote === "Remote"));
+});
+
+test("linkedin needs keywords", async () => {
+  const r = await findJobs({ sources: [{ type: "linkedin" }] }, { now: () => NOW, fetchText: async () => "" });
+  assert.match(r.failed[0]!.error, /needs `include` keywords/);
+});
+
+test("recruitee, bamboohr, breezy, personio", async () => {
+  const r = await findJobs(
+    { sources: [{ type: "recruitee", board: "acme" }, { type: "bamboohr", board: "beta" }, { type: "breezy", board: "gamma" }, { type: "personio", board: "delta" }] },
+    {
+      now: () => NOW,
+      fetchText: async (u) => {
+        if (u === "https://acme.recruitee.com/api/offers/") return JSON.stringify({ offers: [{ title: "Ops Analyst", careers_url: "https://acme.recruitee.com/o/ops", location: "Pune, India", remote: true, published_at: day(3) }] });
+        if (u === "https://beta.bamboohr.com/careers/list") return JSON.stringify({ result: [{ id: "42", jobOpeningName: "Finance Analyst", location: { city: "Remote" }, atsLocation: { country: "India" }, isRemote: true }] });
+        if (u === "https://gamma.breezy.hr/json") return JSON.stringify([{ name: "Risk Analyst", url: "https://gamma.breezy.hr/p/1", published_date: day(4), location: { name: "Mumbai, IN", is_remote: false } }]);
+        if (u === "https://delta.jobs.personio.de/xml") return `<workzag-jobs><position><id>7</id><office>Remote</office><name>Data Analyst</name><createdAt>${day(5)}</createdAt></position></workzag-jobs>`;
+        throw new Error("unexpected " + u);
+      },
+    },
+  );
+  assert.equal(r.failed.length, 0, JSON.stringify(r.failed));
+  const byTitle = Object.fromEntries(r.jobs.map((j) => [j.title, j]));
+  assert.equal(byTitle["Ops Analyst"]!.remote, "Remote");
+  assert.equal(byTitle["Finance Analyst"]!.url, "https://beta.bamboohr.com/careers/42");
+  assert.equal(byTitle["Risk Analyst"]!.remote, "Onsite");
+  assert.equal(byTitle["Data Analyst"]!.url, "https://delta.jobs.personio.de/job/7");
+});
+
+test("subdomain boards reject unsafe slugs", async () => {
+  const r = await findJobs({ sources: [{ type: "recruitee", board: "evil.com/x" }, { type: "personio", board: "attacker.example" }] }, { now: () => NOW, fetchText: async () => "{}" });
+  assert.equal(r.failed.length, 2);
+});
+
+test("detectAts", () => {
+  assert.deepEqual(detectAts(`<script src="https://boards.greenhouse.io/embed/job_board/js?for=irely"></script>`), { type: "greenhouse", board: "irely" });
+  assert.deepEqual(detectAts(`<a href="https://job-boards.greenhouse.io/embed/x">x</a><a href="https://job-boards.greenhouse.io/vortexa/jobs/1">`), { type: "greenhouse", board: "vortexa" });
+  assert.deepEqual(detectAts(`[Careers](https://cargill.wd5.myworkdayjobs.com/en-US/Cargill_Careers)`), { type: "workday", board: "cargill.wd5/Cargill_Careers" });
+  assert.deepEqual(detectAts(`<iframe src="https://quoreka.bamboohr.com/careers"></iframe>`), { type: "bamboohr", board: "quoreka" });
+  assert.deepEqual(detectAts(`https://apply.workable.com/thesignalgroup/`), { type: "workable", board: "thesignalgroup" });
+  assert.equal(detectAts(`<a href="https://www.linkedin.com/company/x">LinkedIn</a>`), null);
+});
+
+test("auto: detects the ATS (reader fallback for blocked pages) and reports it in resolved", async () => {
+  const r = await findJobs(
+    { sources: [{ type: "auto", url: "https://example.com/careers" }] },
+    {
+      now: () => NOW,
+      fetchText: async (u) => {
+        if (u === "https://example.com/careers") throw Object.assign(new Error("Fetch failed (403)"), { status: 403 });
+        if (u.includes("greenhouse.io/v1/boards/acme/")) return JSON.stringify(GH);
+        throw new Error("unexpected " + u);
+      },
+      fetchReader: async () => "Join us! [Open roles](https://job-boards.greenhouse.io/acme)",
+    },
+  );
+  assert.deepEqual(r.resolved, [{ from: "https://example.com/careers", source: { type: "greenhouse", board: "acme" } }]);
+  assert.equal(r.counts.fetched, 3);
+  const none = await findJobs({ sources: [{ type: "auto", url: "https://example.com/c" }] }, { now: () => NOW, fetchText: async () => "<p>no jobs</p>", fetchReader: async () => "nothing" });
+  assert.match(none.failed[0]!.error, /No supported job system/);
+});

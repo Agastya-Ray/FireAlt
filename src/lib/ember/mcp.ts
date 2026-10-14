@@ -123,7 +123,14 @@ const TOOLS = [
       "teamtailor: board=slug or careers host (e.g. \"careers.argusmedia.com\"); reads /jobs.rss, falls back to the /jobs list. " +
       "successfactors (SAP career sites): url=site root (e.g. https://jobs.bunge.com, https://careers.ofi.com); `include` words become the site search. " +
       "jobvite: board=slug from https://jobs.jobvite.com/<board> (e.g. \"enverus\"). " +
-      "html: url=a server-rendered listing page (may contain {offset} or {page} to follow pages, max 5) + pattern=regex that job link hrefs match (e.g. url \"https://recruitment.macquarie.com/en_US/careers/SearchJobs/?jobOffset={offset}\", pattern \"JobDetail\\\\?jobId=\\\\d+\"). Best-effort: title/location/date are read from the markup around each link, so use a native type when one exists.",
+      "html: url=a server-rendered listing page (may contain {offset} or {page} to follow pages, max 5) + pattern=regex that job link hrefs match (e.g. url \"https://recruitment.macquarie.com/en_US/careers/SearchJobs/?jobOffset={offset}\", pattern \"JobDetail\\\\?jobId=\\\\d+\"). Best-effort: title/location/date are read from the markup around each link, so use a native type when one exists. " +
+      "auto: url=any company careers page; finds the job system it uses (Greenhouse, Lever, Ashby, Workable, SmartRecruiters, Workday, Jobvite, Teamtailor, Recruitee, BambooHR, Breezy, Personio), reads it, and returns it in `resolved` so you can save the native source. " +
+      "recruitee / bamboohr / breezy / personio: board=subdomain slug (https://<board>.recruitee.com, .bamboohr.com, .breezy.hr, .jobs.personio.de). " +
+      "Remote boards (no board needed): himalayas (board=optional country, e.g. \"India\"; `include` words are searched), jobicy (board=optional geo, e.g. \"india\", \"apac\"; first `include` word is the tag), workingnomads, remoteok. " +
+      "CTRM/ETRM boards: learnetrm (jobs.learnetrm.com, ~160 newest, location line like \"India · Remote · Permanent\"), etrmconnect (etrmconnect.com, links to LinkedIn). " +
+      "Indian boards: cutshort (url=optional cutshort.io listing, default remote jobs; shows pay in ₹), instahyre (`include` words are searched as designations). " +
+      "linkedin: public job search; board=location (default \"India\"); `include` words are the keywords (required); remoteOnly or locations [\"remote\"] adds LinkedIn's remote filter; postedWithinDays is passed to LinkedIn. " +
+      "Note: instahyre and bamboohr give no posting dates, so postedWithinDays drops their jobs.",
     inputSchema: {
       type: "object",
       additionalProperties: false,
@@ -137,17 +144,21 @@ const TOOLS = [
             properties: {
               type: {
                 type: "string",
-                enum: ["greenhouse", "lever", "ashby", "remotive", "wwr", "url", "workday", "talentbrew", "smartrecruiters", "workable", "teamtailor", "successfactors", "jobvite", "html"],
+                enum: [
+                  "greenhouse", "lever", "ashby", "remotive", "wwr", "url", "workday", "talentbrew", "smartrecruiters", "workable", "teamtailor",
+                  "successfactors", "jobvite", "html", "auto", "recruitee", "bamboohr", "breezy", "personio", "himalayas", "jobicy", "workingnomads",
+                  "remoteok", "learnetrm", "etrmconnect", "cutshort", "instahyre", "linkedin",
+                ],
               },
               board: {
                 type: "string",
                 description:
-                  "Company slug for greenhouse/lever/ashby/smartrecruiters/workable/jobvite; slug or host for teamtailor. For workday: \"<tenant>.<wdN>/<site>\".",
+                  "Company slug for greenhouse/lever/ashby/smartrecruiters/workable/jobvite/recruitee/bamboohr/breezy/personio; slug or host for teamtailor. For workday: \"<tenant>.<wdN>/<site>\". himalayas: country; jobicy: geo; linkedin: location.",
               },
               url: {
                 type: "string",
                 description:
-                  "JSON endpoint for type=url. talentbrew: listing page URL ending in /1. successfactors: careers site root. html: listing page URL (optional {offset}/{page}).",
+                  "JSON endpoint for type=url. talentbrew: listing page URL ending in /1. successfactors: careers site root. html: listing page URL (optional {offset}/{page}). auto: the company's careers page. cutshort: a cutshort.io listing page.",
               },
               pattern: { type: "string", description: "type=html only: regex (case-insensitive) that a job link's href must match." },
             },
@@ -163,7 +174,7 @@ const TOOLS = [
         details: {
           type: "boolean",
           description:
-            "Also return `summary` per job: the description lines about remote/location/experience/pay, read from the board API (Greenhouse, Lever, Ashby incl. pay, Remotive, WWR). Use it to verify jobs whose pages are JS-only or blocked.",
+            "Also return `summary` per job: the description lines about remote/location/experience/pay, read from the board API (Greenhouse, Lever, Ashby incl. pay, Remotive, WWR, Himalayas, Jobicy, Working Nomads, Remote OK, Recruitee). Use it to verify jobs whose pages are JS-only or blocked.",
         },
         limit: { type: "number", description: "Default 20, max 50." },
       },

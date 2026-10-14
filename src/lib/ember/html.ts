@@ -41,7 +41,19 @@ export type ParsedDoc = {
 };
 
 export function parseDocument(html: string, url: string): ParsedDoc {
-  const { document } = parseHTML(html);
+  // linkedom leaves documentElement null for an empty body or a bare fragment, which crashed later steps
+  // ("Cannot destructure property 'firstElementChild' of 'documentElement'"). Wrap such input in a document.
+  let document: ReturnType<typeof parseHTML>["document"] | null = null;
+  let usable = false;
+  try {
+    ({ document } = parseHTML(html));
+    usable = !!document.documentElement && !!document.body;
+  } catch {
+    usable = false;
+  }
+  if (!document || !usable) {
+    ({ document } = parseHTML(`<!doctype html><html><head></head><body>${html}</body></html>`));
+  }
   return { document: document as unknown as Document, url };
 }
 

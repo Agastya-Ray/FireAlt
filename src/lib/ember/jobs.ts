@@ -12,7 +12,21 @@ export type JobSourceType =
   | "teamtailor"
   | "successfactors"
   | "jobvite"
-  | "html";
+  | "html"
+  | "himalayas"
+  | "jobicy"
+  | "workingnomads"
+  | "remoteok"
+  | "learnetrm"
+  | "etrmconnect"
+  | "cutshort"
+  | "instahyre"
+  | "linkedin"
+  | "recruitee"
+  | "bamboohr"
+  | "breezy"
+  | "personio"
+  | "auto";
 
 export type JobSource = {
   type: JobSourceType;
@@ -55,19 +69,25 @@ export type JobsResult = {
   jobs: Job[];
   counts: { fetched: number; matched: number; returned: number };
   failed: Array<{ source: string; error: string }>;
+  /** type=auto only: the job system found on each careers page, ready to save as a native source. */
+  resolved?: Array<{ from: string; source: JobSource }>;
 };
 
 export type JobsDeps = {
   fetchText?: (url: string) => Promise<string>;
   /** POST a JSON body and return the response text (used by Workday). Injectable so tests stay offline. */
   postJson?: (url: string, body: unknown) => Promise<string>;
+  /** Fetch a page through the JS-rendering reader (Jina) as markdown. Used for sites that block direct fetches. */
+  fetchReader?: (url: string) => Promise<string>;
   now?: () => number;
 };
 
 type Io = {
   fetchText: (url: string) => Promise<string>;
   postJson: (url: string, body: unknown) => Promise<string>;
+  fetchReader: (url: string) => Promise<string>;
   now: number;
+  resolved: Array<{ from: string; source: JobSource }>;
 };
 
 const MAX_SOURCES = 25;
@@ -80,6 +100,19 @@ const DAY_MS = 86_400_000;
 async function defaultFetchText(url: string): Promise<string> {
   const { fetchPage } = await import("./fetch-page");
   const page = await fetchPage(url, { timeoutMs: TIMEOUT_MS, maxBytes: MAX_BODY_BYTES });
+  return page.body;
+}
+
+const READER_TIMEOUT_MS = 25_000;
+
+async function defaultFetchReader(url: string): Promise<string> {
+  if ((process.env.EMBER_RENDER ?? "jina").trim().toLowerCase() !== "jina") throw new Error("Reader fallback is disabled (EMBER_RENDER)");
+  const { fetchPage } = await import("./fetch-page");
+  const { assertPublicHttpUrl } = await import("./url-guard");
+  const target = assertPublicHttpUrl(url).toString();
+  const headers: Record<string, string> = { Accept: "text/plain", "X-Return-Format": "markdown" };
+  if (process.env.JINA_API_KEY) headers.Authorization = `Bearer ${process.env.JINA_API_KEY}`;
+  const page = await fetchPage(`https://r.jina.ai/${target}`, { timeoutMs: READER_TIMEOUT_MS, maxBytes: 4_000_000, headers });
   return page.body;
 }
 
@@ -166,7 +199,7 @@ function needBoard(src: JobSource): string {
 }
 
 export function sourceLabel(src: JobSource): string {
-  if (src.type === "url" || src.type === "talentbrew" || src.type === "successfactors" || src.type === "html") {
+  if (["url", "talentbrew", "successfactors", "html", "cutshort", "auto"].includes(src.type)) {
     return `${src.type}:${src.url ?? ""}`;
   }
   if (src.board) return `${src.type}:${src.board}`;
@@ -708,9 +741,7 @@ export function parseListing(html: string, pageUrl: string, linkRe: RegExp, labe
     const chunk = html.slice(info.chunkFrom, Math.min(nextOther ? nextOther.start : html.length, info.chunkFrom + 1500));
     let loc = classText(chunk, "location");
     if (!loc) {
-      const pieces = chunk
-        .split(/<[^>]*>/)
-        .map((x) => htmlText(x))
+      const pieces = textPieces(chunk)
         .filter((x) => x && x !== info.title && x.length < 120 && !SKIP_PIECE.test(x) && !dateFromText(x) && !GENERIC_LINK_TEXT.test(x));
       loc = opts.allPieces ? pieces.slice(0, 4).join(" | ") : (pieces[0] ?? "");
     }
@@ -786,6 +817,633 @@ async function fetchJobvite(src: JobSource, io: Io, label: string): Promise<Job[
   return jobs.map((j) => ({ ...j, company: b }));
 }
 
+// ---------------------------------------------------------------------------
+// Shared helpers for the feed / board adapters below.
+// ---------------------------------------------------------------------------
+const UNIT_MS: Record<string, number> = {
+  second: 1000,
+  minute: 60_000,
+  hour: 3_600_000,
+  day: DAY_MS,
+  week: 7 * DAY_MS,
+  month: 30 * DAY_MS,
+  year: 365 * DAY_MS,
+};
+
+/** "6 hours ago", "2 weeks ago", "30+ days ago", "Just now" -> ISO date relative to `now`. */
+export function relDate(text: string, now: number): string | null {
+  const t = text.toLowerCase();
+  const m = t.match(/(\d+)\+?\s*(second|minute|hour|day|week|month|year)s?\s+ago/);
+  if (m) return toIso(now - Number(m[1]) * (UNIT_MS[m[2]!] ?? 0));
+  if (/\b(just now|today|moments? ago|few (seconds|minutes) ago)\b/.test(t)) return toIso(now);
+  if (/\byesterday\b/.test(t)) return toIso(now - DAY_MS);
+  return null;
+}
+
+function payRange(min: unknown, max: unknown, currency: unknown, period?: unknown): string | null {
+  const lo = typeof min === "number" && min > 0 ? min : null;
+  const hi = typeof max === "number" && max > 0 ? max : null;
+  if (lo === null && hi === null) return null;
+  const range = lo !== null && hi !== null ? `${lo}-${hi}` : String(lo ?? hi);
+  return [range, s(currency), s(period)].filter(Boolean).join(" ");
+}
+
+/** Long "allowed countries" lists are collapsed, but India (and whether it is listed) is always kept visible. */
+function countriesLabel(list: string[]): string {
+  if (!list.length) return "Anywhere";
+  if (list.length <= 6) return list.join(", ");
+  const india = list.some((c) => /^india$/i.test(c));
+  return india ? `India + ${list.length - 1} other countries` : `${list.slice(0, 5).join(", ")} +${list.length - 5} more`;
+}
+
+function slugOk(b: string): string {
+  if (!/^[a-z0-9][a-z0-9_-]{0,80}$/i.test(b)) throw new Error(`Invalid board slug: ${b.slice(0, 40)}`);
+  return b;
+}
+
+// Himalayas (remote-only board). board = optional country filter (e.g. "India"); `include` words become q (max 3).
+// Search API: https://himalayas.app/jobs/api/search?q=&country=&page=N (20 per page).
+const HIMALAYAS_PAGES = 2;
+
+function normHimalayas(body: string, label: string, details: boolean): Job[] {
+  const data = rec(parseJson(body));
+  return arr(data.jobs).map((j) => {
+    const r = rec(j);
+    const countries = arr(r.locationRestrictions).map(s).filter(Boolean);
+    const pub = typeof r.pubDate === "number" ? r.pubDate * 1000 : r.pubDate;
+    return {
+      title: s(r.title),
+      company: s(r.companyName),
+      location: countriesLabel(countries),
+      remote: "Remote" as const,
+      url: s(r.applicationLink) || s(r.guid),
+      posted: toIso(pub),
+      pay: payRange(r.minSalary, r.maxSalary, r.currency, r.salaryPeriod),
+      source: label,
+      ...(details && typeof r.description === "string" ? { summary: summarize(r.description) } : {}),
+    };
+  });
+}
+
+async function fetchHimalayas(src: JobSource, req: JobsRequest, io: Io, label: string): Promise<Job[]> {
+  const country = src.board?.trim() ?? "";
+  const terms = clean(req.include).slice(0, MAX_TERMS);
+  if (!terms.length && !country) {
+    return normHimalayas(await io.fetchText("https://himalayas.app/jobs/api?limit=100"), label, req.details === true);
+  }
+  const out: Job[] = [];
+  const seen = new Set<string>();
+  for (const term of terms.length ? terms : [""]) {
+    for (let page = 1; page <= HIMALAYAS_PAGES; page++) {
+      const q = new URLSearchParams();
+      if (term) q.set("q", term);
+      if (country) q.set("country", country);
+      q.set("page", String(page));
+      const jobs = normHimalayas(await io.fetchText(`https://himalayas.app/jobs/api/search?${q}`), label, req.details === true).filter(
+        (j) => j.url && !seen.has(j.url),
+      );
+      if (!jobs.length) break;
+      jobs.forEach((j) => seen.add(j.url));
+      out.push(...jobs);
+    }
+  }
+  return out;
+}
+
+// Jobicy (remote-only). board = optional geo (e.g. "india", "apac", "emea"); the first `include` word becomes tag.
+function normJobicy(body: string, label: string, details: boolean): Job[] {
+  const data = rec(parseJson(body));
+  return arr(data.jobs).map((j) => {
+    const r = rec(j);
+    return {
+      title: decodeXml(s(r.jobTitle)),
+      company: decodeXml(s(r.companyName)),
+      location: s(r.jobGeo) || "Anywhere",
+      remote: "Remote" as const,
+      url: s(r.url),
+      posted: toIso(s(r.pubDate).replace(" ", "T")),
+      pay: payRange(r.salaryMin ?? r.annualSalaryMin, r.salaryMax ?? r.annualSalaryMax, r.salaryCurrency, r.salaryPeriod),
+      source: label,
+      ...(details && typeof r.jobDescription === "string" ? { summary: summarize(r.jobDescription) } : {}),
+    };
+  });
+}
+
+async function fetchJobicy(src: JobSource, req: JobsRequest, io: Io, label: string): Promise<Job[]> {
+  const geo = src.board?.trim().toLowerCase() ?? "";
+  const base = `https://jobicy.com/api/v2/remote-jobs?count=100${geo ? `&geo=${enc(geo)}` : ""}`;
+  const tag = clean(req.include)[0];
+  if (tag) {
+    try {
+      const jobs = normJobicy(await io.fetchText(`${base}&tag=${enc(tag)}`), label, req.details === true);
+      if (jobs.length) return jobs;
+    } catch {
+      /* fall back to the untagged feed */
+    }
+  }
+  return normJobicy(await io.fetchText(base), label, req.details === true);
+}
+
+// Working Nomads: https://www.workingnomads.com/api/exposed_jobs/ (one JSON array, remote-only).
+function normWorkingNomads(body: string, label: string, details: boolean): Job[] {
+  return arr(parseJson(body)).map((j) => {
+    const r = rec(j);
+    return {
+      title: s(r.title),
+      company: s(r.company_name),
+      location: s(r.location) || "Anywhere",
+      remote: "Remote" as const,
+      url: s(r.url),
+      posted: toIso(r.pub_date),
+      pay: null,
+      source: label,
+      ...(details && typeof r.description === "string" ? { summary: summarize(r.description) } : {}),
+    };
+  });
+}
+
+// Remote OK: https://remoteok.com/api (first element is a legal notice, not a job).
+function normRemoteOk(body: string, label: string, details: boolean): Job[] {
+  return arr(parseJson(body)).flatMap((j) => {
+    const r = rec(j);
+    if (!s(r.position) || !s(r.url)) return [];
+    return [
+      {
+        title: s(r.position),
+        company: s(r.company),
+        location: s(r.location) || "Anywhere",
+        remote: "Remote" as const,
+        url: s(r.url),
+        posted: toIso(r.date) ?? (typeof r.epoch === "number" ? toIso(r.epoch * 1000) : null),
+        pay: payRange(r.salary_min, r.salary_max, "USD"),
+        source: label,
+        ...(details && typeof r.description === "string" ? { summary: summarize(r.description) } : {}),
+      },
+    ];
+  });
+}
+
+// jobs.learnetrm.com: ETRM/CTRM-only board, server-rendered, 20 per page (?page=N). The job slug ends in a
+// base-36 millisecond timestamp (e.g. "...-mv6do581" = 2026-10-13), used as the posted date.
+const LEARNETRM_PAGES = 8;
+
+export function learnEtrmDate(url: string, now: number): string | null {
+  const m = url.match(/-([0-9a-z]{8})\/?$/);
+  if (!m) return null;
+  const t = parseInt(m[1]!, 36);
+  return t > Date.UTC(2015, 0, 1) && t < now + DAY_MS ? toIso(t) : null;
+}
+
+/** Text pieces of an HTML fragment, without svg/script/style noise or half-cut tags. */
+function textPieces(fragment: string): string[] {
+  return fragment
+    .replace(/<(svg|script|style)\b[\s\S]*?<\/\1>/gi, " ")
+    .replace(/<[^>]*$/, "")
+    .split(/<[^>]*>/)
+    .map((x) => htmlText(x))
+    .filter((x) => x && !x.includes("<") && !/^[·|•\u00b7-]+$/.test(x));
+}
+
+type Anchor = { url: string; inner: string; start: number; end: number };
+
+/** Anchors whose resolved href matches `linkRe`, in page order. */
+function anchors(html: string, pageUrl: string, linkRe: RegExp): Anchor[] {
+  const out: Anchor[] = [];
+  for (const m of html.matchAll(/<a\b[^>]*?href=(["'])(.*?)\1[^>]*>([\s\S]*?)<\/a>/gi)) {
+    let url: string;
+    try {
+      const u = new URL(decodeHtml(m[2] ?? ""), pageUrl);
+      u.hash = "";
+      url = u.toString();
+    } catch {
+      continue;
+    }
+    if (!linkRe.test(url)) continue;
+    const start = m.index ?? 0;
+    out.push({ url, inner: m[3] ?? "", start, end: start + m[0].length });
+  }
+  return out;
+}
+
+/** Groups anchors by URL. `before` = markup since the previous job's last link; `after` = markup until the next job. */
+function jobBlocks(html: string, list: Anchor[]): Array<{ url: string; anchors: Anchor[]; before: string; after: string }> {
+  const order: string[] = [];
+  const byUrl = new Map<string, Anchor[]>();
+  for (const a of list) {
+    if (!byUrl.has(a.url)) {
+      byUrl.set(a.url, []);
+      order.push(a.url);
+    }
+    byUrl.get(a.url)!.push(a);
+  }
+  return order.map((url, i) => {
+    const own = byUrl.get(url)!;
+    const first = own[0]!;
+    const prevUrl = order[i - 1];
+    const prevEnd = prevUrl ? Math.max(...byUrl.get(prevUrl)!.map((a) => a.end)) : Math.max(0, first.start - 1500);
+    const nextUrl = order[i + 1];
+    const nextStart = nextUrl ? byUrl.get(nextUrl)![0]!.start : html.length;
+    return {
+      url,
+      anchors: own,
+      before: html.slice(Math.max(prevEnd, first.start - 3000), first.start),
+      after: html.slice(first.end, Math.min(nextStart, first.end + 6000)),
+    };
+  });
+}
+
+export function parseLearnEtrm(html: string, pageUrl: string, now: number, label: string): Job[] {
+  const list = anchors(html, pageUrl, /learnetrm\.com\/jobs\/[a-z0-9-]+-[0-9a-z]{8}\/?$/i);
+  return jobBlocks(html, list).flatMap((b) => {
+    // The whole card may sit inside the link, or only the title: read the link's inner markup, then what follows.
+    const inner = b.anchors[0]!.inner;
+    const heading = htmlText(inner.match(/<h[1-6][^>]*>([\s\S]*?)<\/h[1-6]>/i)?.[1] ?? "");
+    const pieces = [...textPieces(inner), ...textPieces(b.after)];
+    const title = heading || pieces[0] || "";
+    if (!title) return [];
+    const rest = pieces.filter((p) => p !== title);
+    const where = rest.find((p) => p.includes("·")) ?? "";
+    const company = rest.find((p) => p !== where && !/^(platforms|commodities):/i.test(p)) ?? "";
+    const pay = rest.find((p) => /\b(USD|EUR|GBP|INR|SGD|AED|CHF)\b|\/yr|\/hr|per (year|annum|hour)/i.test(p)) ?? null;
+    return [{ title, company, location: where, remote: remoteFromText(where), url: b.url, posted: learnEtrmDate(b.url, now), pay, source: label }];
+  });
+}
+
+async function fetchLearnEtrm(io: Io, label: string): Promise<Job[]> {
+  const pages = await Promise.allSettled(
+    Array.from({ length: LEARNETRM_PAGES }, (_, i) => {
+      const url = `https://jobs.learnetrm.com/jobs${i ? `?page=${i + 1}` : ""}`;
+      return io.fetchText(url).then((html) => parseLearnEtrm(html, url, io.now, label));
+    }),
+  );
+  const first = pages[0];
+  if (first && first.status === "rejected") throw first.reason;
+  return pages.flatMap((p) => (p.status === "fulfilled" ? p.value : []));
+}
+
+// etrmconnect.com/jobs: ETRM/CTRM roles collected from LinkedIn (~60 per page). Each job is "<age> ago", a title
+// link to LinkedIn, then company and location, then an "Apply Now" link to the same URL.
+const AGE_RE = /\d+\+?\s*(?:second|minute|hour|day|week|month|year)s?\s+ago|just now|yesterday/gi;
+const AGE_ONE = new RegExp(`^(?:${AGE_RE.source})$`, "i");
+
+export function parseEtrmConnect(html: string, now: number, label: string): Job[] {
+  const pageUrl = "https://etrmconnect.com/jobs";
+  const list = anchors(html, pageUrl, /linkedin\.com\/jobs\/view\//i);
+  return jobBlocks(html, list).flatMap((b) => {
+    const title = b.anchors.map((a) => htmlText(a.inner)).find((t) => t && !/^apply now/i.test(t)) ?? "";
+    if (!title) return [];
+    const ages = [...htmlText(b.before).matchAll(AGE_RE)];
+    const pieces = textPieces(b.after).filter((x) => !/^apply now/i.test(x) && !AGE_ONE.test(x) && x !== title);
+    const loc = pieces[1] ?? "";
+    return [
+      {
+        title,
+        company: pieces[0] ?? "",
+        location: loc,
+        remote: remoteFromText(`${loc} ${title}`),
+        url: b.url,
+        posted: ages.length ? relDate(ages[ages.length - 1]![0], now) : null,
+        pay: null,
+        source: label,
+      },
+    ];
+  });
+}
+
+// Cutshort (Indian startup board). url = a server-rendered listing (default https://cutshort.io/jobs/remote-jobs).
+// Card: <h2><a href=".../job/...">Title</a></h2>, "at <a>Company</a>", then a meta line
+// "Remote only · 4 - 6 years · ₹10L - ₹12L / yr · ... · Posted 8 Oct 2026".
+export function parseCutshort(html: string, pageUrl: string, label: string): Job[] {
+  const list = anchors(html, pageUrl, /cutshort\.io\/job\/[^/?#]+/i).map((a) => ({ ...a, url: a.url.replace(/[?#].*$/, "") }));
+  return jobBlocks(html, list).flatMap((b) => {
+    const title = b.anchors.map((a) => htmlText(a.inner)).find(Boolean) ?? "";
+    if (!title) return [];
+    const chunk = b.after;
+    const company = htmlText(chunk.match(/<a\b[^>]*href=(["'])[^"']*\/company\/[^"']*\1[^>]*>([\s\S]*?)<\/a>/i)?.[2] ?? "");
+    // The meta line may be one text node or several spans; collect the pieces up to "Posted <date>".
+    const ps = textPieces(chunk);
+    const pi = ps.findIndex((p) => /\bposted\s+(on\s+)?\d/i.test(p));
+    const metaPieces = pi >= 0 ? ps.slice(Math.max(0, pi - 12), pi + 1) : ps.filter((p) => p.includes("·")).slice(0, 1);
+    const parts = metaPieces
+      .join(" · ")
+      .split("·")
+      .map((x) => x.trim())
+      .filter((x) => x && !/recruiters?$|^posted by\b|^at$/i.test(x) && x !== company);
+    const meta = parts.join(" · ");
+    const where =
+      parts.find((p) => /remote|hybrid|on-?site|in[- ]office|work from home|wfh/i.test(p)) ??
+      parts.find((p) => !/years?\b|₹|\$|€|£|bootstrapped|funded|series|raised|^posted\b/i.test(p)) ??
+      "";
+    const pay = parts.find((p) => /₹|\$|€|£|\bLPA\b/i.test(p)) ?? null;
+    const postedPart = parts.find((p) => /^posted\b/i.test(p)) ?? "";
+    return [
+      {
+        title,
+        company,
+        location: where,
+        remote: remoteFromText(meta || title),
+        url: b.url,
+        posted: dateFromText(postedPart),
+        pay,
+        source: label,
+      },
+    ];
+  });
+}
+
+async function fetchCutshort(src: JobSource, io: Io, label: string): Promise<Job[]> {
+  const url = src.url?.trim() || "https://cutshort.io/jobs/remote-jobs";
+  if (!/^https:\/\/(www\.)?cutshort\.io\//i.test(url)) throw new Error("cutshort url must be a cutshort.io page");
+  return parseCutshort(await io.fetchText(url), url, label);
+}
+
+// Instahyre (Indian board) public search API. `include` words become designation searches (max 3).
+function normInstahyre(body: string, label: string): Job[] {
+  const data = rec(parseJson(body));
+  return arr(data.objects).map((j) => {
+    const r = rec(j);
+    const loc = s(r.locations);
+    return {
+      title: s(r.title) || s(r.candidate_title),
+      company: s(rec(r.employer).company_name),
+      location: loc,
+      remote: remoteFromText(loc),
+      url: s(r.public_url),
+      posted: null,
+      pay: null,
+      source: label,
+    };
+  });
+}
+
+async function fetchInstahyre(req: JobsRequest, io: Io, label: string): Promise<Job[]> {
+  const base = "https://www.instahyre.com/api/v1/job_search?isLandingPage=true&limit=50";
+  const terms = clean(req.include).slice(0, MAX_TERMS);
+  if (!terms.length) return normInstahyre(await io.fetchText(base), label);
+  const out: Job[] = [];
+  for (const t of terms) out.push(...normInstahyre(await io.fetchText(`${base}&designations=${enc(t)}`), label));
+  return out;
+}
+
+// LinkedIn public (logged-out) job search: /jobs-guest/jobs/api/seeMoreJobPostings/search. board = location
+// (default "India"); `include` words become keywords (max 3); remote filter (f_WT=2) when remoteOnly or
+// locations has "remote"; postedWithinDays -> f_TPR. LinkedIn often blocks server IPs, so a blocked or empty
+// direct fetch is retried through the reader, whose markdown is parsed instead.
+const LINKEDIN_PAGES = 2;
+const LINKEDIN_PAGE = 10;
+
+function linkedInUrl(raw: string): string {
+  try {
+    const u = new URL(decodeHtml(raw));
+    return `${u.origin}${u.pathname}`.replace(/\/$/, "");
+  } catch {
+    return "";
+  }
+}
+
+function companyFromLinkedInUrl(url: string): string {
+  const m = url.match(/\/jobs\/view\/.*-at-([a-z0-9-]+?)-\d+$/i);
+  return m ? m[1]!.replace(/-/g, " ") : "";
+}
+
+export function parseLinkedInHtml(html: string, now: number, remoteFlag: boolean, label: string): Job[] {
+  const cards = html.split(/<li\b/i).slice(1);
+  return cards.flatMap((c) => {
+    const url = linkedInUrl(c.match(/href=(["'])(https:\/\/[a-z.]*linkedin\.com\/jobs\/view\/[^"']+)\1/i)?.[2] ?? "");
+    const title = classText(c, "base-search-card__title") || htmlText(c.match(/<h3\b[^>]*>([\s\S]*?)<\/h3>/i)?.[1] ?? "");
+    if (!url || !title) return [];
+    const company = classText(c, "base-search-card__subtitle") || companyFromLinkedInUrl(url);
+    const loc = classText(c, "job-search-card__location");
+    const dt = c.match(/<time\b[^>]*datetime=(["'])([^"']+)\1/i)?.[2];
+    return [
+      {
+        title,
+        company,
+        location: remoteFlag && loc ? `${loc} (LinkedIn: remote)` : loc,
+        remote: remoteFlag ? ("Remote" as const) : remoteFromText(loc),
+        url,
+        posted: toIso(dt) ?? relDate(htmlText(c), now),
+        pay: classText(c, "job-search-card__salary-info") || null,
+        source: label,
+      },
+    ];
+  });
+}
+
+export function parseLinkedInMarkdown(md: string, now: number, remoteFlag: boolean, label: string): Job[] {
+  const items = md.split(/\n\s*[*-]\s+(?=\[)/).slice(1);
+  return items.flatMap((it) => {
+    const link = it.match(/^\[([^\]]+)\]\((https:\/\/[a-z.]*linkedin\.com\/jobs\/view\/[^)\s]+)\)/i);
+    if (!link) return [];
+    const url = linkedInUrl(link[2]!);
+    const title = link[1]!.trim();
+    const company = it.match(/#{4}\s*\[([^\]]+)\]/)?.[1]?.trim() || companyFromLinkedInUrl(url);
+    const h3 = it.match(/(?<!#)#{3}(?!#)\s[^\n]*\n/);
+    const after = h3 ? it.slice((h3.index ?? 0) + h3[0].length) : it;
+    const tail = after.replace(/#{4}[^\n]*(\n|$)/g, " ").replace(/\s+/g, " ").trim();
+    const loc = tail.split(/\s{1,}(?=Actively Hiring|Be an early applicant|\d+\+?\s*\w+\s+ago|Just now)/i)[0]?.trim() ?? "";
+    return [
+      {
+        title,
+        company,
+        location: remoteFlag && loc ? `${loc} (LinkedIn: remote)` : loc,
+        remote: remoteFlag ? ("Remote" as const) : remoteFromText(loc),
+        url,
+        posted: relDate(tail, now),
+        pay: null,
+        source: label,
+      },
+    ];
+  });
+}
+
+async function fetchLinkedIn(src: JobSource, req: JobsRequest, io: Io, label: string): Promise<Job[]> {
+  const location = src.board?.trim() || "India";
+  const remote = req.remoteOnly === true || clean(req.locations).some((l) => l.toLowerCase() === "remote");
+  const terms = clean(req.include).slice(0, MAX_TERMS);
+  if (!terms.length) throw new Error("linkedin source needs `include` keywords");
+  const out: Job[] = [];
+  const seen = new Set<string>();
+  let lastErr: unknown = null;
+  let directBlocked = false;
+  for (const term of terms) {
+    for (let page = 0; page < LINKEDIN_PAGES; page++) {
+      const q = new URLSearchParams({ keywords: term, location, start: String(page * LINKEDIN_PAGE) });
+      if (remote) q.set("f_WT", "2");
+      if (req.postedWithinDays && req.postedWithinDays > 0) q.set("f_TPR", `r${Math.round(req.postedWithinDays * 86_400)}`);
+      const url = `https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?${q}`;
+      let jobs: Job[] = [];
+      if (!directBlocked) {
+        try {
+          jobs = parseLinkedInHtml(await io.fetchText(url), io.now, remote, label);
+        } catch (e) {
+          lastErr = e;
+          directBlocked = true; // LinkedIn blocks per IP; don't spend the time budget retrying direct.
+        }
+      }
+      if (!jobs.length) {
+        try {
+          jobs = parseLinkedInMarkdown(await io.fetchReader(url), io.now, remote, label);
+        } catch (e) {
+          lastErr = e;
+        }
+      }
+      jobs = jobs.filter((j) => !seen.has(j.url));
+      if (!jobs.length) break;
+      jobs.forEach((j) => seen.add(j.url));
+      out.push(...jobs);
+    }
+  }
+  if (!out.length && lastErr) throw lastErr;
+  return out;
+}
+
+// Recruitee: https://<board>.recruitee.com/api/offers/
+function normRecruitee(body: string, board: string, label: string, details: boolean): Job[] {
+  const data = rec(parseJson(body));
+  return arr(data.offers).map((j) => {
+    const r = rec(j);
+    const loc = s(r.location) || [s(r.city), s(r.country)].filter(Boolean).join(", ");
+    return {
+      title: s(r.title),
+      company: s(r.company_name) || board,
+      location: loc,
+      remote: r.remote === true ? ("Remote" as const) : remoteFromText(loc),
+      url: s(r.careers_url) || s(r.url),
+      posted: toIso(r.published_at ?? r.created_at),
+      pay: null,
+      source: label,
+      ...(details && typeof r.description === "string" ? { summary: summarize(r.description) } : {}),
+    };
+  });
+}
+
+// BambooHR: https://<board>.bamboohr.com/careers/list -> { result: [...] }; job page /careers/<id>.
+function normBambooHr(body: string, board: string, label: string): Job[] {
+  const data = rec(parseJson(body));
+  return arr(data.result).map((j) => {
+    const r = rec(j);
+    const l = rec(r.location);
+    const a = rec(r.atsLocation);
+    const loc = [s(l.city) || s(a.city), s(l.state) || s(a.state), s(a.country)].filter(Boolean).join(", ");
+    const remote: RemoteMode = r.isRemote === true || s(r.locationType) === "1" ? "Remote" : s(r.locationType) === "2" ? "Hybrid" : remoteFromText(loc);
+    return {
+      title: s(r.jobOpeningName),
+      company: board,
+      location: loc,
+      remote,
+      url: `https://${board}.bamboohr.com/careers/${s(r.id)}`,
+      posted: null,
+      pay: null,
+      source: label,
+    };
+  });
+}
+
+// Breezy HR: https://<board>.breezy.hr/json
+function normBreezy(body: string, board: string, label: string): Job[] {
+  return arr(parseJson(body)).map((j) => {
+    const r = rec(j);
+    const l = rec(r.location);
+    const loc = s(l.name);
+    return {
+      title: s(r.name),
+      company: s(rec(r.company).name) || board,
+      location: loc,
+      remote: l.is_remote === true ? ("Remote" as const) : remoteFromText(loc),
+      url: s(r.url),
+      posted: toIso(r.published_date),
+      pay: null,
+      source: label,
+    };
+  });
+}
+
+// Personio: https://<board>.jobs.personio.de/xml (board may also be a full host).
+function normPersonio(xml: string, host: string, label: string): Job[] {
+  const items = xml.match(/<position>[\s\S]*?<\/position>/gi) ?? [];
+  return items.map((it) => {
+    const office = tag(it, "office");
+    const id = tag(it, "id");
+    return {
+      title: tag(it, "name"),
+      company: host.split(".")[0] ?? host,
+      location: office,
+      remote: remoteFromText(office),
+      url: `https://${host}/job/${id}`,
+      posted: toIso(tag(it, "createdAt")),
+      pay: null,
+      source: label,
+    };
+  });
+}
+
+// ---------------------------------------------------------------------------
+// auto: url = any careers page. Reads the page (falling back to the reader for JS/blocked pages), finds the
+// job system it links to or embeds, and reads that board natively. The detected source is returned in
+// `resolved` so sweeps can store it and skip detection next time.
+// ---------------------------------------------------------------------------
+const JUNK_SLUGS = new Set(["embed", "api", "www", "static", "assets", "cdn", "app", "js", "v1", "jobs", "careers", "boards"]);
+
+type Detector = { re: RegExp; make: (m: RegExpMatchArray) => JobSource | null };
+
+const DETECTORS: Detector[] = [
+  { re: /greenhouse\.io\/embed\/job_board(?:\/js)?\?for=([A-Za-z0-9_-]+)/i, make: (m) => ({ type: "greenhouse", board: m[1]! }) },
+  { re: /(?:boards|job-boards)(?:\.eu)?\.greenhouse\.io\/([A-Za-z0-9_-]+)/i, make: (m) => ({ type: "greenhouse", board: m[1]! }) },
+  { re: /jobs\.(?:eu\.)?lever\.co\/([A-Za-z0-9_.-]+)/i, make: (m) => ({ type: "lever", board: m[1]! }) },
+  { re: /jobs\.ashbyhq\.com\/([A-Za-z0-9_.-]+)/i, make: (m) => ({ type: "ashby", board: m[1]! }) },
+  { re: /apply\.workable\.com\/([a-z0-9-]+)/i, make: (m) => ({ type: "workable", board: m[1]! }) },
+  { re: /(?:jobs|careers)\.smartrecruiters\.com\/([A-Za-z0-9]+)/i, make: (m) => ({ type: "smartrecruiters", board: m[1]! }) },
+  {
+    re: /([a-z0-9-]+)\.(wd\d+)\.myworkdayjobs\.com\/(?:[a-z]{2}-[A-Z]{2}\/)?([A-Za-z0-9_-]+)/,
+    make: (m) => ({ type: "workday", board: `${m[1]}.${m[2]}/${m[3]}` }),
+  },
+  { re: /jobs\.jobvite\.com\/([a-z0-9-]+)/i, make: (m) => ({ type: "jobvite", board: m[1]! }) },
+  { re: /([a-z0-9-]+)\.teamtailor\.com/i, make: (m) => ({ type: "teamtailor", board: m[1]! }) },
+  { re: /([a-z0-9-]+)\.recruitee\.com/i, make: (m) => ({ type: "recruitee", board: m[1]! }) },
+  { re: /([a-z0-9-]+)\.bamboohr\.com/i, make: (m) => ({ type: "bamboohr", board: m[1]! }) },
+  { re: /([a-z0-9-]+)\.breezy\.hr/i, make: (m) => ({ type: "breezy", board: m[1]! }) },
+  { re: /([a-z0-9-]+)\.jobs\.personio\.(?:de|com)/i, make: (m) => ({ type: "personio", board: m[1]! }) },
+];
+
+/** First supported job system referenced by a careers page (HTML or reader markdown), or null. */
+export function detectAts(page: string): JobSource | null {
+  for (const d of DETECTORS) {
+    for (const m of page.matchAll(new RegExp(d.re.source, d.re.flags.includes("g") ? d.re.flags : d.re.flags + "g"))) {
+      const src = d.make(m);
+      const slug = (src?.board ?? "").split(/[./]/)[0]!.toLowerCase();
+      if (src && slug && !JUNK_SLUGS.has(slug)) return src;
+    }
+  }
+  return null;
+}
+
+async function fetchAuto(src: JobSource, req: JobsRequest, io: Io): Promise<Job[]> {
+  const url = src.url?.trim();
+  if (!url) throw new Error("auto source needs a url (the company's careers page)");
+  new URL(url);
+  let found: JobSource | null = null;
+  try {
+    found = detectAts(await io.fetchText(url));
+  } catch {
+    /* blocked: try the reader */
+  }
+  if (!found) {
+    try {
+      found = detectAts(await io.fetchReader(url));
+    } catch {
+      /* reported below */
+    }
+  }
+  if (!found) {
+    throw new Error(
+      "No supported job system found on this page (looked for Greenhouse, Lever, Ashby, Workable, SmartRecruiters, Workday, Jobvite, Teamtailor, Recruitee, BambooHR, Breezy, Personio). Try type=html with a link pattern.",
+    );
+  }
+  io.resolved.push({ from: url, source: found });
+  return fetchSource(found, req, io);
+}
+
 async function fetchSource(src: JobSource, req: JobsRequest, io: Io): Promise<Job[]> {
   const fetchText = io.fetchText;
   const label = sourceLabel(src);
@@ -835,6 +1493,44 @@ async function fetchSource(src: JobSource, req: JobsRequest, io: Io): Promise<Jo
       return fetchJobvite(src, io, label);
     case "html":
       return fetchHtmlListing(src, io, label);
+    case "himalayas":
+      return fetchHimalayas(src, req, io, label);
+    case "jobicy":
+      return fetchJobicy(src, req, io, label);
+    case "workingnomads":
+      return normWorkingNomads(await fetchText("https://www.workingnomads.com/api/exposed_jobs/"), label, req.details === true);
+    case "remoteok":
+      return normRemoteOk(await fetchText("https://remoteok.com/api"), label, req.details === true);
+    case "learnetrm":
+      return fetchLearnEtrm(io, label);
+    case "etrmconnect":
+      return parseEtrmConnect(await fetchText("https://etrmconnect.com/jobs"), io.now, label);
+    case "cutshort":
+      return fetchCutshort(src, io, label);
+    case "instahyre":
+      return fetchInstahyre(req, io, label);
+    case "linkedin":
+      return fetchLinkedIn(src, req, io, label);
+    case "recruitee": {
+      const b = slugOk(needBoard(src));
+      return normRecruitee(await fetchText(`https://${enc(b)}.recruitee.com/api/offers/`), b, label, req.details === true);
+    }
+    case "bamboohr": {
+      const b = slugOk(needBoard(src));
+      return normBambooHr(await fetchText(`https://${enc(b)}.bamboohr.com/careers/list`), b, label);
+    }
+    case "breezy": {
+      const b = slugOk(needBoard(src));
+      return normBreezy(await fetchText(`https://${enc(b)}.breezy.hr/json`), b, label);
+    }
+    case "personio": {
+      const b = needBoard(src).toLowerCase();
+      if (b.includes(".") && !/^[a-z0-9-]+\.jobs\.personio\.(de|com)$/.test(b)) throw new Error("personio board must be a slug or <slug>.jobs.personio.de");
+      const host = b.includes(".") ? b : `${slugOk(b)}.jobs.personio.de`;
+      return normPersonio(await fetchText(`https://${host}/xml`), host, label);
+    }
+    case "auto":
+      return fetchAuto(src, req, io);
     case "url": {
       const u = src.url?.trim();
       if (!u) throw new Error("url source needs a url");
@@ -874,7 +1570,13 @@ export async function findJobs(req: JobsRequest, deps: JobsDeps = {}): Promise<J
   if (sources.length > MAX_SOURCES) throw Object.assign(new Error(`At most ${MAX_SOURCES} sources`), { code: "bad_request" });
 
   const now = (deps.now ?? Date.now)();
-  const io: Io = { fetchText: deps.fetchText ?? defaultFetchText, postJson: deps.postJson ?? defaultPostJson, now };
+  const io: Io = {
+    fetchText: deps.fetchText ?? defaultFetchText,
+    postJson: deps.postJson ?? defaultPostJson,
+    fetchReader: deps.fetchReader ?? defaultFetchReader,
+    now,
+    resolved: [],
+  };
   const limit = Math.min(50, Math.max(1, Math.floor(req.limit ?? 20)));
 
   const results: PromiseSettledResult<Job[]>[] = new Array(sources.length);
@@ -947,5 +1649,6 @@ export async function findJobs(req: JobsRequest, deps: JobsDeps = {}): Promise<J
     jobs,
     counts: { fetched: all.length, matched: scored.length, returned: jobs.length },
     failed,
+    ...(io.resolved.length ? { resolved: io.resolved } : {}),
   };
 }

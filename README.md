@@ -159,3 +159,15 @@ Job source types for `jobs` (`POST /api/v1/jobs` and the MCP tool):
 | `url` | `url` = JSON endpoint | `{ "type": "url", "url": "https://example.com/jobs.json" }` |
 
 Scrape/map/crawl/search do not need an LLM key. Extract does (`llmApiKey` + `llmProvider`, or `XAI_API_KEY` on the server).
+
+## Daily job sweep (GitHub Actions)
+
+`.github/workflows/daily-sweep.yml` runs `scripts/run-sweep.ts` every day at 00:30 IST (or on demand: Actions → Daily job sweep → Run workflow).
+
+1. Reads `companies.json` (the only list of sources; `verified:false` = slug not yet confirmed).
+2. Fetches each source with `findJobs` (`details:true`).
+3. Code filters (title, city, large-company on-site) in `src/lib/ember/sweep.ts`, then an LLM rubric (Groq → Gemini → `EMBER_LLM_KEYS`). Pay floors live in `SWEEP_RULES`.
+4. Dedups on `<ats>:<company>:<job id>`, re-checks open leads every 2 days, marks closed ones DEAD.
+5. Writes `open-leads.csv`, `leads.json` and `last-run.md` to the `leads-data` branch (open it on GitHub mobile). Vercel ignores that branch.
+
+Repo secrets (Settings → Secrets and variables → Actions): `GROQ_API_KEY` and/or `GEMINI_API_KEY` (required, at least one). Optional: `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` (run `supabase/schema.sql` first) to store leads in Supabase instead of `leads.json`.

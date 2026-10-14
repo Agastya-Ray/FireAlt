@@ -1,0 +1,474 @@
+{
+  "_note": "Single source of truth for the daily sweep. verified:false = slug taken from the board URL but not yet confirmed by a live run; failures appear in the run report.",
+  "searchKeywords": [
+    "analyst",
+    "operations",
+    "product",
+    "implementation",
+    "consultant",
+    "onboarding",
+    "solutions",
+    "strategy",
+    "revops",
+    "revenue operations",
+    "associate",
+    "specialist",
+    "chief of staff",
+    "research",
+    "pricing",
+    "commodity",
+    "ctrm",
+    "etrm",
+    "trade support",
+    "deals desk",
+    "graduate",
+    "liveops",
+    "economy",
+    "monetization",
+    "monetisation",
+    "advisory",
+    "market access",
+    "coordinator"
+  ],
+  "sources": [
+    {
+      "name": "Remotive",
+      "tier": "board",
+      "type": "remotive"
+    },
+    {
+      "name": "We Work Remotely",
+      "tier": "board",
+      "type": "wwr"
+    },
+    {
+      "name": "Arcesium",
+      "tier": "data_fintech",
+      "type": "greenhouse",
+      "board": "arcesiumllc"
+    },
+    {
+      "name": "FT Partners",
+      "tier": "data_fintech",
+      "type": "greenhouse",
+      "board": "financialtechnologypartners"
+    },
+    {
+      "name": "Numerix",
+      "tier": "data_fintech",
+      "type": "greenhouse",
+      "board": "numerix"
+    },
+    {
+      "name": "Affirm",
+      "tier": "data_fintech",
+      "type": "greenhouse",
+      "board": "affirm"
+    },
+    {
+      "name": "Stripe",
+      "tier": "data_fintech",
+      "type": "greenhouse",
+      "board": "stripe"
+    },
+    {
+      "name": "Brex",
+      "tier": "data_fintech",
+      "type": "greenhouse",
+      "board": "brex"
+    },
+    {
+      "name": "Coinbase",
+      "tier": "data_fintech",
+      "type": "greenhouse",
+      "board": "coinbase"
+    },
+    {
+      "name": "Twilio",
+      "tier": "remote_startup",
+      "type": "greenhouse",
+      "board": "twilio"
+    },
+    {
+      "name": "GitLab",
+      "tier": "remote_startup",
+      "type": "greenhouse",
+      "board": "gitlab"
+    },
+    {
+      "name": "Automattic",
+      "tier": "remote_startup",
+      "type": "greenhouse",
+      "board": "automatticcareers"
+    },
+    {
+      "name": "Remote.com",
+      "tier": "remote_startup",
+      "type": "greenhouse",
+      "board": "remote"
+    },
+    {
+      "name": "Razorpay",
+      "tier": "data_fintech",
+      "type": "greenhouse",
+      "board": "razorpaysoftwareprivatelimited"
+    },
+    {
+      "name": "Groww",
+      "tier": "data_fintech",
+      "type": "greenhouse",
+      "board": "groww"
+    },
+    {
+      "name": "Spire Maritime",
+      "tier": "data_fintech",
+      "type": "greenhouse",
+      "board": "spire"
+    },
+    {
+      "name": "Kpler",
+      "tier": "data_fintech",
+      "type": "lever",
+      "board": "kpler"
+    },
+    {
+      "name": "Drivetrain",
+      "tier": "remote_startup",
+      "type": "lever",
+      "board": "drivetrain"
+    },
+    {
+      "name": "CRED",
+      "tier": "remote_startup",
+      "type": "lever",
+      "board": "cred"
+    },
+    {
+      "name": "Meesho",
+      "tier": "remote_startup",
+      "type": "lever",
+      "board": "meesho"
+    },
+    {
+      "name": "Mindtickle",
+      "tier": "remote_startup",
+      "type": "lever",
+      "board": "mindtickle"
+    },
+    {
+      "name": "Zeta",
+      "tier": "remote_startup",
+      "type": "lever",
+      "board": "zeta"
+    },
+    {
+      "name": "Hevo",
+      "tier": "remote_startup",
+      "type": "lever",
+      "board": "hevodata"
+    },
+    {
+      "name": "Sprinto",
+      "tier": "remote_startup",
+      "type": "lever",
+      "board": "Sprinto"
+    },
+    {
+      "name": "Hotjar/Contentsquare",
+      "tier": "remote_startup",
+      "type": "lever",
+      "board": "contentsquare"
+    },
+    {
+      "name": "ION Group",
+      "tier": "data_fintech",
+      "type": "lever",
+      "board": "ion"
+    },
+    {
+      "name": "Atlan",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "atlan"
+    },
+    {
+      "name": "Mercury",
+      "tier": "data_fintech",
+      "type": "ashby",
+      "board": "mercury"
+    },
+    {
+      "name": "Ramp",
+      "tier": "data_fintech",
+      "type": "ashby",
+      "board": "ramp"
+    },
+    {
+      "name": "Airwallex",
+      "tier": "data_fintech",
+      "type": "ashby",
+      "board": "airwallex"
+    },
+    {
+      "name": "Deel",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "deel"
+    },
+    {
+      "name": "Zapier",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "zapier"
+    },
+    {
+      "name": "Plaid",
+      "tier": "data_fintech",
+      "type": "ashby",
+      "board": "plaid"
+    },
+    {
+      "name": "Vortexa",
+      "tier": "data_fintech",
+      "type": "url",
+      "url": "https://apply.workable.com/api/v1/widget/accounts/vortexa"
+    },
+    {
+      "name": "Signal Ocean",
+      "tier": "data_fintech",
+      "type": "url",
+      "url": "https://apply.workable.com/api/v1/widget/accounts/thesignalgroup"
+    },
+    {
+      "name": "Fastmarkets",
+      "tier": "data_fintech",
+      "type": "smartrecruiters",
+      "board": "fastmarkets"
+    },
+    {
+      "name": "Argus Media",
+      "tier": "data_fintech",
+      "type": "teamtailor",
+      "board": "careers.argusmedia.com"
+    },
+    {
+      "name": "Enverus",
+      "tier": "data_fintech",
+      "type": "jobvite",
+      "board": "enverus"
+    },
+    {
+      "name": "capSpire",
+      "tier": "data_fintech",
+      "type": "html",
+      "url": "https://capspire.com/careers/",
+      "pattern": "/jobs/[a-z]+/"
+    },
+    {
+      "name": "Oxane Partners",
+      "tier": "data_fintech",
+      "type": "html",
+      "url": "https://www.oxanepartners.com/open-positions",
+      "pattern": "zohorecruit\\.in/jobs/Careers/\\d+"
+    },
+    {
+      "name": "Molecule",
+      "tier": "remote_startup",
+      "type": "workable",
+      "board": "molecule"
+    },
+    {
+      "name": "Sparta Commodities",
+      "tier": "remote_startup",
+      "type": "workable",
+      "board": "sparta-commodities"
+    },
+    {
+      "name": "Toggl",
+      "tier": "remote_startup",
+      "type": "workable",
+      "board": "toggl-track-plan"
+    },
+    {
+      "name": "Doist",
+      "tier": "remote_startup",
+      "type": "workable",
+      "board": "doist"
+    },
+    {
+      "name": "Trafigura",
+      "tier": "enterprise_backup",
+      "type": "workday",
+      "board": "trafigura.wd3/TrafiguraCareerSite"
+    },
+    {
+      "name": "Gunvor",
+      "tier": "enterprise_backup",
+      "type": "workday",
+      "board": "gunvor.wd3/Gunvor_Careers"
+    },
+    {
+      "name": "Shell",
+      "tier": "enterprise_backup",
+      "type": "workday",
+      "board": "shell.wd3/ShellCareers"
+    },
+    {
+      "name": "BP",
+      "tier": "enterprise_backup",
+      "type": "workday",
+      "board": "bpinternational.wd3/bpCareers"
+    },
+    {
+      "name": "S&P Global",
+      "tier": "enterprise_backup",
+      "type": "workday",
+      "board": "spgi.wd5/SPGI_Careers"
+    },
+    {
+      "name": "ICIS (RELX)",
+      "tier": "enterprise_backup",
+      "type": "workday",
+      "board": "relx.wd3/relx"
+    },
+    {
+      "name": "BrowserStack",
+      "tier": "enterprise_backup",
+      "type": "workday",
+      "board": "browserstack.wd3/External"
+    },
+    {
+      "name": "Hitachi",
+      "tier": "enterprise_backup",
+      "type": "workday",
+      "board": "hitachi.wd1/hitachi"
+    },
+    {
+      "name": "Vitol",
+      "tier": "enterprise_backup",
+      "type": "smartrecruiters",
+      "board": "Vitol"
+    },
+    {
+      "name": "Louis Dreyfus",
+      "tier": "enterprise_backup",
+      "type": "smartrecruiters",
+      "board": "LouisDreyfusCompany"
+    },
+    {
+      "name": "Glencore early careers",
+      "tier": "enterprise_backup",
+      "type": "greenhouse",
+      "board": "glencorebaarwx"
+    },
+    {
+      "name": "Cargill",
+      "tier": "enterprise_backup",
+      "type": "talentbrew",
+      "url": "https://careers.cargill.com/en/category/trading-jobs/23251/8144240/1"
+    },
+    {
+      "name": "Bunge",
+      "tier": "enterprise_backup",
+      "type": "successfactors",
+      "url": "https://jobs.bunge.com"
+    },
+    {
+      "name": "ofi",
+      "tier": "enterprise_backup",
+      "type": "successfactors",
+      "url": "https://careers.ofi.com"
+    },
+    {
+      "name": "Macquarie",
+      "tier": "enterprise_backup",
+      "type": "html",
+      "url": "https://recruitment.macquarie.com/en_US/careers/SearchJobs/?jobOffset={offset}",
+      "pattern": "JobDetail\\?jobId=\\d+"
+    },
+    {
+      "name": "Precision AQ",
+      "tier": "data_fintech",
+      "type": "greenhouse",
+      "board": "precisionaq",
+      "verified": false
+    },
+    {
+      "name": "HighLevel",
+      "tier": "remote_startup",
+      "type": "lever",
+      "board": "gohighlevel",
+      "verified": false
+    },
+    {
+      "name": "AlphaSense",
+      "tier": "data_fintech",
+      "type": "greenhouse",
+      "board": "alphasenseindia",
+      "verified": false
+    },
+    {
+      "name": "JumpCloud",
+      "tier": "remote_startup",
+      "type": "lever",
+      "board": "jumpcloud",
+      "verified": false
+    },
+    {
+      "name": "PriceLabs",
+      "tier": "remote_startup",
+      "type": "workable",
+      "board": "pricelabs",
+      "verified": false
+    },
+    {
+      "name": "CertifyOS",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "certifyos",
+      "verified": false
+    },
+    {
+      "name": "YipitData",
+      "tier": "data_fintech",
+      "type": "greenhouse",
+      "board": "yipitdata",
+      "verified": false
+    },
+    {
+      "name": "phData",
+      "tier": "remote_startup",
+      "type": "greenhouse",
+      "board": "phdata",
+      "verified": false
+    },
+    {
+      "name": "Turnitin",
+      "tier": "remote_startup",
+      "type": "smartrecruiters",
+      "board": "TurnitinLLC",
+      "verified": false
+    },
+    {
+      "name": "Teikametrics",
+      "tier": "remote_startup",
+      "type": "greenhouse",
+      "board": "teikametrics",
+      "verified": false
+    },
+    {
+      "name": "Unifize",
+      "tier": "remote_startup",
+      "type": "workable",
+      "board": "unifize",
+      "verified": false
+    },
+    {
+      "name": "SmartestEnergy",
+      "tier": "data_fintech",
+      "type": "teamtailor",
+      "board": "smartestenergy",
+      "verified": false
+    }
+  ]
+}

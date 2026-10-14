@@ -1,0 +1,58 @@
+name: Daily job sweep
+
+on:
+  schedule:
+    - cron: "0 19 * * *" # 00:30 IST
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-sweep
+  cancel-in-progress: false
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Load previous results (branch leads-data)
+        run: |
+          if git ls-remote --exit-code --heads origin leads-data >/dev/null 2>&1; then
+            git fetch --depth 1 origin leads-data
+            git worktree add data origin/leads-data
+          else
+            mkdir -p data
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run sweep
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          EMBER_LLM_KEYS: ${{ secrets.EMBER_LLM_KEYS }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: npx --yes tsx@4.19.2 scripts/run-sweep.ts
+
+      - name: Save results to branch leads-data
+        if: always()
+        run: |
+          cd data
+          git config user.name "ember-sweep"
+          git config user.email "ember-sweep@users.noreply.github.com"
+          if [ ! -d .git ] && [ ! -f .git ]; then
+            git init -q -b leads-data
+            git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          else
+            git checkout -q -B leads-data
+          fi
+          git add -A
+          git commit -q -m "Sweep $(date -u +%Y-%m-%dT%H:%MZ)" || { echo "nothing to save"; exit 0; }
+          git push -q origin HEAD:leads-data

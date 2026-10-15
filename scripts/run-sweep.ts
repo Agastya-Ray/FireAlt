@@ -29,6 +29,8 @@ const DATA_DIR = process.env.SWEEP_DATA_DIR || "data";
 const MAX_LLM = Number(process.env.SWEEP_MAX_LLM || 150);
 const POSTED_DAYS = Number(process.env.SWEEP_POSTED_DAYS || 30);
 const LIVENESS_DAYS = 2;
+const LLM_GAP_MS = Number(process.env.SWEEP_LLM_GAP_MS || 4_000);
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const UA = "Mozilla/5.0 (compatible; EmberSweep/1.0; +https://fire-alt.vercel.app)";
 
 class FileLeadsStore implements LeadsStore {
@@ -132,8 +134,16 @@ async function main() {
 
   // 3. LLM rubric on new survivors (capped to protect free tiers; the rest wait for the next run).
   const toScore = candidates.length ? fresh.slice(0, MAX_LLM) : [];
-  const scored = await mapConcurrent(toScore, 2, async ({ job, src, id, bucket }) => {
-    const out = await scoreJobWithLlm(job, await jdText(job), src.tier, bucket, candidates);
+  // Free tiers allow ~15 requests/minute: score one job at a time, spaced out, and back off on 429.
+  const scored = await mapConcurrent(toScore, 1, async ({ job, src, id, bucket }) => {
+    const jd = await jdText(job);
+    let out = await scoreJobWithLlm(job, jd, src.tier, bucket, candidates);
+    for (const waitMs of [20_000, 60_000]) {
+      if (!/LLM failed: .*\b(429|5\d\d|timeout)\b/.test(out.flags)) break;
+      await sleep(waitMs);
+      out = await scoreJobWithLlm(job, jd, src.tier, bucket, candidates);
+    }
+    await sleep(LLM_GAP_MS);
     const row: LeadRow = {
       canonical_id: id,
       company: src.name || job.company,

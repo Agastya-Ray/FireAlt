@@ -1,15 +1,22 @@
-# Sweep 2026-10-15T07:57:18.493Z
+# Sweep 2026-10-15T08:33:23.265Z
 WARNING: No LLM key: set GROQ_API_KEY or GEMINI_API_KEY (or EMBER_LLM_KEYS) as repo secrets. New jobs were not scored.
-sources: 71, jobs fetched: 806, code-rejected: 691, new scored: 0, waiting (over cap): 115
+sources: 71, jobs fetched: 814, code-rejected: 700, new scored: 0, waiting (over cap): 114
 new verdicts: {}
 liveness re-checked: 0, closed: 0
 open leads total: 0
-failed sources (1):
-- HighLevel: Timed out fetching the page
+failed sources (8):
+- Vortexa: Fetch failed (429)
+- Signal Ocean: Fetch failed (429)
+- Molecule: Fetch failed (429)
+- Sparta Commodities: Fetch failed (429)
+- Toggl: Fetch failed (429)
+- Doist: Fetch failed (429)
+- PriceLabs: Fetch failed (429)
+- Unifize: Fetch failed (429)
 
 ## New PASS / PARK / HIGHPAY
 
-## Passed code filters, waiting for an LLM key (115)
+## Passed code filters, waiting for an LLM key (114)
 - Market Research Data Analyst - We Work Remotely | Anywhere in the World | https://weworkremotely.com/remote-jobs/baymard-institute-market-research-data-analyst
 - Billing Operations Analyst 1 - We Work Remotely | Anywhere in the World | https://weworkremotely.com/remote-jobs/twilio-billing-operations-analyst-1
 - Associate General Counsel, Privacy - We Work Remotely | Anywhere in the World | https://weworkremotely.com/remote-jobs/coinbase-associate-general-counsel-privacy
@@ -17,7 +24,7 @@ failed sources (1):
 - Product Specialist - UBOR - Arcesium | Bengaluru; Gurugram; Hyderabad | https://job-boards.greenhouse.io/arcesiumllc/jobs/5250105007
 - 2027 Summer Associate, Investment Banking (US) - FT Partners | San Francisco, New York | https://job-boards.greenhouse.io/financialtechnologypartners/jobs/8814930002
 - Comms Strategy & Operations Associate - Stripe | NYC, SF | https://stripe.com/jobs/search?gh_jid=8241857
-- GTM Strategy & Operations Analyst - Stripe | New York, NY | https://stripe.com/jobs/search?gh_jid=8145119
+- GTM Strategy & Operations Analyst - Stripe | Dublin | https://stripe.com/jobs/search?gh_jid=8195483
 - Monetization Operations Analyst - Stripe | IN - Bengaluru | https://stripe.com/jobs/search?gh_jid=8021192
 - Operations Associate - Product Support Operations (CDMX) - Stripe | MX- Mexico City | https://stripe.com/jobs/search?gh_jid=7981587
 - Product Strategy & Operations APAC - Stripe | Singapore | https://stripe.com/jobs/search?gh_jid=8081423
@@ -56,11 +63,11 @@ failed sources (1):
 - Operations Associate, Financial Crimes EDD/PEP - Stripe | Mexico City | https://stripe.com/jobs/search?gh_jid=7202953
 - Operations Associate - Managed Support (Includes Weekend Rotation) - Stripe | Mexico City | https://stripe.com/jobs/search?gh_jid=8093103
 - Operations Associate, New Grad (Mexico) - Stripe | Mexico City, Mexico | https://stripe.com/jobs/search?gh_jid=7544547
-- Implementation Consultant I, Commercial - Brex | Salt Lake City, Utah, United States | https://www.brex.com/careers/8536986002?gh_jid=8536986002
+- Implementation Consultant I, Commercial - Brex | Vancouver, British Columbia, Canada | https://www.brex.com/careers/8536988002?gh_jid=8536988002
 - Solutions Consultant - Brex | Seattle, Washington, United States | https://www.brex.com/careers/8536526002?gh_jid=8536526002
 - Startup Partnerships Associate - Brex | San Francisco, California, United States | https://www.brex.com/careers/8864643002?gh_jid=8864643002
 - Venture Partnerships Associate - Brex | San Francisco, California, United States | https://www.brex.com/careers/8864648002?gh_jid=8864648002
-- Finance Associate - Brex | San Francisco, California, United States | https://www.brex.com/careers/8606210002?gh_jid=8606210002
+- Finance Associate - Brex | New York, New York, United States | https://www.brex.com/careers/8606825002?gh_jid=8606825002
 - Finance & Strategy Analyst, Product - Coinbase | Remote - USA | https://www.coinbase.com/careers/positions/8250032?gh_jid=8250032
 - Broker Dealer Operations, Associate - Coinbase | Remote - USA | https://www.coinbase.com/careers/positions/8248775?gh_jid=8248775
 - Associate General Counsel, EU Legal - Coinbase | Hybrid - Luxembourg | https://www.coinbase.com/careers/positions/8265422?gh_jid=8265422
@@ -74,12 +81,13 @@ failed sources (1):
 - Compliance Operations Specialist 1 - Twilio | Remote - Colombia | https://job-boards.greenhouse.io/twilio/jobs/8197328
 - Fast Track Operations Specialist 2 - Twilio | Remote - Colombia | https://job-boards.greenhouse.io/twilio/jobs/8097524
 - Phone Number Operations Specialist - Twilio | Remote - Estonia | https://job-boards.greenhouse.io/twilio/jobs/8235979
-- Phone Numbers Operations Specialist 1 - Twilio | Remote - Colombia | https://job-boards.greenhouse.io/twilio/jobs/8120421
+- Phone Numbers Operations Specialist 1 - Twilio | Remote - Colombia | https://job-boards.greenhouse.io/twilio/jobs/8261277
 - Associate Revenue Operations Manager, India - GitLab | Remote, India | https://job-boards.greenhouse.io/gitlab/jobs/8859694002
 - Tech Operations Specialist - GitLab | Remote, United States | https://job-boards.greenhouse.io/gitlab/jobs/8638246002
 - Chief of Staff, CRO - GitLab | Remote, United States | https://job-boards.greenhouse.io/gitlab/jobs/8700245002
 - Solutions Consultant - Razorpay | Malaysia | https://job-boards.greenhouse.io/razorpaysoftwareprivatelimited/jobs/4721391005
 - Technical Consultant - Razorpay | Bengaluru | https://job-boards.greenhouse.io/razorpaysoftwareprivatelimited/jobs/4738819005
+- Associate - Operations - Meesho | Bangalore, Karnataka | https://jobs.lever.co/meesho/f8bdf9a3-74a5-441d-b0b3-9eac7b9836ad
 - Product Manager I - Meesho | Bangalore, Karnataka | https://jobs.lever.co/meesho/4891a891-f431-4e98-99ae-0e31a21f0190
 - Product Manager I - Zeta | Bangalore - EC | https://jobs.lever.co/zeta/8623c195-f912-4d87-952f-7114cd258413
 - Associate Customer Experience Engineer - Hevo | Pune, Maharashtra | https://jobs.lever.co/hevodata/96993ebc-609a-4733-84cd-e1a0c3e69fda
@@ -108,12 +116,10 @@ failed sources (1):
 - Consultant, Market Access - Precision AQ | New York, NY, USA | https://job-boards.greenhouse.io/precisionaq/jobs/6002582004
 - Product Analyst - Precision AQ | Remote, India | https://job-boards.greenhouse.io/precisionaq/jobs/6208381004
 - Strategic Account Associate, Medical Communications - Precision AQ | Remote, United States | https://job-boards.greenhouse.io/precisionaq/jobs/6208905004
-- Business Analyst II - AlphaSense | Bengaluru | https://job-boards.greenhouse.io/alphasenseindia/jobs/8857605002
+- Revenue Operations Analyst II - HighLevel | India | https://jobs.lever.co/gohighlevel/ba929ad2-f1b4-4ee7-bdb8-e01b74b3969b
+- Business Analyst II - AlphaSense | Delhi | https://job-boards.greenhouse.io/alphasenseindia/jobs/8857587002
 - Product Manager I - AlphaSense | Remote - India | https://job-boards.greenhouse.io/alphasenseindia/jobs/8782988002
 - Implementation Consultant  - Brazil - JumpCloud | São Paulo, Brazil - Remote | https://jobs.lever.co/jumpcloud/4752b1c4-9cdc-4e2d-9f7b-cccb449ab9e2
-- Solutions Consultant - Mid Market, LatAm - PriceLabs | Mexico | https://apply.workable.com/j/B1296A9477
-- Solutions Consultant - Brazil (Remote) - PriceLabs | Brazil | https://apply.workable.com/j/240E1B950E
-- Product Specialist - Europe (French/Spanish/Portuguese/Italian) (Remote) - PriceLabs | Malaga, Spain | https://apply.workable.com/j/3D9FC12BB2
 - Operations Analyst, India - CertifyOS | Pune, India | https://jobs.ashbyhq.com/certifyos/759dbd75-07dd-4e64-adf0-7ed47104c605
 - Client Success Associate - CertifyOS | Bengaluru, India | https://jobs.ashbyhq.com/certifyos/ef0337a5-2e69-48ec-b6f4-a696d4770ff8
 - Product Development Associate (US) - YipitData | remote | https://job-boards.greenhouse.io/yipitdata/jobs/8074621

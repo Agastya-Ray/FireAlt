@@ -77,7 +77,7 @@ Server env vars (Vercel → Project → Settings → Environment Variables):
 Example `EMBER_LLM_KEYS` (paste as one line):
 
 ```json
-[{"provider":"google","key":"AIza..."},{"provider":"groq","key":"gsk_...","model":"llama-3.3-70b-versatile"},{"provider":"custom","key":"sk-...","baseUrl":"https://api.example.com/v1","model":"some-model"}]
+[{"provider":"google","key":"AIza..."},{"provider":"groq","key":"gsk_...","model":"openai/gpt-oss-20b"},{"provider":"custom","key":"sk-...","baseUrl":"https://api.example.com/v1","model":"some-model"}]
 ```
 
 `scrape`, `batch_scrape` and `/api/v1/scrape` accept `render: true` to force the Jina Reader path.

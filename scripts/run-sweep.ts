@@ -112,6 +112,12 @@ async function main() {
     if (seenThisRun.has(id)) continue;
     seenThisRun.add(id);
     const prev = known.get(id);
+    // A lead whose scoring failed (bad key, retired model) gets scored again instead of staying CHECK forever.
+    if (prev && prev.flags.includes("LLM failed") && candidates.length) {
+      const f = filterJobInCode(job, src.tier);
+      if (f.pass) fresh.push({ job, src, id, bucket: f.locationBucket });
+      continue;
+    }
     if (prev) {
       if (prev.verdict !== "DEAD") touched.push({ ...prev, last_checked: nowIso });
       continue;

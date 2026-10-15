@@ -41,7 +41,7 @@ export const PROVIDERS: Record<LlmProviderId, ProviderDef> = {
     label: "Google Gemini",
     kind: "google",
     baseUrl: "https://generativelanguage.googleapis.com/v1beta",
-    defaultModel: "gemini-2.0-flash",
+    defaultModel: "gemini-flash-lite-latest",
     hint: "AI Studio / Gemini API key.",
   },
   groq: {
@@ -49,7 +49,7 @@ export const PROVIDERS: Record<LlmProviderId, ProviderDef> = {
     label: "Groq",
     kind: "openai",
     baseUrl: "https://api.groq.com/openai/v1",
-    defaultModel: "llama-3.3-70b-versatile",
+    defaultModel: "openai/gpt-oss-20b",
     hint: "OpenAI-compatible, very fast.",
   },
   mistral: {

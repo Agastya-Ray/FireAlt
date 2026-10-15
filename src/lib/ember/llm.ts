@@ -84,6 +84,7 @@ async function chatOpenAi(opts: {
   maxTokens: number;
 }): Promise<string> {
   const base = opts.baseUrl.replace(/\/$/, "");
+  const reasoning = /gpt-oss/i.test(opts.model);
   const res = await fetch(`${base}/chat/completions`, {
     method: "POST",
     signal: AbortSignal.timeout(LLM_TIMEOUT_MS),
@@ -94,7 +95,9 @@ async function chatOpenAi(opts: {
     body: JSON.stringify({
       model: opts.model,
       temperature: 0,
-      max_tokens: opts.maxTokens,
+      // gpt-oss models reason before answering and the reasoning counts against max_tokens.
+      max_tokens: reasoning ? opts.maxTokens + 2048 : opts.maxTokens,
+      ...(reasoning ? { reasoning_effort: "low" } : {}),
       messages: [
         {
           role: "system",

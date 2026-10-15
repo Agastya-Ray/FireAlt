@@ -172,13 +172,13 @@ export function filterJobInCode(
 // STAGE 2: LLM RUBRIC
 // ---------------------------------------------------------------------------
 
-/** Groq first (fast free tier), then Gemini, then the EMBER_LLM_KEYS pool. Provider default models are used. */
+/** Gemini first (largest free daily quota), then Groq, then the EMBER_LLM_KEYS pool. Provider default models are used. */
 export function buildCandidateKeys(env: Record<string, string | undefined> = process.env): LlmCandidate[] {
   const candidates: LlmCandidate[] = [];
-  const groq = env.GROQ_API_KEY?.trim();
-  if (groq) candidates.push({ provider: "groq", key: groq });
   const gemini = env.GEMINI_API_KEY?.trim();
   if (gemini) candidates.push({ provider: "google", key: gemini });
+  const groq = env.GROQ_API_KEY?.trim();
+  if (groq) candidates.push({ provider: "groq", key: groq });
   for (const stored of parseStoredKeys(env.EMBER_LLM_KEYS)) {
     if (!candidates.some((c) => c.key === stored.key)) candidates.push(stored);
   }

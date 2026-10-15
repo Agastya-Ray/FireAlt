@@ -2,7 +2,7 @@ name: Daily job sweep
 
 on:
   schedule:
-    - cron: "0 19 * * *" # 00:30 IST
+    - cron: "5 18 * * *" # 23:35 IST
   workflow_dispatch: {}
 
 permissions:

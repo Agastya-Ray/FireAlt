@@ -29,7 +29,7 @@
   "source": "wwr",
   "posted": "2026-10-11",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "wwr:coinbase:weworkremotely-com-remote-jobs-coinbase-associate-general-counsel-privacy",
@@ -61,7 +61,7 @@
   "source": "wwr",
   "posted": "2026-10-12",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:arcesiumllc:5250105007",
@@ -77,7 +77,7 @@
   "source": "greenhouse:arcesiumllc",
   "posted": "2026-09-28",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:financialtechnologypartners:8814930002",
@@ -359,13 +359,13 @@
   "location": "Mexico City",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:503)",
+  "verdict": "DEAD",
+  "why": "Candidate is based in India and the role is an onsite position in Mexico City with no remote option or pay stated, making it ineligible.",
+  "flags": "DEAD",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:stripe:7967890",
@@ -375,13 +375,13 @@
   "location": "Mexico City",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:503)",
+  "verdict": "DEAD",
+  "why": "Candidate is based in India and the role is a non-remote position in Mexico City with no pay stated, making it ineligible.",
+  "flags": "DEAD",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:stripe:7994945",
@@ -455,13 +455,13 @@
   "location": "Bengaluru",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "The job requires 7-14 years of experience, which exceeds Swastik's ~6 months of experience.",
+  "flags": "Experience required (7-14 years) exceeds candidate profile (~6 months)",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8231575",
@@ -471,13 +471,13 @@
   "location": "SF, SEA, CHI, NYC",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role requires 4-6 years of experience which exceeds the candidate's ~6 months, and is an onsite foreign role without EOR indication.",
+  "flags": "Experience > 3 yrs",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8249865",
@@ -485,15 +485,15 @@
   "role": "Finance & Strategy, Corporate Finance Analyst",
   "url": "https://stripe.com/jobs/search?gh_jid=8249865",
   "location": "New York, NY",
-  "pay": "UNKNOWN",
-  "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "pay": "$122,400 - $183,600/yr",
+  "pay_source": "stated",
+  "verdict": "DEAD",
+  "why": "Requires 4 years of experience which exceeds the 2-year eligibility limit and is an onsite role in New York without India hiring provisions.",
+  "flags": "Requires 4 years experience | Onsite in New York",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8076652",
@@ -503,13 +503,13 @@
   "location": "Bengaluru",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role requires Mandarin speaking skills which is explicitly prohibited in the profile constraints.",
+  "flags": "Mandarin Speaking required",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8066310",
@@ -519,13 +519,13 @@
   "location": "Bengaluru",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role is an office position in Bengaluru, and pay is not stated to check against the Rs 1,20,000/month floor.",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8179347",
@@ -535,13 +535,13 @@
   "location": "Sydney",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role requires 6+ years of experience which exceeds Swastik's ~6 months, and is based in Sydney, Australia.",
+  "flags": "Experience > 3 yrs | Foreign non-remote location",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8203977",
@@ -551,13 +551,13 @@
   "location": "Chicago, Toronto",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role is onsite in Chicago or Toronto with 6+ years experience required, exceeding Swastik's ~6 months and India location constraints.",
+  "flags": "Foreign non-remote without contractor/EOR mention | Experience required (6+ years) exceeds profile (~6 months)",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8175818",
@@ -567,13 +567,13 @@
   "location": "Singapore",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role is onsite in Singapore requiring 6+ years of experience, exceeding the maximum of 2 years.",
+  "flags": "Requires 6+ years experience|Onsite in Singapore without EOR/contractor mention for India",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:stripe:7393071",
@@ -583,13 +583,13 @@
   "location": "Mexico",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role requires being based in the Mexico City office without India remote eligibility.",
+  "flags": "Foreign non-remote role outside India eligibility",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8022463",
@@ -599,13 +599,13 @@
   "location": "Mexico City",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role is based on-site in Mexico City and does not support remote work from India for this profile.",
+  "flags": "Culture risk: fast-paced | Location mismatch: Mexico City",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8230274",
@@ -615,13 +615,13 @@
   "location": "N/A",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role requires 2-4 years experience which exceeds his ~6 months, is foreign non-remote without contractor/EOR mention for India, and location is Noida/Mumbai/Nagpr rule or general foreign non-remote exclusion.",
+  "flags": "Experience required exceeds profile",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8244505",
@@ -631,13 +631,13 @@
   "location": "SEA",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role is located in SEA without remote or India hiring confirmation, making it ineligible for India.",
+  "flags": "Foreign location without India hiring option",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8131339",
@@ -647,13 +647,13 @@
   "location": "Bengaluru",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role is located in Bengaluru (india_office) with no pay stated, and Noida, Mumbai, and Nagpur locations are dead per instructions.",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:stripe:7955051",
@@ -663,13 +663,13 @@
   "location": "Mexico City",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "The role is onsite in Mexico City, which does not qualify as a valid foreign non-remote opportunity for an India-based candidate without EOR or remote startup criteria.",
+  "flags": "Onsite in Mexico City | Not remote from India",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8014995",
@@ -679,13 +679,13 @@
   "location": "Mexico City",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role requires being onsite in Mexico City which does not match India location rules.",
+  "flags": "Foreign non-remote without India contractor/EOR provision",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:stripe:7202953",
@@ -695,13 +695,13 @@
   "location": "Mexico City",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Location is Mexico City for a foreign non-remote role requiring 2+ years of specific financial crimes experience, which does not match Swastik's profile.",
+  "flags": "Office role outside India",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8093103",
@@ -711,13 +711,13 @@
   "location": "Mexico City",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role requires being onsite in Mexico City which violates foreign non-remote criteria.",
+  "flags": "Requires relocation to Mexico City",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:stripe:7544547",
@@ -727,13 +727,13 @@
   "location": "Mexico City, Mexico",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Candidate is based in India and the role requires onsite presence in Mexico City, which disqualifies them.",
+  "flags": "DEAD",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:brex:8536986002",
@@ -757,15 +757,15 @@
   "role": "Solutions Consultant",
   "url": "https://www.brex.com/careers/8536526002?gh_jid=8536526002",
   "location": "Seattle, Washington, United States",
-  "pay": "UNKNOWN",
-  "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "pay": "$155,488 to $194,360 OTE",
+  "pay_source": "stated",
+  "verdict": "DEAD",
+  "why": "Role requires 3-6+ years of experience and is based in Seattle without India remote eligibility.",
+  "flags": "Experience > 3 yrs",
   "source": "greenhouse:brex",
   "posted": "2026-09-23",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:brex:8864643002",
@@ -775,13 +775,13 @@
   "location": "San Francisco, California, United States",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role requires sales quota, 3+ years of experience, and is based in San Francisco without India contracting options.",
+  "flags": "Sales quota | 3+ years experience | Foreign non-remote location",
   "source": "greenhouse:brex",
   "posted": "2026-10-02",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:brex:8864648002",
@@ -791,13 +791,13 @@
   "location": "San Francisco, California, United States",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role requires 3+ years of experience and sales quota, and is based in San Francisco without India remote eligibility.",
+  "flags": "Experience > 2 years|Sales quota / BD / SDR / BDR / cold calling",
   "source": "greenhouse:brex",
   "posted": "2026-10-02",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:brex:8606210002",
@@ -823,13 +823,13 @@
   "location": "Remote - USA",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "The JD states the role is remote-first in the USA and does not confirm eligibility to work fully remote from India.",
+  "flags": "Remote from India not confirmed | Experience 2-4 years exceeds 2 year ceiling",
   "source": "greenhouse:coinbase",
   "posted": "2026-10-13",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:coinbase:8248775",
@@ -840,12 +840,12 @@
   "pay": "UNKNOWN",
   "pay_source": "none",
   "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "why": "Candidate meets experience and skill requirements, but JD does not confirm eligibility for remote work from India and pay is not stated",
+  "flags": "",
   "source": "greenhouse:coinbase",
   "posted": "2026-10-13",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:coinbase:8265422",
@@ -855,13 +855,13 @@
   "location": "Hybrid - Luxembourg",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role requires a qualified lawyer with 7+ years of relevant experience, which does not match the candidate's profile.",
+  "flags": "Not remote from India for foreign location|Experience exceeds 2 years|Not an engineering or product analyst role",
   "source": "greenhouse:coinbase",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:coinbase:8212923",
@@ -871,13 +871,13 @@
   "location": "Remote - UK",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role requires 8+ years experience as a practicing attorney which exceeds the candidate's experience, and is remote for the UK without India eligibility.",
+  "flags": "Experience exceeds limit: 8+ years required|Remote location mismatch: UK only",
   "source": "greenhouse:coinbase",
   "posted": "2026-10-13",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:coinbase:8131316",
@@ -885,15 +885,15 @@
   "role": "Chief of Staff",
   "url": "https://www.coinbase.com/careers/positions/8131316?gh_jid=8131316",
   "location": "Remote - USA",
-  "pay": "UNKNOWN",
-  "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "pay": "$212,330 — $249,800 USD",
+  "pay_source": "stated",
+  "verdict": "DEAD",
+  "why": "Role requires 7+ years of experience which exceeds the candidate's ~6 months, and remote location is restricted to the USA.",
+  "flags": "Experience > 3 yrs|Remote location restricted to USA",
   "source": "greenhouse:coinbase",
   "posted": "2026-10-13",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:coinbase:8224726",
@@ -903,13 +903,13 @@
   "location": "Remote - UK",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Experience requirement of 4+ years exceeds the maximum eligible limit of 2 years.",
+  "flags": "Experience > 3 yrs",
   "source": "greenhouse:coinbase",
   "posted": "2026-10-13",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:coinbase:8238576",
@@ -919,13 +919,13 @@
   "location": "Remote - USA",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "The JD states the role is remote-first in the USA and does not confirm remote eligibility from India.",
+  "flags": "JD says remote only in another country / USA",
   "source": "greenhouse:coinbase",
   "posted": "2026-10-13",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:twilio:8261279",
@@ -936,12 +936,12 @@
   "pay": "UNKNOWN",
   "pay_source": "none",
   "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "why": "Role is remote from India but pay is not stated, requiring confirmation of compensation band.",
+  "flags": "Pay UNKNOWN - ask band",
   "source": "greenhouse:twilio",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:twilio:8261245",
@@ -952,12 +952,12 @@
   "pay": "UNKNOWN",
   "pay_source": "none",
   "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "why": "Remote role with no pay stated and unclear eligibility for India",
+  "flags": "",
   "source": "greenhouse:twilio",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:twilio:8185918",
@@ -967,13 +967,13 @@
   "location": "Remote - Estonia",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "The job is located in Estonia and does not confirm eligibility to work remotely from India.",
+  "flags": "Pay UNKNOWN - ask band",
   "source": "greenhouse:twilio",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:twilio:8197328",
@@ -983,13 +983,13 @@
   "location": "Remote - Colombia",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Job is restricted to Colombia based on location metadata, making it ineligible for a candidate in India.",
+  "flags": "JD says remote only in another country",
   "source": "greenhouse:twilio",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:twilio:8097524",
@@ -999,13 +999,13 @@
   "location": "Remote - Colombia",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "PARK",
+  "why": "Remote eligibility from India not confirmed in JD, pay not stated",
+  "flags": "Pay UNKNOWN - ask band",
   "source": "greenhouse:twilio",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:twilio:8235979",
@@ -1015,13 +1015,13 @@
   "location": "Remote - Estonia",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "The role is located in Estonia and the JD does not confirm remote eligibility from India.",
+  "flags": "",
   "source": "greenhouse:twilio",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:twilio:8120421",
@@ -1048,12 +1048,12 @@
   "pay": "UNKNOWN",
   "pay_source": "none",
   "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "why": "Early-career operations role fits Swastik's profile, but India remote eligibility is stated without pay details.",
+  "flags": "Pay UNKNOWN - ask band",
   "source": "greenhouse:gitlab",
   "posted": "2026-10-05",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:gitlab:8638246002",
@@ -1063,13 +1063,13 @@
   "location": "Remote, United States",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role requires work location in the United States and lacks confirmation of remote eligibility from India.",
+  "flags": "Location restricted to United States",
   "source": "greenhouse:gitlab",
   "posted": "2026-09-29",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:gitlab:8700245002",
@@ -1079,13 +1079,13 @@
   "location": "Remote, United States",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Requires 8-12 years of experience which exceeds the candidate's experience level.",
+  "flags": "Experience > 3 yrs",
   "source": "greenhouse:gitlab",
   "posted": "2026-09-29",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:razorpaysoftwareprivatelimited:4721391005",
@@ -1095,13 +1095,13 @@
   "location": "Malaysia",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role is based in Malaysia with no indication of contractor or EOR hiring in India for this foreign non-remote position.",
+  "flags": "Foreign non-remote without EOR/contractor confirmation",
   "source": "greenhouse:razorpaysoftwareprivatelimited",
   "posted": "2026-09-28",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:razorpaysoftwareprivatelimited:4738819005",
@@ -1111,13 +1111,13 @@
   "location": "Bengaluru",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role is located in Bengaluru, which violates the location filter for india_office (Noida, Mumbai, Nagpur are dead, and Bengaluru is not in Odisha or eligible without stated high pay).",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month",
   "source": "greenhouse:razorpaysoftwareprivatelimited",
   "posted": "2026-10-12",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "lever:meesho:f8bdf9a3-74a5-441d-b0b3-9eac7b9836ad",
@@ -1127,13 +1127,13 @@
   "location": "Bangalore, Karnataka",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Location is Bangalore, which requires pay >= Rs 1,20,000/month, but pay is not stated.",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month",
   "source": "lever:meesho",
   "posted": "2026-10-01",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "lever:meesho:4891a891-f431-4e98-99ae-0e31a21f0190",
@@ -1144,12 +1144,12 @@
   "pay": "UNKNOWN",
   "pay_source": "none",
   "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "why": "Product Manager role in Bangalore fits the experience level, but pay is not stated.",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month",
   "source": "lever:meesho",
   "posted": "2026-09-16",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "lever:zeta:8623c195-f912-4d87-952f-7114cd258413",
@@ -1159,13 +1159,13 @@
   "location": "Bangalore - EC",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role is located in Bangalore (india_office) with no pay stated, and the profile is not an engineer.",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month",
   "source": "lever:zeta",
   "posted": "2026-09-18",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "lever:hevodata:96993ebc-609a-4733-84cd-e1a0c3e69fda",
@@ -1175,13 +1175,13 @@
   "location": "Pune, Maharashtra",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role requires 1-3 years of technical database/engineering support and is located in Pune, which violates location and experience constraints.",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month|Culture risk: own it end-to-end",
   "source": "lever:hevodata",
   "posted": "2026-09-25",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "lever:hevodata:993a3ed3-3014-432f-b0f4-28d300d58d9a",
@@ -1191,13 +1191,13 @@
   "location": "Bangalore, India",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Coding as a core duty makes this role a DEAD fit for a non-engineer profile.",
+  "flags": "Coding as core duty: SDE role",
   "source": "lever:hevodata",
   "posted": "2026-09-21",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "lever:hevodata:8334030a-d6e3-46cc-96a4-f16c5412ed74",
@@ -1207,13 +1207,13 @@
   "location": "Bangalore, India",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role is an office job in Bangalore and does not state pay meeting the minimum threshold of Rs 1,20,000/month.",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month | Culture risk: move fast",
   "source": "lever:hevodata",
   "posted": "2026-09-18",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "lever:contentsquare:e2921541-2262-4eaa-9a73-8015efc521cc",
@@ -1223,13 +1223,13 @@
   "location": "Amsterdam",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role requires sales cycle support and the location bucket does not meet the criteria for non-remote foreign roles based on company tier and contract terms.",
+  "flags": "Sales cycle involvement",
   "source": "lever:contentsquare",
   "posted": "2026-10-02",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "lever:contentsquare:6e7f130f-7f81-4a06-9795-e3b27959987a",
@@ -1239,13 +1239,13 @@
   "location": "Paris Area, France",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role requires an apprenticeship contract in France and local presence, making it unsuitable for a candidate based in India.",
+  "flags": "Apprenticeship contract requires presence in France",
   "source": "lever:contentsquare",
   "posted": "2026-09-25",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "lever:contentsquare:d872f05c-6bd6-49f6-a2da-189d1488c08f",
@@ -1256,12 +1256,12 @@
   "pay": "UNKNOWN",
   "pay_source": "none",
   "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "why": "6 months experience, companyTier remote_startup allows foreign_non_remote role for India",
+  "flags": "LLM said PASS for foreign_non_remote - review",
   "source": "lever:contentsquare",
   "posted": "2026-09-18",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "ashby:ramp:871d2fc8-def8-4837-a9b0-7cc4fe126c2b",
@@ -1269,15 +1269,15 @@
   "role": "Product Operations Specialist | Procurement",
   "url": "https://jobs.ashbyhq.com/ramp/871d2fc8-def8-4837-a9b0-7cc4fe126c2b",
   "location": "New York, NY (HQ)",
-  "pay": "$128K – $180K • Offers Equity",
+  "pay": "$128K – $180K",
   "pay_source": "stated",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Foreign non-remote role requiring work in New York, NY without remote-from-India or EOR confirmation.",
+  "flags": "Culture risk: Own it end to end",
   "source": "ashby:ramp",
   "posted": "2026-09-23",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "ashby:ramp:925fce22-61af-4d26-8f20-90696a3b6704",
@@ -1287,13 +1287,13 @@
   "location": "New York, NY (HQ)",
   "pay": "$128K – $180K • Offers Equity",
   "pay_source": "stated",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role is foreign non-remote based in New York and does not meet India hiring criteria for foreign roles.",
+  "flags": "Foreign non-remote without confirmed India EOR/contractor hiring",
   "source": "ashby:ramp",
   "posted": "2026-09-18",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "ashby:ramp:0d731586-3626-48fb-9dc5-3061ae5fd240",
@@ -1301,15 +1301,15 @@
   "role": "Customer Experience Associate - London",
   "url": "https://jobs.ashbyhq.com/ramp/0d731586-3626-48fb-9dc5-3061ae5fd240",
   "location": "London, UK",
-  "pay": "£39K – £43K • Offers Equity • This role will be paid hourly with a minimum hourly expectation.",
+  "pay": "£39K – £43K",
   "pay_source": "stated",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role is based in London, UK and does not meet foreign non-remote criteria for India hiring.",
+  "flags": "Location mismatch - London only",
   "source": "ashby:ramp",
   "posted": "2026-10-01",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "ashby:ramp:a85afad0-8051-4333-ae89-0f82321dea87",
@@ -1319,13 +1319,13 @@
   "location": "San Francisco, CA",
   "pay": "$96K – $125K",
   "pay_source": "stated",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role involves recruiting and sales-adjacent experience, and foreign non-remote criteria are not met for India-based candidates without EOR/contractor confirmation.",
+  "flags": "SDR/BDR experience preferred | Foreign non-remote location",
   "source": "ashby:ramp",
   "posted": "2026-09-17",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "ashby:airwallex:7c5f487d-3f78-4673-a509-d74b691f34d8",
@@ -1335,13 +1335,13 @@
   "location": "CN - Shanghai",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Candidate has >3 years experience, but role requires 4-8 years and is onsite in Shanghai, not eligible for India remote",
+  "flags": "DEAD",
   "source": "ashby:airwallex",
   "posted": "2026-09-22",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "ashby:plaid:a063f469-1ec5-44d1-8cc5-1da47a7b8783",
@@ -1351,13 +1351,13 @@
   "location": "San Francisco HQ",
   "pay": "$130,800 – $163,200 • Offers Equity",
   "pay_source": "stated",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role is foreign non-remote and company is not a remote startup, making it ineligible for India-based applicants.",
+  "flags": "Foreign non-remote role without EOR/contractor hiring confirmation for India",
   "source": "ashby:plaid",
   "posted": "2026-10-03",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "ashby:plaid:85cb9977-7c85-4ce7-b3ba-383ecf37d09a",
@@ -1365,15 +1365,15 @@
   "role": "Implementation Engineer",
   "url": "https://jobs.ashbyhq.com/plaid/85cb9977-7c85-4ce7-b3ba-383ecf37d09a",
   "location": "London Office",
-  "pay": "£69,193 – £81,774 • Offers Equity",
+  "pay": "£69,193 – £81,774",
   "pay_source": "stated",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "The role requires 4+ years of experience which exceeds the 2-year limit, and it is a foreign non-remote position requiring work in London.",
+  "flags": "Experience > 2 years",
   "source": "ashby:plaid",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "ashby:plaid:4d2f0d16-863d-46c5-bc86-2780a34eff44",
@@ -1383,13 +1383,13 @@
   "location": "San Francisco HQ",
   "pay": "$130K – $147K • Offers Equity",
   "pay_source": "stated",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "The role requires 3+ years of relevant FP&A experience, which exceeds the candidate's ~6 months of experience.",
+  "flags": "Culture risk: fast-paced",
   "source": "ashby:plaid",
   "posted": "2026-09-24",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "smartrecruiters:fastmarkets:744000155226529",
@@ -1399,13 +1399,13 @@
   "location": "Sofia, Sofia City Province, Bulgaria",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Foreign non-remote role based in Sofia, Bulgaria without indication of hiring contractors or EOR in India for this specific position.",
+  "flags": "Pay UNKNOWN - ask band",
   "source": "smartrecruiters:fastmarkets",
   "posted": "2026-10-13",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "smartrecruiters:fastmarkets:744000155274691",
@@ -1415,13 +1415,13 @@
   "location": "São Paulo, SP, Brazil",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role is based in São Paulo, Brazil with no mention of hiring in India or contractor status.",
+  "flags": "Foreign location not meeting India hiring criteria",
   "source": "smartrecruiters:fastmarkets",
   "posted": "2026-10-13",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "workday:bpinternational:rq116683-1",
@@ -1431,13 +1431,13 @@
   "location": "India - Pune",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Location is Pune which falls under the dead locations rule (Noida, Mumbai, Nagpur, Pune).",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month",
   "source": "workday:bpinternational.wd3/bpCareers",
   "posted": "2026-10-15",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "workday:bpinternational:rq116336-1",
@@ -1453,7 +1453,7 @@
   "source": "workday:bpinternational.wd3/bpCareers",
   "posted": "2026-10-12",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "workday:bpinternational:rq116246",
@@ -1463,13 +1463,13 @@
   "location": "India - Pune",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Location is Pune and pay is not stated, failing the India office pay requirement of at least Rs 1,20,000/month in hand.",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month",
   "source": "workday:bpinternational.wd3/bpCareers",
   "posted": "2026-10-13",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "workday:browserstack:jr103615",
@@ -1479,13 +1479,13 @@
   "location": "Mumbai Remote",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role requires a night shift ending after 10pm IST and is located in Mumbai, which violates location and shift rules.",
+  "flags": "Shift ending after 10pm IST | Location Mumbai is DEAD",
   "source": "workday:browserstack.wd3/External",
   "posted": "2026-09-30",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "workday:hitachi:r0137519",
@@ -1496,12 +1496,12 @@
   "pay": "UNKNOWN",
   "pay_source": "none",
   "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "why": "Office role in Chennai requires pay confirmation against the Rs 1,20,000/month in hand floor.",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month",
   "source": "workday:hitachi.wd1/hitachi",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "workday:hitachi:r0147094-1",
@@ -1511,13 +1511,13 @@
   "location": "Bengaluru, Karnataka, India",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "The job is an India office role without stated pay, and it involves sales operations which violates the screening rules.",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month|Sales operations role",
   "source": "workday:hitachi.wd1/hitachi",
   "posted": "2026-10-09",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:precisionaq:6128944004",
@@ -1527,13 +1527,13 @@
   "location": "Remote, United States",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role requires conducting real-world evidence health studies and analytic dataset creation, which does not match product analyst or finance background, and remote eligibility is restricted to the United States.",
+  "flags": "Remote eligibility limited to United States",
   "source": "greenhouse:precisionaq",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:precisionaq:6002582004",
@@ -1543,13 +1543,13 @@
   "location": "New York, NY, USA",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role is foreign non-remote in New York with a non-eligible company tier and requires healthcare space experience.",
+  "flags": "Foreign non-remote role without remote allowance for India | Requires healthcare industry experience",
   "source": "greenhouse:precisionaq",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:precisionaq:6208381004",
@@ -1559,13 +1559,13 @@
   "location": "Remote, India",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "PARK",
+  "why": "Fits profile with 6 months product analysis experience and required SQL/Excel/Power BI skills, but remote from India is stated while pay is missing.",
+  "flags": "Pay UNKNOWN - ask band|Experience range states up to 3 years",
   "source": "greenhouse:precisionaq",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:precisionaq:6208905004",
@@ -1575,13 +1575,13 @@
   "location": "Remote, United States",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role is remote in the United States with no pay stated and no confirmation of eligibility for remote work from India.",
+  "flags": "DEAD",
   "source": "greenhouse:precisionaq",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "lever:gohighlevel:ba929ad2-f1b4-4ee7-bdb8-e01b74b3969b",
@@ -1592,12 +1592,12 @@
   "pay": "UNKNOWN",
   "pay_source": "none",
   "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "why": "Role is remote from India and experience fits, but pay is not stated so band must be checked.",
+  "flags": "Pay UNKNOWN - ask band|Culture risk: speed and ownership",
   "source": "lever:gohighlevel",
   "posted": "2026-09-16",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:alphasenseindia:8857605002",
@@ -1623,13 +1623,13 @@
   "location": "Remote - India",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role requires 10+ years of experience, far exceeding the candidate's ~6 months.",
+  "flags": "Experience > 3 yrs",
   "source": "greenhouse:alphasenseindia",
   "posted": "2026-09-24",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "lever:jumpcloud:4752b1c4-9cdc-4e2d-9f7b-cccb449ab9e2",
@@ -1639,13 +1639,13 @@
   "location": "São Paulo, Brazil - Remote",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "The role requires the candidate to be based in Brazil, making it ineligible for someone in India.",
+  "flags": "Location restricted to Brazil",
   "source": "lever:jumpcloud",
   "posted": "2026-09-29",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "workable:pricelabs:b1296a9477",
@@ -1655,13 +1655,13 @@
   "location": "Mexico",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "The job is for LatAm requiring specific regional focus, and remote location eligibility from India is not confirmed.",
+  "flags": "JD unclear on India eligibility | Location mismatch",
   "source": "workable:pricelabs",
   "posted": "2026-10-12",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "workable:pricelabs:240e1b950e",
@@ -1671,13 +1671,13 @@
   "location": "Brazil",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "The role is explicitly for Brazil and does not confirm remote eligibility from India.",
+  "flags": "JD specifies location Brazil",
   "source": "workable:pricelabs",
   "posted": "2026-09-29",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "workable:pricelabs:3d9fc12bb2",
@@ -1687,13 +1687,13 @@
   "location": "Malaga, Spain",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "The role requires fluency in French, Spanish, Portuguese, or Italian which is not met by the candidate profile.",
+  "flags": "Required language other than English, Hindi, Odia",
   "source": "workable:pricelabs",
   "posted": "2026-09-23",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "ashby:certifyos:759dbd75-07dd-4e64-adf0-7ed47104c605",
@@ -1703,13 +1703,13 @@
   "location": "Pune, India",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "PASS",
+  "why": "Fits the <=2 years experience requirement and is confirmed fully remote from India with no major disqualifiers.",
+  "flags": "Pay UNKNOWN - ask band",
   "source": "ashby:certifyos",
   "posted": "2026-09-28",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "ashby:certifyos:ef0337a5-2e69-48ec-b6f4-a696d4770ff8",
@@ -1720,12 +1720,12 @@
   "pay": "UNKNOWN",
   "pay_source": "none",
   "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "why": "Eligible experience but pay not stated for India office role",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month",
   "source": "ashby:certifyos",
   "posted": "2026-10-01",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:yipitdata:8074621",
@@ -1735,13 +1735,13 @@
   "location": "remote",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Experience requirement of 2-4 years exceeds candidate's ~6 months background, and the role requires US hours/geography as indicated by the title.",
+  "flags": "Experience too high (2-4 years required)",
   "source": "greenhouse:yipitdata",
   "posted": "2026-10-06",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:yipitdata:3932565",
@@ -1751,13 +1751,13 @@
   "location": "US Remote",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "The job is located in US Remote and does not confirm eligibility for fully remote work from India.",
+  "flags": "US Remote location",
   "source": "greenhouse:yipitdata",
   "posted": "2026-09-23",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:yipitdata:4568876",
@@ -1767,13 +1767,13 @@
   "location": "Singapore",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role is located in Singapore (foreign_non_remote) and companyTier is not remote_startup with India EOR/contractor hiring mentioned.",
+  "flags": "Culture risk: ownership",
   "source": "greenhouse:yipitdata",
   "posted": "2026-10-08",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:yipitdata:3963467",
@@ -1784,12 +1784,12 @@
   "pay": "UNKNOWN",
   "pay_source": "none",
   "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "why": "Product Analyst background fits data role, but India remote eligibility needs confirmation and pay is not stated.",
+  "flags": "Pay UNKNOWN - ask band|Culture risk: ownership",
   "source": "greenhouse:yipitdata",
   "posted": "2026-09-18",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:yipitdata:7607324",
@@ -1799,13 +1799,13 @@
   "location": "US Remote",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "The job requires US remote work and does not confirm remote eligibility from India.",
+  "flags": "JD says remote only in another country",
   "source": "greenhouse:yipitdata",
   "posted": "2026-09-18",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "smartrecruiters:turnitin-llc:744000151340409",
@@ -1815,13 +1815,13 @@
   "location": "New Delhi, DL, India",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "PARK",
+  "why": "Role mentions India Remote eligibility but lacks pay details and clean job description text, fitting product analyst/ops background.",
+  "flags": "Pay UNKNOWN - ask band",
   "source": "smartrecruiters:TurnitinLLC",
   "posted": "2026-09-23",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "smartrecruiters:turnitin-llc:744000150440027",
@@ -1831,13 +1831,13 @@
   "location": "Mumbai, MH, India",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Location is Mumbai, India, but rule specifies Noida, Mumbai, Nagpur are DEAD.",
+  "flags": "Office role in Mumbai - DEAD",
   "source": "smartrecruiters:TurnitinLLC",
   "posted": "2026-09-18",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "smartrecruiters:turnitin-llc:744000150440959",
@@ -1847,13 +1847,13 @@
   "location": "Manila, NCR, Philippines",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Shift starts before 6am IST, disqualifying for India candidates",
+  "flags": "Shift starts before 6am IST",
   "source": "smartrecruiters:TurnitinLLC",
   "posted": "2026-09-18",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "smartrecruiters:turnitin-llc:744000149854869",
@@ -1863,13 +1863,13 @@
   "location": "Manila, NCR, Philippines",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "The role is explicitly restricted to Manila, Philippines, and does not permit remote work from India.",
+  "flags": "Location restricted to Philippines",
   "source": "smartrecruiters:TurnitinLLC",
   "posted": "2026-09-16",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8195483",
@@ -1895,13 +1895,13 @@
   "location": "Vancouver, British Columbia, Canada",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role is based in Vancouver, Canada and requires working from the office there without EOR or contractor mention for India.",
+  "flags": "Foreign on-site role without India eligibility",
   "source": "greenhouse:brex",
   "posted": "2026-09-29",
   "first_seen": "2026-10-15T08:39:35.815Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:brex:8606825002",
@@ -1911,13 +1911,13 @@
   "location": "New York, New York, United States",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Foreign non-remote role requiring physical presence in New York without India hiring or contractor provisions.",
+  "flags": "Foreign location mismatch",
   "source": "greenhouse:brex",
   "posted": "2026-09-16",
   "first_seen": "2026-10-15T08:39:35.815Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:twilio:8261277",
@@ -1927,13 +1927,13 @@
   "location": "Remote - Colombia",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Job is remote only in Colombia, making it ineligible for work from India.",
+  "flags": "JD says remote only in another country",
   "source": "greenhouse:twilio",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:39:35.815Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  },
  {
   "canonical_id": "greenhouse:alphasenseindia:8857587002",
@@ -1943,12 +1943,12 @@
   "location": "Delhi",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "verdict": "DEAD",
+  "why": "Role requires 3 or more years of experience, exceeding the candidate's ~6 months.",
+  "flags": "Experience > 3 years",
   "source": "greenhouse:alphasenseindia",
   "posted": "2026-10-08",
   "first_seen": "2026-10-15T08:39:35.815Z",
-  "last_checked": "2026-10-15T08:39:35.815Z"
+  "last_checked": "2026-10-15T08:41:56.264Z"
  }
 ]

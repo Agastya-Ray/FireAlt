@@ -78,7 +78,10 @@ async function main() {
       ? new SupabaseLeadsStore(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
       : new FileLeadsStore(join(DATA_DIR, "leads.json"));
   const candidates = buildCandidateKeys();
-  if (!candidates.length) throw new Error("No LLM key: set GROQ_API_KEY or GEMINI_API_KEY (or EMBER_LLM_KEYS) as repo secrets.");
+  // Without a key the sweep still fetches, filters and re-checks liveness; new jobs wait unscored
+  // (not saved) so they get a real verdict on the first run that has a key.
+  const noKeyMsg = "No LLM key: set GROQ_API_KEY or GEMINI_API_KEY (or EMBER_LLM_KEYS) as repo secrets. New jobs were not scored.";
+  if (!candidates.length) console.log(`::warning::${noKeyMsg}`);
 
   const existing = await store.getAll();
   const known = new Map(existing.map((r) => [r.canonical_id, r]));
@@ -122,7 +125,7 @@ async function main() {
   }
 
   // 3. LLM rubric on new survivors (capped to protect free tiers; the rest wait for the next run).
-  const toScore = fresh.slice(0, MAX_LLM);
+  const toScore = candidates.length ? fresh.slice(0, MAX_LLM) : [];
   const scored = await mapConcurrent(toScore, 2, async ({ job, src, id, bucket }) => {
     const out = await scoreJobWithLlm(job, await jdText(job), src.tier, bucket, candidates);
     const row: LeadRow = {
@@ -166,6 +169,7 @@ async function main() {
   for (const r of scored) counts[r.verdict] = (counts[r.verdict] ?? 0) + 1;
   const report = [
     `# Sweep ${nowIso}`,
+    ...(candidates.length ? [] : [`WARNING: ${noKeyMsg}`]),
     `sources: ${cfg.sources.length}, jobs fetched: ${fetched.length}, code-rejected: ${codeRejected}, new scored: ${scored.length}, waiting (over cap): ${Math.max(0, fresh.length - scored.length)}`,
     `new verdicts: ${JSON.stringify(counts)}`,
     `liveness re-checked: ${rechecked.length}, closed: ${killed}`,
@@ -177,6 +181,9 @@ async function main() {
     ...scored
       .filter((r) => ["PASS", "PARK", "HIGHPAY"].includes(r.verdict))
       .map((r) => `- ${r.verdict} | ${r.role} - ${r.company} | ${r.pay} | ${r.url}`),
+    ...(candidates.length
+      ? []
+      : ["", `## Passed code filters, waiting for an LLM key (${fresh.length})`, ...fresh.map(({ job, src }) => `- ${job.title} - ${src.name || job.company} | ${job.location} | ${job.url}`)]),
   ].join("\n");
   writeFileSync(join(DATA_DIR, "last-run.md"), report + "\n");
   console.log(report);

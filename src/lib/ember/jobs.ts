@@ -910,7 +910,8 @@ async function fetchHimalayas(src: JobSource, req: JobsRequest, io: Io, label: s
   return out;
 }
 
-// Jobicy (remote-only). board = optional geo (e.g. "india", "apac", "emea"); the first `include` word becomes tag.
+// Jobicy (remote-only). board = optional geo slug (e.g. "apac", "emea", "usa"; an unknown one such as "india"
+// filters the open feed by location instead); the first `include` word becomes tag.
 function normJobicy(body: string, label: string, details: boolean): Job[] {
   const data = rec(parseJson(body));
   return arr(data.jobs).map((j) => {
@@ -929,8 +930,7 @@ function normJobicy(body: string, label: string, details: boolean): Job[] {
   });
 }
 
-async function fetchJobicy(src: JobSource, req: JobsRequest, io: Io, label: string): Promise<Job[]> {
-  const geo = src.board?.trim().toLowerCase() ?? "";
+async function fetchJobicyGeo(geo: string, req: JobsRequest, io: Io, label: string): Promise<Job[]> {
   const base = `https://jobicy.com/api/v2/remote-jobs?count=100${geo ? `&geo=${enc(geo)}` : ""}`;
   const tag = clean(req.include)[0];
   if (tag) {
@@ -942,6 +942,22 @@ async function fetchJobicy(src: JobSource, req: JobsRequest, io: Io, label: stri
     }
   }
   return normJobicy(await io.fetchText(base), label, req.details === true);
+}
+
+async function fetchJobicy(src: JobSource, req: JobsRequest, io: Io, label: string): Promise<Job[]> {
+  const geo = src.board?.trim().toLowerCase() ?? "";
+  try {
+    return await fetchJobicyGeo(geo, req, io, label);
+  } catch (err) {
+    // Jobicy answers 400 for a geo it has no slug for (e.g. "india"). Read the open feed and keep
+    // jobs that name that place or are open anywhere, instead of failing the whole source.
+    if (!geo) throw err;
+    const want = geo.replace(/-/g, " ");
+    return (await fetchJobicyGeo("", req, io, label)).filter((j) => {
+      const loc = j.location.toLowerCase();
+      return loc.includes(want) || /anywhere|worldwide|global/.test(loc);
+    });
+  }
 }
 
 // Working Nomads: https://www.workingnomads.com/api/exposed_jobs/ (one JSON array, remote-only).

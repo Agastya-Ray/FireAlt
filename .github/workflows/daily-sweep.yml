@@ -45,14 +45,16 @@ jobs:
         if: always()
         run: |
           cd data
-          git config user.name "ember-sweep"
-          git config user.email "ember-sweep@users.noreply.github.com"
+          # First run: data/ is a plain folder, so make it its own repo before setting the identity
+          # (setting it earlier wrote to the outer checkout and the commit failed with "empty ident name").
           if [ ! -d .git ] && [ ! -f .git ]; then
             git init -q -b leads-data
             git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
           else
             git checkout -q -B leads-data
           fi
+          git config user.name "ember-sweep"
+          git config user.email "ember-sweep@users.noreply.github.com"
           git add -A
           git commit -q -m "Sweep $(date -u +%Y-%m-%dT%H:%MZ)" || { echo "nothing to save"; exit 0; }
           git push -q origin HEAD:leads-data

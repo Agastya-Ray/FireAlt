@@ -55,18 +55,41 @@ function cellText(el: Element): string {
     .trim();
 }
 
-function tableToMd(table: Element): string {
-  const rows = Array.from(table.querySelectorAll("tr"));
+/** Rows that belong to this table, not to tables nested inside its cells. */
+function ownRows(table: Element): Element[] {
+  return Array.from(table.querySelectorAll("tr")).filter((r) => r.closest("table") === table);
+}
+
+function ownCells(row: Element): Element[] {
+  return Array.from(row.children).filter((c) => /^t[hd]$/i.test(c.tagName));
+}
+
+function inlineCell(cell: Element, opts: WalkOpts): string {
+  return collapseWs(childConcat(cell, { ...opts, depth: opts.depth + 1 }).replace(/\n+/g, " ")).trim();
+}
+
+function tableToMd(table: Element, opts: WalkOpts): string {
+  const rows = ownRows(table);
   if (rows.length === 0) return "";
-  const grid = rows.map((r) =>
-    Array.from(r.querySelectorAll("th,td")).map((c) => cellText(c)),
-  );
-  const width = Math.max(0, ...grid.map((r) => r.length));
+  // Layout table (cells hold whole page sections or other tables, e.g. Hacker News):
+  // render each row as its own block instead of flattening the page into one cell.
+  if (table.querySelector("table")) {
+    return rows
+      .map((r) => ownCells(r).map((c) => childConcat(c, { ...opts, depth: opts.depth + 1 }).trim()).filter(Boolean).join("\n\n"))
+      .filter(Boolean)
+      .join("\n\n");
+  }
+  const width = Math.max(0, ...rows.map((r) => ownCells(r).length));
   if (width === 0) return "";
-  if (rows.length > 40 || width > 8) {
-    return grid
-      .slice(0, 40)
-      .map((r) => `- ${r.filter(Boolean).join(" · ")}`)
+  const grid = rows.map((r) => ownCells(r).map((c) => cellText(c)));
+  const cells = grid.flat();
+  const sparse = cells.filter((c) => !c).length > cells.length * 0.25;
+  if (rows.length > 40 || width > 8 || sparse) {
+    // Too big or too gappy (layout-ish) for a pipe table: one line per row, links kept. trimToTokens enforces the budget.
+    return rows
+      .map((r) => ownCells(r).map((c) => inlineCell(c, opts)).filter(Boolean).join(" · "))
+      .filter(Boolean)
+      .map((line) => `- ${line}`)
       .join("\n");
   }
   const pad = (r: string[]) => Array.from({ length: width }, (_, i) => r[i] ?? "");
@@ -117,7 +140,7 @@ function walk(node: Node, opts: WalkOpts): string {
   }
 
   if (tag === "table") {
-    const md = tableToMd(el);
+    const md = tableToMd(el, opts);
     return md ? `\n\n${md}\n\n` : "";
   }
 

@@ -29,7 +29,7 @@
   "source": "wwr",
   "posted": "2026-10-11",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T18:09:10.909Z"
+  "last_checked": "2026-10-15T21:16:20.412Z"
  },
  {
   "canonical_id": "wwr:coinbase:weworkremotely-com-remote-jobs-coinbase-associate-general-counsel-privacy",
@@ -61,7 +61,7 @@
   "source": "wwr",
   "posted": "2026-10-12",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T18:09:10.909Z"
+  "last_checked": "2026-10-15T21:16:20.412Z"
  },
  {
   "canonical_id": "greenhouse:arcesiumllc:5250105007",
@@ -77,7 +77,7 @@
   "source": "greenhouse:arcesiumllc",
   "posted": "2026-09-28",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T18:09:10.909Z"
+  "last_checked": "2026-10-15T21:16:20.412Z"
  },
  {
   "canonical_id": "greenhouse:financialtechnologypartners:8814930002",
@@ -845,7 +845,7 @@
   "source": "greenhouse:coinbase",
   "posted": "2026-10-13",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T18:09:10.909Z"
+  "last_checked": "2026-10-15T21:16:20.412Z"
  },
  {
   "canonical_id": "greenhouse:coinbase:8265422",
@@ -957,7 +957,7 @@
   "source": "greenhouse:twilio",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T18:09:10.909Z"
+  "last_checked": "2026-10-15T21:16:20.412Z"
  },
  {
   "canonical_id": "greenhouse:twilio:8185918",
@@ -1005,7 +1005,7 @@
   "source": "greenhouse:twilio",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T18:09:10.909Z"
+  "last_checked": "2026-10-15T21:16:20.412Z"
  },
  {
   "canonical_id": "greenhouse:twilio:8235979",
@@ -1031,13 +1031,13 @@
   "location": "Remote - Colombia",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "verdict": "DEAD",
+  "why": "The job description specifies the location as Remote - Colombia, making it ineligible for someone located in India.",
+  "flags": "JD says remote only in another country",
   "source": "greenhouse:twilio",
-  "posted": "2026-10-14",
+  "posted": "2026-10-15",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T21:16:20.412Z"
  },
  {
   "canonical_id": "greenhouse:gitlab:8859694002",
@@ -1053,7 +1053,7 @@
   "source": "greenhouse:gitlab",
   "posted": "2026-10-05",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T18:09:10.909Z"
+  "last_checked": "2026-10-15T21:16:20.412Z"
  },
  {
   "canonical_id": "greenhouse:gitlab:8638246002",
@@ -1149,7 +1149,7 @@
   "source": "lever:meesho",
   "posted": "2026-09-16",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T18:09:10.909Z"
+  "last_checked": "2026-10-15T21:16:20.412Z"
  },
  {
   "canonical_id": "lever:zeta:8623c195-f912-4d87-952f-7114cd258413",
@@ -1261,7 +1261,7 @@
   "source": "lever:contentsquare",
   "posted": "2026-09-18",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T18:09:10.909Z"
+  "last_checked": "2026-10-15T21:16:20.412Z"
  },
  {
   "canonical_id": "ashby:ramp:871d2fc8-def8-4837-a9b0-7cc4fe126c2b",
@@ -1453,7 +1453,7 @@
   "source": "workday:bpinternational.wd3/bpCareers",
   "posted": "2026-10-12",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T18:09:10.909Z"
+  "last_checked": "2026-10-15T21:16:20.412Z"
  },
  {
   "canonical_id": "workday:bpinternational:rq116246",
@@ -1501,7 +1501,7 @@
   "source": "workday:hitachi.wd1/hitachi",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T18:09:10.909Z"
+  "last_checked": "2026-10-15T21:16:20.412Z"
  },
  {
   "canonical_id": "workday:hitachi:r0147094-1",
@@ -1565,7 +1565,7 @@
   "source": "greenhouse:precisionaq",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T18:09:10.909Z"
+  "last_checked": "2026-10-15T21:16:20.412Z"
  },
  {
   "canonical_id": "greenhouse:precisionaq:6208905004",
@@ -1597,7 +1597,7 @@
   "source": "lever:gohighlevel",
   "posted": "2026-09-16",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T18:09:10.909Z"
+  "last_checked": "2026-10-15T21:16:20.412Z"
  },
  {
   "canonical_id": "greenhouse:alphasenseindia:8857605002",
@@ -1709,7 +1709,7 @@
   "source": "ashby:certifyos",
   "posted": "2026-09-28",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T18:09:10.909Z"
+  "last_checked": "2026-10-15T21:16:20.412Z"
  },
  {
   "canonical_id": "ashby:certifyos:ef0337a5-2e69-48ec-b6f4-a696d4770ff8",
@@ -1725,7 +1725,7 @@
   "source": "ashby:certifyos",
   "posted": "2026-10-01",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T18:09:10.909Z"
+  "last_checked": "2026-10-15T21:16:20.412Z"
  },
  {
   "canonical_id": "greenhouse:yipitdata:8074621",
@@ -1789,7 +1789,7 @@
   "source": "greenhouse:yipitdata",
   "posted": "2026-09-18",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T18:09:10.909Z"
+  "last_checked": "2026-10-15T21:16:20.412Z"
  },
  {
   "canonical_id": "greenhouse:yipitdata:7607324",
@@ -1821,7 +1821,7 @@
   "source": "smartrecruiters:TurnitinLLC",
   "posted": "2026-09-23",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T18:09:10.909Z"
+  "last_checked": "2026-10-15T21:16:20.412Z"
  },
  {
   "canonical_id": "smartrecruiters:turnitin-llc:744000150440027",

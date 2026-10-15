@@ -25,6 +25,21 @@ export function tokenStats(html: string, output: string): {
 
 const SENTENCE_SPLIT = /(?<=[.!?])\s+(?=[A-Z“"'])/;
 
+/** Cut one oversized block (no sentence fits) at a line, then word, boundary near the budget. */
+function hardCut(block: string, maxTokens: number): string {
+  let out = "";
+  for (const line of block.split("\n")) {
+    const next = out ? `${out}\n${line}` : line;
+    if (estimateTokens(next) > maxTokens) break;
+    out = next;
+  }
+  if (out.trim()) return out;
+  let cut = block.slice(0, Math.max(0, Math.floor(maxTokens * 3.8) - 1));
+  while (cut && estimateTokens(cut) > maxTokens) cut = cut.slice(0, Math.floor(cut.length * 0.9));
+  const space = cut.lastIndexOf(" ");
+  return space > cut.length * 0.6 ? cut.slice(0, space) : cut;
+}
+
 export function trimToTokens(markdown: string, maxTokens: number): string {
   if (maxTokens <= 0) return markdown;
   if (estimateTokens(markdown) <= maxTokens) return markdown;
@@ -49,6 +64,7 @@ export function trimToTokens(markdown: string, maxTokens: number): string {
       if (estimateTokens(next) > remaining) break;
       piece = next;
     }
+    if (!piece.trim()) piece = hardCut(block, remaining);
     if (piece.trim()) kept.push(piece.trimEnd() + "…");
     break;
   }

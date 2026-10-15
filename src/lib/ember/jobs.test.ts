@@ -638,6 +638,31 @@ test("jobicy: tag + geo, falls back to untagged feed when the tag is empty", asy
   assert.equal(r.jobs[0]!.posted, "2026-10-11");
 });
 
+test("jobicy: a geo without a slug (india) falls back to the open feed filtered by location", async () => {
+  const log: string[] = [];
+  const feed = {
+    jobs: [
+      { jobTitle: "Data Analyst", companyName: "A", jobGeo: "India", url: "https://jobicy.com/jobs/1", pubDate: "2026-10-11 09:00:00" },
+      { jobTitle: "Data Analyst", companyName: "B", jobGeo: "Anywhere", url: "https://jobicy.com/jobs/2", pubDate: "2026-10-11 09:00:00" },
+      { jobTitle: "Data Analyst", companyName: "C", jobGeo: "USA", url: "https://jobicy.com/jobs/3", pubDate: "2026-10-11 09:00:00" },
+    ],
+  };
+  const r = await findJobs(
+    { sources: [{ type: "jobicy", board: "india" }] },
+    {
+      now: () => NOW,
+      fetchText: async (u) => {
+        log.push(u);
+        if (u.includes("geo=")) throw new Error("Fetch failed (400)");
+        return JSON.stringify(feed);
+      },
+    },
+  );
+  assert.deepEqual(log, ["https://jobicy.com/api/v2/remote-jobs?count=100&geo=india", "https://jobicy.com/api/v2/remote-jobs?count=100"]);
+  assert.deepEqual(r.failed, []);
+  assert.deepEqual(r.jobs.map((j) => j.company).sort(), ["A", "B"]);
+});
+
 test("workingnomads and remoteok feeds", async () => {
   const r = await findJobs(
     { sources: [{ type: "workingnomads" }, { type: "remoteok" }] },

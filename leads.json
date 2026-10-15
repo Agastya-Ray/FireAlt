@@ -7,13 +7,13 @@
   "location": "Anywhere in the World",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "verdict": "DEAD",
+  "why": "Candidate has only ~6 months experience, below the 2–3+ years required for the Market Research Data Analyst role.",
+  "flags": "Experience insufficient",
   "source": "wwr",
   "posted": "2026-10-13",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "wwr:twilio:weworkremotely-com-remote-jobs-twilio-billing-operations-analyst-1",
@@ -24,12 +24,12 @@
   "pay": "UNKNOWN",
   "pay_source": "none",
   "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "why": "Remote role with no pay stated; India eligibility unclear",
+  "flags": "Check: remote-from-India eligibility",
   "source": "wwr",
   "posted": "2026-10-11",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "wwr:coinbase:weworkremotely-com-remote-jobs-coinbase-associate-general-counsel-privacy",
@@ -39,13 +39,13 @@
   "location": "Anywhere in the World",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "verdict": "DEAD",
+  "why": "Candidate lacks required 8+ years of experience and role is not confirmed remote from India",
+  "flags": "Experience too low",
   "source": "wwr",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "wwr:keeper-security:motely-com-remote-jobs-keeper-security-associate-talent-acquisition-partner-tech",
@@ -56,12 +56,12 @@
   "pay": "UNKNOWN",
   "pay_source": "none",
   "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "why": "Remote role not confirmed for India; pay not specified.",
+  "flags": "",
   "source": "wwr",
   "posted": "2026-10-12",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:arcesiumllc:5250105007",
@@ -72,12 +72,12 @@
   "pay": "UNKNOWN",
   "pay_source": "none",
   "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "why": "Candidate lacks required Chartered Accountant qualification for this India office role",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month",
   "source": "greenhouse:arcesiumllc",
   "posted": "2026-09-28",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:financialtechnologypartners:8814930002",
@@ -87,13 +87,13 @@
   "location": "San Francisco, New York",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "verdict": "DEAD",
+  "why": "Role requires onsite presence in the US and does not offer remote work from India; no pay stated",
+  "flags": "DEAD",
   "source": "greenhouse:financialtechnologypartners",
   "posted": "2026-09-18",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8241857",
@@ -103,13 +103,13 @@
   "location": "NYC, SF",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "verdict": "DEAD",
+  "why": "Candidate lacks required 3-5 years experience and role is foreign onsite, not eligible for India",
+  "flags": "Experience mismatch|Location foreign_non_remote",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8145119",
@@ -135,13 +135,13 @@
   "location": "IN - Bengaluru",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "verdict": "DEAD",
+  "why": "Role is located in Bengaluru office, which fails the India office pay floor requirement of Rs 1,20,000/month as pay is not stated.",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:7981587",
@@ -151,13 +151,13 @@
   "location": "MX- Mexico City",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "verdict": "DEAD",
+  "why": "Candidate is based in India and the role is onsite in Mexico City with no remote option or Indian pay stated, making it ineligible.",
+  "flags": "DEAD",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8081423",
@@ -167,13 +167,13 @@
   "location": "Singapore",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "verdict": "DEAD",
+  "why": "Role requires 7+ years of experience which exceeds the maximum eligible experience of 2 years.",
+  "flags": "Experience > 3 yrs: 7+ years required",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:7975698",
@@ -183,13 +183,13 @@
   "location": "Bengaluru",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "verdict": "DEAD",
+  "why": "The role requires a weekend shift which may involve non-compliant timings, and it is located in Bengaluru (india_office) without stated high pay meeting the Rs 1,20,000/month threshold.",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month|Shift timing needs confirmation",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8164674",
@@ -199,13 +199,13 @@
   "location": "Chicago",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "verdict": "DEAD",
+  "why": "Role requires 5+ years of experience which exceeds the 2-year limit, and is a foreign non-remote role without EOR/contractor hiring for India.",
+  "flags": "Experience > 3 yrs: 5+ years required",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8230276",
@@ -215,13 +215,13 @@
   "location": "London",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "verdict": "DEAD",
+  "why": "Candidate lacks required 5+ years operations experience",
+  "flags": "DEAD",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:7230921",
@@ -231,13 +231,13 @@
   "location": "Remote",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "verdict": "DEAD",
+  "why": "Candidate has around 6 months of experience but the role requires 5+ years of experience in risk management.",
+  "flags": "Culture risk: fast-moving",
   "source": "greenhouse:stripe",
   "posted": "2026-10-15",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8175824",
@@ -247,13 +247,13 @@
   "location": "Remote",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "verdict": "DEAD",
+  "why": "Candidate has only ~6 months of experience while the role requires 5+ years.",
+  "flags": "Culture risk: fast-moving",
   "source": "greenhouse:stripe",
   "posted": "2026-10-15",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8079783",
@@ -263,13 +263,13 @@
   "location": "US-SF, US-Seattle, US-NYC, US-Chicago, US-Georgia or US-Remote",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "verdict": "DEAD",
+  "why": "Requires 5+ years of prior experience which exceeds the 2 years maximum limit.",
+  "flags": "Experience > 3 yrs | Culture risk: fast-paced",
   "source": "greenhouse:stripe",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8189015",
@@ -279,13 +279,13 @@
   "location": "Chicago, US-Remote",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "verdict": "DEAD",
+  "why": "Candidate lacks required 3-5 years experience and role is US-remote, not confirmed for India",
+  "flags": "Experience mismatch|Remote-from-India not confirmed",
   "source": "greenhouse:stripe",
   "posted": "2026-10-12",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8275366",
@@ -295,13 +295,13 @@
   "location": "New York, San Francisco",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "verdict": "DEAD",
+  "why": "Role requires 5+ years of experience which exceeds the 2 years limit, and location is restricted to New York/San Francisco.",
+  "flags": "Experience > 3 yrs: 5+ years required | Location restricted: New York, San Francisco",
   "source": "greenhouse:stripe",
   "posted": "2026-10-12",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:7651078",
@@ -311,13 +311,13 @@
   "location": "Mexico City",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "verdict": "DEAD",
+  "why": "Role is based in Mexico City office and does not meet remote-from-India or contractor/EOR criteria for foreign non-remote roles.",
+  "flags": "Foreign location outside India",
   "source": "greenhouse:stripe",
   "posted": "2026-10-10",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8257185",
@@ -327,13 +327,13 @@
   "location": "Dublin",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "verdict": "DEAD",
+  "why": "Not eligible: foreign non-remote role in Dublin with non-remote startup tier and no evidence of hiring contractors/EOR in India",
+  "flags": "DEAD",
   "source": "greenhouse:stripe",
   "posted": "2026-10-08",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8203969",
@@ -343,13 +343,13 @@
   "location": "Mexico City, MX",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "verdict": "DEAD",
+  "why": "Role is onsite in Mexico City and requires 4+ years of experience, exceeding the 2-year limit.",
+  "flags": "Foreign non-remote location not matching India eligibility | Experience 4+ years exceeds maximum limit of 2 years",
   "source": "greenhouse:stripe",
   "posted": "2026-10-08",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8175653",
@@ -361,11 +361,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:503)",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:7967890",
@@ -377,11 +377,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:503)",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:7994945",
@@ -391,13 +391,13 @@
   "location": "Bengaluru",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "verdict": "DEAD",
+  "why": "Office role located in Bengaluru which is not Odisha or eligible for this profile under criteria.",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:7456167",
@@ -407,13 +407,13 @@
   "location": "Mexico City",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "verdict": "DEAD",
+  "why": "Role requires being onsite in Mexico City which violates location and eligibility criteria for India-based candidates.",
+  "flags": "Office location in Mexico City",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8104748",
@@ -423,13 +423,13 @@
   "location": "Bangalore",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "verdict": "DEAD",
+  "why": "Experience requirement of 2+ years plus commercial credit underwriting expertise exceeds candidate profile and location is Bangalore (india_office) with unstated pay.",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month|Requires 2+ years of experience",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8175816",
@@ -439,13 +439,13 @@
   "location": "N/A",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "verdict": "DEAD",
+  "why": "Candidate lacks required 2+ years of experience and role is foreign non‑remote without contractor/EOR option",
+  "flags": "",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:7597613",
@@ -457,11 +457,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8231575",
@@ -473,11 +473,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8249865",
@@ -489,11 +489,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8076652",
@@ -505,11 +505,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8066310",
@@ -521,11 +521,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8179347",
@@ -537,11 +537,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8203977",
@@ -553,11 +553,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8175818",
@@ -569,11 +569,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:7393071",
@@ -585,11 +585,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8022463",
@@ -601,11 +601,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8230274",
@@ -617,11 +617,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8244505",
@@ -633,11 +633,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8131339",
@@ -649,11 +649,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:7955051",
@@ -665,11 +665,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8014995",
@@ -681,11 +681,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:7202953",
@@ -697,11 +697,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8093103",
@@ -713,11 +713,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:stripe:7544547",
@@ -729,11 +729,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:stripe",
   "posted": "2026-10-07",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:brex:8536986002",
@@ -761,11 +761,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:brex",
   "posted": "2026-09-23",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:brex:8864643002",
@@ -777,11 +777,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:brex",
   "posted": "2026-10-02",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:brex:8864648002",
@@ -793,11 +793,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:brex",
   "posted": "2026-10-02",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:brex:8606210002",
@@ -825,11 +825,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:coinbase",
   "posted": "2026-10-13",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:coinbase:8248775",
@@ -841,11 +841,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:coinbase",
   "posted": "2026-10-13",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:coinbase:8265422",
@@ -857,11 +857,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:coinbase",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:coinbase:8212923",
@@ -873,11 +873,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:coinbase",
   "posted": "2026-10-13",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:coinbase:8131316",
@@ -889,11 +889,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:coinbase",
   "posted": "2026-10-13",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:coinbase:8224726",
@@ -905,11 +905,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:coinbase",
   "posted": "2026-10-13",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:coinbase:8238576",
@@ -921,11 +921,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:coinbase",
   "posted": "2026-10-13",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:twilio:8261279",
@@ -937,11 +937,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:twilio",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:twilio:8261245",
@@ -953,11 +953,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:twilio",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:twilio:8185918",
@@ -969,11 +969,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:twilio",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:twilio:8197328",
@@ -985,11 +985,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:twilio",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:twilio:8097524",
@@ -1001,11 +1001,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:twilio",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:twilio:8235979",
@@ -1017,11 +1017,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:twilio",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:twilio:8120421",
@@ -1049,11 +1049,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:gitlab",
   "posted": "2026-10-05",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:gitlab:8638246002",
@@ -1065,11 +1065,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:gitlab",
   "posted": "2026-09-29",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:gitlab:8700245002",
@@ -1081,11 +1081,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:gitlab",
   "posted": "2026-09-29",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:razorpaysoftwareprivatelimited:4721391005",
@@ -1097,11 +1097,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:razorpaysoftwareprivatelimited",
   "posted": "2026-09-28",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:razorpaysoftwareprivatelimited:4738819005",
@@ -1113,11 +1113,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:razorpaysoftwareprivatelimited",
   "posted": "2026-10-12",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "lever:meesho:f8bdf9a3-74a5-441d-b0b3-9eac7b9836ad",
@@ -1129,11 +1129,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "lever:meesho",
   "posted": "2026-10-01",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "lever:meesho:4891a891-f431-4e98-99ae-0e31a21f0190",
@@ -1145,11 +1145,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "lever:meesho",
   "posted": "2026-09-16",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "lever:zeta:8623c195-f912-4d87-952f-7114cd258413",
@@ -1161,11 +1161,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "lever:zeta",
   "posted": "2026-09-18",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "lever:hevodata:96993ebc-609a-4733-84cd-e1a0c3e69fda",
@@ -1177,11 +1177,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "lever:hevodata",
   "posted": "2026-09-25",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "lever:hevodata:993a3ed3-3014-432f-b0f4-28d300d58d9a",
@@ -1193,11 +1193,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "lever:hevodata",
   "posted": "2026-09-21",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "lever:hevodata:8334030a-d6e3-46cc-96a4-f16c5412ed74",
@@ -1209,11 +1209,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "lever:hevodata",
   "posted": "2026-09-18",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "lever:contentsquare:e2921541-2262-4eaa-9a73-8015efc521cc",
@@ -1225,11 +1225,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "lever:contentsquare",
   "posted": "2026-10-02",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "lever:contentsquare:6e7f130f-7f81-4a06-9795-e3b27959987a",
@@ -1241,11 +1241,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "lever:contentsquare",
   "posted": "2026-09-25",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "lever:contentsquare:d872f05c-6bd6-49f6-a2da-189d1488c08f",
@@ -1257,11 +1257,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "lever:contentsquare",
   "posted": "2026-09-18",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "ashby:ramp:871d2fc8-def8-4837-a9b0-7cc4fe126c2b",
@@ -1273,11 +1273,11 @@
   "pay_source": "stated",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "ashby:ramp",
   "posted": "2026-09-23",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "ashby:ramp:925fce22-61af-4d26-8f20-90696a3b6704",
@@ -1289,11 +1289,11 @@
   "pay_source": "stated",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "ashby:ramp",
   "posted": "2026-09-18",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "ashby:ramp:0d731586-3626-48fb-9dc5-3061ae5fd240",
@@ -1305,11 +1305,11 @@
   "pay_source": "stated",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "ashby:ramp",
   "posted": "2026-10-01",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "ashby:ramp:a85afad0-8051-4333-ae89-0f82321dea87",
@@ -1321,11 +1321,11 @@
   "pay_source": "stated",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "ashby:ramp",
   "posted": "2026-09-17",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "ashby:airwallex:7c5f487d-3f78-4673-a509-d74b691f34d8",
@@ -1337,11 +1337,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "ashby:airwallex",
   "posted": "2026-09-22",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "ashby:plaid:a063f469-1ec5-44d1-8cc5-1da47a7b8783",
@@ -1353,11 +1353,11 @@
   "pay_source": "stated",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "ashby:plaid",
   "posted": "2026-10-03",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "ashby:plaid:85cb9977-7c85-4ce7-b3ba-383ecf37d09a",
@@ -1369,11 +1369,11 @@
   "pay_source": "stated",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "ashby:plaid",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "ashby:plaid:4d2f0d16-863d-46c5-bc86-2780a34eff44",
@@ -1385,11 +1385,11 @@
   "pay_source": "stated",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "ashby:plaid",
   "posted": "2026-09-24",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "smartrecruiters:fastmarkets:744000155226529",
@@ -1401,11 +1401,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "smartrecruiters:fastmarkets",
   "posted": "2026-10-13",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "smartrecruiters:fastmarkets:744000155274691",
@@ -1417,11 +1417,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "smartrecruiters:fastmarkets",
   "posted": "2026-10-13",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "workday:bpinternational:rq116683-1",
@@ -1433,11 +1433,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "workday:bpinternational.wd3/bpCareers",
   "posted": "2026-10-15",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "workday:bpinternational:rq116336-1",
@@ -1448,12 +1448,12 @@
   "pay": "UNKNOWN",
   "pay_source": "none",
   "verdict": "CHECK",
-  "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "why": "No pay info provided for an India office role",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month",
   "source": "workday:bpinternational.wd3/bpCareers",
   "posted": "2026-10-12",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "workday:bpinternational:rq116246",
@@ -1465,11 +1465,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "workday:bpinternational.wd3/bpCareers",
   "posted": "2026-10-13",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "workday:browserstack:jr103615",
@@ -1481,11 +1481,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "workday:browserstack.wd3/External",
   "posted": "2026-09-30",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "workday:hitachi:r0137519",
@@ -1497,11 +1497,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "workday:hitachi.wd1/hitachi",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "workday:hitachi:r0147094-1",
@@ -1513,11 +1513,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "workday:hitachi.wd1/hitachi",
   "posted": "2026-10-09",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:precisionaq:6128944004",
@@ -1529,11 +1529,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:precisionaq",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:precisionaq:6002582004",
@@ -1545,11 +1545,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:precisionaq",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:precisionaq:6208381004",
@@ -1561,11 +1561,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:precisionaq",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:precisionaq:6208905004",
@@ -1577,11 +1577,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:precisionaq",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "lever:gohighlevel:ba929ad2-f1b4-4ee7-bdb8-e01b74b3969b",
@@ -1593,11 +1593,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "lever:gohighlevel",
   "posted": "2026-09-16",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:alphasenseindia:8857605002",
@@ -1625,11 +1625,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:alphasenseindia",
   "posted": "2026-09-24",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "lever:jumpcloud:4752b1c4-9cdc-4e2d-9f7b-cccb449ab9e2",
@@ -1641,11 +1641,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "lever:jumpcloud",
   "posted": "2026-09-29",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "workable:pricelabs:b1296a9477",
@@ -1657,11 +1657,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "workable:pricelabs",
   "posted": "2026-10-12",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "workable:pricelabs:240e1b950e",
@@ -1673,11 +1673,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "workable:pricelabs",
   "posted": "2026-09-29",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "workable:pricelabs:3d9fc12bb2",
@@ -1689,11 +1689,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "workable:pricelabs",
   "posted": "2026-09-23",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "ashby:certifyos:759dbd75-07dd-4e64-adf0-7ed47104c605",
@@ -1705,11 +1705,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "ashby:certifyos",
   "posted": "2026-09-28",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "ashby:certifyos:ef0337a5-2e69-48ec-b6f4-a696d4770ff8",
@@ -1721,11 +1721,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "ashby:certifyos",
   "posted": "2026-10-01",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:yipitdata:8074621",
@@ -1737,11 +1737,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:yipitdata",
   "posted": "2026-10-06",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:yipitdata:3932565",
@@ -1753,11 +1753,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:yipitdata",
   "posted": "2026-09-23",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:yipitdata:4568876",
@@ -1769,11 +1769,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:yipitdata",
   "posted": "2026-10-08",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:yipitdata:3963467",
@@ -1785,11 +1785,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:yipitdata",
   "posted": "2026-09-18",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "greenhouse:yipitdata:7607324",
@@ -1801,11 +1801,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "greenhouse:yipitdata",
   "posted": "2026-09-18",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "smartrecruiters:turnitin-llc:744000151340409",
@@ -1817,11 +1817,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "smartrecruiters:TurnitinLLC",
   "posted": "2026-09-23",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "smartrecruiters:turnitin-llc:744000150440027",
@@ -1833,11 +1833,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "smartrecruiters:TurnitinLLC",
   "posted": "2026-09-18",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "smartrecruiters:turnitin-llc:744000150440959",
@@ -1849,11 +1849,11 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "smartrecruiters:TurnitinLLC",
   "posted": "2026-09-18",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
  },
  {
   "canonical_id": "smartrecruiters:turnitin-llc:744000149854869",
@@ -1865,10 +1865,90 @@
   "pay_source": "none",
   "verdict": "CHECK",
   "why": "",
-  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:404, google:404)",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
   "source": "smartrecruiters:TurnitinLLC",
   "posted": "2026-09-16",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-15T08:36:11.402Z"
+  "last_checked": "2026-10-15T08:39:35.815Z"
+ },
+ {
+  "canonical_id": "greenhouse:stripe:8195483",
+  "company": "Stripe",
+  "role": "GTM Strategy & Operations Analyst",
+  "url": "https://stripe.com/jobs/search?gh_jid=8195483",
+  "location": "Dublin",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Requires 7+ years of experience while the candidate has approximately 6 months.",
+  "flags": "Experience > 3 yrs",
+  "source": "greenhouse:stripe",
+  "posted": "2026-10-07",
+  "first_seen": "2026-10-15T08:39:35.815Z",
+  "last_checked": "2026-10-15T08:39:35.815Z"
+ },
+ {
+  "canonical_id": "greenhouse:brex:8536988002",
+  "company": "Brex",
+  "role": "Implementation Consultant I, Commercial",
+  "url": "https://www.brex.com/careers/8536988002?gh_jid=8536988002",
+  "location": "Vancouver, British Columbia, Canada",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "CHECK",
+  "why": "",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "source": "greenhouse:brex",
+  "posted": "2026-09-29",
+  "first_seen": "2026-10-15T08:39:35.815Z",
+  "last_checked": "2026-10-15T08:39:35.815Z"
+ },
+ {
+  "canonical_id": "greenhouse:brex:8606825002",
+  "company": "Brex",
+  "role": "Finance Associate",
+  "url": "https://www.brex.com/careers/8606825002?gh_jid=8606825002",
+  "location": "New York, New York, United States",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "CHECK",
+  "why": "",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "source": "greenhouse:brex",
+  "posted": "2026-09-16",
+  "first_seen": "2026-10-15T08:39:35.815Z",
+  "last_checked": "2026-10-15T08:39:35.815Z"
+ },
+ {
+  "canonical_id": "greenhouse:twilio:8261277",
+  "company": "Twilio",
+  "role": "Phone Numbers Operations Specialist 1",
+  "url": "https://job-boards.greenhouse.io/twilio/jobs/8261277",
+  "location": "Remote - Colombia",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "CHECK",
+  "why": "",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "source": "greenhouse:twilio",
+  "posted": "2026-10-14",
+  "first_seen": "2026-10-15T08:39:35.815Z",
+  "last_checked": "2026-10-15T08:39:35.815Z"
+ },
+ {
+  "canonical_id": "greenhouse:alphasenseindia:8857587002",
+  "company": "AlphaSense",
+  "role": "Business Analyst II",
+  "url": "https://job-boards.greenhouse.io/alphasenseindia/jobs/8857587002",
+  "location": "Delhi",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "CHECK",
+  "why": "",
+  "flags": "LLM gave no valid verdict | LLM failed: All LLM keys failed (groq:429, google:429)",
+  "source": "greenhouse:alphasenseindia",
+  "posted": "2026-10-08",
+  "first_seen": "2026-10-15T08:39:35.815Z",
+  "last_checked": "2026-10-15T08:39:35.815Z"
  }
 ]

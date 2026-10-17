@@ -1,7 +1,7 @@
-# Sweep 2026-10-16T20:56:36.422Z
-sources: 71, jobs fetched: 830, code-rejected: 716, new scored: 11, waiting (over cap): 0
-new verdicts: {"DEAD":9,"CHECK":2}
-liveness re-checked: 0, closed: 0
+# Sweep 2026-10-17T20:29:13.441Z
+sources: 71, jobs fetched: 832, code-rejected: 720, new scored: 0, waiting (over cap): 0
+new verdicts: {}
+liveness re-checked: 4, closed: 0
 open leads total: 23
 failed sources (0):
 

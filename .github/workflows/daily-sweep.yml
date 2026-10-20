@@ -54,6 +54,9 @@ jobs:
           else
             git checkout -q -B leads-data
           fi
+          # Vercel reads vercel.json from the pushed commit, so main's copy does not cover this
+          # data-only branch; without this file every sweep push fails a preview build ("vite build" 127).
+          echo '{"git":{"deploymentEnabled":false}}' > vercel.json
           git config user.name "ember-sweep"
           git config user.email "ember-sweep@users.noreply.github.com"
           git add -A

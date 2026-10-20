@@ -40,6 +40,7 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           HUNTER_API_KEY: ${{ secrets.HUNTER_API_KEY }}
+          GITHUB_TOKEN: ${{ github.token }} # automatic; only raises the GitHub API limit for contact lookups
         run: npx --yes tsx@4.19.2 scripts/run-sweep.ts
 
       - name: Save results to branch leads-data

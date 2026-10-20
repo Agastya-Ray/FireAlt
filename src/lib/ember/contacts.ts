@@ -56,9 +56,11 @@ export type ContactsDeps = {
   /** Returns status + body (HTML/text). Must never throw on HTTP errors. */
   get: (url: string) => Promise<{ status: number; body: string; url: string }>;
   /** Raw JSON GET for DNS-over-HTTPS, Gravatar and Hunter. */
-  getJson: (url: string) => Promise<{ status: number; data: unknown }>;
+  getJson: (url: string, headers?: Record<string, string>) => Promise<{ status: number; data: unknown }>;
   llm?: LlmCandidate[];
   hunterKey?: string;
+  /** Optional; raises GitHub's API limit from 60 to 1000+/hour (GitHub Actions provides one automatically). */
+  githubToken?: string;
   runLlm?: typeof runWithFallback;
   /** Whole lookup must finish inside this (Vercel functions stop at 60 s). Default 40 s. */
   budgetMs?: number;
@@ -344,6 +346,82 @@ async function hunterDomainSearch(domain: string, deps: ContactsDeps): Promise<{
   }
 }
 
+export type GithubEmail = { email: string; name: string; source: string };
+
+/**
+ * Real staff addresses from public commits: find the company's GitHub org (its profile must link the
+ * company domain), read recent commits on its most recently pushed repos, keep authors on the domain.
+ * No account needed; ~8 API calls per company.
+ */
+export async function githubCommitEmails(domain: string, company: string, deps: ContactsDeps): Promise<{ org: string | null; emails: GithubEmail[] }> {
+  const h: Record<string, string> = { accept: "application/vnd.github+json" };
+  if (deps.githubToken) h.authorization = `Bearer ${deps.githubToken}`;
+  const api = "https://api.github.com";
+  try {
+    const label = domain.split(".")[0]!;
+    const queries = [...new Set([label, company.replace(/[^A-Za-z0-9 ]/g, " ").trim()])];
+    const logins: string[] = [];
+    for (const q of queries) {
+      const r = await deps.getJson(`${api}/search/users?q=${encodeURIComponent(`${q} type:org`)}&per_page=4`, h);
+      for (const it of ((r.data as { items?: Array<{ login?: string }> })?.items ?? [])) if (it.login && !logins.includes(it.login)) logins.push(it.login);
+      if (logins.length >= 4) break;
+    }
+    let org: string | null = null;
+    for (const login of logins.slice(0, 4)) {
+      const r = await deps.getJson(`${api}/orgs/${encodeURIComponent(login)}`, h);
+      const d = r.data as { blog?: string | null; email?: string | null } | null;
+      const blogDomain = d?.blog ? registrableDomain(d.blog) : null;
+      const mailDomain = d?.email?.includes("@") ? registrableDomain(d.email.split("@")[1]!) : null;
+      if (blogDomain === domain || mailDomain === domain) {
+        org = login;
+        break;
+      }
+    }
+    if (!org) return { org: null, emails: [] };
+    const reposRes = await deps.getJson(`${api}/orgs/${encodeURIComponent(org)}/repos?sort=pushed&per_page=10&type=public`, h);
+    const repos = ((reposRes.data as Array<{ name?: string; fork?: boolean }>) ?? []).filter((r) => r?.name && !r.fork).slice(0, 3);
+    const out = new Map<string, GithubEmail>();
+    for (const repo of repos) {
+      const r = await deps.getJson(`${api}/repos/${encodeURIComponent(org)}/${encodeURIComponent(repo.name!)}/commits?per_page=60`, h);
+      for (const c of (Array.isArray(r.data) ? r.data : []) as Array<{ commit?: { author?: { name?: string; email?: string }; committer?: { name?: string; email?: string } } }>) {
+        for (const who of [c.commit?.author, c.commit?.committer]) {
+          const email = who?.email?.toLowerCase().trim();
+          if (!email || !who?.name || out.has(email)) continue;
+          const local = email.split("@")[0]!;
+          if (registrableDomain(email.split("@")[1] ?? "") !== domain || NO_REPLY_RE.test(email)) continue;
+          // CI users, team aliases and contractors ("gitlab-ci@", "delivery-team+release@", "jdoe-ext@").
+          if (/\+|bot|noreply|github|\bci\b|[-_.]ci$|^ci[-_.]|team|release|deploy|build|admin|[-_.]ext$/.test(local)) continue;
+          out.set(email, { email, name: who.name.trim(), source: `https://github.com/${org}/${repo.name} (commits)` });
+        }
+      }
+    }
+    return { org, emails: [...out.values()].slice(0, 15) };
+  } catch {
+    return { org: null, emails: [] };
+  }
+}
+
+const SITEMAP_PAGE_RE = /\/(team|our-team|about|about-us|leadership|people|founders|company|contact|contact-us|imprint|impressum|press|media)(\/[^/]*)?\/?$/i;
+
+/** Up to `max` team/about/contact URLs from the site's sitemap (one level of sitemap index followed). */
+export async function sitemapPages(domain: string, deps: ContactsDeps, max = 4): Promise<string[]> {
+  const pick = (xml: string) => [...xml.matchAll(/<loc>\s*([^<\s]+)\s*<\/loc>/gi)].map((m) => m[1]!);
+  try {
+    const r = await deps.get(`https://${domain}/sitemap.xml`);
+    if (r.status >= 400 || !/<(urlset|sitemapindex)/i.test(r.body)) return [];
+    let locs = pick(r.body);
+    if (/<sitemapindex/i.test(r.body)) {
+      const child = locs.find((u) => /page|main|site|en/i.test(u)) ?? locs[0];
+      if (!child) return [];
+      const c = await deps.get(child);
+      locs = c.status < 400 ? pick(c.body) : [];
+    }
+    return [...new Set(locs.filter((u) => registrableDomain(u) === domain && SITEMAP_PAGE_RE.test(new URL(u).pathname)))].slice(0, max);
+  } catch {
+    return [];
+  }
+}
+
 async function llmPeople(text: string, company: string, deps: ContactsDeps, source: string): Promise<Person[]> {
   if (!deps.llm?.length || text.length < 200) return [];
   const prompt = `From the page text of ${company}'s website, list people who are founders, executives, HR/talent/recruiting staff, or heads of operations/product/customer teams. Use ONLY names written in the text; never invent. Return ONLY JSON: {"people":[{"name":"First Last","title":"exact title"}]} (max 8, empty list if none).\n\nTEXT:\n${text.slice(0, 6000)}`;
@@ -398,7 +476,7 @@ export async function findContacts(req: ContactsRequest, rawDeps: ContactsDeps):
   const deps: ContactsDeps = {
     ...rawDeps,
     get: async (u) => (timeLeft(), rawDeps.get(u)),
-    getJson: async (u) => (timeLeft(), rawDeps.getJson(u)),
+    getJson: async (u, h) => (timeLeft(), rawDeps.getJson(u, h)),
   };
   const notes: string[] = [];
   const company = req.company.trim();
@@ -420,14 +498,18 @@ export async function findContacts(req: ContactsRequest, rawDeps: ContactsDeps):
 
   // Pages: JD + company site.
   const pages: Array<{ url: string; text: string }> = [];
+  let githubFound: GithubEmail[] = [];
   const jobText = `${req.jd ?? ""}\n${htmlToText(jobHtml)}`.trim();
   if (jobText) pages.push({ url: req.url ?? "jd", text: jobText });
   if (domain) {
-    const [mx, sitePages] = await Promise.all([
+    const extra = await sitemapPages(domain, deps);
+    const fixed = COMPANY_PATHS.map((p) => `https://${domain}${p}`);
+    const urls = [...fixed, ...extra.filter((u) => !fixed.includes(u.replace(/\/$/, "")))];
+    const [mx, sitePages, gh] = await Promise.all([
       hasMx(domain, deps),
-      mapConcurrent(COMPANY_PATHS, 6, async (p) => {
+      mapConcurrent(urls, 6, async (u) => {
         try {
-          const r = await deps.get(`https://${domain}${p}`);
+          const r = await deps.get(u);
           if (r.status >= 400 || !r.body) return null;
           // Redirected to an unrelated host (parked domain, link shortener): ignore.
           if (registrableDomain(r.url) !== domain && !domainMatchesCompany(registrableDomain(r.url) ?? "", company)) return null;
@@ -436,8 +518,11 @@ export async function findContacts(req: ContactsRequest, rawDeps: ContactsDeps):
           return null;
         }
       }),
+      githubCommitEmails(domain, company, deps),
     ]);
     result.mx = mx;
+    githubFound = gh.emails;
+    if (gh.org) notes.push(`GitHub org ${gh.org}: ${gh.emails.length} staff address(es) in public commits`);
     const seenUrls = new Set<string>();
     for (const p of sitePages) {
       if (!p || seenUrls.has(p.url)) continue;
@@ -469,22 +554,32 @@ export async function findContacts(req: ContactsRequest, rawDeps: ContactsDeps):
     }
   }
 
+  // GitHub commit authors: real addresses with real names (also teach the pattern).
+  for (const g of githubFound) {
+    domainEmails.push(g.email);
+    if (!found.has(g.email)) {
+      found.set(g.email, { email: g.email, kind: "person", confidence: "published", name: g.name.includes(" ") ? g.name : undefined, evidence: g.source });
+    }
+  }
+  const allTextWithGit = `${allText}\n${githubFound.map((g) => `${g.name} <${g.email}>`).join("\n")}`;
+
   // Name/title for published person addresses.
   for (const c of found.values()) {
     if (c.kind !== "person") continue;
-    const idx = allText.toLowerCase().indexOf(c.email);
-    const near = idx >= 0 ? allText.slice(Math.max(0, idx - 160), idx + 160) : "";
+    const idx = allTextWithGit.toLowerCase().indexOf(c.email);
+    const near = idx >= 0 ? allTextWithGit.slice(Math.max(0, idx - 160), idx + 160) : "";
     const local = c.email.split("@")[0]!;
     const name = namesNear(near).find((n) => matchPattern(local, n));
     if (name) c.name = name;
     // One-word boxes (connect@, power@, references@) are people only when a matching name is printed next to them.
-    else if (!/[._-]/.test(local)) c.kind = "general";
+    // Commit authors are people by definition.
+    else if (!/[._-]/.test(local) && !c.evidence.includes("github.com")) c.kind = "general";
   }
 
   // People on the site (regex first, LLM only if regex finds nobody).
   const people: Person[] = [];
   // Only team-style pages: home pages and JDs are full of customer testimonials ("Paul Riley, COO, <client>").
-  const teamish = pages.filter((p) => /\/(team|our-team|about|about-us|people|leadership|company|imprint|impressum)\/?$/i.test(p.url));
+  const teamish = pages.filter((p) => /\/(team|our-team|about|about-us|people|leadership|founders|company|imprint|impressum)(\/[^/]*)?\/?$/i.test(p.url));
   for (const p of teamish) people.push(...peopleFromText(p.text, p.url));
   if (!people.length && domain) {
     for (const p of teamish.slice(0, 2)) people.push(...(await llmPeople(p.text, company, deps, p.url)));
@@ -500,7 +595,7 @@ export async function findContacts(req: ContactsRequest, rawDeps: ContactsDeps):
       if (!prev || CONF_RANK[c.confidence] < CONF_RANK[prev.confidence]) found.set(c.email, { ...prev, ...c, name: c.name ?? prev?.name });
     }
   }
-  result.pattern = (hunter?.pattern && TEMPLATES.some(([p]) => p === hunter.pattern) ? hunter.pattern : null) ?? inferPattern(domainEmails, allText);
+  result.pattern = (hunter?.pattern && TEMPLATES.some(([p]) => p === hunter.pattern) ? hunter.pattern : null) ?? inferPattern(domainEmails, allTextWithGit);
 
   // Likely addresses for named people (only with a learned pattern and live MX).
   if (domain && result.pattern && result.mx) {
@@ -549,13 +644,17 @@ export function defaultContactsDeps(opts: { llm?: LlmCandidate[]; hunterKey?: st
       const p = await fetchPage(url, { timeoutMs: 8_000, maxBytes: 1_500_000 });
       return { status: p.status, body: p.body, url: p.url };
     },
-    getJson: async (url) => {
-      const res = await fetch(url, { headers: { accept: "application/dns-json, application/json" }, signal: AbortSignal.timeout(8_000) });
+    getJson: async (url, headers) => {
+      const res = await fetch(url, {
+        headers: { accept: "application/dns-json, application/json", "user-agent": "Ember-contacts", ...headers },
+        signal: AbortSignal.timeout(8_000),
+      });
       let data: unknown = null;
       if ((res.headers.get("content-type") ?? "").includes("json")) data = await res.json().catch(() => null);
       return { status: res.status, data };
     },
     llm: opts.llm,
     hunterKey: opts.hunterKey ?? process.env.HUNTER_API_KEY?.trim() ?? undefined,
+    githubToken: process.env.GITHUB_TOKEN?.trim() || undefined,
   };
 }

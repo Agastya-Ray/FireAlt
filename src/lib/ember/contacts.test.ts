@@ -165,3 +165,43 @@ test("rank: published careers box beats a pattern-built CEO address", () => {
   ]);
   assert.deepEqual(r.map((c) => c.email), ["asktalent@x.com", "aachal.shah@x.com", "mark.g@x.com", "info@x.com"]);
 });
+
+test("findContacts: GitHub commit authors give real addresses and the pattern; sitemap adds team pages", async () => {
+  const deps = fakeDeps({
+    "https://acme.io/sitemap.xml": "<urlset><url><loc>https://acme.io/company/leadership</loc></url><url><loc>https://acme.io/blog/x</loc></url></urlset>",
+    "https://acme.io/company/leadership": "<li>Neha Gupta, Head of People</li>",
+  });
+  const base = deps.getJson;
+  deps.getJson = async (url: string, h?: Record<string, string>) => {
+    if (url.includes("/search/users")) return { status: 200, data: { items: [{ login: "acme-oss" }, { login: "acmecorp" }] } };
+    if (url.endsWith("/orgs/acme-oss")) return { status: 200, data: { blog: "https://other.dev" } };
+    if (url.endsWith("/orgs/acmecorp")) return { status: 200, data: { blog: "https://www.acme.io" } };
+    if (url.includes("/orgs/acmecorp/repos")) return { status: 200, data: [{ name: "app" }, { name: "fork", fork: true }] };
+    if (url.includes("/repos/acmecorp/app/commits"))
+      return {
+        status: 200,
+        data: [
+          { commit: { author: { name: "Rohan Mehta", email: "rohan.mehta@acme.io" }, committer: { name: "GitHub", email: "noreply@github.com" } } },
+          { commit: { author: { name: "Sara Ali", email: "sara.ali@acme.io" } } },
+          { commit: { author: { name: "Bot", email: "bot@acme.io" } } },
+          { commit: { author: { name: "CI", email: "acme-ci@acme.io" } } },
+          { commit: { author: { name: "Rel", email: "delivery-team+release@acme.io" } } },
+          { commit: { author: { name: "Sébastien Guillaume", email: "sguillaume@acme.io" } } },
+          { commit: { author: { name: "Ex", email: "ex@gmail.com" } } },
+        ],
+      };
+    return base(url, h);
+  };
+  const r = await findContacts({ company: "Acme", domain: "acme.io" }, deps);
+  const by = Object.fromEntries(r.contacts.map((c) => [c.email, c]));
+  assert.equal(by["rohan.mehta@acme.io"]?.confidence, "published");
+  assert.equal(by["rohan.mehta@acme.io"]?.name, "Rohan Mehta");
+  assert.equal(by["bot@acme.io"], undefined);
+  assert.equal(by["acme-ci@acme.io"], undefined);
+  assert.equal(by["delivery-team+release@acme.io"], undefined);
+  assert.equal(by["sguillaume@acme.io"]?.kind, "person");
+  assert.equal(r.pattern, "{first}.{last}");
+  // Head of People from the sitemap's leadership page gets a pattern-built address and ranks first.
+  assert.equal(r.contacts[0]?.email, "neha.gupta@acme.io");
+  assert.equal(r.contacts[0]?.confidence, "likely");
+});

@@ -10,8 +10,10 @@ import { mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { findJobs, type Job } from "../src/lib/ember/jobs.ts";
 import {
+  boardSlugGuesses,
   buildCanonicalId,
   buildCandidateKeys,
+  dedupKey,
   filterJobInCode,
   formatLeadsCsv,
   isJobStillLive,
@@ -31,6 +33,9 @@ const POSTED_DAYS = Number(process.env.SWEEP_POSTED_DAYS || 30);
 const LIVENESS_DAYS = 2;
 const LLM_GAP_MS = Number(process.env.SWEEP_LLM_GAP_MS || 4_000);
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+/** Max companies per run to probe for their own Greenhouse/Lever/Ashby board (3 board types x up to 3 names each). */
+const DISCOVER_MAX = Number(process.env.SWEEP_DISCOVER_MAX || 15);
+const DISCOVERED_FILE = "discovered-sources.json";
 const UA = "Mozilla/5.0 (compatible; EmberSweep/1.0; +https://fire-alt.vercel.app)";
 
 class FileLeadsStore implements LeadsStore {
@@ -75,6 +80,12 @@ async function main() {
   const started = new Date();
   mkdirSync(DATA_DIR, { recursive: true });
   const cfg = JSON.parse(readFileSync("companies.json", "utf8")) as CompaniesConfig;
+  // Company boards found from aggregator leads on earlier runs (kept on the leads-data branch).
+  const discoveredPath = join(DATA_DIR, DISCOVERED_FILE);
+  const discovered: CompanyEntry[] = existsSync(discoveredPath) ? (JSON.parse(readFileSync(discoveredPath, "utf8")) as CompanyEntry[]) : [];
+  const boardKey = (e: { type: string; board?: string; url?: string }) => `${e.type}:${(e.board ?? e.url ?? "").toLowerCase()}`;
+  const configured = new Set(cfg.sources.map(boardKey));
+  const sources = [...cfg.sources, ...discovered.filter((d) => !configured.has(boardKey(d)))];
   const store: LeadsStore =
     process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY
       ? new SupabaseLeadsStore(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
@@ -87,37 +98,49 @@ async function main() {
 
   const existing = await store.getAll();
   const known = new Map(existing.map((r) => [r.canonical_id, r]));
+  const knownByKey = new Map(existing.map((r) => [dedupKey(r.company, r.role), r]));
   const nowIso = started.toISOString();
 
   // 1. Fetch every source separately (findJobs caps results per call at 50).
   const failed: string[] = [];
-  const perSource = await mapConcurrent(cfg.sources, 4, async (src: CompanyEntry) => {
-    try {
-      const { name: _n, tier: _t, verified: _v, ...source } = src;
-      const r = await findJobs({ sources: [source], include: cfg.searchKeywords, postedWithinDays: POSTED_DAYS, limit: 50, details: true });
-      r.failed.forEach((f) => failed.push(`${src.name}: ${f.error}`));
-      return r.jobs.map((job) => ({ job, src }));
-    } catch (err) {
-      failed.push(`${src.name}: ${(err as Error).message.slice(0, 120)}`);
-      return [];
+  const perSource = await mapConcurrent(sources, 4, async (src: CompanyEntry) => {
+    const { name: _n, tier: _t, verified: _v, keywords, remoteOnly, noDates, ...source } = src;
+    // Search boards (LinkedIn, Instahyre, Himalayas...) only use the first 3 words, so a keyword list runs in groups of 3.
+    const groups = keywords?.length ? Array.from({ length: Math.ceil(keywords.length / 3) }, (_, i) => keywords.slice(i * 3, i * 3 + 3)) : [cfg.searchKeywords];
+    const out: Array<{ job: Job; src: CompanyEntry }> = [];
+    for (const include of groups) {
+      try {
+        const r = await findJobs({ sources: [source], include, remoteOnly, postedWithinDays: noDates ? undefined : POSTED_DAYS, limit: 50, details: true });
+        r.failed.forEach((f) => failed.push(`${src.name}${groups.length > 1 ? ` [${include.join(", ")}]` : ""}: ${f.error.slice(0, 120)}`));
+        out.push(...r.jobs.map((job) => ({ job, src })));
+      } catch (err) {
+        failed.push(`${src.name}: ${(err as Error).message.slice(0, 120)}`);
+      }
     }
+    return out;
   });
   const fetched = perSource.flat();
 
   // 2. Code filter + dedup.
   const seenThisRun = new Set<string>();
+  const seenKeys = new Set<string>();
+  /** Aggregators list many employers: name the lead after the job's company, not the board. */
+  const companyOf = (job: Job, src: CompanyEntry) => (src.tier === "board" ? job.company || src.name : src.name || job.company);
   const fresh: Array<{ job: Job; src: CompanyEntry; id: string; bucket: Parameters<typeof scoreJobWithLlm>[3] }> = [];
   const touched: LeadRow[] = [];
   let codeRejected = 0;
   for (const { job, src } of fetched) {
     const id = buildCanonicalId(job);
-    if (seenThisRun.has(id)) continue;
+    const key = dedupKey(companyOf(job, src), job.title);
+    if (seenThisRun.has(id) || seenKeys.has(key)) continue;
     seenThisRun.add(id);
-    const prev = known.get(id);
+    seenKeys.add(key);
+    const prev = known.get(id) ?? knownByKey.get(key);
+    if (prev) seenThisRun.add(prev.canonical_id);
     // A lead whose scoring failed (bad key, retired model) gets scored again instead of staying CHECK forever.
     if (prev && prev.flags.includes("LLM failed") && candidates.length) {
       const f = filterJobInCode(job, src.tier);
-      if (f.pass) fresh.push({ job, src, id, bucket: f.locationBucket });
+      if (f.pass) fresh.push({ job, src, id: prev.canonical_id, bucket: f.locationBucket });
       continue;
     }
     if (prev) {
@@ -146,7 +169,7 @@ async function main() {
     await sleep(LLM_GAP_MS);
     const row: LeadRow = {
       canonical_id: id,
-      company: src.name || job.company,
+      company: companyOf(job, src),
       role: job.title,
       url: job.url,
       location: job.location,
@@ -162,6 +185,35 @@ async function main() {
     };
     return row;
   });
+
+  // 3b. Discovery: a company found on an aggregator may have its own Greenhouse/Lever/Ashby board. Probe a few
+  // per run; boards that answer are saved and swept natively from the next run on (more roles, real descriptions).
+  const knownCompanies = new Set(sources.map((x) => dedupKey(x.name, "")));
+  const toProbe = [
+    ...new Set(
+      scored
+        .filter((r) => r.source && sources.some((x) => x.tier === "board" && r.source.startsWith(x.type)) && r.verdict !== "DEAD")
+        .map((r) => r.company)
+        .filter((c) => c && !knownCompanies.has(dedupKey(c, ""))),
+    ),
+  ].slice(0, DISCOVER_MAX);
+  const found: CompanyEntry[] = [];
+  await mapConcurrent(toProbe, 3, async (company) => {
+    for (const board of boardSlugGuesses(company)) {
+      for (const type of ["greenhouse", "lever", "ashby"] as const) {
+        try {
+          const r = await findJobs({ sources: [{ type, board }], limit: 1 });
+          if (!r.failed.length && r.counts.fetched > 0) {
+            found.push({ type, board, name: company, tier: "remote_startup", verified: false });
+            return;
+          }
+        } catch {
+          /* not on this board */
+        }
+      }
+    }
+  });
+  if (found.length) writeFileSync(discoveredPath, JSON.stringify([...discovered, ...found], null, 1));
 
   // 4. Liveness: open leads not seen in this run and not checked for 2+ days.
   const cutoff = started.getTime() - LIVENESS_DAYS * 86_400_000;
@@ -186,10 +238,11 @@ async function main() {
   const report = [
     `# Sweep ${nowIso}`,
     ...(candidates.length ? [] : [`WARNING: ${noKeyMsg}`]),
-    `sources: ${cfg.sources.length}, jobs fetched: ${fetched.length}, code-rejected: ${codeRejected}, new scored: ${scored.length}, waiting (over cap): ${Math.max(0, fresh.length - scored.length)}`,
+    `sources: ${sources.length} (${discovered.length} discovered), jobs fetched: ${fetched.length}, code-rejected: ${codeRejected}, new scored: ${scored.length}, waiting (over cap): ${Math.max(0, fresh.length - scored.length)}`,
     `new verdicts: ${JSON.stringify(counts)}`,
     `liveness re-checked: ${rechecked.length}, closed: ${killed}`,
     `open leads total: ${all.filter((r) => r.verdict !== "DEAD").length}`,
+    `company boards discovered: ${found.length}${found.length ? ` (${found.map((f) => `${f.name} -> ${f.type}:${f.board}`).join(", ")})` : ""}`,
     `failed sources (${failed.length}):`,
     ...failed.map((f) => `- ${f}`),
     "",

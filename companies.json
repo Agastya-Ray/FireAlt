@@ -42,6 +42,107 @@
       "type": "wwr"
     },
     {
+      "type": "linkedin",
+      "board": "India",
+      "name": "LinkedIn (India, remote)",
+      "tier": "board",
+      "remoteOnly": true,
+      "keywords": [
+        "business analyst",
+        "implementation",
+        "revenue operations",
+        "product analyst",
+        "operations analyst",
+        "strategy",
+        "chief of staff",
+        "founder's office",
+        "pricing analyst",
+        "ctrm",
+        "etrm",
+        "commodity"
+      ]
+    },
+    {
+      "type": "linkedin",
+      "board": "Bhubaneswar, Odisha, India",
+      "name": "LinkedIn (Bhubaneswar)",
+      "tier": "board",
+      "keywords": [
+        "analyst",
+        "implementation",
+        "operations",
+        "consultant",
+        "associate",
+        "strategy"
+      ]
+    },
+    {
+      "type": "himalayas",
+      "board": "India",
+      "name": "Himalayas",
+      "tier": "board",
+      "keywords": [
+        "business analyst",
+        "implementation",
+        "revenue operations",
+        "product analyst",
+        "operations analyst",
+        "strategy",
+        "chief of staff",
+        "founder's office",
+        "pricing analyst",
+        "ctrm",
+        "etrm",
+        "commodity"
+      ]
+    },
+    {
+      "type": "instahyre",
+      "name": "Instahyre",
+      "tier": "board",
+      "noDates": true,
+      "keywords": [
+        "business analyst",
+        "implementation",
+        "revenue operations",
+        "product analyst",
+        "operations analyst",
+        "strategy"
+      ]
+    },
+    {
+      "type": "cutshort",
+      "name": "Cutshort",
+      "tier": "board",
+      "noDates": true
+    },
+    {
+      "type": "jobicy",
+      "board": "apac",
+      "name": "Jobicy",
+      "tier": "board"
+    },
+    {
+      "type": "workingnomads",
+      "name": "Working Nomads",
+      "tier": "board"
+    },
+    {
+      "type": "remoteok",
+      "name": "Remote OK",
+      "tier": "board"
+    },
+    {
+      "type": "learnetrm",
+      "name": "LearnETRM",
+      "tier": "board"
+    },
+    {
+      "type": "etrmconnect",
+      "name": "ETRM Connect",
+      "tier": "board"
+    },
+    {
       "name": "Arcesium",
       "tier": "data_fintech",
       "type": "greenhouse",

@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { buildCanonicalId, filterJobInCode, formatLeadsCsv, guardVerdict, isJobStillLive, mergeRows, scoreJobWithLlm, type LeadRow } from "./sweep.ts";
+import { boardSlugGuesses, buildCanonicalId, dedupKey, filterJobInCode, formatLeadsCsv, guardVerdict, isJobStillLive, mergeRows, scoreJobWithLlm, type LeadRow } from "./sweep.ts";
 
 const J = (title: string, location = "Remote - India", remote: "Remote" | "Onsite" | "Hybrid" | "Unknown" = "Remote") => ({ title, location, remote });
 
@@ -82,4 +82,24 @@ test("mergeRows keeps original first_seen", () => {
   const m = mergeRows([row("1", "PARK", "2026-10-01")], [{ ...row("1", "DEAD", "2026-10-14") }]);
   assert.equal(m[0]!.first_seen, "2026-10-01");
   assert.equal(m[0]!.verdict, "DEAD");
+});
+
+test("canonical id: LinkedIn job number, any subdomain", () => {
+  const a = buildCanonicalId({ url: "https://in.linkedin.com/jobs/view/business-analyst-at-acme-4480418570", source: "linkedin:India", company: "Acme", title: "Business Analyst" });
+  const b = buildCanonicalId({ url: "https://www.linkedin.com/jobs/view/4480418570", source: "linkedin:India", company: "Acme", title: "Business Analyst" });
+  assert.equal(a, "linkedin:acme:4480418570");
+  assert.equal(a, b);
+});
+
+test("dedupKey: same job re-listed with a job code or company suffix matches; different roles don't", () => {
+  assert.equal(dedupKey("Cargill", "Trading Analyst - 332068"), dedupKey("Cargill", "Trading Analyst"));
+  assert.equal(dedupKey("Trafigura", "Operations Analyst R-018874"), dedupKey("Trafigura Pvt Ltd", "Operations Analyst"));
+  assert.notEqual(dedupKey("BNP Paribas", "Business Analyst - Trade Finance"), dedupKey("BNP Paribas", "Business Analyst - CLM"));
+  assert.notEqual(dedupKey("Acme", "Business Analyst"), dedupKey("Other", "Business Analyst"));
+});
+
+test("boardSlugGuesses: whole name joined, legal suffixes dropped", () => {
+  assert.deepEqual(boardSlugGuesses("Acme Labs, Inc."), ["acmelabs", "acme-labs"]);
+  assert.deepEqual(boardSlugGuesses("Venn®"), ["venn"]);
+  assert.deepEqual(boardSlugGuesses("HighLevel"), ["highlevel"]);
 });

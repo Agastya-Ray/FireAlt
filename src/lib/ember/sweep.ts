@@ -27,6 +27,12 @@ export type CompanyEntry = JobSource & {
   tier: CompanyTier;
   /** false = slug not yet confirmed live; the run report lists failures. */
   verified?: boolean;
+  /** Search words for this source instead of searchKeywords; sent in groups of 3 (job-board search APIs take up to 3). */
+  keywords?: string[];
+  /** Only remote jobs (LinkedIn adds its remote filter). */
+  remoteOnly?: boolean;
+  /** Board gives no posting dates (Instahyre, most Cutshort cards): skip the posted-within filter. */
+  noDates?: boolean;
 };
 
 export type CompaniesConfig = {
@@ -91,6 +97,7 @@ export function buildCanonicalId(job: Pick<Job, "url" | "source" | "company" | "
     /myworkdayjobs\.com\/.*_([A-Za-z0-9-]+)$/i,
     /zohorecruit\.in\/jobs\/Careers\/(\d+)/i,
     /JobDetail\?jobId=(\d+)/i,
+    /linkedin\.com\/jobs\/view\/(?:[^/?#]*-)?(\d{6,})/i,
     /jobvite\.com\/[^/]+\/job\/([A-Za-z0-9]+)/i,
     /bamboohr\.com\/careers\/(\d+)/i,
     /\/jobs\/(\d+)-[a-z0-9-]+/i,
@@ -110,6 +117,36 @@ export function buildCanonicalId(job: Pick<Job, "url" | "source" | "company" | "
     .toLowerCase()
     .slice(-80);
   return `${srcPrefix}:${co}:${slug}`;
+}
+
+/**
+ * Looser key = company + title with job codes dropped. Catches the same job re-listed under a new URL
+ * (cargill-...-332068 vs cargill-...) and the same job found on LinkedIn and on the company's own board.
+ */
+export function dedupKey(company: string, title: string): string {
+  const co = company
+    .toLowerCase()
+    .replace(/\b(inc|llc|ltd|limited|pvt|private|plc|gmbh|corp|corporation|co|technologies|technology|software|solutions)\b\.?/g, " ")
+    .replace(/[^a-z0-9]+/g, "");
+  const t = title
+    .toLowerCase()
+    .replace(/\b[a-z]{0,4}[-_]?\d[\w-]*\b/g, " ")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+  return `${co}|${t}`;
+}
+
+/** Board names to try for a company found on an aggregator: "Acme Labs, Inc." -> ["acmelabs", "acme-labs"]. */
+export function boardSlugGuesses(company: string): string[] {
+  const words = company
+    .toLowerCase()
+    .replace(/\(.*?\)|®|™/g, " ")
+    .replace(/\b(inc|llc|ltd|limited|pvt|private|plc|gmbh|corp|corporation)\b\.?/g, " ")
+    .split(/[^a-z0-9]+/)
+    .filter(Boolean);
+  if (!words.length) return [];
+  // Whole name only: a first-word guess ("clearwater") too often hits a different company's board.
+  return [...new Set([words.join(""), words.join("-")])].filter((x) => x.length >= 3);
 }
 
 // ---------------------------------------------------------------------------

@@ -39,6 +39,7 @@ jobs:
           EMBER_LLM_KEYS: ${{ secrets.EMBER_LLM_KEYS }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          HUNTER_API_KEY: ${{ secrets.HUNTER_API_KEY }}
         run: npx --yes tsx@4.19.2 scripts/run-sweep.ts
 
       - name: Save results to branch leads-data

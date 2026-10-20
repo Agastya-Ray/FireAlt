@@ -4,11 +4,14 @@
  * Env (GitHub repo secrets):
  *   GROQ_API_KEY, GEMINI_API_KEY      LLM rubric (at least one; EMBER_LLM_KEYS also accepted)
  *   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY   optional; without them state lives in data/leads.json
- * Options (env): SWEEP_MAX_LLM (default 150), SWEEP_POSTED_DAYS (default 30), SWEEP_DATA_DIR (default "data")
+ *   HUNTER_API_KEY                    optional; adds Hunter-verified recruiter emails (free tier: 25 domains/month)
+ * Options (env): SWEEP_MAX_LLM (default 150), SWEEP_POSTED_DAYS (default 30), SWEEP_DATA_DIR (default "data"),
+ *   SWEEP_MAX_CONTACTS (default 40 new leads per run get a contact lookup)
  */
 import { mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { findJobs, type Job } from "../src/lib/ember/jobs.ts";
+import { defaultContactsDeps, findContacts, type ContactsResult } from "../src/lib/ember/contacts.ts";
 import {
   buildCanonicalId,
   buildCandidateKeys,
@@ -21,6 +24,7 @@ import {
   SupabaseLeadsStore,
   type CompaniesConfig,
   type CompanyEntry,
+  type LeadContactCell,
   type LeadRow,
   type LeadsStore,
 } from "../src/lib/ember/sweep.ts";
@@ -30,6 +34,8 @@ const MAX_LLM = Number(process.env.SWEEP_MAX_LLM || 150);
 const POSTED_DAYS = Number(process.env.SWEEP_POSTED_DAYS || 30);
 const LIVENESS_DAYS = 2;
 const LLM_GAP_MS = Number(process.env.SWEEP_LLM_GAP_MS || 4_000);
+const MAX_CONTACTS = Number(process.env.SWEEP_MAX_CONTACTS || 40);
+const CONTACT_VERDICTS = new Set(["PASS", "PARK", "HIGHPAY", "ABROAD"]);
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const UA = "Mozilla/5.0 (compatible; EmberSweep/1.0; +https://fire-alt.vercel.app)";
 
@@ -179,7 +185,38 @@ async function main() {
   const updates = [...touched, ...scored, ...rechecked];
   await store.upsert(updates);
   const all = mergeRows(existing, updates);
-  writeFileSync(join(DATA_DIR, "open-leads.csv"), formatLeadsCsv(all));
+
+  // 6. Recruiter contacts for open PASS/PARK/HIGHPAY/ABROAD leads that have none yet (one lookup per domain).
+  const contactsPath = join(DATA_DIR, "contacts.json");
+  const contacts: Record<string, ContactsResult & { checked: string; url: string; role: string }> = existsSync(contactsPath)
+    ? JSON.parse(readFileSync(contactsPath, "utf8"))
+    : {};
+  const needContacts = all
+    // Leads with nothing found are retried after 14 days (sites change, people join).
+    .filter((r) => {
+      const c = contacts[r.canonical_id];
+      return CONTACT_VERDICTS.has(r.verdict) && (!c || (!c.contacts.length && Date.parse(c.checked) < started.getTime() - 14 * 86_400_000));
+    })
+    .sort((a, b) => b.first_seen.localeCompare(a.first_seen))
+    .slice(0, MAX_CONTACTS);
+  const deps = defaultContactsDeps({ llm: candidates });
+  const byCompany = new Map<string, Promise<ContactsResult>>();
+  let contactsFound = 0;
+  await mapConcurrent(needContacts, 2, async (r) => {
+    const key = r.company.toLowerCase();
+    if (!byCompany.has(key)) byCompany.set(key, findContacts({ company: r.company, url: r.url }, deps).catch((err) => ({ company: r.company, domain: null, mx: false, pattern: null, contacts: [], people: [], pagesRead: 0, notes: [`lookup failed: ${(err as Error).message.slice(0, 100)}`] })));
+    const res = await byCompany.get(key)!;
+    if (res.contacts.length) contactsFound++;
+    contacts[r.canonical_id] = { ...res, checked: nowIso, url: r.url, role: r.role };
+  });
+  writeFileSync(contactsPath, JSON.stringify(contacts, null, 1));
+  const best = new Map<string, LeadContactCell>();
+  for (const [id, c] of Object.entries(contacts)) {
+    const top = c.contacts[0];
+    if (top) best.set(id, { email: top.email, confidence: top.confidence, evidence: top.name ? `${top.name}${top.title ? `, ${top.title}` : ""}` : top.kind });
+  }
+  writeFileSync(join(DATA_DIR, "contacts.csv"), formatContactsCsv(all, contacts));
+  writeFileSync(join(DATA_DIR, "open-leads.csv"), formatLeadsCsv(all, best));
 
   const counts: Record<string, number> = {};
   for (const r of scored) counts[r.verdict] = (counts[r.verdict] ?? 0) + 1;
@@ -189,6 +226,7 @@ async function main() {
     `sources: ${cfg.sources.length}, jobs fetched: ${fetched.length}, code-rejected: ${codeRejected}, new scored: ${scored.length}, waiting (over cap): ${Math.max(0, fresh.length - scored.length)}`,
     `new verdicts: ${JSON.stringify(counts)}`,
     `liveness re-checked: ${rechecked.length}, closed: ${killed}`,
+    `contacts looked up: ${needContacts.length} (with an email: ${contactsFound})${process.env.HUNTER_API_KEY ? " [Hunter on]" : ""}`,
     `open leads total: ${all.filter((r) => r.verdict !== "DEAD").length}`,
     `failed sources (${failed.length}):`,
     ...failed.map((f) => `- ${f}`),
@@ -203,6 +241,26 @@ async function main() {
   ].join("\n");
   writeFileSync(join(DATA_DIR, "last-run.md"), report + "\n");
   console.log(report);
+}
+
+function csv(v: string | undefined | null): string {
+  const s = String(v ?? "").replace(/\r?\n/g, " ").trim();
+  return /[",]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+}
+
+/** One row per contact email for open leads; best contact first. Phone-readable. */
+function formatContactsCsv(rows: LeadRow[], contacts: Record<string, ContactsResult>): string {
+  const lines = ["verdict,company,role,email,confidence,name,title,evidence,people_without_email,job_url"];
+  const open = rows.filter((r) => CONTACT_VERDICTS.has(r.verdict) && contacts[r.canonical_id]);
+  for (const r of open) {
+    const c = contacts[r.canonical_id]!;
+    const people = c.people.filter((p) => !c.contacts.some((x) => x.name === p.name)).map((p) => `${p.name} (${p.title})`).join("; ");
+    const list = c.contacts.length ? c.contacts.slice(0, 4) : [null];
+    for (const x of list) {
+      lines.push([r.verdict, r.company, r.role, x?.email, x?.confidence ?? (c.notes[0] || "none found"), x?.name, x?.title, x?.evidence, people, r.url].map(csv).join(","));
+    }
+  }
+  return lines.join("\n") + "\n";
 }
 
 main().catch((err) => {

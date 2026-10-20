@@ -181,7 +181,7 @@ export function matchPattern(local: string, fullName: string): string | null {
 
 /** Capitalised words that are never part of a person's name on company pages. */
 const NOT_NAME_RE =
-  /^(About|Our|The|Meet|Join|Contact|Head|Chief|Senior|Lead|Merchant|Services?|Operations?|People|Talent|Team|Teams|Company|Careers?|Product|Products|Solutions?|Platform|Customer|Customers|Success|Global|India|United|States|Kingdom|New|York|San|Read|More|Learn|Privacy|Policy|Terms|Cookie|Cookies|Biography|Fields|Board|Directors?|Leadership|Management|Executive|Officer|President|Vice|Founder|Co|Inc|Ltd|Group|Partners?|Capital|Ventures|Energy|Power|Season|All|Data|Analytics|Market|Markets|Trading|Financial|Finance|Technology|Technologies|Engineering|Sales|Marketing|Support|Help|Center|Centre|Home|Blog|News|Press|Events?|Resources|Case|Studies|Study|Request|Demo|Book|Free|Trial|Get|Started|Sign|Log|In|Up|Office|Offices|Location|Locations|Asia|Europe|America|Pacific|Middle|East|North|South|West)$/;
+  /^(About|Our|The|Meet|Join|Contact|Head|Chief|Senior|Lead|Merchant|Services?|Operations?|People|Talent|Team|Teams|Company|Careers?|Product|Products|Solutions?|Platform|Customer|Customers|Success|Global|India|United|States|Kingdom|New|York|San|Read|More|Learn|Privacy|Policy|Terms|Cookie|Cookies|Biography|Fields|Board|Directors?|Leadership|Management|Executive|Officer|President|Vice|Founder|Co|Inc|Ltd|Group|Partners?|Capital|Ventures|Energy|Power|Season|All|Data|Analytics|Market|Markets|Trading|Financial|Finance|Technology|Technologies|Engineering|Sales|Marketing|Support|Help|Center|Centre|Home|Blog|News|Press|Events?|Resources|Case|Studies|Study|Request|Demo|Book|Free|Trial|Get|Started|Sign|Log|In|Up|Office|Offices|Location|Locations|Asia|Europe|America|Pacific|Middle|East|North|South|West|For|Saved|Daily|Life|At|Stories|Story|Routing|App|Apps|Companies|Talents?|Hire|Hiring|Work|Jobs?|Open|Roles?|Why|How|What|We|You|Your|This|That|With|From|And|Or|To|Of|On|By)$/;
 
 /** Capitalised "First Last" pairs in a text window (overlapping, so "Contact Priya Sharma" yields both pairs). */
 export function namesNear(text: string): string[] {
@@ -223,7 +223,7 @@ export function peopleFromText(text: string, source: string): Person[] {
     /\b([A-Z][a-z'-]{1,20}(?:[ \t]+[A-Z][a-z'-]{1,25}){1,2})[ \t]*(?:[,|–—-]|\n|[ \t]{2,})[ \t]*((?:Co-?founder|Founder|CEO|COO|Chief [A-Za-z ]{3,25}|Head of [A-Za-z &]{3,30}|(?:Senior |Lead )?(?:Talent|Recruit)[A-Za-z ]{0,25}|HR [A-Za-z ]{0,20}|People [A-Za-z ]{2,20}|VP[ ,][A-Za-z ]{3,25}|Managing Director|President)[A-Za-z &,/]{0,30})/g;
   for (const m of text.matchAll(re)) {
     const name = m[1]!.trim();
-    const title = m[2]!.replace(/[,\s]+$/, "").trim();
+    const title = m[2]!.replace(/[,&/\s]+$/, "").trim();
     if (name.split(/\s+/).some((w) => NOT_NAME_RE.test(w))) continue;
     const key = name.toLowerCase();
     if (seen.has(key)) continue;
@@ -466,8 +466,11 @@ export async function findContacts(req: ContactsRequest, rawDeps: ContactsDeps):
     if (c.kind !== "person") continue;
     const idx = allText.toLowerCase().indexOf(c.email);
     const near = idx >= 0 ? allText.slice(Math.max(0, idx - 160), idx + 160) : "";
-    const name = namesNear(near).find((n) => matchPattern(c.email.split("@")[0]!, n));
+    const local = c.email.split("@")[0]!;
+    const name = namesNear(near).find((n) => matchPattern(local, n));
     if (name) c.name = name;
+    // One-word boxes (connect@, power@, references@) are people only when a matching name is printed next to them.
+    else if (!/[._-]/.test(local)) c.kind = "general";
   }
 
   // People on the site (regex first, LLM only if regex finds nobody).
@@ -495,7 +498,7 @@ export async function findContacts(req: ContactsRequest, rawDeps: ContactsDeps):
   if (domain && result.pattern && result.mx) {
     for (const p of result.people.filter((x) => HIRING_TITLE_RE.test(x.title)).slice(0, 4)) {
       const local = applyPattern(result.pattern, p.name);
-      if (!local) continue;
+      if (!local || classifyLocal(local) !== "person") continue;
       const email = `${local}@${domain}`;
       const prev = found.get(email);
       if (prev) {

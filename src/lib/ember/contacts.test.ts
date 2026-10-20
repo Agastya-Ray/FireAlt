@@ -145,3 +145,12 @@ test("findContacts: testimonials on the home page are not team members", async (
   assert.equal(r.people.length, 0);
   assert.ok(!r.contacts.some((c) => c.email === "paul.riley@acme.io"));
 });
+
+test("one-word boxes without a matching name are not people", async () => {
+  const deps = fakeDeps({ "https://acme.io/contact": "<p>connect@acme.io power@acme.io</p><p>Write to Ravi Kumar at ravi@acme.io</p>" });
+  const r = await findContacts({ company: "Acme", domain: "acme.io" }, deps);
+  const by = Object.fromEntries(r.contacts.map((c) => [c.email, c]));
+  assert.equal(by["connect@acme.io"]?.kind, "general");
+  assert.equal(by["ravi@acme.io"]?.kind, "person");
+  assert.equal(by["ravi@acme.io"]?.name, "Ravi Kumar");
+});

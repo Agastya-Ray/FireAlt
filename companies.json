@@ -570,6 +570,279 @@
       "type": "teamtailor",
       "board": "smartestenergy",
       "verified": false
+    },
+    {
+      "name": "Apollo",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "apollo-graphql",
+      "verified": true
+    },
+    {
+      "name": "Hive",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "hive.co",
+      "verified": true
+    },
+    {
+      "name": "GiveCampus",
+      "tier": "remote_startup",
+      "type": "greenhouse",
+      "board": "givecampus",
+      "verified": true
+    },
+    {
+      "name": "Eight Sleep",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "eightsleep",
+      "verified": true
+    },
+    {
+      "name": "Deepgram",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "Deepgram",
+      "verified": true
+    },
+    {
+      "name": "Vetcove",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "Vetcove",
+      "verified": true
+    },
+    {
+      "name": "Instrumentl",
+      "tier": "remote_startup",
+      "type": "lever",
+      "board": "Instrumentl",
+      "verified": true
+    },
+    {
+      "name": "ClassDojo",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "ClassDojo",
+      "verified": true
+    },
+    {
+      "name": "Prelim",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "prelim",
+      "verified": true
+    },
+    {
+      "name": "AssemblyAI",
+      "tier": "remote_startup",
+      "type": "greenhouse",
+      "board": "assemblyai",
+      "verified": true
+    },
+    {
+      "name": "RevenueCat",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "revenuecat",
+      "verified": true
+    },
+    {
+      "name": "Postscript",
+      "tier": "remote_startup",
+      "type": "greenhouse",
+      "board": "postscript",
+      "verified": true
+    },
+    {
+      "name": "Freshpaint",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "freshpaint",
+      "verified": true
+    },
+    {
+      "name": "Junction",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "junction",
+      "verified": true
+    },
+    {
+      "name": "Datafold",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "datafold",
+      "verified": true
+    },
+    {
+      "name": "Vitable Health",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "vitable",
+      "verified": true
+    },
+    {
+      "name": "Arketa",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "arketa",
+      "verified": true
+    },
+    {
+      "name": "Ready",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "ready",
+      "verified": true
+    },
+    {
+      "name": "Gather",
+      "tier": "remote_startup",
+      "type": "greenhouse",
+      "board": "gather",
+      "verified": true
+    },
+    {
+      "name": "authzed",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "authzed",
+      "verified": true
+    },
+    {
+      "name": "SigNoz",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "SigNoz",
+      "verified": true
+    },
+    {
+      "name": "SpruceID",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "spruceid",
+      "verified": true
+    },
+    {
+      "name": "Anima",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "Anima",
+      "verified": true
+    },
+    {
+      "name": "Popl",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "popl",
+      "verified": true
+    },
+    {
+      "name": "Enode",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "Enode",
+      "verified": true
+    },
+    {
+      "name": "Tint",
+      "tier": "remote_startup",
+      "type": "greenhouse",
+      "board": "tintai",
+      "verified": true
+    },
+    {
+      "name": "SwiftSku",
+      "tier": "remote_startup",
+      "type": "greenhouse",
+      "board": "swiftsku",
+      "verified": true
+    },
+    {
+      "name": "Double",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "double",
+      "verified": true
+    },
+    {
+      "name": "testRigor",
+      "tier": "remote_startup",
+      "type": "workable",
+      "board": "testrigor",
+      "verified": true
+    },
+    {
+      "name": "Nira Energy",
+      "tier": "remote_startup",
+      "type": "greenhouse",
+      "board": "niraenergy",
+      "verified": true
+    },
+    {
+      "name": "Aleph",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "aleph",
+      "verified": true
+    },
+    {
+      "name": "Invert",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "invert",
+      "verified": true
+    },
+    {
+      "name": "Rally",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "rallyuxr",
+      "verified": true
+    },
+    {
+      "name": "Rollstack",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "rollstack",
+      "verified": true
+    },
+    {
+      "name": "Nango",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "Nango",
+      "verified": true
+    },
+    {
+      "name": "Cargo",
+      "tier": "remote_startup",
+      "type": "greenhouse",
+      "board": "planitroillc",
+      "verified": true
+    },
+    {
+      "name": "FirstWork",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "firstwork",
+      "verified": true
+    },
+    {
+      "name": "Bolna AI",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "bolna",
+      "verified": true
+    },
+    {
+      "name": "Cardboard",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "cardboard",
+      "verified": true
     }
   ]
 }

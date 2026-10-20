@@ -251,7 +251,15 @@ async function main() {
     })
     .sort((a, b) => b.first_seen.localeCompare(a.first_seen))
     .slice(0, MAX_CONTACTS);
-  const deps = defaultContactsDeps({ llm: candidates });
+  // Pages are cached per run, so a parent and its subsidiary (Precision AQ / Precision Medicine Group) share one site read.
+  const baseDeps = defaultContactsDeps({ llm: candidates });
+  const pageCache = new Map<string, ReturnType<typeof baseDeps.get>>();
+  const jsonCache = new Map<string, ReturnType<typeof baseDeps.getJson>>();
+  const deps: typeof baseDeps = {
+    ...baseDeps,
+    get: (u) => (pageCache.has(u) ? pageCache.get(u)! : (pageCache.set(u, baseDeps.get(u)), pageCache.get(u)!)),
+    getJson: (u, h) => (jsonCache.has(u) ? jsonCache.get(u)! : (jsonCache.set(u, baseDeps.getJson(u, h)), jsonCache.get(u)!)),
+  };
   const byCompany = new Map<string, Promise<ContactsResult>>();
   let contactsFound = 0;
   await mapConcurrent(needContacts, 2, async (r) => {

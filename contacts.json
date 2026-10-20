@@ -1,0 +1,324 @@
+{
+ "himalayas:precision-medicine-group:himalayas-app-companies-precision-medicine-group-jobs-product-analyst": {
+  "company": "Precision Medicine Group",
+  "domain": null,
+  "mx": false,
+  "pattern": null,
+  "contacts": [],
+  "people": [],
+  "pagesRead": 0,
+  "notes": [
+   "job page unreachable",
+   "company website not found",
+   "no published or pattern-backed email found"
+  ],
+  "checked": "2026-10-20T09:53:17.793Z",
+  "url": "https://himalayas.app/companies/precision-medicine-group/jobs/product-analyst?utm_source=api",
+  "role": "Product Analyst"
+ },
+ "linkedin:ibm:4476567834": {
+  "company": "IBM",
+  "domain": "ibm.com",
+  "mx": true,
+  "pattern": "{first}.{last}",
+  "contacts": [
+   {
+    "email": "croatia.control.center@hr.ibm.com",
+    "kind": "person",
+    "confidence": "published",
+    "evidence": "https://www.ibm.com/contact/global"
+   },
+   {
+    "email": "ibm.luxembourg.sarl@be.ibm.com",
+    "kind": "person",
+    "confidence": "published",
+    "evidence": "https://www.ibm.com/contact/global"
+   },
+   {
+    "email": "ibm_directo@pt.ibm.com",
+    "kind": "person",
+    "confidence": "published",
+    "evidence": "https://www.ibm.com/contact/global"
+   },
+   {
+    "email": "romania.hardware@ro.ibm.com",
+    "kind": "person",
+    "confidence": "published",
+    "evidence": "https://www.ibm.com/contact/global"
+   },
+   {
+    "email": "control-center-pk@ibm.com",
+    "kind": "person",
+    "confidence": "published",
+    "evidence": "https://www.ibm.com/contact/global"
+   },
+   {
+    "email": "akshay.shinde26@ibm.com",
+    "kind": "person",
+    "confidence": "published",
+    "evidence": "https://github.com/IBM/mcp-context-forge (commits)"
+   },
+   {
+    "email": "prakhar.singh1928@ibm.com",
+    "kind": "person",
+    "confidence": "published",
+    "evidence": "https://github.com/IBM/mcp-context-forge (commits)"
+   },
+   {
+    "email": "vishu.bhatnagar@ibm.com",
+    "kind": "person",
+    "confidence": "published",
+    "evidence": "https://github.com/IBM/mcp-context-forge (commits)"
+   },
+   {
+    "email": "madhu.mohan.jaishankar@ibm.com",
+    "kind": "person",
+    "confidence": "published",
+    "evidence": "https://github.com/IBM/mcp-context-forge (commits)"
+   },
+   {
+    "email": "brian.hussey@ie.ibm.com",
+    "kind": "person",
+    "confidence": "published",
+    "name": "Brian Hussey",
+    "evidence": "https://github.com/IBM/mcp-context-forge (commits)"
+   }
+  ],
+  "people": [
+   {
+    "name": "Herman Hollerith",
+    "title": "Inventor",
+    "source": "https://www.ibm.com/about"
+   }
+  ],
+  "pagesRead": 5,
+  "notes": [
+   "domain guessed from name: ibm.com (homepage title matches)",
+   "GitHub org IBM: 15 staff address(es) in public commits"
+  ],
+  "checked": "2026-10-20T09:53:17.793Z",
+  "url": "https://in.linkedin.com/jobs/view/package-consultant-sap-hana-fin-tr-at-ibm-4476567834",
+  "role": "Package Consultant-SAP HANA FIN TR"
+ },
+ "greenhouse:twilio:8097524": {
+  "company": "Twilio",
+  "domain": "twilio.com",
+  "mx": true,
+  "pattern": "{f}{last}",
+  "contacts": [
+   {
+    "email": "kshipchandler@twilio.com",
+    "kind": "person",
+    "confidence": "likely",
+    "name": "Khozema Shipchandler",
+    "title": "Chief Executive Officer at Twilio",
+    "evidence": "pattern {f}{last} from twilio.com addresses"
+   },
+   {
+    "email": "twyatt@twilio.com",
+    "kind": "person",
+    "confidence": "likely",
+    "name": "Thomas Wyatt",
+    "title": "Chief Operating Officer",
+    "evidence": "pattern {f}{last} from twilio.com addresses"
+   },
+   {
+    "email": "lrivas@twilio.com",
+    "kind": "person",
+    "confidence": "verified",
+    "name": "Luis Rivas",
+    "evidence": "https://github.com/twilio/twilio-video-processors.js (commits); Gravatar account exists"
+   },
+   {
+    "email": "csantos@twilio.com",
+    "kind": "person",
+    "confidence": "published",
+    "name": "Charlie Santos",
+    "evidence": "https://github.com/twilio/twilio-video-processors.js (commits)"
+   },
+   {
+    "email": "mmalavalli@twilio.com",
+    "kind": "person",
+    "confidence": "published",
+    "name": "Manjesh Malavalli",
+    "evidence": "https://github.com/twilio/twilio-video-processors.js (commits)"
+   },
+   {
+    "email": "dsazanovs@twilio.com",
+    "kind": "person",
+    "confidence": "published",
+    "name": "Deniss Sazanovs",
+    "evidence": "https://github.com/twilio/twilio-voice-react-native (commits)"
+   },
+   {
+    "email": "import@twilio.com",
+    "kind": "general",
+    "confidence": "published",
+    "evidence": "https://jobs.twilio.com/careers"
+   }
+  ],
+  "people": [
+   {
+    "name": "Khozema Shipchandler",
+    "title": "Chief Executive Officer at Twilio",
+    "source": "https://www.twilio.com/en-us/company"
+   },
+   {
+    "name": "Thomas Wyatt",
+    "title": "Chief Operating Officer",
+    "source": "https://www.twilio.com/en-us/company"
+   },
+   {
+    "name": "Khozema Shipchandler",
+    "title": "Chief Executive Officer at Twilio",
+    "source": "https://www.twilio.com/de-de/company"
+   },
+   {
+    "name": "Thomas Wyatt",
+    "title": "Chief Operating Officer",
+    "source": "https://www.twilio.com/de-de/company"
+   }
+  ],
+  "pagesRead": 8,
+  "notes": [
+   "GitHub org twilio: 4 staff address(es) in public commits"
+  ],
+  "checked": "2026-10-20T09:53:17.793Z",
+  "url": "https://job-boards.greenhouse.io/twilio/jobs/8097524",
+  "role": "Fast Track Operations Specialist 2"
+ },
+ "greenhouse:precisionaq:6208381004": {
+  "company": "Precision AQ",
+  "domain": "precisionmedicinegrp.com",
+  "mx": true,
+  "pattern": null,
+  "contacts": [
+   {
+    "email": "myhr@precisionmedicinegrp.com",
+    "kind": "hiring",
+    "confidence": "published",
+    "evidence": "https://job-boards.greenhouse.io/precisionaq/jobs/6208381004"
+   }
+  ],
+  "people": [],
+  "pagesRead": 3,
+  "notes": [],
+  "checked": "2026-10-20T09:53:17.793Z",
+  "url": "https://job-boards.greenhouse.io/precisionaq/jobs/6208381004",
+  "role": "Product Analyst"
+ },
+ "ashby:certifyos:759dbd75-07dd-4e64-adf0-7ed47104c605": {
+  "company": "CertifyOS",
+  "domain": "certifyos.com",
+  "mx": true,
+  "pattern": "{first}.{last}",
+  "contacts": [
+   {
+    "email": "anshul.rathi@certifyos.com",
+    "kind": "person",
+    "confidence": "likely",
+    "name": "Anshul Rathi",
+    "title": "Founder and Chief Executive Officer",
+    "evidence": "pattern {first}.{last} from certifyos.com addresses"
+   },
+   {
+    "email": "simon.maas@certifyos.com",
+    "kind": "person",
+    "confidence": "likely",
+    "name": "Simon Maas",
+    "title": "Chief Operating Officer",
+    "evidence": "pattern {first}.{last} from certifyos.com addresses"
+   },
+   {
+    "email": "dev.pandey@certifyos.com",
+    "kind": "person",
+    "confidence": "published",
+    "name": "Suhasini Singyan",
+    "evidence": "https://github.com/CertifyOS/vendor-exchange-service (commits)"
+   },
+   {
+    "email": "suhasini.singyan@certifyos.com",
+    "kind": "person",
+    "confidence": "published",
+    "name": "Suhasini Singyan",
+    "evidence": "https://github.com/CertifyOS/vendor-exchange-service (commits)"
+   }
+  ],
+  "people": [
+   {
+    "name": "Anshul Rathi",
+    "title": "Founder and Chief Executive Officer",
+    "source": "https://www.certifyos.com/company"
+   },
+   {
+    "name": "Simon Maas",
+    "title": "Chief Operating Officer",
+    "source": "https://www.certifyos.com/company"
+   }
+  ],
+  "pagesRead": 5,
+  "notes": [
+   "domain guessed from name: certifyos.com (homepage title matches)",
+   "GitHub org CertifyOS: 2 staff address(es) in public commits"
+  ],
+  "checked": "2026-10-20T09:53:17.793Z",
+  "url": "https://jobs.ashbyhq.com/certifyos/759dbd75-07dd-4e64-adf0-7ed47104c605",
+  "role": "Operations Analyst, India"
+ },
+ "smartrecruiters:turnitin-llc:744000151340409": {
+  "company": "Turnitin",
+  "domain": "turnitin.com",
+  "mx": true,
+  "pattern": "{f}{last}",
+  "contacts": [
+   {
+    "email": "ixiong@turnitin.com",
+    "kind": "person",
+    "confidence": "published",
+    "name": "Isaac Xiong",
+    "evidence": "https://github.com/turnitin/moodle-mod_turnitintooltwo (commits)"
+   },
+   {
+    "email": "sleung@turnitin.com",
+    "kind": "person",
+    "confidence": "verified",
+    "name": "Steven Leung",
+    "evidence": "https://github.com/turnitin/moodle-mod_turnitintooltwo (commits); Gravatar account exists"
+   },
+   {
+    "email": "jmilgate@turnitin.com",
+    "kind": "person",
+    "confidence": "published",
+    "evidence": "https://github.com/turnitin/moodle-mod_turnitintooltwo (commits)"
+   },
+   {
+    "email": "dvicente@turnitin.com",
+    "kind": "person",
+    "confidence": "published",
+    "evidence": "https://github.com/turnitin/moodle-plagiarism_turnitin (commits)"
+   },
+   {
+    "email": "cmiles@turnitin.com",
+    "kind": "person",
+    "confidence": "published",
+    "name": "Chris Milo Miles",
+    "evidence": "https://github.com/turnitin/viewer-coding-exercise (commits)"
+   },
+   {
+    "email": "mfrey@turnitin.com",
+    "kind": "person",
+    "confidence": "published",
+    "name": "Mark Frey",
+    "evidence": "https://github.com/turnitin/viewer-coding-exercise (commits)"
+   }
+  ],
+  "people": [],
+  "pagesRead": 3,
+  "notes": [
+   "GitHub org turnitin: 6 staff address(es) in public commits"
+  ],
+  "checked": "2026-10-20T09:53:17.793Z",
+  "url": "https://jobs.smartrecruiters.com/TurnitinLLC/744000151340409-ai-specialist-revenue-operations-india-remote",
+  "role": "AI Specialist Revenue Operations (India Remote)"
+ }
+}

@@ -29,7 +29,7 @@
   "source": "wwr",
   "posted": "2026-10-11",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "wwr:coinbase:weworkremotely-com-remote-jobs-coinbase-associate-general-counsel-privacy",
@@ -61,7 +61,7 @@
   "source": "wwr",
   "posted": "2026-10-12",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "greenhouse:arcesiumllc:5250105007",
@@ -77,7 +77,7 @@
   "source": "greenhouse:arcesiumllc",
   "posted": "2026-09-28",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "greenhouse:financialtechnologypartners:8814930002",
@@ -845,7 +845,7 @@
   "source": "greenhouse:coinbase",
   "posted": "2026-10-13",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "greenhouse:coinbase:8265422",
@@ -1005,7 +1005,7 @@
   "source": "greenhouse:twilio",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "greenhouse:twilio:8235979",
@@ -1053,7 +1053,7 @@
   "source": "greenhouse:gitlab",
   "posted": "2026-10-05",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "greenhouse:gitlab:8638246002",
@@ -1501,7 +1501,7 @@
   "source": "workday:hitachi.wd1/hitachi",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "workday:hitachi:r0147094-1",
@@ -1565,7 +1565,7 @@
   "source": "greenhouse:precisionaq",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "greenhouse:precisionaq:6208905004",
@@ -1597,7 +1597,7 @@
   "source": "lever:gohighlevel",
   "posted": "2026-09-16",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "greenhouse:alphasenseindia:8857605002",
@@ -1709,7 +1709,7 @@
   "source": "ashby:certifyos",
   "posted": "2026-09-28",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "ashby:certifyos:ef0337a5-2e69-48ec-b6f4-a696d4770ff8",
@@ -1725,7 +1725,7 @@
   "source": "ashby:certifyos",
   "posted": "2026-10-01",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "greenhouse:yipitdata:8074621",
@@ -1821,7 +1821,7 @@
   "source": "smartrecruiters:TurnitinLLC",
   "posted": "2026-09-23",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "smartrecruiters:turnitin-llc:744000150440027",
@@ -2109,7 +2109,7 @@
   "source": "lever:meesho",
   "posted": "2026-10-16",
   "first_seen": "2026-10-16T20:56:36.422Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "workday:bpinternational:rq117043",
@@ -2157,7 +2157,7 @@
   "source": "lever:jumpcloud",
   "posted": "2026-10-15",
   "first_seen": "2026-10-16T20:56:36.422Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "smartrecruiters:turnitin-llc:744000156071950",
@@ -2301,7 +2301,7 @@
   "source": "workday:shell.wd3/ShellCareers",
   "posted": "2026-10-19",
   "first_seen": "2026-10-19T22:16:27.398Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "workday:browserstack:jr103745",
@@ -2317,7 +2317,7 @@
   "source": "workday:browserstack.wd3/External",
   "posted": "2026-10-19",
   "first_seen": "2026-10-19T22:16:27.398Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "workday:hitachi:r0148056",
@@ -2525,7 +2525,7 @@
   "source": "linkedin:India",
   "posted": "2026-10-01",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "linkedin:darwinbox:4465628914",
@@ -2557,7 +2557,7 @@
   "source": "linkedin:India",
   "posted": "2026-09-30",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "linkedin:covergo-insurtech:4472492471",
@@ -2573,7 +2573,7 @@
   "source": "linkedin:India",
   "posted": "2026-09-28",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "linkedin:neuralbits-technologies:4470567677",
@@ -2813,7 +2813,7 @@
   "source": "linkedin:India",
   "posted": "2026-10-04",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "linkedin:integrichain:4473216498",
@@ -2941,7 +2941,7 @@
   "source": "linkedin:India",
   "posted": "2026-10-19",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "linkedin:the-1970-shop:4479936500",
@@ -2989,7 +2989,7 @@
   "source": "linkedin:India",
   "posted": "2026-10-17",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "linkedin:shield-ai:4453099420",
@@ -3053,7 +3053,7 @@
   "source": "linkedin:India",
   "posted": "2026-10-16",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "linkedin:cab-experiences:4479534492",
@@ -3405,7 +3405,7 @@
   "source": "linkedin:Bhubaneswar, Odisha, India",
   "posted": "2026-10-03",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "linkedin:infosys:4444646896",
@@ -3437,7 +3437,7 @@
   "source": "linkedin:Bhubaneswar, Odisha, India",
   "posted": "2026-10-16",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "linkedin:infosys:4451442423",
@@ -3469,7 +3469,7 @@
   "source": "linkedin:Bhubaneswar, Odisha, India",
   "posted": "2026-10-14",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "linkedin:ibm:4476567834",
@@ -3485,7 +3485,7 @@
   "source": "linkedin:Bhubaneswar, Odisha, India",
   "posted": "2026-10-07",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "linkedin:ibm:4471288528",
@@ -3661,7 +3661,7 @@
   "source": "himalayas:India",
   "posted": "2026-10-12",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "himalayas:quantum-strides-llc:anies-quantum-strides-llc-jobs-product-business-analyst-saas-products-remote-wfh",
@@ -3869,7 +3869,7 @@
   "source": "himalayas:India",
   "posted": "2026-10-03",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "himalayas:datahash:himalayas-app-companies-datahash-jobs-revenue-operations-and-ai-systems-engineer",
@@ -3917,7 +3917,7 @@
   "source": "himalayas:India",
   "posted": "2026-10-02",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "himalayas:quantumloopai:-quantumloopai-jobs-hubspot-crm-implementation-assistant-india-remote-7599107249",
@@ -3997,7 +3997,7 @@
   "source": "himalayas:India",
   "posted": "2026-09-27",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "himalayas:addepto:himalayas-app-companies-addepto-jobs-business-analyst-product-owner",
@@ -4045,7 +4045,7 @@
   "source": "himalayas:India",
   "posted": "2026-10-16",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "himalayas:crazygames:himalayas-app-companies-crazygames-jobs-remote-product-analyst",
@@ -4157,7 +4157,7 @@
   "source": "himalayas:India",
   "posted": "2026-10-02",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "himalayas:pradeepit-consulting-services-pvt-ltd:ayas-app-companies-pradeepit-consulting-services-pvt-ltd-jobs-operations-analyst",
@@ -4669,7 +4669,7 @@
   "source": "learnetrm",
   "posted": "2026-10-04",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-20T09:18:44.576Z"
+  "last_checked": "2026-10-20T09:53:17.793Z"
  },
  {
   "canonical_id": "learnetrm:bbgc:murex-bapm-ctrm-mugizm78",
@@ -4734,5 +4734,181 @@
   "posted": "2026-09-22",
   "first_seen": "2026-10-20T09:18:44.576Z",
   "last_checked": "2026-10-20T09:18:44.576Z"
+ },
+ {
+  "canonical_id": "etrmconnect:engie-italia:4478257908",
+  "company": "ENGIE Italia",
+  "role": "Short Term Power Trader & Operations Specialist",
+  "url": "https://it.linkedin.com/jobs/view/short-term-power-trader-operations-specialist-at-engie-italia-4478257908",
+  "location": "Rome, Latium, Italy",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Role is based on-site in Rome, Italy, which violates foreign non-remote criteria.",
+  "flags": "Foreign on-site role",
+  "source": "etrmconnect",
+  "posted": "2026-10-19",
+  "first_seen": "2026-10-20T09:53:17.793Z",
+  "last_checked": "2026-10-20T09:53:17.793Z"
+ },
+ {
+  "canonical_id": "etrmconnect:totalenergies:4389755980",
+  "company": "TotalEnergies",
+  "role": "|Energy Trading| Trade Support Analyst",
+  "url": "https://gr.linkedin.com/jobs/view/energy-trading-trade-support-analyst-at-totalenergies-4389755980",
+  "location": "Athens, Attiki, Greece",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Foreign non-remote role located in Greece requiring physical presence, not meeting India remote contractor criteria.",
+  "flags": "Foreign non-remote location outside India",
+  "source": "etrmconnect",
+  "posted": "2026-10-13",
+  "first_seen": "2026-10-20T09:53:17.793Z",
+  "last_checked": "2026-10-20T09:53:17.793Z"
+ },
+ {
+  "canonical_id": "etrmconnect:euronext:4475580243",
+  "company": "Euronext",
+  "role": "Power Derivatives - Exchange Desk Analyst/ Associate",
+  "url": "https://no.linkedin.com/jobs/view/power-derivatives-exchange-desk-analyst-associate-at-euronext-4475580243",
+  "location": "Oslo, Oslo, Norway",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Role is onsite in Norway and Euronext is not a remote startup, making it ineligible for a foreign non-remote candidate based in India.",
+  "flags": "Foreign non-remote role outside India without EOR/contractor provision",
+  "source": "etrmconnect",
+  "posted": "2026-10-06",
+  "first_seen": "2026-10-20T09:53:17.793Z",
+  "last_checked": "2026-10-20T09:53:17.793Z"
+ },
+ {
+  "canonical_id": "etrmconnect:exxonmobil:4475048296",
+  "company": "ExxonMobil",
+  "role": "Allegro ETRM Business Analyst",
+  "url": "https://uk.linkedin.com/jobs/view/allegro-etrm-business-analyst-at-exxonmobil-4475048296",
+  "location": "London, England, United Kingdom",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Role is based in London, UK, requiring foreign location without remote India eligibility or contractor hiring mentioned.",
+  "flags": "Foreign non-remote location without India eligibility",
+  "source": "etrmconnect",
+  "posted": "2026-10-06",
+  "first_seen": "2026-10-20T09:53:17.793Z",
+  "last_checked": "2026-10-20T09:53:17.793Z"
+ },
+ {
+  "canonical_id": "etrmconnect:selby-jennings:4448149595",
+  "company": "Selby Jennings",
+  "role": "ETRM Business Analyst / Developer",
+  "url": "https://sg.linkedin.com/jobs/view/etrm-business-analyst-developer-at-selby-jennings-4448149595",
+  "location": "Singapore, Singapore",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "The foreign non-remote role requires presence in Singapore or the US, does not allow remote work from India, and features 'Developer' duties exceeding basic SQL/Python skills.",
+  "flags": "Foreign non-remote without EOR/contractor mention|Coding as a core duty",
+  "source": "etrmconnect",
+  "posted": "2026-10-06",
+  "first_seen": "2026-10-20T09:53:17.793Z",
+  "last_checked": "2026-10-20T09:53:17.793Z"
+ },
+ {
+  "canonical_id": "etrmconnect:nrg-ltd:4477707172",
+  "company": "NRG Ltd.",
+  "role": "Junior Business Analyst",
+  "url": "https://bg.linkedin.com/jobs/view/junior-business-analyst-at-nrg-ltd-4477707172",
+  "location": "Sofia, Sofia City, Bulgaria",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Role is located in Bulgaria and does not meet remote or foreign non-remote hiring criteria for India.",
+  "flags": "Foreign non-remote role outside India without India contractor/EOR mention",
+  "source": "etrmconnect",
+  "posted": "2026-10-19",
+  "first_seen": "2026-10-20T09:53:17.793Z",
+  "last_checked": "2026-10-20T09:53:17.793Z"
+ },
+ {
+  "canonical_id": "etrmconnect:publicis-sapient:4446610873",
+  "company": "Publicis Sapient",
+  "role": "Murex Ctrl M Developer - Specialist- Energy & Commodities",
+  "url": "https://ro.linkedin.com/jobs/view/murex-ctrl-m-developer-specialist-energy-commodities-at-publicis-sapient-4446610873",
+  "location": "Braşov, Braşov, Romania",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Role is located in Romania with no remote-from-India confirmation, and developer title involves core coding.",
+  "flags": "Foreign non-remote location without India EOR/contractor confirmation|Coding as a core duty",
+  "source": "etrmconnect",
+  "posted": "2026-10-13",
+  "first_seen": "2026-10-20T09:53:17.793Z",
+  "last_checked": "2026-10-20T09:53:17.793Z"
+ },
+ {
+  "canonical_id": "greenhouse:stripe:8098394",
+  "company": "Stripe",
+  "role": "Operations Associate, Sanctions",
+  "url": "https://stripe.com/jobs/search?gh_jid=8098394",
+  "location": "Bengaluru",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Experience required (2+ years in Sanctions) exceeds Swastik's ~6 months profile, and pay is unstated for an India office role.",
+  "flags": "Experience required: 2+ years in Sanctions roles | Office role - needs pay >= Rs 1,20,000/month",
+  "source": "greenhouse:stripe",
+  "posted": "2026-10-07",
+  "first_seen": "2026-10-20T09:53:17.793Z",
+  "last_checked": "2026-10-20T09:53:17.793Z"
+ },
+ {
+  "canonical_id": "greenhouse:razorpaysoftwareprivatelimited:4744129005",
+  "company": "Razorpay",
+  "role": "Data Analyst, Business Finance",
+  "url": "https://job-boards.greenhouse.io/razorpaysoftwareprivatelimited/jobs/4744129005",
+  "location": "Bengaluru",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Location is Bengaluru, which falls under the dead cities rule (Noida, Mumbai, Nagpur, etc. not applicable, but Bengaluru office role without stated pay >= Rs 1,20,000/month or fails location criteria).",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month",
+  "source": "greenhouse:razorpaysoftwareprivatelimited",
+  "posted": "2026-10-20",
+  "first_seen": "2026-10-20T09:53:17.793Z",
+  "last_checked": "2026-10-20T09:53:17.793Z"
+ },
+ {
+  "canonical_id": "workday:spgi:332228-1",
+  "company": "S&P Global",
+  "role": "Associate, Channels Tech Specialists",
+  "url": "https://spgi.wd5.myworkdayjobs.com/en-US/SPGI_Careers/job/Gurugram-Haryana/Associate--Channels-Tech-Specialists_332228-1",
+  "location": "Gurugram, Haryana",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Gurugram location is not Bhubaneswar/Odisha and requires state pay confirmation, but the JD snippet is empty and the role is onsite in Gurugram.",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month",
+  "source": "workday:spgi.wd5/SPGI_Careers",
+  "posted": "2026-10-20",
+  "first_seen": "2026-10-20T09:53:17.793Z",
+  "last_checked": "2026-10-20T09:53:17.793Z"
+ },
+ {
+  "canonical_id": "workday:hitachi:r0124760",
+  "company": "Hitachi",
+  "role": "Data Analyst",
+  "url": "https://hitachi.wd1.myworkdayjobs.com/en-US/hitachi/job/Chennai-Tamil-Nadu-India/Data-Analyst_R0124760",
+  "location": "Chennai, Tamil Nadu, India",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "The job is an India office role in Chennai, but no pay is stated to verify if it meets the Rs 1,20,000/month floor (and Chennai is not in the allowed premium cities Noida, Mumbai, Nagpur, but pay absence fails the office rule anyway).",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month",
+  "source": "workday:hitachi.wd1/hitachi",
+  "posted": "2026-10-20",
+  "first_seen": "2026-10-20T09:53:17.793Z",
+  "last_checked": "2026-10-20T09:53:17.793Z"
  }
 ]

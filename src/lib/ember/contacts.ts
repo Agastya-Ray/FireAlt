@@ -258,14 +258,22 @@ export function externalHosts(html: string): string[] {
 }
 
 const CONF_RANK: Record<ContactConfidence, number> = { verified: 0, published: 1, likely: 2 };
-const KIND_RANK: Record<ContactKind, number> = { person: 0, hiring: 1, general: 2 };
 
-/** Best first: hiring-relevant people, then verified > published > likely, then careers@ boxes. */
+const HR_TITLE_RE = /\b(talent|recruit|hr\b|human\s+resources|people\s+(ops|operations|partner|lead)|head\s+of\s+people|chief\s+people|hiring)/i;
+
+/**
+ * Best first. A real hiring mailbox beats a pattern-built executive address at a big company:
+ * verified/published relevant person > published careers@ box > likely HR person > likely exec > rest.
+ */
 export function rankContacts(list: Contact[]): Contact[] {
-  const score = (c: Contact) =>
-    (c.kind === "person" && c.title && HIRING_TITLE_RE.test(c.title) ? 0 : 10) +
-    CONF_RANK[c.confidence] * 3 +
-    KIND_RANK[c.kind];
+  const score = (c: Contact) => {
+    const relevant = c.kind === "person" && !!c.title && HIRING_TITLE_RE.test(c.title);
+    if (relevant && c.confidence !== "likely") return HR_TITLE_RE.test(c.title!) ? 0 : 1;
+    if (c.kind === "hiring") return c.confidence === "likely" ? 6 : 2;
+    if (relevant) return HR_TITLE_RE.test(c.title!) ? 3 : 4;
+    if (c.kind === "person") return c.confidence === "likely" ? 7 : 5;
+    return 8 + CONF_RANK[c.confidence];
+  };
   return [...list].sort((a, b) => score(a) - score(b));
 }
 

@@ -11,6 +11,7 @@ import {
   inferPattern,
   matchPattern,
   peopleFromText,
+  rankContacts,
   registrableDomain,
   type ContactsDeps,
 } from "./contacts.ts";
@@ -153,4 +154,14 @@ test("one-word boxes without a matching name are not people", async () => {
   assert.equal(by["connect@acme.io"]?.kind, "general");
   assert.equal(by["ravi@acme.io"]?.kind, "person");
   assert.equal(by["ravi@acme.io"]?.name, "Ravi Kumar");
+});
+
+test("rank: published careers box beats a pattern-built CEO address", () => {
+  const r = rankContacts([
+    { email: "mark.g@x.com", kind: "person", confidence: "likely", title: "CEO", evidence: "" },
+    { email: "asktalent@x.com", kind: "hiring", confidence: "published", evidence: "" },
+    { email: "info@x.com", kind: "general", confidence: "published", evidence: "" },
+    { email: "aachal.shah@x.com", kind: "person", confidence: "likely", title: "HR Operations", evidence: "" },
+  ]);
+  assert.deepEqual(r.map((c) => c.email), ["asktalent@x.com", "aachal.shah@x.com", "mark.g@x.com", "info@x.com"]);
 });

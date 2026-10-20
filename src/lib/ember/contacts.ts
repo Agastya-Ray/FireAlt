@@ -133,9 +133,16 @@ export function extractEmails(text: string): string[] {
   return [...out];
 }
 
+/** Business words that make an address a shared mailbox, not a person (solutions.companies@, salesforce.app@). */
+const MAILBOX_WORD_RE =
+  /^(solutions?|companies|company|partnerships?|communications?|comms|ir|investors?|events?|operations?|ops|bizdev|business|enquiries|service|services|customers?|client|clients|success|onboarding|app|apps|salesforce|admin|office|global|india|us|uk|eu|apac|emea|news|newsletter|biography|fields|data|info|mail|email|desk|group|reception|general|orders?|bookings?|tech|it|dev|noc)$/i;
+
 export function classifyLocal(local: string): ContactKind {
-  if (HIRING_LOCAL_RE.test(local)) return "hiring";
-  if (GENERAL_LOCAL_RE.test(local)) return "general";
+  const l = local.toLowerCase();
+  if (HIRING_LOCAL_RE.test(l) || /(career|recruit|talent|hiring|^my-?hr|^hr[._-]|[._-]hr$|jobs)/.test(l)) return "hiring";
+  if (GENERAL_LOCAL_RE.test(l)) return "general";
+  const parts = l.split(/[._-]/).filter(Boolean);
+  if (parts.some((p) => MAILBOX_WORD_RE.test(p)) || l.length < 3 || /\d{3,}/.test(l)) return "general";
   return "person";
 }
 
@@ -172,10 +179,15 @@ export function matchPattern(local: string, fullName: string): string | null {
   return null;
 }
 
+/** Capitalised words that are never part of a person's name on company pages. */
+const NOT_NAME_RE =
+  /^(About|Our|The|Meet|Join|Contact|Head|Chief|Senior|Lead|Merchant|Services?|Operations?|People|Talent|Team|Teams|Company|Careers?|Product|Products|Solutions?|Platform|Customer|Customers|Success|Global|India|United|States|Kingdom|New|York|San|Read|More|Learn|Privacy|Policy|Terms|Cookie|Cookies|Biography|Fields|Board|Directors?|Leadership|Management|Executive|Officer|President|Vice|Founder|Co|Inc|Ltd|Group|Partners?|Capital|Ventures|Energy|Power|Season|All|Data|Analytics|Market|Markets|Trading|Financial|Finance|Technology|Technologies|Engineering|Sales|Marketing|Support|Help|Center|Centre|Home|Blog|News|Press|Events?|Resources|Case|Studies|Study|Request|Demo|Book|Free|Trial|Get|Started|Sign|Log|In|Up|Office|Offices|Location|Locations|Asia|Europe|America|Pacific|Middle|East|North|South|West)$/;
+
 /** Capitalised "First Last" pairs in a text window (overlapping, so "Contact Priya Sharma" yields both pairs). */
 export function namesNear(text: string): string[] {
   const out: string[] = [];
-  for (const m of text.matchAll(/(?=\b([A-Z][a-z\u00C0-\u017F'-]{1,20})\s+(?:[A-Z]\.\s+)?([A-Z][a-z\u00C0-\u017F'-]{1,25})\b)/g)) {
+  for (const m of text.matchAll(/(?=\b([A-Z][a-z\u00C0-\u017F'-]{1,20})[ \t]+(?:[A-Z]\.[ \t]+)?([A-Z][a-z\u00C0-\u017F'-]{1,25})\b)/g)) {
+    if (NOT_NAME_RE.test(m[1]!) || NOT_NAME_RE.test(m[2]!)) continue;
     out.push(`${m[1]} ${m[2]}`);
   }
   return out;
@@ -208,11 +220,11 @@ export function peopleFromText(text: string, source: string): Person[] {
   const out: Person[] = [];
   const seen = new Set<string>();
   const re =
-    /\b([A-Z][a-z'-]{1,20}(?:\s+[A-Z][a-z'-]{1,25}){1,2})\s*(?:[,|–—-]|\n|\s{2,})\s*((?:Co-?founder|Founder|CEO|COO|Chief [A-Za-z ]{3,25}|Head of [A-Za-z &]{3,30}|(?:Senior |Lead )?(?:Talent|Recruit)[A-Za-z ]{0,25}|HR [A-Za-z ]{0,20}|People [A-Za-z ]{2,20}|VP[ ,][A-Za-z ]{3,25}|Managing Director|President)[A-Za-z &,/]{0,30})/g;
+    /\b([A-Z][a-z'-]{1,20}(?:[ \t]+[A-Z][a-z'-]{1,25}){1,2})[ \t]*(?:[,|–—-]|\n|[ \t]{2,})[ \t]*((?:Co-?founder|Founder|CEO|COO|Chief [A-Za-z ]{3,25}|Head of [A-Za-z &]{3,30}|(?:Senior |Lead )?(?:Talent|Recruit)[A-Za-z ]{0,25}|HR [A-Za-z ]{0,20}|People [A-Za-z ]{2,20}|VP[ ,][A-Za-z ]{3,25}|Managing Director|President)[A-Za-z &,/]{0,30})/g;
   for (const m of text.matchAll(re)) {
     const name = m[1]!.trim();
     const title = m[2]!.replace(/[,\s]+$/, "").trim();
-    if (/^(About|Our|The|Meet|Join|Contact|Head|Chief|Senior|Lead)\b/.test(name)) continue;
+    if (name.split(/\s+/).some((w) => NOT_NAME_RE.test(w))) continue;
     const key = name.toLowerCase();
     if (seen.has(key)) continue;
     seen.add(key);
@@ -354,7 +366,7 @@ async function findDomain(req: ContactsRequest, jobHtml: string, deps: ContactsD
       try {
         const r = await deps.get(`https://${base}.${tld}/`);
         const title = (r.body.match(/<title[^>]*>([^<]{0,200})/i)?.[1] ?? "").toLowerCase();
-        if (r.status < 400 && companyTokens(req.company).some((t) => title.includes(t))) {
+        if (r.status < 400 && companyTokens(req.company).some((t) => title.includes(t)) && (await hasMx(`${base}.${tld}`, deps))) {
           notes.push(`domain guessed from name: ${base}.${tld} (homepage title matches)`);
           return registrableDomain(r.url) ?? `${base}.${tld}`;
         }
@@ -460,9 +472,10 @@ export async function findContacts(req: ContactsRequest, rawDeps: ContactsDeps):
 
   // People on the site (regex first, LLM only if regex finds nobody).
   const people: Person[] = [];
-  for (const p of pages) people.push(...peopleFromText(p.text, p.url));
+  // Only team-style pages: home pages and JDs are full of customer testimonials ("Paul Riley, COO, <client>").
+  const teamish = pages.filter((p) => /\/(team|our-team|about|about-us|people|leadership|company|imprint|impressum)\/?$/i.test(p.url));
+  for (const p of teamish) people.push(...peopleFromText(p.text, p.url));
   if (!people.length && domain) {
-    const teamish = pages.filter((p) => /team|about|people|leadership|company/i.test(p.url));
     for (const p of teamish.slice(0, 2)) people.push(...(await llmPeople(p.text, company, deps, p.url)));
   }
   const relevant = people.filter((p) => HIRING_TITLE_RE.test(p.title));
@@ -480,7 +493,7 @@ export async function findContacts(req: ContactsRequest, rawDeps: ContactsDeps):
 
   // Likely addresses for named people (only with a learned pattern and live MX).
   if (domain && result.pattern && result.mx) {
-    for (const p of result.people.slice(0, 4)) {
+    for (const p of result.people.filter((x) => HIRING_TITLE_RE.test(x.title)).slice(0, 4)) {
       const local = applyPattern(result.pattern, p.name);
       if (!local) continue;
       const email = `${local}@${domain}`;

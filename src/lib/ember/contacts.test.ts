@@ -130,3 +130,18 @@ test("findContacts: Hunter key adds verified people and pattern", async () => {
   assert.equal(r.contacts[0]?.confidence, "verified");
   assert.ok(r.contacts.some((c) => c.email === "arao@acme.io" && c.confidence === "likely"));
 });
+
+test("shared mailboxes are not people; junk names are skipped (live-run regressions)", () => {
+  for (const l of ["solutions", "partnerships", "solutions.companies", "salesforce.app", "communications", "us"]) assert.equal(classifyLocal(l), "general", l);
+  assert.equal(classifyLocal("myhr"), "hiring");
+  assert.equal(peopleFromText("Merchant Services\nOperations, People and Talent", "u").length, 0);
+});
+
+test("findContacts: testimonials on the home page are not team members", async () => {
+  const deps = fakeDeps({
+    "https://acme.io": "<p>Published: ravi.kumar@acme.io (Ravi Kumar)</p><p>Paul Riley, Chief Operating Officer, Big Client</p>",
+  });
+  const r = await findContacts({ company: "Acme", domain: "acme.io" }, deps);
+  assert.equal(r.people.length, 0);
+  assert.ok(!r.contacts.some((c) => c.email === "paul.riley@acme.io"));
+});

@@ -4,6 +4,8 @@ import { mapSite } from "./map";
 import { searchWeb } from "./search";
 import { extractStructured } from "./extract";
 import { findJobs, type JobsRequest } from "./jobs";
+import { defaultContactsDeps, findContacts } from "./contacts";
+import { storedCandidates } from "./llm";
 import { isProviderId } from "./providers";
 import type { EmberFormat, LlmProviderId } from "./types";
 
@@ -195,6 +197,24 @@ const TOOLS = [
       required: ["urls"],
     },
   },
+  {
+    name: "contacts",
+    description:
+      "Recruiter / hiring contacts for one job lead. Reads the job page and the company site (home, careers, contact, about, team, imprint), checks MX records, learns the email pattern from published addresses, and returns emails ranked best first. " +
+      "confidence: verified = Hunter-valid (if HUNTER_API_KEY is set on the server) or a Gravatar account exists for that exact address; published = printed on the JD or company site (evidence = URL); likely = company pattern + a named person from the site, domain has MX. " +
+      "Pure guesses are never returned; `people` lists names/titles without an email so they can be looked up on LinkedIn. SMTP mailbox checks are impossible from cloud hosts.",
+    inputSchema: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        company: { type: "string", description: "Company name as on the job post." },
+        url: { type: "string", description: "Job posting URL (used to find the company website and any emails in the JD)." },
+        domain: { type: "string", description: "Company website or domain if known (skips the lookup)." },
+        jd: { type: "string", description: "JD text if you already have it." },
+      },
+      required: ["company"],
+    },
+  },
 ];
 
 function ok(id: JsonRpcId, result: unknown) {
@@ -341,6 +361,14 @@ async function callTool(
         }),
       );
       return { pages };
+    }
+    case "contacts": {
+      const company = str(args.company);
+      if (!company) throw new Error("company required");
+      return findContacts(
+        { company, url: str(args.url) || undefined, domain: str(args.domain) || undefined, jd: str(args.jd) || undefined },
+        defaultContactsDeps({ llm: storedCandidates(process.env) }),
+      );
     }
     default:
       throw new Error(`Unknown tool: ${name}`);

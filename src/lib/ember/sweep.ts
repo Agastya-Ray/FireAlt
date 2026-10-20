@@ -343,12 +343,22 @@ const CSV_HEADERS: (keyof LeadRow)[] = [
   "verdict", "company", "role", "location", "pay", "pay_source", "posted", "url", "why", "flags", "first_seen", "last_checked", "canonical_id",
 ];
 
-export function formatLeadsCsv(rows: LeadRow[]): string {
+/** Best contact per lead (from contacts.ts), shown as two extra CSV columns when given. */
+export type LeadContactCell = { email: string; confidence: string; evidence: string };
+
+export function formatLeadsCsv(rows: LeadRow[], contacts?: Map<string, LeadContactCell>): string {
   const active = rows
     .filter((r) => r.verdict !== "DEAD")
     .sort((a, b) => (VERDICT_ORDER[a.verdict] ?? 9) - (VERDICT_ORDER[b.verdict] ?? 9) || b.first_seen.localeCompare(a.first_seen));
-  const lines = [CSV_HEADERS.join(",")];
-  for (const r of active) lines.push(CSV_HEADERS.map((h) => csvCell(r[h] as string | null)).join(","));
+  const lines = [[...CSV_HEADERS, ...(contacts ? ["contact", "contact_confidence"] : [])].join(",")];
+  for (const r of active) {
+    const cells = CSV_HEADERS.map((h) => csvCell(r[h] as string | null));
+    if (contacts) {
+      const c = contacts.get(r.canonical_id);
+      cells.push(csvCell(c?.email), csvCell(c ? `${c.confidence} (${c.evidence})` : ""));
+    }
+    lines.push(cells.join(","));
+  }
   return lines.join("\n") + "\n";
 }
 

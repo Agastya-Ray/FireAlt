@@ -387,7 +387,10 @@ export async function githubCommitEmails(domain: string, company: string, deps: 
         for (const who of [c.commit?.author, c.commit?.committer]) {
           const email = who?.email?.toLowerCase().trim();
           if (!email || !who?.name || out.has(email)) continue;
-          if (registrableDomain(email.split("@")[1] ?? "") !== domain || NO_REPLY_RE.test(email) || /bot|noreply|github/.test(email)) continue;
+          const local = email.split("@")[0]!;
+          if (registrableDomain(email.split("@")[1] ?? "") !== domain || NO_REPLY_RE.test(email)) continue;
+          // CI users, team aliases and contractors ("gitlab-ci@", "delivery-team+release@", "jdoe-ext@").
+          if (/\+|bot|noreply|github|\bci\b|[-_.]ci$|^ci[-_.]|team|release|deploy|build|admin|[-_.]ext$/.test(local)) continue;
           out.set(email, { email, name: who.name.trim(), source: `https://github.com/${org}/${repo.name} (commits)` });
         }
       }
@@ -555,8 +558,7 @@ export async function findContacts(req: ContactsRequest, rawDeps: ContactsDeps):
   for (const g of githubFound) {
     domainEmails.push(g.email);
     if (!found.has(g.email)) {
-      const local = g.email.split("@")[0]!;
-      found.set(g.email, { email: g.email, kind: classifyLocal(local) === "hiring" ? "hiring" : "person", confidence: "published", name: g.name.includes(" ") ? g.name : undefined, evidence: g.source });
+      found.set(g.email, { email: g.email, kind: "person", confidence: "published", name: g.name.includes(" ") ? g.name : undefined, evidence: g.source });
     }
   }
   const allTextWithGit = `${allText}\n${githubFound.map((g) => `${g.name} <${g.email}>`).join("\n")}`;
@@ -564,13 +566,14 @@ export async function findContacts(req: ContactsRequest, rawDeps: ContactsDeps):
   // Name/title for published person addresses.
   for (const c of found.values()) {
     if (c.kind !== "person") continue;
-    const idx = allText.toLowerCase().indexOf(c.email);
-    const near = idx >= 0 ? allText.slice(Math.max(0, idx - 160), idx + 160) : "";
+    const idx = allTextWithGit.toLowerCase().indexOf(c.email);
+    const near = idx >= 0 ? allTextWithGit.slice(Math.max(0, idx - 160), idx + 160) : "";
     const local = c.email.split("@")[0]!;
     const name = namesNear(near).find((n) => matchPattern(local, n));
     if (name) c.name = name;
     // One-word boxes (connect@, power@, references@) are people only when a matching name is printed next to them.
-    else if (!/[._-]/.test(local)) c.kind = "general";
+    // Commit authors are people by definition.
+    else if (!/[._-]/.test(local) && !c.evidence.includes("github.com")) c.kind = "general";
   }
 
   // People on the site (regex first, LLM only if regex finds nobody).

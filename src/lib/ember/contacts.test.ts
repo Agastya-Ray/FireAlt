@@ -184,6 +184,9 @@ test("findContacts: GitHub commit authors give real addresses and the pattern; s
           { commit: { author: { name: "Rohan Mehta", email: "rohan.mehta@acme.io" }, committer: { name: "GitHub", email: "noreply@github.com" } } },
           { commit: { author: { name: "Sara Ali", email: "sara.ali@acme.io" } } },
           { commit: { author: { name: "Bot", email: "bot@acme.io" } } },
+          { commit: { author: { name: "CI", email: "acme-ci@acme.io" } } },
+          { commit: { author: { name: "Rel", email: "delivery-team+release@acme.io" } } },
+          { commit: { author: { name: "Sébastien Guillaume", email: "sguillaume@acme.io" } } },
           { commit: { author: { name: "Ex", email: "ex@gmail.com" } } },
         ],
       };
@@ -194,6 +197,9 @@ test("findContacts: GitHub commit authors give real addresses and the pattern; s
   assert.equal(by["rohan.mehta@acme.io"]?.confidence, "published");
   assert.equal(by["rohan.mehta@acme.io"]?.name, "Rohan Mehta");
   assert.equal(by["bot@acme.io"], undefined);
+  assert.equal(by["acme-ci@acme.io"], undefined);
+  assert.equal(by["delivery-team+release@acme.io"], undefined);
+  assert.equal(by["sguillaume@acme.io"]?.kind, "person");
   assert.equal(r.pattern, "{first}.{last}");
   // Head of People from the sitemap's leadership page gets a pattern-built address and ranks first.
   assert.equal(r.contacts[0]?.email, "neha.gupta@acme.io");

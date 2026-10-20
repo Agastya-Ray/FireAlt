@@ -9,6 +9,7 @@ import {
   extractEmails,
   findContacts,
   inferPattern,
+  isForeignCountryInbox,
   matchPattern,
   peopleFromText,
   rankContacts,
@@ -95,8 +96,8 @@ test("findContacts: domain from JD links, published + likely + gravatar-verified
   assert.equal(by["vikram.patel@acme.io"]?.confidence, "verified");
   assert.equal(by["asha.rao@acme.io"]?.confidence, "likely");
   assert.equal(by["privacy@acme.io"], undefined);
-  // Hiring-relevant verified person ranks first.
-  assert.equal(r.contacts[0]!.email, "vikram.patel@acme.io");
+  // The address printed in the JD comes first, then the verified Head of Talent.
+  assert.deepEqual(r.contacts.slice(0, 2).map((c) => c.email), ["careers@acme.io", "vikram.patel@acme.io"]);
 });
 
 test("findContacts: no MX => no likely addresses; never pure guesses", async () => {
@@ -194,14 +195,59 @@ test("findContacts: GitHub commit authors give real addresses and the pattern; s
   };
   const r = await findContacts({ company: "Acme", domain: "acme.io" }, deps);
   const by = Object.fromEntries(r.contacts.map((c) => [c.email, c]));
-  assert.equal(by["rohan.mehta@acme.io"]?.confidence, "published");
-  assert.equal(by["rohan.mehta@acme.io"]?.name, "Rohan Mehta");
+  // Engineers taught the pattern but are not shown, because a Head of People exists.
+  assert.equal(by["rohan.mehta@acme.io"], undefined);
   assert.equal(by["bot@acme.io"], undefined);
   assert.equal(by["acme-ci@acme.io"], undefined);
   assert.equal(by["delivery-team+release@acme.io"], undefined);
-  assert.equal(by["sguillaume@acme.io"]?.kind, "person");
   assert.equal(r.pattern, "{first}.{last}");
   // Head of People from the sitemap's leadership page gets a pattern-built address and ranks first.
   assert.equal(r.contacts[0]?.email, "neha.gupta@acme.io");
   assert.equal(r.contacts[0]?.confidence, "likely");
+});
+
+test("JD emails from the board API come first; foreign-country HR inboxes are dropped", async () => {
+  const deps = fakeDeps({
+    "https://acme.io/contact": "<p>askhr@us.acme.io hr.germany@acme.io careers@acme.io hr.india@acme.io</p>",
+  });
+  const base = deps.getJson;
+  deps.getJson = async (url: string, h?: Record<string, string>) =>
+    url === "https://api.lever.co/v0/postings/acme/0f1e2d3c-4b5a-6978-8899-aabbccddeeff"
+      ? { status: 200, data: { descriptionPlain: "Apply by writing to recruiting&#64;acme.io with your CV." } }
+      : base(url, h);
+  const r = await findContacts({ company: "Acme", domain: "acme.io", url: "https://jobs.lever.co/acme/0f1e2d3c-4b5a-6978-8899-aabbccddeeff" }, deps);
+  const emails = r.contacts.map((c) => c.email);
+  assert.equal(emails[0], "recruiting@acme.io");
+  assert.ok(emails.includes("careers@acme.io"));
+  assert.ok(emails.includes("hr.india@acme.io"));
+  assert.ok(!emails.includes("askhr@us.acme.io"));
+  assert.ok(!emails.includes("hr.germany@acme.io"));
+  assert.equal(isForeignCountryInbox("askhr@us.ibm.com"), true);
+  assert.equal(isForeignCountryInbox("careers@acme.io"), false);
+});
+
+test("engineers from commits are dropped when a hiring contact exists, kept (max 2) when nothing else", async () => {
+  const commits = (emails: string[]) => (url: string) =>
+    url.includes("/search/users")
+      ? { status: 200, data: { items: [{ login: "acme" }] } }
+      : url.endsWith("/orgs/acme")
+        ? { status: 200, data: { blog: "acme.io" } }
+        : url.includes("/orgs/acme/repos")
+          ? { status: 200, data: [{ name: "app" }] }
+          : url.includes("/commits")
+            ? { status: 200, data: emails.map((e) => ({ commit: { author: { name: e.split("@")[0]!.split(".").map((w) => w[0]!.toUpperCase() + w.slice(1)).join(" "), email: e } } })) }
+            : null;
+  const run = async (pages: Record<string, string>) => {
+    const deps = fakeDeps(pages);
+    const base = deps.getJson;
+    const gh = commits(["rahul.sharma@acme.io", "anita.rao@acme.io", "vikas.jain@acme.io"]);
+    deps.getJson = async (url: string, h?: Record<string, string>) => gh(url) ?? base(url, h);
+    return findContacts({ company: "Acme", domain: "acme.io" }, deps);
+  };
+  const withBox = await run({ "https://acme.io/careers": "<p>talent@acme.io</p>" });
+  assert.deepEqual(withBox.contacts.map((c) => c.email), ["talent@acme.io"]);
+  assert.equal(withBox.pattern, "{first}.{last}");
+  const only = await run({});
+  assert.equal(only.contacts.length, 2);
+  assert.ok(only.notes.some((n) => n.includes("only engineers")));
 });

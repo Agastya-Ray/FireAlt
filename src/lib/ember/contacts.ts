@@ -468,6 +468,63 @@ async function findDomain(req: ContactsRequest, jobHtml: string, deps: ContactsD
 // MAIN
 // ---------------------------------------------------------------------------
 
+/** Board-API URL holding the full JD for an ATS job page (pages themselves are often JS-only). */
+export function atsJdApiUrl(jobUrl: string): string | null {
+  let m = jobUrl.match(/jobs\.lever\.co\/([^/?#]+)\/([0-9a-f-]{20,})/i);
+  if (m) return `https://api.lever.co/v0/postings/${m[1]}/${m[2]}`;
+  m = jobUrl.match(/greenhouse\.io\/([^/?#]+)\/jobs\/(\d+)/i);
+  if (m) return `https://boards-api.greenhouse.io/v1/boards/${m[1]}/jobs/${m[2]}`;
+  m = jobUrl.match(/jobs\.ashbyhq\.com\/([^/?#]+)/i);
+  if (m) return `https://api.ashbyhq.com/posting-api/job-board/${m[1]}`;
+  m = jobUrl.match(/jobs\.smartrecruiters\.com\/([^/?#]+)\/(\d+)/i);
+  if (m) return `https://api.smartrecruiters.com/v1/companies/${m[1]}/postings/${m[2]}`;
+  return null;
+}
+
+function decodeEntities(s: string): string {
+  return s
+    .replace(/\\u0040/gi, "@")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'")
+    .replace(/&amp;/g, "&");
+}
+
+/** Full JD text from the board API, so emails printed in the JD ("send your CV to recruiting@...") are never missed. */
+async function atsJdText(jobUrl: string, deps: ContactsDeps): Promise<string> {
+  const api = atsJdApiUrl(jobUrl);
+  if (!api) return "";
+  try {
+    const r = await deps.getJson(api);
+    if (r.status !== 200 || !r.data) return "";
+    let data: unknown = r.data;
+    // Ashby returns the whole board: keep only this job.
+    const id = jobUrl.match(/ashbyhq\.com\/[^/]+\/([0-9a-f-]{20,})/i)?.[1];
+    if (id && Array.isArray((data as { jobs?: unknown[] }).jobs)) {
+      data = (data as { jobs: Array<{ id?: string; jobUrl?: string }> }).jobs.find((j) => j.id === id || j.jobUrl?.includes(id)) ?? null;
+    }
+    return data ? htmlToText(decodeEntities(JSON.stringify(data)).replace(/\\n/g, "\n")) : "";
+  } catch {
+    return "";
+  }
+}
+
+const FOREIGN_COUNTRY_TOKENS = new Set(
+  "us usa uk gb de fr es it nl jp cn br mx au ca sg hk ie pl cz za ae kr ch se dk no fi be at pt ar cl co pe ph my th vn tw nz il tr ro hu gr sa eg ng ke america germany france spain italy japan china brazil mexico canada australia singapore ireland poland emea apac latam europe".split(" "),
+);
+const INDIA_TOKENS = new Set(["in", "ind", "india"]);
+
+/** HR/careers inbox scoped to another country (askhr@us.ibm.com, hr.germany@x.com): useless for an India/remote role. */
+export function isForeignCountryInbox(email: string): boolean {
+  const [local, host] = email.toLowerCase().split("@") as [string, string];
+  const tokens = [...local.split(/[._-]/), ...host.split(".").slice(0, -2)];
+  if (tokens.some((t) => INDIA_TOKENS.has(t))) return false;
+  return tokens.some((t) => FOREIGN_COUNTRY_TOKENS.has(t));
+}
+
+const isFromCommits = (c: Contact) => c.evidence.includes("github.com");
+
 export async function findContacts(req: ContactsRequest, rawDeps: ContactsDeps): Promise<ContactsResult> {
   const deadline = Date.now() + (rawDeps.budgetMs ?? 40_000);
   const timeLeft = () => {
@@ -492,6 +549,10 @@ export async function findContacts(req: ContactsRequest, rawDeps: ContactsDeps):
     } catch {
       notes.push("job page unreachable");
     }
+  }
+  if (req.url) {
+    const full = await atsJdText(req.url, deps);
+    if (full) req = { ...req, jd: `${req.jd ?? ""}\n${full}`.trim() };
   }
   const domain = await findDomain(req, jobHtml, deps, notes);
   const result: ContactsResult = { company, domain, mx: false, pattern: null, contacts: [], people: [], pagesRead, notes };
@@ -627,7 +688,28 @@ export async function findContacts(req: ContactsRequest, rawDeps: ContactsDeps):
     }
   });
 
-  result.contacts = rankContacts([...found.values()]).slice(0, 10);
+  // Commit authors whose name is on the team page inherit that title (a founder who also codes).
+  for (const c of found.values()) {
+    if (!isFromCommits(c) || c.title || !c.name) continue;
+    const p = people.find((x) => x.name.toLowerCase() === c.name!.toLowerCase());
+    if (p) c.title = p.title;
+  }
+
+  let list = [...found.values()].filter((c) => !((c.kind === "hiring" || c.kind === "general") && isForeignCountryInbox(c.email)));
+  // Engineers from code commits only taught the pattern; show them only when nothing better exists.
+  const engineers = list.filter((c) => isFromCommits(c) && !(c.title && HIRING_TITLE_RE.test(c.title)));
+  const others = list.filter((c) => !engineers.includes(c));
+  if (others.length) list = others;
+  else if (engineers.length) {
+    list = engineers.slice(0, 2);
+    notes.push("only engineers found (from code commits) - no recruiter, HR or founder address");
+  }
+  const jdUrl = req.url ?? "jd";
+  const ranked = rankContacts(list);
+  // An address printed in the JD itself is the one the company asked applicants to use.
+  const fromJd = ranked.filter((c) => c.evidence === jdUrl && c.kind !== "general");
+  const hiringBoxes = ranked.filter((c) => c.kind === "hiring" && !fromJd.includes(c)).slice(0, 3);
+  result.contacts = [...fromJd, ...ranked.filter((c) => !fromJd.includes(c) && (c.kind !== "hiring" || hiringBoxes.includes(c)))].slice(0, 10);
   if (!result.contacts.length) notes.push("no published or pattern-backed email found");
   return result;
 }

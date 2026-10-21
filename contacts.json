@@ -335,5 +335,71 @@
   "checked": "2026-10-20T21:31:48.359Z",
   "url": "https://job-boards.greenhouse.io/financialtechnologypartners/jobs/8903022002",
   "role": "Research Analyst, Companies & Transactions"
+ },
+ "greenhouse:givecampus:4462656009": {
+  "company": "GiveCampus",
+  "domain": "givecampus.com",
+  "mx": true,
+  "pattern": null,
+  "contacts": [],
+  "people": [],
+  "pagesRead": 1,
+  "notes": [
+   "GitHub org givecampus: 0 staff address(es) in public commits",
+   "no published or pattern-backed email found"
+  ],
+  "checked": "2026-10-21T21:33:37.250Z",
+  "url": "https://job-boards.greenhouse.io/givecampus/jobs/4462656009",
+  "role": "GC GO Partner Success and Implementation Specialist"
+ },
+ "linkedin:hirekarma:4478998205": {
+  "company": "HIREKARMA",
+  "domain": "hirekarma.in",
+  "mx": true,
+  "pattern": "{first}",
+  "contacts": [
+   {
+    "email": "sohan@hirekarma.in",
+    "kind": "person",
+    "confidence": "published",
+    "evidence": "https://www.hirekarma.in/about-us/people",
+    "name": "Sohan Kumar",
+    "title": "Founder"
+   },
+   {
+    "email": "rohit@hirekarma.in",
+    "kind": "person",
+    "confidence": "published",
+    "evidence": "https://www.hirekarma.in/about-us/people",
+    "name": "Rohit Samantaray",
+    "title": "Founder"
+   },
+   {
+    "email": "info@hirekarma.in",
+    "kind": "general",
+    "confidence": "published",
+    "evidence": "https://www.hirekarma.in/"
+   }
+  ],
+  "people": [
+   {
+    "name": "Sohan Kumar Dey",
+    "title": "Founder",
+    "source": "https://www.hirekarma.in/about-us/our-story"
+   },
+   {
+    "name": "Rohit Samantaray",
+    "title": "Founder",
+    "source": "https://www.hirekarma.in/about-us/our-story"
+   }
+  ],
+  "pagesRead": 7,
+  "notes": [
+   "domain guessed from name: hirekarma.in (homepage title matches)",
+   "GitHub org HIREKARMA1: 0 staff address(es) in public commits"
+  ],
+  "checked": "2026-10-21T21:33:37.250Z",
+  "url": "https://in.linkedin.com/jobs/view/campus-drive-associate-at-hirekarma-4478998205",
+  "role": "Campus drive associate"
  }
 }

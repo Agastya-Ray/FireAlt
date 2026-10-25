@@ -61,7 +61,7 @@
   "source": "wwr",
   "posted": "2026-10-12",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-22T21:28:07.327Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "greenhouse:arcesiumllc:5250105007",
@@ -77,7 +77,7 @@
   "source": "greenhouse:arcesiumllc",
   "posted": "2026-09-28",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "greenhouse:financialtechnologypartners:8814930002",
@@ -813,7 +813,7 @@
   "source": "greenhouse:brex",
   "posted": "2026-09-17",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-22T21:28:07.327Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "greenhouse:coinbase:8250032",
@@ -845,7 +845,7 @@
   "source": "greenhouse:coinbase",
   "posted": "2026-10-13",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "greenhouse:coinbase:8265422",
@@ -941,7 +941,7 @@
   "source": "greenhouse:twilio",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-22T21:28:07.327Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "greenhouse:twilio:8261245",
@@ -957,7 +957,7 @@
   "source": "greenhouse:twilio",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "greenhouse:twilio:8185918",
@@ -1005,7 +1005,7 @@
   "source": "greenhouse:twilio",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "greenhouse:twilio:8235979",
@@ -1053,7 +1053,7 @@
   "source": "greenhouse:gitlab",
   "posted": "2026-10-05",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "greenhouse:gitlab:8638246002",
@@ -1261,7 +1261,7 @@
   "source": "lever:contentsquare",
   "posted": "2026-09-18",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-22T21:28:07.327Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "ashby:ramp:871d2fc8-def8-4837-a9b0-7cc4fe126c2b",
@@ -1453,7 +1453,7 @@
   "source": "workday:bpinternational.wd3/bpCareers",
   "posted": "2026-10-12",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-22T21:28:07.327Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "workday:bpinternational:rq116246",
@@ -1501,7 +1501,7 @@
   "source": "workday:hitachi.wd1/hitachi",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "workday:hitachi:r0147094-1",
@@ -1565,7 +1565,7 @@
   "source": "greenhouse:precisionaq",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "greenhouse:precisionaq:6208905004",
@@ -1597,7 +1597,7 @@
   "source": "lever:gohighlevel",
   "posted": "2026-09-16",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "greenhouse:alphasenseindia:8857605002",
@@ -1709,7 +1709,7 @@
   "source": "ashby:certifyos",
   "posted": "2026-09-28",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "ashby:certifyos:ef0337a5-2e69-48ec-b6f4-a696d4770ff8",
@@ -1725,7 +1725,7 @@
   "source": "ashby:certifyos",
   "posted": "2026-10-01",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "greenhouse:yipitdata:8074621",
@@ -1789,7 +1789,7 @@
   "source": "greenhouse:yipitdata",
   "posted": "2026-09-18",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-10-22T21:28:07.327Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "greenhouse:yipitdata:7607324",
@@ -2109,7 +2109,7 @@
   "source": "lever:meesho",
   "posted": "2026-10-16",
   "first_seen": "2026-10-16T20:56:36.422Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "workday:bpinternational:rq117043",
@@ -2157,7 +2157,7 @@
   "source": "lever:jumpcloud",
   "posted": "2026-10-15",
   "first_seen": "2026-10-16T20:56:36.422Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "smartrecruiters:turnitin-llc:744000156071950",
@@ -2301,7 +2301,7 @@
   "source": "workday:shell.wd3/ShellCareers",
   "posted": "2026-10-19",
   "first_seen": "2026-10-19T22:16:27.398Z",
-  "last_checked": "2026-10-22T21:28:07.327Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "workday:browserstack:jr103745",
@@ -2317,7 +2317,7 @@
   "source": "workday:browserstack.wd3/External",
   "posted": "2026-10-19",
   "first_seen": "2026-10-19T22:16:27.398Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "workday:hitachi:r0148056",
@@ -2525,7 +2525,7 @@
   "source": "linkedin:India",
   "posted": "2026-10-01",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "linkedin:darwinbox:4465628914",
@@ -2557,7 +2557,7 @@
   "source": "linkedin:India",
   "posted": "2026-09-30",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "linkedin:covergo-insurtech:4472492471",
@@ -2573,7 +2573,7 @@
   "source": "linkedin:India",
   "posted": "2026-09-28",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "linkedin:neuralbits-technologies:4470567677",
@@ -2813,7 +2813,7 @@
   "source": "linkedin:India",
   "posted": "2026-10-04",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "linkedin:integrichain:4473216498",
@@ -2941,7 +2941,7 @@
   "source": "linkedin:India",
   "posted": "2026-10-19",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "linkedin:the-1970-shop:4479936500",
@@ -3437,7 +3437,7 @@
   "source": "linkedin:Bhubaneswar, Odisha, India",
   "posted": "2026-10-16",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "linkedin:infosys:4451442423",
@@ -3469,7 +3469,7 @@
   "source": "linkedin:Bhubaneswar, Odisha, India",
   "posted": "2026-10-14",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "linkedin:ibm:4476567834",
@@ -3485,7 +3485,7 @@
   "source": "linkedin:Bhubaneswar, Odisha, India",
   "posted": "2026-10-07",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "linkedin:ibm:4471288528",
@@ -3661,7 +3661,7 @@
   "source": "himalayas:India",
   "posted": "2026-10-12",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "himalayas:quantum-strides-llc:anies-quantum-strides-llc-jobs-product-business-analyst-saas-products-remote-wfh",
@@ -3869,7 +3869,7 @@
   "source": "himalayas:India",
   "posted": "2026-10-03",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "himalayas:datahash:himalayas-app-companies-datahash-jobs-revenue-operations-and-ai-systems-engineer",
@@ -3917,7 +3917,7 @@
   "source": "himalayas:India",
   "posted": "2026-10-02",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "himalayas:quantumloopai:-quantumloopai-jobs-hubspot-crm-implementation-assistant-india-remote-7599107249",
@@ -4045,7 +4045,7 @@
   "source": "himalayas:India",
   "posted": "2026-10-16",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "himalayas:crazygames:himalayas-app-companies-crazygames-jobs-remote-product-analyst",
@@ -4157,7 +4157,7 @@
   "source": "himalayas:India",
   "posted": "2026-10-02",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "himalayas:pradeepit-consulting-services-pvt-ltd:ayas-app-companies-pradeepit-consulting-services-pvt-ltd-jobs-operations-analyst",
@@ -4925,7 +4925,7 @@
   "source": "linkedin:India",
   "posted": "2026-10-20",
   "first_seen": "2026-10-20T21:31:48.359Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "linkedin:cvent:4481561586",
@@ -5021,7 +5021,7 @@
   "source": "greenhouse:financialtechnologypartners",
   "posted": "2026-10-20",
   "first_seen": "2026-10-20T21:31:48.359Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8049722",
@@ -5229,7 +5229,7 @@
   "source": "linkedin:India",
   "posted": "2026-10-21",
   "first_seen": "2026-10-21T21:33:37.250Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "linkedin:bnp-paribas:4478542171",
@@ -5453,7 +5453,7 @@
   "source": "greenhouse:numerix",
   "posted": "2026-10-21",
   "first_seen": "2026-10-21T21:33:37.250Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "ashby:certifyos:d918e2d0-96d5-4000-aeed-b0fd768fc17d",
@@ -5485,7 +5485,7 @@
   "source": "greenhouse:givecampus",
   "posted": "2026-10-21",
   "first_seen": "2026-10-21T21:33:37.250Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "linkedin:eloelo:4481369029",
@@ -5901,7 +5901,7 @@
   "source": "smartrecruiters:LouisDreyfusCompany",
   "posted": "2026-10-22",
   "first_seen": "2026-10-22T21:28:07.327Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "smartrecruiters:louis-dreyfus-company:744000157039229",
@@ -5949,7 +5949,7 @@
   "source": "linkedin:India",
   "posted": "2026-10-23",
   "first_seen": "2026-10-23T21:19:03.184Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "linkedin:york-ie:4480658761",
@@ -6045,7 +6045,7 @@
   "source": "linkedin:Bhubaneswar, Odisha, India",
   "posted": "2026-10-16",
   "first_seen": "2026-10-23T21:19:03.184Z",
-  "last_checked": "2026-10-24T20:38:23.959Z"
+  "last_checked": "2026-10-25T20:44:13.152Z"
  },
  {
   "canonical_id": "himalayas:paralucent:s-app-companies-paralucent-jobs-business-analyst-sap-finance-india-remote-pl5346",
@@ -6206,5 +6206,133 @@
   "posted": "2026-10-24",
   "first_seen": "2026-10-24T20:38:23.959Z",
   "last_checked": "2026-10-24T20:38:23.959Z"
+ },
+ {
+  "canonical_id": "linkedin:rhombuz:4481647559",
+  "company": "Rhombuz",
+  "role": "Business Analyst",
+  "url": "https://in.linkedin.com/jobs/view/business-analyst-at-rhombuz-4481647559",
+  "location": "Bengaluru, Karnataka, India (LinkedIn: remote)",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "CHECK",
+  "why": "Business Analyst role is based in Bengaluru with a remote tag, requiring confirmation of full remote eligibility from India.",
+  "flags": "Remote-from-India confirmed? - ask band",
+  "source": "linkedin:India",
+  "posted": "2026-10-23",
+  "first_seen": "2026-10-25T20:44:13.152Z",
+  "last_checked": "2026-10-25T20:44:13.152Z"
+ },
+ {
+  "canonical_id": "linkedin:airtel:4480650389",
+  "company": "airtel",
+  "role": "Product Analyst",
+  "url": "https://in.linkedin.com/jobs/view/product-analyst-at-airtel-4480650389",
+  "location": "Gurugram, Haryana, India (LinkedIn: remote)",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Location is Gurugram, India, but locationBucket is remote based on LinkedIn feed; however, JD text does not confirm the role can be done fully remote from India.",
+  "flags": "Pay UNKNOWN - ask band",
+  "source": "linkedin:India",
+  "posted": "2026-10-23",
+  "first_seen": "2026-10-25T20:44:13.152Z",
+  "last_checked": "2026-10-25T20:44:13.152Z"
+ },
+ {
+  "canonical_id": "linkedin:unicommerce:4478258343",
+  "company": "Unicommerce",
+  "role": "Strategy Associate (Founder’s Office)",
+  "url": "https://in.linkedin.com/jobs/view/strategy-associate-founder%E2%80%99s-office-at-unicommerce-4478258343",
+  "location": "Gurugram, Haryana, India (LinkedIn: remote)",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Location is Gurugram, India, which requires local presence, and location bucket rule marks Noida, Mumbai, Nagpur as DEAD (location-mismatched or unclear India remote eligibility).",
+  "flags": "Pay UNKNOWN - ask band",
+  "source": "linkedin:India",
+  "posted": "2026-10-19",
+  "first_seen": "2026-10-25T20:44:13.152Z",
+  "last_checked": "2026-10-25T20:44:13.152Z"
+ },
+ {
+  "canonical_id": "himalayas:photon-interactive-uk-limited:s-app-companies-photon-interactive-uk-limited-jobs-business-analyst-mid-offshore",
+  "company": "Photon Interactive UK Limited",
+  "role": "Business Analyst(Mid) | Offshore",
+  "url": "https://himalayas.app/companies/photon-interactive-uk-limited/jobs/business-analyst-mid-offshore?utm_source=api",
+  "location": "India",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "CHECK",
+  "why": "Candidate fits the Business Analyst background, but remote eligibility from India and exact pay must be confirmed.",
+  "flags": "Pay UNKNOWN - ask band | Confirm remote eligibility from India",
+  "source": "himalayas:India",
+  "posted": "2026-10-25",
+  "first_seen": "2026-10-25T20:44:13.152Z",
+  "last_checked": "2026-10-25T20:44:13.152Z"
+ },
+ {
+  "canonical_id": "himalayas:intervue:himalayas-app-companies-intervue-jobs-operations-analyst",
+  "company": "Intervue",
+  "role": "Operations Analyst",
+  "url": "https://himalayas.app/companies/intervue/jobs/operations-analyst?utm_source=api",
+  "location": "India",
+  "pay": "2.5 Lacs - 4 Lacs",
+  "pay_source": "stated",
+  "verdict": "DEAD",
+  "why": "Pay is below the minimum floor requirement of Rs 70,000/month or USD 9000/yr.",
+  "flags": "Pay below floor",
+  "source": "himalayas:India",
+  "posted": "2026-10-25",
+  "first_seen": "2026-10-25T20:44:13.152Z",
+  "last_checked": "2026-10-25T20:44:13.152Z"
+ },
+ {
+  "canonical_id": "jobicy:thumbtack:156991",
+  "company": "Thumbtack",
+  "role": "Partner Operations Analyst",
+  "url": "https://jobicy.com/jobs/156991-partner-operations-analyst",
+  "location": "Philippines",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Experience requirement of 3+ years exceeds the candidate's ~6 months of experience, and location in the Philippines lacks India remote confirmation.",
+  "flags": "Culture risk: own it end to end",
+  "source": "jobicy:apac",
+  "posted": "2026-10-25",
+  "first_seen": "2026-10-25T20:44:13.152Z",
+  "last_checked": "2026-10-25T20:44:13.152Z"
+ },
+ {
+  "canonical_id": "learnetrm:capspire:rightangle-consultant-functional-operations-mvndu3ud",
+  "company": "capSpire",
+  "role": "RightAngle Consultant, Functional, Operations",
+  "url": "https://jobs.learnetrm.com/jobs/rightangle-consultant-functional-operations-mvndu3ud",
+  "location": "",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Role requires 8+ years of ETRM/CTRM experience while candidate has ~6 months, and it is an onsite position in Texas, USA.",
+  "flags": "Experience mismatch (requires 8+ years, has ~6 months) | Onsite in Texas, USA",
+  "source": "learnetrm",
+  "posted": "2026-10-25",
+  "first_seen": "2026-10-25T20:44:13.152Z",
+  "last_checked": "2026-10-25T20:44:13.152Z"
+ },
+ {
+  "canonical_id": "learnetrm:capspire:functional-consultant-rightangle-mvndu467",
+  "company": "capSpire",
+  "role": "Functional Consultant - RightAngle",
+  "url": "https://jobs.learnetrm.com/jobs/functional-consultant-rightangle-mvndu467",
+  "location": "",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Role requires 5 years of experience which exceeds the candidate limit and is onsite in Calgary, Canada without remote or EOR provision for India.",
+  "flags": "Experience required: 5 years (exceeds <=2 yrs limit)|Location: Calgary, Canada (onsite)",
+  "source": "learnetrm",
+  "posted": "2026-10-25",
+  "first_seen": "2026-10-25T20:44:13.152Z",
+  "last_checked": "2026-10-25T20:44:13.152Z"
  }
 ]

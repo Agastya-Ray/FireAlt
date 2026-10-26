@@ -1434,30 +1434,109 @@ export function detectAts(page: string): JobSource | null {
   return null;
 }
 
+// When the careers page names no job system: links that lead to the real openings page, and job-detail links
+// on the company's own site (e.g. /career/sales-executive, /jobs/ops-analyst) for careers pages built in the CMS.
+const OPENINGS_TEXT =
+  /\b(open (roles|positions|jobs|vacancies)|(view|see|browse|explore) (all )?(open |current )?(roles|positions|jobs|openings|opportunities|vacancies)|current (openings|vacancies)|job openings|all jobs|join (the|our) team)\b/i;
+const OPENINGS_PATH = /\/(careers?|jobs|openings|positions|vacancies|join-us|work-with-us)[\w-]*\/?$/i;
+const JOB_PATH = /\/(careers?|jobs?|positions?|openings?|vacancies|vacancy|roles?)\/([a-z0-9][a-z0-9-]{4,})\/?$/i;
+const NOT_A_JOB = /^(life|culture|benefits|values|teams?|students?|faq|perks|open-roles|open-positions|all-jobs|search|apply)(-|$)/i;
+const AUTO_MAX_SUBPAGES = 3;
+
+/** Same-site links on a page (HTML anchors or reader markdown links), with their text. */
+function pageLinks(page: string, pageUrl: string): Array<{ url: string; text: string }> {
+  const host = new URL(pageUrl).hostname.replace(/^www\./, "");
+  const out: Array<{ url: string; text: string }> = [];
+  const seen = new Set<string>();
+  const add = (href: string, text: string) => {
+    try {
+      const u = new URL(decodeHtml(href), pageUrl);
+      u.hash = "";
+      if (!/^https?:$/.test(u.protocol) || u.hostname.replace(/^www\./, "") !== host) return;
+      const url = u.toString();
+      if (seen.has(url)) return;
+      seen.add(url);
+      out.push({ url, text: text.trim() });
+    } catch {
+      /* not a url */
+    }
+  };
+  for (const m of page.matchAll(/<a\b[^>]*?href=(["'])(.*?)\1[^>]*>([\s\S]*?)<\/a>/gi)) add(m[2] ?? "", htmlText(m[3] ?? ""));
+  for (const m of page.matchAll(/\[([^\]]{1,200})\]\((https?:\/\/[^)\s]+|\/[^)\s]*)\)/g)) add(m[2] ?? "", m[1] ?? "");
+  return out;
+}
+
+/** Job-detail links on the company's own site, as jobs (title = link text, or the slug when the text is generic). */
+function ownSiteJobs(page: string, pageUrl: string, label: string): Job[] {
+  const company = new URL(pageUrl).hostname.replace(/^www\./, "").split(".")[0] ?? "";
+  const jobs: Job[] = [];
+  for (const l of pageLinks(page, pageUrl)) {
+    const m = new URL(l.url).pathname.match(JOB_PATH);
+    if (!m || NOT_A_JOB.test(m[2]!) || l.url === pageUrl) continue;
+    const text = l.text && !GENERIC_LINK_TEXT.test(l.text) && l.text.length < 140 ? l.text : m[2]!.replace(/-/g, " ");
+    jobs.push({ title: text, company, location: "", remote: remoteFromText(text), url: l.url, posted: null, pay: null, source: label });
+  }
+  return jobs;
+}
+
+async function readPage(url: string, io: Io): Promise<string[]> {
+  const pages: string[] = [];
+  try {
+    pages.push(await io.fetchText(url));
+  } catch {
+    /* blocked: the reader below */
+  }
+  const direct = pages[0] ?? "";
+  if (!detectAts(direct) && !ownSiteJobs(direct, url, "").length) {
+    try {
+      pages.push(await io.fetchReader(url));
+    } catch {
+      /* reported by the caller */
+    }
+  }
+  return pages;
+}
+
 async function fetchAuto(src: JobSource, req: JobsRequest, io: Io): Promise<Job[]> {
   const url = src.url?.trim();
   if (!url) throw new Error("auto source needs a url (the company's careers page)");
   new URL(url);
-  let found: JobSource | null = null;
-  try {
-    found = detectAts(await io.fetchText(url));
-  } catch {
-    /* blocked: try the reader */
-  }
-  if (!found) {
-    try {
-      found = detectAts(await io.fetchReader(url));
-    } catch {
-      /* reported below */
+  const label = sourceLabel(src);
+  const visited: Array<{ url: string; pages: string[] }> = [{ url, pages: await readPage(url, io) }];
+  const found = (pages: string[]) => pages.map(detectAts).find((x) => x) ?? null;
+  let ats = found(visited[0]!.pages);
+  if (!ats) {
+    // One hop: the careers page often only links to an "Open roles" page that embeds the job system.
+    const subs = visited[0]!.pages
+      .flatMap((p) => pageLinks(p, url))
+      .filter((l) => l.url !== url && (OPENINGS_TEXT.test(l.text) || OPENINGS_PATH.test(new URL(l.url).pathname)) && !JOB_PATH.test(new URL(l.url).pathname))
+      .map((l) => l.url)
+      .filter((u, i, a) => a.indexOf(u) === i)
+      .slice(0, AUTO_MAX_SUBPAGES);
+    for (const sub of subs) {
+      const v = { url: sub, pages: await readPage(sub, io) };
+      visited.push(v);
+      ats = found(v.pages);
+      if (ats) break;
     }
   }
-  if (!found) {
-    throw new Error(
-      "No supported job system found on this page (looked for Greenhouse, Lever, Ashby, Workable, SmartRecruiters, Workday, Jobvite, Teamtailor, Recruitee, BambooHR, Breezy, Personio). Try type=html with a link pattern.",
-    );
+  if (ats) {
+    io.resolved.push({ from: url, source: ats });
+    return fetchSource(ats, req, io);
   }
-  io.resolved.push({ from: url, source: found });
-  return fetchSource(found, req, io);
+  // No job system: careers pages built in the site's own CMS list jobs as /career/<slug> style links.
+  for (const v of visited) {
+    const jobs = v.pages.flatMap((p) => ownSiteJobs(p, v.url, label)).filter((j, i, a) => a.findIndex((x) => x.url === j.url) === i);
+    if (jobs.length) {
+      const host = new URL(v.url).hostname.replace(/^www\./, "");
+      const pattern = `^https?://(www\\.)?${esc(host)}/(careers?|jobs?|positions?|openings?|vacancies|vacancy|roles?)/[a-z0-9][a-z0-9-]{4,}/?$`;
+      io.resolved.push({ from: url, source: { type: "html", url: v.url, pattern } });
+      return jobs;
+    }
+  }
+  throw new Error(
+    `No supported job system or job links found on this page${visited.length > 1 ? ` or ${visited.length - 1} linked openings page(s)` : ""} (looked for Greenhouse, Lever, Ashby, Workable, SmartRecruiters, Workday, Jobvite, Teamtailor, Recruitee, BambooHR, Breezy, Personio, and /careers/<job> links). The list may be loaded by script; try type=html with a link pattern.`,
+  );
 }
 
 async function fetchSource(src: JobSource, req: JobsRequest, io: Io): Promise<Job[]> {

@@ -853,3 +853,52 @@ test("auto: detects the ATS (reader fallback for blocked pages) and reports it i
   const none = await findJobs({ sources: [{ type: "auto", url: "https://example.com/c" }] }, { now: () => NOW, fetchText: async () => "<p>no jobs</p>", fetchReader: async () => "nothing" });
   assert.match(none.failed[0]!.error, /No supported job system/);
 });
+
+test("auto: follows an 'Open roles' link to the page that embeds the job system", async () => {
+  const fetched: string[] = [];
+  const r = await findJobs(
+    { sources: [{ type: "auto", url: "https://acme.com/careers" }] },
+    {
+      now: () => NOW,
+      fetchText: async (u) => {
+        fetched.push(u);
+        if (u === "https://acme.com/careers") return `<a href="/about">About</a><a href="/careers-acme">See open roles</a><a href="https://other.com/jobs">x</a>`;
+        if (u === "https://acme.com/careers-acme") return `<script src="https://boards.greenhouse.io/embed/job_board/js?for=acme"></script>`;
+        if (u.includes("greenhouse.io/v1/boards/acme/")) return JSON.stringify(GH);
+        throw new Error("unexpected " + u);
+      },
+      fetchReader: async () => "nothing",
+    },
+  );
+  assert.deepEqual(r.resolved, [{ from: "https://acme.com/careers", source: { type: "greenhouse", board: "acme" } }]);
+  assert.equal(r.counts.fetched, 3);
+  assert.ok(!fetched.includes("https://other.com/jobs"));
+});
+
+test("auto: lists job-detail links from a CMS careers page when there is no job system", async () => {
+  const html = `<a href="/career/sales-executive"><h3>Sales Executive</h3></a><a href="https://lawvu.com/career/implementation-analyst">Apply now</a>
+    <a href="/careers/life-at-lawvu">Life at LawVu</a><a href="/career/sales-executive">Apply</a>`;
+  const r = await findJobs(
+    { sources: [{ type: "auto", url: "https://lawvu.com/careers" }] },
+    { now: () => NOW, fetchText: async () => html, fetchReader: async () => "nothing" },
+  );
+  assert.deepEqual(r.jobs.map((j) => j.title).sort(), ["Sales Executive", "implementation analyst"]);
+  const res = r.resolved![0]!.source;
+  assert.equal(res.type, "html");
+  assert.ok(new RegExp(res.pattern!, "i").test("https://lawvu.com/career/sales-executive"));
+  // The saved html source reads the same page back.
+  const again = await findJobs({ sources: [res] }, { now: () => NOW, fetchText: async () => html, fetchReader: async () => "" });
+  assert.equal(again.jobs.length, 2);
+});
+
+test("auto: reads job links from the reader markdown when the page is script-rendered", async () => {
+  const r = await findJobs(
+    { sources: [{ type: "auto", url: "https://www.auger.com/careers" }] },
+    {
+      now: () => NOW,
+      fetchText: async () => "<div id=root></div>",
+      fetchReader: async () => "Roles\n[Customer Transformation Specialist](https://www.auger.com/jobs/customer-transformation-specialist)\n[Blog](https://www.auger.com/blog/x)",
+    },
+  );
+  assert.deepEqual(r.jobs.map((j) => j.title), ["Customer Transformation Specialist"]);
+});

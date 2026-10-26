@@ -843,6 +843,132 @@
       "type": "ashby",
       "board": "cardboard",
       "verified": true
+    },
+    {
+      "name": "Brain Co.",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "brainco",
+      "verified": true
+    },
+    {
+      "name": "Gong",
+      "tier": "remote_startup",
+      "type": "greenhouse",
+      "board": "gongio",
+      "verified": true
+    },
+    {
+      "name": "Tandem Health",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "tandem-health",
+      "verified": true
+    },
+    {
+      "name": "Pace",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "withpace",
+      "verified": true
+    },
+    {
+      "name": "Dwelly",
+      "tier": "remote_startup",
+      "type": "greenhouse",
+      "board": "dwelly",
+      "verified": true
+    },
+    {
+      "name": "Oak",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "oak",
+      "verified": true
+    },
+    {
+      "name": "Avantos",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "avantos",
+      "verified": true
+    },
+    {
+      "name": "Flagler Health",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "flaglerhealth",
+      "verified": true
+    },
+    {
+      "name": "Eve",
+      "tier": "remote_startup",
+      "type": "greenhouse",
+      "board": "eve",
+      "verified": true
+    },
+    {
+      "name": "Seekr",
+      "tier": "remote_startup",
+      "type": "greenhouse",
+      "board": "seekr",
+      "verified": true
+    },
+    {
+      "name": "Guild.ai",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "guild",
+      "verified": true
+    },
+    {
+      "name": "duvo.ai",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "duvo",
+      "verified": true
+    },
+    {
+      "name": "First Resonance",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "first-resonance",
+      "verified": true
+    },
+    {
+      "name": "Reach Security",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "reach",
+      "verified": true
+    },
+    {
+      "name": "Camunda",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "camunda",
+      "verified": true
+    },
+    {
+      "name": "Pivot",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "Pivot",
+      "verified": true
+    },
+    {
+      "name": "Dealpath",
+      "tier": "remote_startup",
+      "type": "greenhouse",
+      "board": "dealpath",
+      "verified": true
+    },
+    {
+      "name": "cargo.one",
+      "tier": "remote_startup",
+      "type": "ashby",
+      "board": "cargo-one",
+      "verified": true
     }
   ]
 }

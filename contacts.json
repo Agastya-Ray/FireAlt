@@ -401,5 +401,44 @@
   "checked": "2026-10-21T21:33:37.250Z",
   "url": "https://in.linkedin.com/jobs/view/campus-drive-associate-at-hirekarma-4478998205",
   "role": "Campus drive associate"
+ },
+ "ashby:arketa:3abca43c-8635-4eb6-9327-a1dfd831e631": {
+  "company": "Arketa",
+  "domain": "arketa.com",
+  "mx": true,
+  "pattern": null,
+  "contacts": [],
+  "people": [
+   {
+    "name": "Rachel Lea F.",
+    "title": "Co-Founder + CEO at Arketa",
+    "source": "https://www.arketa.com/about-us"
+   }
+  ],
+  "pagesRead": 5,
+  "notes": [
+   "domain guessed from name: arketa.com (homepage title matches)",
+   "no published or pattern-backed email found"
+  ],
+  "checked": "2026-10-27T22:05:50.330Z",
+  "url": "https://jobs.ashbyhq.com/arketa/3abca43c-8635-4eb6-9327-a1dfd831e631",
+  "role": "GTM Strategy and Operations"
+ },
+ "greenhouse:dwelly:4785962101": {
+  "company": "Dwelly",
+  "domain": "dwelly.io",
+  "mx": true,
+  "pattern": null,
+  "contacts": [],
+  "people": [],
+  "pagesRead": 15,
+  "notes": [
+   "domain guessed from name: dwelly.io (homepage title matches)",
+   "GitHub org dwelly-hub: 0 staff address(es) in public commits",
+   "no published or pattern-backed email found"
+  ],
+  "checked": "2026-10-27T22:05:50.330Z",
+  "url": "https://job-boards.eu.greenhouse.io/dwelly/jobs/4785962101",
+  "role": "Associate Launcher (Post-M&A)"
  }
 }

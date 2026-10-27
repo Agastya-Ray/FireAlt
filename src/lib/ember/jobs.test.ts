@@ -949,6 +949,7 @@ test("hn: newest 'Who is hiring' thread, one job per company comment", async () 
           children: [
             { id: 11, created_at: day(3), text: "Acme (YC W24) | Implementation Specialist &#x2F; Coordinator | REMOTE (Worldwide) | Full-time<p>We build billing software. 1+ years experience." },
             { id: 12, created_at: day(3), text: "Globex | Senior SWE | REMOTE (US) | $200k" },
+            { id: 15, created_at: day(3), text: "Revieve | Product Analyst | REMOTE [Europe / (GMT+2)]" },
             { id: 13, created_at: day(3), text: "just a reply without a header" },
             { id: 14, created_at: day(3), text: null },
           ],
@@ -957,7 +958,8 @@ test("hn: newest 'Who is hiring' thread, one job per company comment", async () 
     },
   );
   assert.equal(log[1], "https://hn.algolia.com/api/v1/items/1");
-  assert.equal(r.counts.fetched, 2);
+  assert.equal(r.counts.fetched, 3);
+  assert.equal(r.jobs.find((j) => j.company === "Revieve")!.remote, "Unknown");
   const acme = r.jobs.find((j) => j.company === "Acme")!;
   assert.equal(acme.title, "Implementation Specialist / Coordinator");
   assert.equal(acme.location, "REMOTE (Worldwide)");

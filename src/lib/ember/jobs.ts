@@ -1610,7 +1610,7 @@ export function parseHnComment(id: string, html: string, createdAt: unknown, lab
   const locParts = parts.slice(1).filter((x) => HN_LOC_RE.test(x) && x.length < 80);
   const roleParts = parts.slice(1).filter((x) => !locParts.includes(x) && !/^(full[- ]?time|part[- ]?time|contract|\$|€|£|https?:)/i.test(x));
   const location = locParts.join(" | ");
-  const restricted = /remote\s*\((?!.*\b(worldwide|global|anywhere|india|asia|apac)\b)[^)]*\)/i.test(first);
+  const restricted = /remote\s*[([](?![^)\]]*\b(worldwide|global|anywhere|india|asia|apac)\b)[^)\]]*[)\]]/i.test(first);
   return {
     title: (roleParts.join(" | ") || first).slice(0, 200),
     company,

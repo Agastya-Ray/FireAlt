@@ -128,7 +128,7 @@ const TOOLS = [
       "html: url=a server-rendered listing page (may contain {offset} or {page} to follow pages, max 5) + pattern=regex that job link hrefs match (e.g. url \"https://recruitment.macquarie.com/en_US/careers/SearchJobs/?jobOffset={offset}\", pattern \"JobDetail\\\\?jobId=\\\\d+\"). Best-effort: title/location/date are read from the markup around each link, so use a native type when one exists. " +
       "auto: url=any company careers page; finds the job system it uses (Greenhouse, Lever, Ashby, Workable, SmartRecruiters, Workday, Jobvite, Teamtailor, Recruitee, BambooHR, Breezy, Personio), reads it, and returns it in `resolved` so you can save the native source. " +
       "recruitee / bamboohr / breezy / personio: board=subdomain slug (https://<board>.recruitee.com, .bamboohr.com, .breezy.hr, .jobs.personio.de). " +
-      "Remote boards (no board needed): himalayas (board=optional country, e.g. \"India\"; `include` words are searched), jobicy (board=optional geo slug, e.g. \"apac\", \"emea\", \"usa\"; a country without a slug, e.g. \"india\", filters the open feed by location; first `include` word is the tag), workingnomads, remoteok. " +
+      "Remote boards (no board needed): himalayas (board=optional country, e.g. \"India\"; `include` words are searched), jobicy (board=optional geo slug, e.g. \"apac\", \"emea\", \"usa\"; a country without a slug, e.g. \"india\", filters the open feed by location; first `include` word is the tag), workingnomads, remoteok, remoterocketship (board=country slug, default \"india\"; each `include` word, max 3, is a role page such as \"business analyst\"; url is the employer's apply link), hn (latest Hacker News \"Who is hiring?\" thread, one job per company comment; mostly foreign companies). " +
       "CTRM/ETRM boards: learnetrm (jobs.learnetrm.com, ~160 newest, location line like \"India · Remote · Permanent\"), etrmconnect (etrmconnect.com, links to LinkedIn). " +
       "Indian boards: cutshort (url=optional cutshort.io listing, default remote jobs; shows pay in ₹), instahyre (`include` words are searched as designations). " +
       "linkedin: public job search; board=location (default \"India\"); `include` words are the keywords (required); remoteOnly or locations [\"remote\"] adds LinkedIn's remote filter; postedWithinDays is passed to LinkedIn. " +
@@ -149,7 +149,7 @@ const TOOLS = [
                 enum: [
                   "greenhouse", "lever", "ashby", "remotive", "wwr", "url", "workday", "talentbrew", "smartrecruiters", "workable", "teamtailor",
                   "successfactors", "jobvite", "html", "auto", "recruitee", "bamboohr", "breezy", "personio", "himalayas", "jobicy", "workingnomads",
-                  "remoteok", "learnetrm", "etrmconnect", "cutshort", "instahyre", "linkedin",
+                  "remoteok", "learnetrm", "etrmconnect", "cutshort", "instahyre", "linkedin", "remoterocketship", "hn",
                 ],
               },
               board: {

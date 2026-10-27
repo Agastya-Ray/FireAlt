@@ -67,7 +67,7 @@ export type ContactsDeps = {
 };
 
 const ATS_OR_SOCIAL_HOST_RE =
-  /(greenhouse\.io|lever\.co|ashbyhq\.com|smartrecruiters\.com|workable\.com|myworkdayjobs\.com|workday\.com|jobvite\.com|teamtailor\.com|recruitee\.com|bamboohr\.com|breezy\.hr|personio\.|successfactors|zohorecruit|freshteam|keka\.com|darwinbox|linkedin\.com|twitter\.com|x\.com|facebook\.com|instagram\.com|youtube\.com|glassdoor|indeed\.|google\.|apple\.com|github\.com|medium\.com|wellfound\.com|angel\.co|crunchbase|w3\.org|schema\.org|gstatic|cloudflare|jsdelivr|unpkg|sentry|hubspot|hsforms|typeform|calendly|cookiebot|onetrust|gravatar|wix\.com|wordpress\.(com|org)|squarespace|webflow|vimeo|tiktok|remotive|weworkremotely|cutshort|naukri|instahyre|himalayas|jobicy|example\.(com|org))/i;
+  /(greenhouse\.io|lever\.co|ashbyhq\.com|smartrecruiters\.com|workable\.com|myworkdayjobs\.com|workday\.com|jobvite\.com|teamtailor\.com|recruitee\.com|bamboohr\.com|breezy\.hr|personio\.|successfactors|zohorecruit|freshteam|keka\.com|darwinbox|linkedin\.com|twitter\.com|x\.com|facebook\.com|instagram\.com|youtube\.com|glassdoor|indeed\.|google\.|apple\.com|github\.com|medium\.com|wellfound\.com|angel\.co|crunchbase|w3\.org|schema\.org|gstatic|cloudflare|jsdelivr|unpkg|sentry|hubspot|hsforms|typeform|calendly|cookiebot|onetrust|gravatar|wix\.com|wordpress\.(com|org)|squarespace|webflow|vimeo|tiktok|remotive|weworkremotely|cutshort|naukri|instahyre|himalayas|jobicy|remoterocketship|ycombinator\.com|example\.(com|org))/i;
 
 const NO_REPLY_RE = /^(no-?reply|do-?not-?reply|mailer-daemon|postmaster|bounce|unsubscribe)/i;
 const HIRING_LOCAL_RE = /^(careers?|jobs?|hiring|recruit(ing|ment|er)?s?|talent|hr|people|join(us)?|work(withus)?|apply|cv|resumes?|opportunities|ta)([._-]?[a-z]*)?$/i;

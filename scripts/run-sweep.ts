@@ -12,7 +12,9 @@ import { mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { findJobs, type Job } from "../src/lib/ember/jobs.ts";
 import { defaultContactsDeps, findContacts, type ContactsResult } from "../src/lib/ember/contacts.ts";
+import { searchWeb } from "../src/lib/ember/search.ts";
 import {
+  atsBoardFromUrl,
   boardSlugGuesses,
   buildCanonicalId,
   buildCandidateKeys,
@@ -42,6 +44,19 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 /** Max companies per run to probe for their own Greenhouse/Lever/Ashby board (3 board types x up to 3 names each). */
 const DISCOVER_MAX = Number(process.env.SWEEP_DISCOVER_MAX || 15);
 const DISCOVERED_FILE = "discovered-sources.json";
+/** Web searches per run for India-remote roles posted straight on Greenhouse/Lever/Ashby (rotates daily). */
+const ATS_SEARCHES = Number(process.env.SWEEP_ATS_SEARCHES || 6);
+const ATS_SEARCH_HOSTS = ["job-boards.greenhouse.io", "jobs.lever.co", "jobs.ashbyhq.com"];
+const ATS_SEARCH_TERMS = [
+  "business analyst",
+  "implementation specialist",
+  "onboarding specialist",
+  "product analyst",
+  "operations analyst",
+  "solutions analyst",
+  "implementation consultant",
+  "revenue operations",
+];
 const UA = "Mozilla/5.0 (compatible; EmberSweep/1.0; +https://fire-alt.vercel.app)";
 
 class FileLeadsStore implements LeadsStore {
@@ -219,6 +234,39 @@ async function main() {
       }
     }
   });
+  // 3c. Boards read straight from urls: apply links of new leads (Remote Rocketship links to the employer's ATS) and
+  // a few web searches for India-remote roles on Greenhouse/Lever/Ashby. Each board is checked once before saving.
+  const knownBoards = new Set([...sources, ...found].map(boardKey));
+  const fromUrls: Array<{ type: "greenhouse" | "lever" | "ashby"; board: string; name: string }> = [];
+  const addBoard = (url: string, name: string) => {
+    const b = atsBoardFromUrl(url);
+    if (b && !knownBoards.has(boardKey(b))) {
+      knownBoards.add(boardKey(b));
+      fromUrls.push({ ...b, name });
+    }
+  };
+  scored.filter((r) => r.verdict !== "DEAD").forEach((r) => addBoard(r.url, r.company));
+  const day = Math.floor(started.getTime() / 86_400_000);
+  const combos = ATS_SEARCH_HOSTS.flatMap((h) => ATS_SEARCH_TERMS.map((t) => ({ h, t })));
+  let atsSearches = 0;
+  for (let i = 0; i < Math.min(ATS_SEARCHES, combos.length); i++) {
+    const { h, t } = combos[(day * ATS_SEARCHES + i) % combos.length]!;
+    try {
+      const res = await searchWeb({ query: `site:${h} "${t}" remote India`, limit: 10 });
+      atsSearches++;
+      res.results.forEach((hit) => addBoard(hit.url, ""));
+    } catch {
+      /* search engines blocked from this IP today */
+    }
+  }
+  await mapConcurrent(fromUrls, 3, async ({ type, board, name }) => {
+    try {
+      const r = await findJobs({ sources: [{ type, board }], limit: 1 });
+      if (!r.failed.length && r.counts.fetched > 0) found.push({ type, board, name: name || r.jobs[0]?.company || board, tier: "remote_startup", verified: false });
+    } catch {
+      /* slug did not resolve */
+    }
+  });
   if (found.length) writeFileSync(discoveredPath, JSON.stringify([...discovered, ...found], null, 1));
 
   // 4. Liveness: open leads not seen in this run and not checked for 2+ days.
@@ -288,6 +336,7 @@ async function main() {
     `liveness re-checked: ${rechecked.length}, closed: ${killed}`,
     `contacts looked up: ${needContacts.length} (with an email: ${contactsFound})${process.env.HUNTER_API_KEY ? " [Hunter on]" : ""}`,
     `open leads total: ${all.filter((r) => r.verdict !== "DEAD").length}`,
+    `ATS searches: ${atsSearches}, boards from urls/searches checked: ${fromUrls.length}`,
     `company boards discovered: ${found.length}${found.length ? ` (${found.map((f) => `${f.name} -> ${f.type}:${f.board}`).join(", ")})` : ""}`,
     `failed sources (${failed.length}):`,
     ...failed.map((f) => `- ${f}`),

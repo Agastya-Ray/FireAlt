@@ -26,6 +26,8 @@ export type JobSourceType =
   | "bamboohr"
   | "breezy"
   | "personio"
+  | "remoterocketship"
+  | "hn"
   | "auto";
 
 export type JobSource = {
@@ -1539,6 +1541,101 @@ async function fetchAuto(src: JobSource, req: JobsRequest, io: Io): Promise<Job[
   );
 }
 
+// Remote Rocketship (remote jobs tagged by country). board = country slug (default "india"); each `include` word
+// (max 3) becomes a role page, e.g. "business analyst" -> /country/india/jobs/business-analyst/. The page embeds the
+// 20 newest openings in __NEXT_DATA__ with the employer's own apply link, which we keep as the job url.
+function rrSlug(x: string): string {
+  return x.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+}
+
+export function parseRemoteRocketship(html: string, label: string, details: boolean): Job[] {
+  const m = html.match(/<script id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/);
+  if (!m) throw new Error("Remote Rocketship page has no __NEXT_DATA__");
+  const props = rec(rec(rec(parseJson(m[1]!)).props).pageProps);
+  return arr(props.initialJobOpenings).map((j) => {
+    const r = rec(j);
+    const type = s(r.locationType).toLowerCase();
+    const where = [s(r.locationCity), s(r.location)].filter(Boolean).join(", ");
+    const levels = (["isEntryLevel", "Entry", "isJunior", "Junior", "isMidLevel", "Mid", "isSenior", "Senior", "isLead", "Lead"] as const)
+      .reduce<string[]>((out, k, i, a) => (i % 2 === 0 && r[k] === true ? [...out, a[i + 1]!] : out), []);
+    const pay = s(rec(r.salaryRange).salaryHumanReadableText) || null;
+    return {
+      title: s(r.roleTitle),
+      company: s(rec(r.company).name),
+      location: type === "remote" ? `Remote - ${where || "Worldwide"}` : where,
+      remote: type === "remote" ? ("Remote" as const) : type === "hybrid" ? ("Hybrid" as const) : type ? ("Onsite" as const) : ("Unknown" as const),
+      url: s(r.url),
+      posted: toIso(r.created_at),
+      pay,
+      source: label,
+      ...(details
+        ? { summary: [s(r.twoLineJobDescriptionSummary), levels.length ? `Seniority: ${levels.join("/")}.` : "", s(r.employmentType) ? `Type: ${s(r.employmentType)}.` : ""].filter(Boolean).join(" ") }
+        : {}),
+    };
+  });
+}
+
+async function fetchRemoteRocketship(src: JobSource, req: JobsRequest, io: Io, label: string): Promise<Job[]> {
+  const country = rrSlug(src.board?.trim() || "india");
+  const terms = clean(req.include).slice(0, MAX_TERMS);
+  const pages = terms.length ? terms.map((t) => `https://www.remoterocketship.com/country/${country}/jobs/${rrSlug(t)}/`) : [`https://www.remoterocketship.com/country/${country}/jobs/`];
+  const out: Job[] = [];
+  let firstErr: unknown = null;
+  let ok = 0;
+  for (const url of pages) {
+    try {
+      out.push(...parseRemoteRocketship(await io.fetchText(url), label, req.details === true));
+      ok++;
+    } catch (err) {
+      // Not every keyword has a role page (404); only fail the source when none of them answered.
+      firstErr ??= err;
+    }
+  }
+  if (!ok && firstErr) throw firstErr;
+  return out;
+}
+
+// Hacker News "Ask HN: Who is hiring?" (monthly thread, mostly foreign companies). Each top-level comment is one
+// company; its first line is usually "Company | Role(s) | Location | REMOTE/ONSITE | ...".
+const HN_LOC_RE = /\b(remote|onsite|on-site|hybrid|anywhere|worldwide|global|india|asia|apac|emea|europe|eu|uk|us|usa|canada|timezones?|utc|gmt)\b|,\s*[A-Z]{2}\b/i;
+
+export function parseHnComment(id: string, html: string, createdAt: unknown, label: string, details: boolean): Job | null {
+  // HN escapes with hex entities (&#x2F; &#x27;) that the shared decoder does not cover.
+  const numeric = html.replace(/&#x([0-9a-f]+);/gi, (_, h: string) => String.fromCodePoint(parseInt(h, 16))).replace(/&#(\d+);/g, (_, d: string) => String.fromCodePoint(Number(d)));
+  const text = htmlToText(numeric.replace(/<p>/gi, "\n"));
+  const first = text.split("\n")[0]!.trim();
+  const parts = first.split(/\s+[|—–]\s+|\s+-\s+/).map((x) => x.trim()).filter(Boolean);
+  if (parts.length < 2) return null;
+  const company = parts[0]!.replace(/\s*\(.*?\)\s*$/, "").slice(0, 80);
+  const locParts = parts.slice(1).filter((x) => HN_LOC_RE.test(x) && x.length < 80);
+  const roleParts = parts.slice(1).filter((x) => !locParts.includes(x) && !/^(full[- ]?time|part[- ]?time|contract|\$|€|£|https?:)/i.test(x));
+  const location = locParts.join(" | ");
+  const restricted = /remote\s*\((?!.*\b(worldwide|global|anywhere|india|asia|apac)\b)[^)]*\)/i.test(first);
+  return {
+    title: (roleParts.join(" | ") || first).slice(0, 200),
+    company,
+    location,
+    remote: /\bremote\b/i.test(location) && !restricted ? "Remote" : /\b(onsite|on-site)\b/i.test(location) ? "Onsite" : "Unknown",
+    url: `https://news.ycombinator.com/item?id=${id}`,
+    posted: toIso(createdAt),
+    pay: null,
+    source: label,
+    ...(details ? { summary: summarize(text) } : {}),
+  };
+}
+
+async function fetchHn(io: Io, label: string, details: boolean): Promise<Job[]> {
+  const search = rec(parseJson(await io.fetchText("https://hn.algolia.com/api/v1/search_by_date?tags=story,author_whoishiring&hitsPerPage=10")));
+  const story = arr(search.hits).map(rec).find((h) => /who is hiring/i.test(s(h.title)));
+  if (!story) throw new Error("No 'Who is hiring?' thread found");
+  const item = rec(parseJson(await io.fetchText(`https://hn.algolia.com/api/v1/items/${enc(s(story.objectID))}`)));
+  return arr(item.children)
+    .map(rec)
+    .filter((c) => typeof c.text === "string" && c.text)
+    .map((c) => parseHnComment(String(c.id), s(c.text), c.created_at, label, details))
+    .filter((j): j is Job => j !== null);
+}
+
 async function fetchSource(src: JobSource, req: JobsRequest, io: Io): Promise<Job[]> {
   const fetchText = io.fetchText;
   const label = sourceLabel(src);
@@ -1624,6 +1721,10 @@ async function fetchSource(src: JobSource, req: JobsRequest, io: Io): Promise<Jo
       const host = b.includes(".") ? b : `${slugOk(b)}.jobs.personio.de`;
       return normPersonio(await fetchText(`https://${host}/xml`), host, label);
     }
+    case "remoterocketship":
+      return fetchRemoteRocketship(src, req, io, label);
+    case "hn":
+      return fetchHn(io, label, req.details === true);
     case "auto":
       return fetchAuto(src, req, io);
     case "url": {

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { findJobs, parseWorkdayBoard, remoteFromText } from "./jobs.ts";
+import { findJobs, parseHnComment, parseWorkdayBoard, remoteFromText } from "./jobs.ts";
 
 const NOW = Date.parse("2026-10-12T00:00:00Z");
 const day = (n: number) => new Date(NOW - n * 86_400_000).toISOString();
@@ -901,4 +901,74 @@ test("auto: reads job links from the reader markdown when the page is script-ren
     },
   );
   assert.deepEqual(r.jobs.map((j) => j.title), ["Customer Transformation Specialist"]);
+});
+
+test("remoterocketship: one role page per keyword, apply link kept, missing pages skipped", async () => {
+  const page = (jobs: unknown[]) => `<html><script id="__NEXT_DATA__" type="application/json">${JSON.stringify({ props: { pageProps: { initialJobOpenings: jobs } } })}</script></html>`;
+  const log: string[] = [];
+  const r = await findJobs(
+    { sources: [{ type: "remoterocketship", board: "India" }], include: ["business analyst", "implementation"], details: true },
+    {
+      now: () => NOW,
+      fetchText: async (u) => {
+        log.push(u);
+        if (u.endsWith("/implementation/")) throw new Error("HTTP 404");
+        return page([
+          { roleTitle: "Business Analyst", company: { name: "Paralucent" }, locationType: "remote", location: "India", url: "https://paralucent.recruitee.com/o/ba", created_at: day(1), isJunior: true, twoLineJobDescriptionSummary: "BA for SAP Finance, remote from India.", employmentType: "contract", salaryRange: { salaryHumanReadableText: "$15 per hour" } },
+          { roleTitle: "Business Analyst II", company: { name: "Acme" }, locationType: "hybrid", location: "India", locationCity: "Pune", url: "https://acme.test/2", created_at: day(2) },
+        ]);
+      },
+    },
+  );
+  assert.deepEqual(log, ["https://www.remoterocketship.com/country/india/jobs/business-analyst/", "https://www.remoterocketship.com/country/india/jobs/implementation/"]);
+  assert.deepEqual(r.failed, []);
+  const ba = r.jobs.find((j) => j.company === "Paralucent")!;
+  assert.equal(ba.url, "https://paralucent.recruitee.com/o/ba");
+  assert.equal(ba.location, "Remote - India");
+  assert.equal(ba.remote, "Remote");
+  assert.equal(ba.pay, "$15 per hour");
+  assert.match(ba.summary!, /remote from India\. Seniority: Junior\. Type: contract\./);
+  assert.equal(r.jobs.find((j) => j.company === "Acme")!.location, "Pune, India");
+});
+
+test("remoterocketship: fails only when no role page answers", async () => {
+  const r = await findJobs({ sources: [{ type: "remoterocketship" }], include: ["nope"] }, { now: () => NOW, fetchText: async () => { throw new Error("HTTP 404"); } });
+  assert.equal(r.failed.length, 1);
+});
+
+test("hn: newest 'Who is hiring' thread, one job per company comment", async () => {
+  const log: string[] = [];
+  const r = await findJobs(
+    { sources: [{ type: "hn" }], details: true },
+    {
+      now: () => NOW,
+      fetchText: async (u) => {
+        log.push(u);
+        if (u.includes("search_by_date")) return JSON.stringify({ hits: [{ objectID: "2", title: "Ask HN: Who wants to be hired? (October 2026)" }, { objectID: "1", title: "Ask HN: Who is hiring? (October 2026)" }] });
+        return JSON.stringify({
+          children: [
+            { id: 11, created_at: day(3), text: "Acme (YC W24) | Implementation Specialist &#x2F; Coordinator | REMOTE (Worldwide) | Full-time<p>We build billing software. 1+ years experience." },
+            { id: 12, created_at: day(3), text: "Globex | Senior SWE | REMOTE (US) | $200k" },
+            { id: 13, created_at: day(3), text: "just a reply without a header" },
+            { id: 14, created_at: day(3), text: null },
+          ],
+        });
+      },
+    },
+  );
+  assert.equal(log[1], "https://hn.algolia.com/api/v1/items/1");
+  assert.equal(r.counts.fetched, 2);
+  const acme = r.jobs.find((j) => j.company === "Acme")!;
+  assert.equal(acme.title, "Implementation Specialist / Coordinator");
+  assert.equal(acme.location, "REMOTE (Worldwide)");
+  assert.equal(acme.remote, "Remote");
+  assert.equal(acme.url, "https://news.ycombinator.com/item?id=11");
+  assert.match(acme.summary!, /1\+ years experience/);
+  assert.equal(r.jobs.find((j) => j.company === "Globex")!.remote, "Unknown"); // US-only remote is not remote for India
+});
+
+test("parseHnComment: em-dash separated header", () => {
+  const j = parseHnComment("5", "PrairieLearn (Remote US) — Full-Stack Software Engineer — TypeScript", day(1), "hn", false)!;
+  assert.equal(j.company, "PrairieLearn");
+  assert.equal(j.title, "Full-Stack Software Engineer | TypeScript");
 });

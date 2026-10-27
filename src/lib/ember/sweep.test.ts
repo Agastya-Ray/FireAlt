@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { boardSlugGuesses, buildCanonicalId, dedupKey, filterJobInCode, formatLeadsCsv, guardVerdict, isJobStillLive, mergeRows, scoreJobWithLlm, type LeadRow } from "./sweep.ts";
+import { atsBoardFromUrl, boardSlugGuesses, buildCanonicalId, dedupKey, filterJobInCode, formatLeadsCsv, guardVerdict, isJobStillLive, mergeRows, scoreJobWithLlm, type LeadRow } from "./sweep.ts";
 
 const J = (title: string, location = "Remote - India", remote: "Remote" | "Onsite" | "Hybrid" | "Unknown" = "Remote") => ({ title, location, remote });
 
@@ -102,4 +102,19 @@ test("boardSlugGuesses: whole name joined, legal suffixes dropped", () => {
   assert.deepEqual(boardSlugGuesses("Acme Labs, Inc."), ["acmelabs", "acme-labs"]);
   assert.deepEqual(boardSlugGuesses("Venn®"), ["venn"]);
   assert.deepEqual(boardSlugGuesses("HighLevel"), ["highlevel"]);
+});
+
+test("atsBoardFromUrl: greenhouse/lever/ashby job and board urls", () => {
+  assert.deepEqual(atsBoardFromUrl("https://job-boards.greenhouse.io/Octus/jobs/5214673007"), { type: "greenhouse", board: "octus" });
+  assert.deepEqual(atsBoardFromUrl("https://boards.greenhouse.io/smartsheet?error=true"), { type: "greenhouse", board: "smartsheet" });
+  assert.equal(atsBoardFromUrl("https://boards.greenhouse.io/embed/job_app?for=x"), null);
+  assert.deepEqual(atsBoardFromUrl("https://jobs.lever.co/Sprinto/56d5-abc"), { type: "lever", board: "Sprinto" });
+  assert.deepEqual(atsBoardFromUrl("https://jobs.ashbyhq.com/camunda/123"), { type: "ashby", board: "camunda" });
+  assert.equal(atsBoardFromUrl("https://paralucent.recruitee.com/o/ba"), null);
+});
+
+test("title filter: adjacent titles that found leads on 2026-10-21", () => {
+  for (const t of ["Implementation Coordinator", "Technical Onboarding Specialist", "Business Systems Analyst", "Project Coordinator", "Support Analyst"]) {
+    assert.equal(filterJobInCode(J(t)).pass, true, t);
+  }
 });

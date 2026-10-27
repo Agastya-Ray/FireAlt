@@ -149,6 +149,17 @@ export function boardSlugGuesses(company: string): string[] {
   return [...new Set([words.join(""), words.join("-")])].filter((x) => x.length >= 3);
 }
 
+/** The Greenhouse/Lever/Ashby board a job or search-result url belongs to, so it can be swept natively. */
+export function atsBoardFromUrl(url: string): { type: "greenhouse" | "lever" | "ashby"; board: string } | null {
+  const gh = url.match(/^https?:\/\/(?:job-boards|boards)(?:\.eu)?\.greenhouse\.io\/([a-z0-9_-]+)/i);
+  if (gh && !/^(embed|v1)$/i.test(gh[1]!)) return { type: "greenhouse", board: gh[1]!.toLowerCase() };
+  const lv = url.match(/^https?:\/\/jobs\.(?:eu\.)?lever\.co\/([A-Za-z0-9_.-]+)/);
+  if (lv) return { type: "lever", board: lv[1]! };
+  const ab = url.match(/^https?:\/\/jobs\.ashbyhq\.com\/([A-Za-z0-9_.%-]+)/);
+  if (ab) return { type: "ashby", board: decodeURIComponent(ab[1]!) };
+  return null;
+}
+
 // ---------------------------------------------------------------------------
 // STAGE 1: CODE FILTERS (0 tokens)
 // ---------------------------------------------------------------------------
@@ -163,7 +174,7 @@ const HARD_SENIOR_OR_TECH_REJECT_RE =
 const GENERIC_MANAGER_REJECT_RE = /\b(manager|head)\b/i;
 
 const INCLUDE_ROLE_RE =
-  /\b(business\s+analyst|product\s+analyst|data\s+analyst|financial\s+analyst|associate\s+product\s+manager|product\s+manager\s+i\b|project\s+manager\s+i\b|junior\s+(?:product|project)\s+manager|implementation|solutions?\s+(?:analyst|consultant|specialist)|onboarding|functional\s+(?:analyst|consultant)|customer\s+success\s+operations|revenue\s+operations|revops|strategy|operations\s+(?:analyst|associate|specialist|executive)|business\s+operations|bizops|research\s+analyst|pricing\s+analyst|market\s+access|advisory\s+associate|chief\s+of\s+staff|founder'?s\s+office|liveops|game\s+economy|moneti[sz]ation|ctrm|etrm|commodit(?:y|ies)|deals?\s+desk|trade\s+support|product\s+specialist|product\s+operations|graduate\s+program(?:me)?|consultant|associate)\b/i;
+  /\b(business\s+analyst|product\s+analyst|data\s+analyst|financial\s+analyst|associate\s+product\s+manager|product\s+manager\s+i\b|project\s+manager\s+i\b|junior\s+(?:product|project)\s+manager|implementation|solutions?\s+(?:analyst|consultant|specialist)|onboarding|(?:business\s+systems|systems|process|reporting|support|insights?)\s+analyst|(?:project|program|operations)\s+coordinator|functional\s+(?:analyst|consultant)|customer\s+success\s+operations|revenue\s+operations|revops|strategy|operations\s+(?:analyst|associate|specialist|executive)|business\s+operations|bizops|research\s+analyst|pricing\s+analyst|market\s+access|advisory\s+associate|chief\s+of\s+staff|founder'?s\s+office|liveops|game\s+economy|moneti[sz]ation|ctrm|etrm|commodit(?:y|ies)|deals?\s+desk|trade\s+support|product\s+specialist|product\s+operations|graduate\s+program(?:me)?|consultant|associate)\b/i;
 
 export const ODISHA_LOC_RE = /\b(odisha|orissa|bhubaneswar|bhubaneshwar|cuttack|rourkela|puri|sambalpur|berhampur)\b/i;
 

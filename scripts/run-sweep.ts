@@ -38,6 +38,7 @@ const MAX_LLM = Number(process.env.SWEEP_MAX_LLM || 150);
 const POSTED_DAYS = Number(process.env.SWEEP_POSTED_DAYS || 30);
 const LIVENESS_DAYS = 2;
 const LLM_GAP_MS = Number(process.env.SWEEP_LLM_GAP_MS || 4_000);
+const LINKEDIN_GAP_MS = Number(process.env.SWEEP_LINKEDIN_GAP_MS || 6_000);
 const MAX_CONTACTS = Number(process.env.SWEEP_MAX_CONTACTS || 40);
 const CONTACT_VERDICTS = new Set(["PASS", "PARK", "HIGHPAY", "ABROAD"]);
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
@@ -129,7 +130,9 @@ async function main() {
     // Search boards (LinkedIn, Instahyre, Himalayas...) only use the first 3 words, so a keyword list runs in groups of 3.
     const groups = keywords?.length ? Array.from({ length: Math.ceil(keywords.length / 3) }, (_, i) => keywords.slice(i * 3, i * 3 + 3)) : [cfg.searchKeywords];
     const out: Array<{ job: Job; src: CompanyEntry }> = [];
-    for (const include of groups) {
+    for (const [gi, include] of groups.entries()) {
+      // LinkedIn starts answering 403 to rapid back-to-back searches from one IP; space the keyword groups out.
+      if (src.type === "linkedin" && gi > 0) await sleep(LINKEDIN_GAP_MS);
       try {
         const r = await findJobs({ sources: [source], include, remoteOnly, postedWithinDays: noDates ? undefined : POSTED_DAYS, limit: 50, details: true });
         r.failed.forEach((f) => failed.push(`${src.name}${groups.length > 1 ? ` [${include.join(", ")}]` : ""}: ${f.error.slice(0, 120)}`));
@@ -254,15 +257,20 @@ async function main() {
     try {
       const res = await searchWeb({ query: `site:${h} "${t}" remote India`, limit: 10 });
       atsSearches++;
-      res.results.forEach((hit) => addBoard(hit.url, ""));
+      res.results.forEach((hit: { url: string }) => addBoard(hit.url, ""));
     } catch {
       /* search engines blocked from this IP today */
     }
   }
   await mapConcurrent(fromUrls, 3, async ({ type, board, name }) => {
     try {
-      const r = await findJobs({ sources: [{ type, board }], limit: 1 });
-      if (!r.failed.length && r.counts.fetched > 0) found.push({ type, board, name: name || r.jobs[0]?.company || board, tier: "remote_startup", verified: false });
+      // Search hits include demo and vendor boards: keep a board only if it lists a target role open to India/remote.
+      const r = await findJobs({ sources: [{ type, board }], limit: 50 });
+      const fit = r.jobs.find((j) => {
+        const f = filterJobInCode(j, "remote_startup");
+        return f.pass && f.locationBucket !== "foreign_non_remote";
+      });
+      if (!r.failed.length && fit) found.push({ type, board, name: name || fit.company || board, tier: "remote_startup", verified: false });
     } catch {
       /* slug did not resolve */
     }

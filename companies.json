@@ -59,7 +59,16 @@
         "pricing analyst",
         "ctrm",
         "etrm",
-        "commodity"
+        "commodity",
+        "implementation specialist",
+        "onboarding specialist",
+        "implementation coordinator",
+        "technical onboarding",
+        "customer onboarding",
+        "solutions analyst",
+        "business systems analyst",
+        "project coordinator",
+        "support analyst"
       ]
     },
     {
@@ -93,7 +102,16 @@
         "pricing analyst",
         "ctrm",
         "etrm",
-        "commodity"
+        "commodity",
+        "implementation specialist",
+        "onboarding specialist",
+        "implementation coordinator",
+        "technical onboarding",
+        "customer onboarding",
+        "solutions analyst",
+        "business systems analyst",
+        "project coordinator",
+        "support analyst"
       ]
     },
     {
@@ -140,6 +158,31 @@
     {
       "type": "etrmconnect",
       "name": "ETRM Connect",
+      "tier": "board"
+    },
+    {
+      "type": "remoterocketship",
+      "board": "india",
+      "name": "Remote Rocketship (India remote)",
+      "tier": "board",
+      "keywords": [
+        "business analyst",
+        "business operations",
+        "product analyst",
+        "data analyst",
+        "operations",
+        "customer success",
+        "strategy",
+        "revenue operations",
+        "implementation specialist",
+        "onboarding specialist",
+        "solutions consultant",
+        "financial analyst"
+      ]
+    },
+    {
+      "type": "hn",
+      "name": "HN Who is hiring",
       "tier": "board"
     },
     {

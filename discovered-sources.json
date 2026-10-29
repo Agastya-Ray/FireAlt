@@ -1,0 +1,121 @@
+[
+ {
+  "type": "lever",
+  "board": "entrata",
+  "name": "Entrata",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "hirehangar",
+  "name": "hirehangar",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "vultr",
+  "name": "vultr",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "ansiblehealth",
+  "name": "ansiblehealth",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "panoptyc",
+  "name": "panoptyc",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "clipboard",
+  "name": "clipboard",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "rwazi",
+  "name": "rwazi",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "harvey",
+  "name": "harvey",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "mindly",
+  "name": "mindly",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "AHL-SaafAI",
+  "name": "AHL-SaafAI",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "pragmatike",
+  "name": "pragmatike",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "ashby",
+  "name": "ashby",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "opengov",
+  "name": "opengov",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "fieldguide",
+  "name": "fieldguide",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "bestow",
+  "name": "bestow",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "phil",
+  "name": "phil",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "junipersquare",
+  "name": "junipersquare",
+  "tier": "remote_startup",
+  "verified": false
+ }
+]

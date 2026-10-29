@@ -1,14 +1,13 @@
-# Sweep 2026-10-27T22:05:50.330Z
-sources: 138 (0 discovered), jobs fetched: 1191, code-rejected: 924, new scored: 21, waiting (over cap): 0
-new verdicts: {"DEAD":18,"CHECK":1,"ABROAD":2}
-liveness re-checked: 9, closed: 0
-contacts looked up: 2 (with an email: 0)
-open leads total: 57
-company boards discovered: 0
-failed sources (4):
-- LinkedIn (India, remote) [product analyst, operations analyst, strategy]: Fetch failed (403)
-- LinkedIn (Bhubaneswar) [consultant, associate, strategy]: Fetch failed (403)
+# Sweep 2026-10-29T06:46:58.929Z
+sources: 140 (0 discovered), jobs fetched: 1345, code-rejected: 993, new scored: 85, waiting (over cap): 0
+new verdicts: {"DEAD":79,"CHECK":5,"PARK":1}
+liveness re-checked: 10, closed: 0
+contacts looked up: 1 (with an email: 0)
+open leads total: 63
+ATS searches: 6, boards from urls/searches checked: 40
+company boards discovered: 17 (Entrata -> lever:entrata, hirehangar -> ashby:hirehangar, vultr -> ashby:vultr, ansiblehealth -> ashby:ansiblehealth, panoptyc -> ashby:panoptyc, clipboard -> ashby:clipboard, rwazi -> ashby:rwazi, harvey -> ashby:harvey, mindly -> ashby:mindly, AHL-SaafAI -> ashby:AHL-SaafAI, pragmatike -> ashby:pragmatike, ashby -> ashby:ashby, opengov -> ashby:opengov, fieldguide -> ashby:fieldguide, bestow -> ashby:bestow, phil -> ashby:phil, junipersquare -> ashby:junipersquare)
+failed sources (1):
 - SwiftSku: Fetch failed (404)
-- Instrumentl: Timed out fetching the page
 
 ## New PASS / PARK / HIGHPAY
+- PARK | Data Analyst II – Operations - Signant Health | UNKNOWN | https://jobs.dayforcehcm.com/signanthealth/candidateportal/jobs/12614

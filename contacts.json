@@ -440,5 +440,21 @@
   "checked": "2026-10-27T22:05:50.330Z",
   "url": "https://job-boards.eu.greenhouse.io/dwelly/jobs/4785962101",
   "role": "Associate Launcher (Post-M&A)"
+ },
+ "remoterocketship:signant-health:jobs-dayforcehcm-com-signanthealth-candidateportal-jobs-12614": {
+  "company": "Signant Health",
+  "domain": "signanthealth.com",
+  "mx": true,
+  "pattern": null,
+  "contacts": [],
+  "people": [],
+  "pagesRead": 7,
+  "notes": [
+   "domain guessed from name: signanthealth.com (homepage title matches)",
+   "no published or pattern-backed email found"
+  ],
+  "checked": "2026-10-29T06:46:58.929Z",
+  "url": "https://jobs.dayforcehcm.com/signanthealth/candidateportal/jobs/12614",
+  "role": "Data Analyst II – Operations"
  }
 }

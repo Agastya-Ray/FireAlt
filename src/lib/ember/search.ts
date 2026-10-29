@@ -1,5 +1,4 @@
 import { fetchPage } from "./fetch-page";
-import { scrapeUrl } from "./scrape";
 import { isSearchEngineUrl, unwrapRedirect } from "./redirect.ts";
 import type { SearchHit, SearchRequest, SearchResult } from "./types";
 import { resolveUrl } from "./url-guard";
@@ -234,6 +233,8 @@ export async function searchWeb(req: SearchRequest): Promise<SearchResult> {
   const sliced = hits.slice(0, limit);
 
   if (req.scrape) {
+    // Loaded on demand: scrape pulls in the HTML parser (linkedom), which the daily sweep runs without installing.
+    const { scrapeUrl } = await import("./scrape");
     const maxTokens = Math.max(200, Math.floor((req.maxTokens ?? 1500) / Math.max(1, sliced.length)));
     await Promise.all(
       sliced.map(async (h) => {

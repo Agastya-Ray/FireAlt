@@ -482,5 +482,60 @@
   "checked": "2026-10-30T03:38:43.027Z",
   "url": "https://www.comeet.com/jobs/max_security/2B.004/customer-success-operations-specialist/38.477",
   "role": "Customer Success Operations Specialist"
+ },
+ "greenhouse:addepar1:8816951002": {
+  "company": "addepar1",
+  "domain": "addepar.com",
+  "mx": true,
+  "pattern": "{first}.{last}",
+  "contacts": [
+   {
+    "email": "tainfo@addepar.com",
+    "kind": "hiring",
+    "confidence": "published",
+    "evidence": "https://job-boards.greenhouse.io/addepar1/jobs/8816951002"
+   },
+   {
+    "email": "ta-operations@addepar.com",
+    "kind": "hiring",
+    "confidence": "published",
+    "evidence": "https://job-boards.greenhouse.io/addepar1/jobs/8816951002"
+   },
+   {
+    "email": "eric.poirier@addepar.com",
+    "kind": "person",
+    "confidence": "likely",
+    "name": "Eric Poirier",
+    "title": "Chief Executive Officer",
+    "evidence": "pattern {first}.{last} from addepar.com addresses"
+   },
+   {
+    "email": "joe.lonsdale@addepar.com",
+    "kind": "person",
+    "confidence": "likely",
+    "name": "Joe Lonsdale",
+    "title": "Founder and Chairman of the Board",
+    "evidence": "pattern {first}.{last} from addepar.com addresses"
+   }
+  ],
+  "people": [
+   {
+    "name": "Eric Poirier",
+    "title": "Chief Executive Officer",
+    "source": "https://addepar.com/about"
+   },
+   {
+    "name": "Joe Lonsdale",
+    "title": "Founder and Chairman of the Board",
+    "source": "https://addepar.com/about"
+   }
+  ],
+  "pagesRead": 5,
+  "notes": [
+   "GitHub org Addepar: 9 staff address(es) in public commits"
+  ],
+  "checked": "2026-10-30T22:12:52.469Z",
+  "url": "https://job-boards.greenhouse.io/addepar1/jobs/8816951002",
+  "role": "Direct Solutions Consultant (Investment Management)"
  }
 }

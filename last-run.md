@@ -1,13 +1,13 @@
-# Sweep 2026-10-30T03:38:43.027Z
-sources: 157 (17 discovered), jobs fetched: 1383, code-rejected: 1017, new scored: 53, waiting (over cap): 0
-new verdicts: {"DEAD":48,"CHECK":4,"PARK":1}
-liveness re-checked: 10, closed: 1
+# Sweep 2026-10-30T22:12:52.469Z
+sources: 167 (27 discovered), jobs fetched: 1661, code-rejected: 1204, new scored: 92, waiting (over cap): 0
+new verdicts: {"DEAD":84,"CHECK":7,"ABROAD":1}
+liveness re-checked: 0, closed: 0
 contacts looked up: 1 (with an email: 1)
-open leads total: 67
-ATS searches: 6, boards from urls/searches checked: 25
-company boards discovered: 10 (harborglobal -> greenhouse:harborglobal, horizonindustrieslimited -> greenhouse:horizonindustrieslimited, precisionmedicinegroup -> greenhouse:precisionmedicinegroup, octus -> greenhouse:octus, mitsogoinc -> greenhouse:mitsogoinc, karbon -> greenhouse:karbon, zenoti -> greenhouse:zenoti, ethoslife -> greenhouse:ethoslife, gomotive -> greenhouse:gomotive, addepar1 -> greenhouse:addepar1)
-failed sources (1):
+open leads total: 75
+ATS searches: 6, boards from urls/searches checked: 8
+company boards discovered: 1 (tide -> greenhouse:tide)
+failed sources (2):
+- ION Group: Timed out fetching the page
 - SwiftSku: Fetch failed (404)
 
 ## New PASS / PARK / HIGHPAY
-- PARK | Customer Success Operations Specialist - MAX Security | UNKNOWN | https://www.comeet.com/jobs/max_security/2B.004/customer-success-operations-specialist/38.477

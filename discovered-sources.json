@@ -187,5 +187,12 @@
   "name": "addepar1",
   "tier": "remote_startup",
   "verified": false
+ },
+ {
+  "type": "greenhouse",
+  "board": "tide",
+  "name": "tide",
+  "tier": "remote_startup",
+  "verified": false
  }
 ]

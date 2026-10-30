@@ -456,5 +456,31 @@
   "checked": "2026-10-29T06:46:58.929Z",
   "url": "https://jobs.dayforcehcm.com/signanthealth/candidateportal/jobs/12614",
   "role": "Data Analyst II – Operations"
+ },
+ "remoterocketship:max-security:omeet-com-jobs-max-security-2b-004-customer-success-operations-specialist-38-477": {
+  "company": "MAX Security",
+  "domain": "max-security.com",
+  "mx": true,
+  "pattern": null,
+  "contacts": [
+   {
+    "email": "info@max-security.com",
+    "kind": "general",
+    "confidence": "published",
+    "evidence": "https://www.max-security.com/"
+   }
+  ],
+  "people": [
+   {
+    "name": "Dror Becker",
+    "title": "Chief Executive Officer",
+    "source": "https://www.max-security.com/about-us/"
+   }
+  ],
+  "pagesRead": 6,
+  "notes": [],
+  "checked": "2026-10-30T03:38:43.027Z",
+  "url": "https://www.comeet.com/jobs/max_security/2B.004/customer-success-operations-specialist/38.477",
+  "role": "Customer Success Operations Specialist"
  }
 }

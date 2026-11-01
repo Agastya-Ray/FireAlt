@@ -243,5 +243,96 @@
   "name": "connectwise",
   "tier": "remote_startup",
   "verified": false
+ },
+ {
+  "type": "lever",
+  "board": "spreetail",
+  "name": "spreetail",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "lever",
+  "board": "pine-services",
+  "name": "pine-services",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "gratia",
+  "name": "gratia",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "makai-labs",
+  "name": "makai-labs",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "upguard",
+  "name": "upguard",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "allwyn-corp",
+  "name": "allwyn-corp",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "lever",
+  "board": "veeva",
+  "name": "veeva",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "hims-and-hers",
+  "name": "hims-and-hers",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "weave",
+  "name": "weave",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "prospyr",
+  "name": "prospyr",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "Interrahealth",
+  "name": "Interrahealth",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "lever",
+  "board": "coupa",
+  "name": "coupa",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "distill",
+  "name": "distill",
+  "tier": "remote_startup",
+  "verified": false
  }
 ]

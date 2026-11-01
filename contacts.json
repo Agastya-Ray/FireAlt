@@ -553,5 +553,28 @@
   "checked": "2026-10-31T21:24:59.235Z",
   "url": "https://worldwide.wd1.myworkdayjobs.com/external/job/new-delhi-india/grants-payments-data-analyst_jr103039",
   "role": "Grants Payments Data Analyst"
+ },
+ "himalayas:lifelancer:himalayas-app-companies-lifelancer-jobs-it-business-analyst": {
+  "company": "Lifelancer",
+  "domain": "lifelancer.com",
+  "mx": true,
+  "pattern": null,
+  "contacts": [
+   {
+    "email": "hello@lifelancer.com",
+    "kind": "general",
+    "confidence": "published",
+    "evidence": "https://lifelancer.com/contact"
+   }
+  ],
+  "people": [],
+  "pagesRead": 4,
+  "notes": [
+   "job page unreachable",
+   "domain guessed from name: lifelancer.com (homepage title matches)"
+  ],
+  "checked": "2026-11-01T21:56:46.655Z",
+  "url": "https://himalayas.app/companies/lifelancer/jobs/it-business-analyst?utm_source=api",
+  "role": "IT Business Analyst"
  }
 }

@@ -348,7 +348,7 @@
    "GitHub org givecampus: 0 staff address(es) in public commits",
    "no published or pattern-backed email found"
   ],
-  "checked": "2026-10-21T21:33:37.250Z",
+  "checked": "2026-11-04T23:33:50.680Z",
   "url": "https://job-boards.greenhouse.io/givecampus/jobs/4462656009",
   "role": "GC GO Partner Success and Implementation Specialist"
  },
@@ -576,5 +576,21 @@
   "checked": "2026-11-01T21:56:46.655Z",
   "url": "https://himalayas.app/companies/lifelancer/jobs/it-business-analyst?utm_source=api",
   "role": "IT Business Analyst"
+ },
+ "remoterocketship:xflow:142": {
+  "company": "Xflow",
+  "domain": null,
+  "mx": false,
+  "pattern": null,
+  "contacts": [],
+  "people": [],
+  "pagesRead": 1,
+  "notes": [
+   "company website not found",
+   "no published or pattern-backed email found"
+  ],
+  "checked": "2026-11-04T23:33:50.680Z",
+  "url": "https://xflow.bamboohr.com/careers/142",
+  "role": "IT Operations Specialist"
  }
 }

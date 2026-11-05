@@ -254,7 +254,7 @@ LOCATION AND PAY (locationBucket is pre-computed by code):
 - india_office: office/hybrid elsewhere in India. Keep ONLY as HIGHPAY if stated pay is >= ${inr(R.indiaOfficeFloorInr)}/month in hand (about 0.8 x CTC / 12). Pay not stated -> CHECK with flag "Office role - needs pay >= ${inr(R.indiaOfficeFloorInr)}/month". Below floor -> DEAD. Noida, Mumbai, Nagpur -> DEAD.
 - foreign_non_remote: ABROAD only if companyTier is "remote_startup" OR the JD says they hire contractors/EOR in India, AND experience <= 2 yrs. Otherwise DEAD.
 
-EXPERIENCE (read in context; company age is not required experience): <=2 yrs eligible; >2 and <=3 yrs -> PARK at best; >3 yrs -> DEAD.
+EXPERIENCE (read in context; company age is not required experience). Use the MINIMUM the JD requires, not "preferred", "ideally" or "nice to have" years: a JD that says "3-5 years preferred" or "ideally 4+ years" with no hard minimum counts as a stretch, not a requirement. Required <=2 yrs eligible; required >2 and <=3 yrs -> PARK at best; required >3 yrs -> DEAD; only "preferred" years >3 (no stated minimum) -> PARK with flag "experience preferred N yrs, not required".
 
 DEAD if any: sales quota / BD / SDR / BDR / cold calling; coding as a core duty; required language other than English, Hindi, Odia; shift ending after 10pm IST or starting before 6am IST; 3 or more culture red flags ("hustle", "high agency", "fast-paced", "own it end to end", "work hard play hard", "24/7"). Fewer than 3 such phrases -> keep, but list each in flags as "Culture risk: <phrase>".
 

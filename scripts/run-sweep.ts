@@ -98,6 +98,11 @@ async function jdText(job: Job): Promise<string> {
   }
 }
 
+/** Location for dedup: lowercase words only, so "Mumbai, India" and "mumbai india" match. */
+function normLocation(loc: string | null | undefined): string {
+  return (loc ?? "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+}
+
 async function main() {
   const started = new Date();
   mkdirSync(DATA_DIR, { recursive: true });
@@ -159,7 +164,11 @@ async function main() {
     if (seenThisRun.has(id) || seenKeys.has(key)) continue;
     seenThisRun.add(id);
     seenKeys.add(key);
-    const prev = known.get(id) ?? knownByKey.get(key);
+    // Company+title fallback: a DEAD lead in another place (e.g. "Business Analyst", Mumbai) must not
+    // hide the same title posted later for a different location (e.g. remote).
+    const byKey = knownByKey.get(key);
+    const keyMatch = byKey && !(byKey.verdict === "DEAD" && normLocation(byKey.location) !== normLocation(job.location)) ? byKey : undefined;
+    const prev = known.get(id) ?? keyMatch;
     if (prev) seenThisRun.add(prev.canonical_id);
     // A lead whose scoring failed (bad key, retired model) gets scored again instead of staying CHECK forever.
     if (prev && prev.flags.includes("LLM failed") && candidates.length) {

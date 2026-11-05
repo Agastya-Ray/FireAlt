@@ -406,7 +406,8 @@
       "tier": "data_fintech",
       "type": "html",
       "url": "https://capspire.com/careers/",
-      "pattern": "/jobs/[a-z]+/"
+      "pattern": "/jobs/[a-z]+/",
+      "noDates": true
     },
     {
       "name": "Oxane Partners",

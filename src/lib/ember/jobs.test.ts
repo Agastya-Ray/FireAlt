@@ -702,6 +702,12 @@ test("learnetrm: card wrapped in the link, and title-only link", () => {
   assert.deepEqual([b[0]!.title, b[0]!.company, b[0]!.location], ["ETRM Allegro Test Engineer", "Endureth Consulting", "India · Remote · Permanent"]);
 });
 
+test("learnetrm: location split into separate tags (Nov 2026 layout) and numeric entities", () => {
+  const html = `<li><h2><a href="https://jobs.learnetrm.com/jobs/sr-administrator-support-and-operations-mvw0n0n5">Sr Administrator &#8211; Support</a></h2><p>HCLTech</p><p><span>India</span><span>·</span><span>Remote</span><span>·</span><span>Contract</span></p><p>Platforms: RightAngle</p></li>`;
+  const j = parseLearnEtrm(html, "https://jobs.learnetrm.com/jobs", NOW + 30 * 86_400_000, "learnetrm");
+  assert.deepEqual([j[0]!.title, j[0]!.company, j[0]!.location, j[0]!.remote], ["Sr Administrator \u2013 Support", "HCLTech", "India · Remote · Contract", "Remote"]);
+});
+
 test("etrmconnect: title, company, location and age (age sits before the title link)", () => {
   const html = `<div><span>12 hours ago</span><h3><a href="https://www.linkedin.com/jobs/view/director-at-lseg-4432669619">Director, Futures Clearing</a></h3><p>LSEG</p><p>New York, NY</p><a href="https://www.linkedin.com/jobs/view/director-at-lseg-4432669619">Apply Now for Director, Futures Clearing (opens LinkedIn in a new tab)</a></div>
 <div><span>2 days ago</span><h3><a href="https://uk.linkedin.com/jobs/view/senior-ba-at-auro-4476294844">Senior Business Analyst | London Hybrid</a></h3><p>Auro Recruitment Group</p><p>London Area, United Kingdom</p><a href="https://uk.linkedin.com/jobs/view/senior-ba-at-auro-4476294844">Apply Now for Senior Business Analyst</a></div>`;

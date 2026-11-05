@@ -495,7 +495,9 @@ function decodeHtml(x: string): string {
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
     .replace(/&#0?39;|&apos;/g, "'")
-    .replace(/&nbsp;/g, " ");
+    .replace(/&nbsp;/g, " ")
+    .replace(/&#(\d{2,6});/g, (_, n: string) => String.fromCodePoint(Number(n)))
+    .replace(/&#x([0-9a-f]{2,6});/gi, (_, n: string) => String.fromCodePoint(parseInt(n, 16)));
 }
 
 function htmlText(x: string): string {
@@ -1004,6 +1006,8 @@ function normRemoteOk(body: string, label: string, details: boolean): Job[] {
 // jobs.learnetrm.com: ETRM/CTRM-only board, server-rendered, 20 per page (?page=N). The job slug ends in a
 // base-36 millisecond timestamp (e.g. "...-mv6do581" = 2026-10-13), used as the posted date.
 const LEARNETRM_PAGES = 8;
+const WORK_MODEL_RE = /^(onsite|on-site|remote|hybrid)$/i;
+const EMPLOYMENT_RE = /^(permanent|contract|temporary|internship|part[- ]time|full[- ]time|freelance)$/i;
 
 export function learnEtrmDate(url: string, now: number): string | null {
   const m = url.match(/-([0-9a-z]{8})\/?$/);
@@ -1080,8 +1084,22 @@ export function parseLearnEtrm(html: string, pageUrl: string, now: number, label
     const title = heading || pieces[0] || "";
     if (!title) return [];
     const rest = pieces.filter((p) => p !== title);
-    const where = rest.find((p) => p.includes("·")) ?? "";
-    const company = rest.find((p) => p !== where && !/^(platforms|commodities):/i.test(p)) ?? "";
+    // "India · Remote · Permanent" arrives as one piece, or (since the Nov 2026 redesign) as separate
+    // pieces with the "·" separators in their own tags, which textPieces drops.
+    let where = rest.find((p) => p.includes("·")) ?? "";
+    const used = new Set<string>();
+    if (where) used.add(where);
+    else {
+      const i = rest.findIndex((p) => WORK_MODEL_RE.test(p));
+      if (i >= 0) {
+        // Place piece only when it is not the company line right after the title (card: title, company, place, model, type).
+        const place = i >= 2 ? rest[i - 1] : undefined;
+        const kind = rest[i + 1] && EMPLOYMENT_RE.test(rest[i + 1]!) ? rest[i + 1] : undefined;
+        where = [place, rest[i], kind].filter(Boolean).join(" · ");
+        [place, rest[i], kind].forEach((p) => p && used.add(p));
+      }
+    }
+    const company = rest.find((p) => !used.has(p) && !/^(platforms|commodities):/i.test(p)) ?? "";
     const pay = rest.find((p) => /\b(USD|EUR|GBP|INR|SGD|AED|CHF)\b|\/yr|\/hr|per (year|annum|hour)/i.test(p)) ?? null;
     return [{ title, company, location: where, remote: remoteFromText(where), url: b.url, posted: learnEtrmDate(b.url, now), pay, source: label }];
   });

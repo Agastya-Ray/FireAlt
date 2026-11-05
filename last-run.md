@@ -1,14 +1,15 @@
-# Sweep 2026-11-04T23:33:50.680Z
-sources: 191 (51 discovered), jobs fetched: 1844, code-rejected: 1343, new scored: 31, waiting (over cap): 0
-new verdicts: {"DEAD":30,"PARK":1}
-liveness re-checked: 0, closed: 0
-contacts looked up: 2 (with an email: 0)
-open leads total: 90
-ATS searches: 6, boards from urls/searches checked: 1
-company boards discovered: 0
+# Sweep 2026-11-05T23:32:39.001Z
+sources: 191 (51 discovered), jobs fetched: 1851, code-rejected: 1330, new scored: 48, waiting (over cap): 0
+new verdicts: {"DEAD":42,"CHECK":4,"PARK":2}
+liveness re-checked: 31, closed: 1
+contacts looked up: 2 (with an email: 1)
+open leads total: 95
+ATS searches: 6, boards from urls/searches checked: 19
+company boards discovered: 4 (brillio-2 -> lever:brillio-2, thinkahead -> lever:thinkahead, workwave -> lever:workwave, leverdemo-8 -> lever:leverdemo-8)
 failed sources (2):
-- Hevo: Timed out fetching the page
 - SwiftSku: Fetch failed (404)
+- ofi: Timed out fetching the page
 
 ## New PASS / PARK / HIGHPAY
-- PARK | IT Operations Specialist - Xflow | UNKNOWN | https://xflow.bamboohr.com/careers/142
+- PARK | IT Project Coordinator - Spikewell | UNKNOWN | https://in.linkedin.com/jobs/view/it-project-coordinator-at-spikewell-4486763234
+- PARK | GoHighLevel Implementation Specialist - Little Pixies | UNKNOWN | https://himalayas.app/companies/little-pixies/jobs/gohighlevel-implementation-specialist?utm_source=api

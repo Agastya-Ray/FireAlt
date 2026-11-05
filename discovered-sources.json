@@ -355,5 +355,33 @@
   "name": "globalhealthcareexchangeinc",
   "tier": "remote_startup",
   "verified": false
+ },
+ {
+  "type": "lever",
+  "board": "brillio-2",
+  "name": "brillio-2",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "lever",
+  "board": "thinkahead",
+  "name": "thinkahead",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "lever",
+  "board": "workwave",
+  "name": "workwave",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "lever",
+  "board": "leverdemo-8",
+  "name": "leverdemo-8",
+  "tier": "remote_startup",
+  "verified": false
  }
 ]

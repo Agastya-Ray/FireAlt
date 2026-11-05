@@ -592,5 +592,61 @@
   "checked": "2026-11-04T23:33:50.680Z",
   "url": "https://xflow.bamboohr.com/careers/142",
   "role": "IT Operations Specialist"
+ },
+ "himalayas:little-pixies:himalayas-app-companies-little-pixies-jobs-gohighlevel-implementation-specialist": {
+  "company": "Little Pixies",
+  "domain": null,
+  "mx": false,
+  "pattern": null,
+  "contacts": [],
+  "people": [],
+  "pagesRead": 0,
+  "notes": [
+   "job page unreachable",
+   "company website not found",
+   "no published or pattern-backed email found"
+  ],
+  "checked": "2026-11-05T23:32:39.001Z",
+  "url": "https://himalayas.app/companies/little-pixies/jobs/gohighlevel-implementation-specialist?utm_source=api",
+  "role": "GoHighLevel Implementation Specialist"
+ },
+ "linkedin:spikewell:4486763234": {
+  "company": "Spikewell",
+  "domain": "spikewell.com",
+  "mx": true,
+  "pattern": null,
+  "contacts": [
+   {
+    "email": "hr@spikewell.com",
+    "kind": "hiring",
+    "confidence": "published",
+    "evidence": "https://spikewell.com/careers/"
+   },
+   {
+    "email": "info@spikewell.com",
+    "kind": "general",
+    "confidence": "published",
+    "evidence": "https://spikewell.com/"
+   }
+  ],
+  "people": [
+   {
+    "name": "BK NAYAK",
+    "title": "Chief Executive Officer",
+    "source": "https://spikewell.com/team/"
+   },
+   {
+    "name": "SHAKTI NAYAK",
+    "title": "Chief Operating Officer",
+    "source": "https://spikewell.com/team/"
+   }
+  ],
+  "pagesRead": 7,
+  "notes": [
+   "domain guessed from name: spikewell.com (homepage title matches)"
+  ],
+  "checked": "2026-11-05T23:32:39.001Z",
+  "url": "https://in.linkedin.com/jobs/view/it-project-coordinator-at-spikewell-4486763234",
+  "role": "IT Project Coordinator"
  }
 }

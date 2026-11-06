@@ -648,5 +648,38 @@
   "checked": "2026-11-05T23:32:39.001Z",
   "url": "https://in.linkedin.com/jobs/view/it-project-coordinator-at-spikewell-4486763234",
   "role": "IT Project Coordinator"
+ },
+ "greenhouse:givecampus:4484753009": {
+  "company": "GiveCampus",
+  "domain": "givecampus.com",
+  "mx": true,
+  "pattern": null,
+  "contacts": [],
+  "people": [],
+  "pagesRead": 1,
+  "notes": [
+   "GitHub org givecampus: 0 staff address(es) in public commits",
+   "no published or pattern-backed email found"
+  ],
+  "checked": "2026-11-06T22:59:26.937Z",
+  "url": "https://job-boards.greenhouse.io/givecampus/jobs/4484753009",
+  "role": "Onboarding Specialist"
+ },
+ "himalayas:turing:ayas-app-companies-turing-jobs-strategy-and-operations-associate-platform-nishad": {
+  "company": "Turing",
+  "domain": "turing.com",
+  "mx": true,
+  "pattern": null,
+  "contacts": [],
+  "people": [],
+  "pagesRead": 17,
+  "notes": [
+   "job page unreachable",
+   "domain guessed from name: turing.com (homepage title matches)",
+   "no published or pattern-backed email found"
+  ],
+  "checked": "2026-11-06T22:59:26.937Z",
+  "url": "https://himalayas.app/companies/turing/jobs/strategy-and-operations-associate-platform-nishad?utm_source=api",
+  "role": "Strategy and Operations Associate (Platform - Nishad)"
  }
 }

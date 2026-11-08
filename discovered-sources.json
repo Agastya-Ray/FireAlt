@@ -411,5 +411,96 @@
   "name": "instawork",
   "tier": "remote_startup",
   "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "telus-digital",
+  "name": "TELUS Digital",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "greenhouse",
+  "board": "clariticloudinc",
+  "name": "clariticloudinc",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "greenhouse",
+  "board": "canopyconnect",
+  "name": "canopyconnect",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "greenhouse",
+  "board": "boxinc",
+  "name": "boxinc",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "greenhouse",
+  "board": "formaaiinc",
+  "name": "formaaiinc",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "greenhouse",
+  "board": "fictiv",
+  "name": "fictiv",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "greenhouse",
+  "board": "launchdarkly",
+  "name": "launchdarkly",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "lever",
+  "board": "lingarogroup",
+  "name": "lingarogroup",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "lever",
+  "board": "getwingapp",
+  "name": "getwingapp",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "lever",
+  "board": "bluesight",
+  "name": "bluesight",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "lever",
+  "board": "aogarciaagency",
+  "name": "aogarciaagency",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "lever",
+  "board": "assist-world",
+  "name": "assist-world",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "lever",
+  "board": "paytm",
+  "name": "paytm",
+  "tier": "remote_startup",
+  "verified": false
  }
 ]

@@ -1,13 +1,13 @@
-# Sweep 2026-11-08T21:56:42.463Z
-sources: 199 (59 discovered), jobs fetched: 1829, code-rejected: 1308, new scored: 12, waiting (over cap): 0
-new verdicts: {"DEAD":10,"PARK":1,"ABROAD":1}
-liveness re-checked: 34, closed: 0
-contacts looked up: 2 (with an email: 1)
-open leads total: 103
-ATS searches: 6, boards from urls/searches checked: 25
-company boards discovered: 13 (TELUS Digital -> ashby:telus-digital, clariticloudinc -> greenhouse:clariticloudinc, canopyconnect -> greenhouse:canopyconnect, boxinc -> greenhouse:boxinc, formaaiinc -> greenhouse:formaaiinc, fictiv -> greenhouse:fictiv, launchdarkly -> greenhouse:launchdarkly, lingarogroup -> lever:lingarogroup, getwingapp -> lever:getwingapp, bluesight -> lever:bluesight, aogarciaagency -> lever:aogarciaagency, assist-world -> lever:assist-world, paytm -> lever:paytm)
-failed sources (1):
+# Sweep 2026-11-09T11:23:49.198Z
+sources: 212 (72 discovered), jobs fetched: 1917, code-rejected: 1396, new scored: 11, waiting (over cap): 0
+new verdicts: {"DEAD":11}
+liveness re-checked: 103, closed: 45
+contacts looked up: 0 (with an email: 0)
+open leads total: 58
+ATS searches: 6, boards from urls/searches checked: 9
+company boards discovered: 1 (pointclickcare -> lever:pointclickcare)
+failed sources (2):
 - SwiftSku: Fetch failed (404)
+- aogarciaagency: Timed out fetching the page
 
 ## New PASS / PARK / HIGHPAY
-- PARK | AI Consulting Governance & Strategy Expert (AI Community) - TELUS Digital | $20 - $50 USD per hour | https://himalayas.app/companies/telus-digital/jobs/ai-consulting-governance-strategy-expert-ai-community?utm_source=api

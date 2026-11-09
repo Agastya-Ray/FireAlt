@@ -502,5 +502,12 @@
   "name": "paytm",
   "tier": "remote_startup",
   "verified": false
+ },
+ {
+  "type": "lever",
+  "board": "pointclickcare",
+  "name": "pointclickcare",
+  "tier": "remote_startup",
+  "verified": false
  }
 ]

@@ -131,6 +131,7 @@ test("2026-11-09: support, mid-level and country-locked roles are rejected", () 
   assert.equal(lockedToOtherCountry("Remote - USA"), true);
   assert.equal(lockedToOtherCountry("Seattle, WA - Remote"), true);
   assert.equal(lockedToOtherCountry("Europe (Remote)"), true);
+  assert.equal(lockedToOtherCountry("Greece"), true);
   assert.equal(lockedToOtherCountry("Remote - India"), false);
   assert.equal(lockedToOtherCountry("Anywhere in the World"), false);
   assert.equal(lockedToOtherCountry("Remote"), false);

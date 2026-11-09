@@ -24,6 +24,7 @@ import {
   formatLeadsCsv,
   htmlToText,
   isPostingUrl,
+  isSupportTitle,
   mapConcurrent,
   mergeRows,
   scoreJobWithLlm,
@@ -206,6 +207,10 @@ async function main() {
       out = await scoreJobWithLlm(job, jd, src.tier, bucket, candidates);
     }
     if (!senior) await sleep(LLM_GAP_MS);
+    // Support work only for exceptional pay, and pay he cannot see cannot be exceptional.
+    if (isSupportTitle(job.title) && out.verdict !== "DEAD" && out.pay_source !== "stated") {
+      out = { ...out, verdict: "DEAD", why: `Support role with no stated pay. ${out.why}`.trim(), flags: `Support role, pay not stated | ${out.flags}`.replace(/ \| $/, "") };
+    }
     const row: LeadRow = {
       canonical_id: id,
       company: companyOf(job, src),

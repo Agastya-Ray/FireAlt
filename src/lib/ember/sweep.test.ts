@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { atsBoardFromUrl, boardSlugGuesses, buildCanonicalId, dedupKey, filterJobInCode, formatLeadsCsv, guardVerdict, isJobStillLive, isPostingUrl, landedOffPosting, lockedToOtherCountry, mergeRows, minYearsRequired, tooSenior, scoreJobWithLlm, type LeadRow } from "./sweep.ts";
+import { atsBoardFromUrl, boardSlugGuesses, buildCanonicalId, dedupKey, filterJobInCode, formatLeadsCsv, guardVerdict, isJobStillLive, isPostingUrl, isSupportTitle, landedOffPosting, lockedToOtherCountry, mergeRows, minYearsRequired, tooSenior, scoreJobWithLlm, type LeadRow } from "./sweep.ts";
 
 const J = (title: string, location = "Remote - India", remote: "Remote" | "Onsite" | "Hybrid" | "Unknown" = "Remote") => ({ title, location, remote });
 
@@ -121,8 +121,14 @@ test("title filter: adjacent titles that found leads on 2026-10-21", () => {
   }
 });
 
-test("2026-11-09: support, mid-level and country-locked roles are rejected", () => {
-  for (const t of ["Customer Support Analyst - APAC", "Product Support Analyst", "Technical Support Analyst", "Support Analyst", "Customer Service Associate", "Data Analyst II", "Fast Track Operations Specialist 2", "Business Analyst (Mid) | Offshore", "Enterprise Implementation Consultant - US Remote", "Deal Desk Analyst - Mexico"]) {
+test("2026-11-09: mid-level and country-locked roles are rejected; support is flagged", () => {
+  for (const t of ["Customer Support Analyst - APAC", "Product Support Analyst", "Technical Support Analyst", "Support Analyst", "Customer Service Associate"]) {
+    // Support passes code (kept only for high stated pay, judged later) and is recognised as support.
+    assert.equal(filterJobInCode(J(t, "Remote - India")).pass, true, t);
+    assert.equal(isSupportTitle(t), true, t);
+  }
+  assert.equal(isSupportTitle("Junior Trade Support (Trading Assistant)"), false);
+  for (const t of ["Data Analyst II", "Fast Track Operations Specialist 2", "Business Analyst (Mid) | Offshore", "Enterprise Implementation Consultant - US Remote", "Deal Desk Analyst - Mexico"]) {
     assert.equal(filterJobInCode(J(t, "Remote")).pass, false, t);
   }
   for (const t of ["Junior Trade Support (Trading Assistant)", "Product Manager I", "Business Analyst | Offshore", "Operations Analyst, India"]) {

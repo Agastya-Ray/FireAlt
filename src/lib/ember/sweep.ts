@@ -176,10 +176,22 @@ const GENERIC_MANAGER_REJECT_RE = /\b(manager|head)\b/i;
 /** Mid/experienced levels: "Analyst II", "Specialist 2", "Mid", "Experienced". "Product Manager I" stays. */
 const LEVEL_REJECT_RE = /\b(mid(?:[- ]level|[- ]senior)?|experienced|ii|iii|iv)\b|\s[2-9]\s*(?:$|[-–(,|])/i;
 
-/** Customer support / service desk work (he does not want it). Trade/deal support is CTRM back office, so it stays. */
+/**
+ * Customer support / service desk work. He dislikes it but takes it for exceptional pay (2026-11-09), so it is not
+ * rejected in code: the rubric keeps it only with stated pay >= SUPPORT_MIN_PAY, and run-sweep drops it when no pay
+ * is stated. Trade/deal support is CTRM back office, not support work.
+ */
 const SUPPORT_REJECT_RE =
   /\b(customer\s+(?:support|service|care|experience)|support|help\s*desk|service\s+desk|call\s+cent(?:er|re)|contact\s+cent(?:er|re)|ticketing)\b/i;
 const SUPPORT_KEEP_RE = /\b(trade|deal|decision|bid|presales?|pre-sales)\s+support\b/gi;
+
+/** true for customer/technical/product support titles (not trade/deal support). */
+export function isSupportTitle(title: string): boolean {
+  return SUPPORT_REJECT_RE.test(title.replace(SUPPORT_KEEP_RE, " "));
+}
+
+/** Pay a support role must state to be worth it to him. */
+export const SUPPORT_MIN_PAY = { inrMonthInHand: 150_000, usdYear: 30_000 };
 
 /** Places that lock a "remote" job to another country or region. Upper-case codes are matched case-sensitively. */
 const FOREIGN_PLACE_RE =
@@ -220,11 +232,10 @@ export function filterJobInCode(
 
   if (HARD_SENIOR_OR_TECH_REJECT_RE.test(titleForReject)) return { pass: false, reason: `rejected_title:${title}` };
   if (LEVEL_REJECT_RE.test(titleForReject)) return { pass: false, reason: `rejected_level:${title}` };
-  if (SUPPORT_REJECT_RE.test(titleForReject.replace(SUPPORT_KEEP_RE, " "))) return { pass: false, reason: `rejected_support:${title}` };
   if (GENERIC_MANAGER_REJECT_RE.test(titleForReject) && !SAFE_KEEP_TITLE_RE.test(title)) {
     return { pass: false, reason: `rejected_manager_title:${title}` };
   }
-  if (!INCLUDE_ROLE_RE.test(title)) return { pass: false, reason: `not_target_role:${title}` };
+  if (!INCLUDE_ROLE_RE.test(title) && !isSupportTitle(title)) return { pass: false, reason: `not_target_role:${title}` };
 
   const loc = job.location.trim();
   const remote = job.remote === "Remote" || REMOTE_TEXT_RE.test(loc);
@@ -281,7 +292,9 @@ LOCATION AND PAY (locationBucket is pre-computed by code):
 
 EXPERIENCE (read in context; company age is not required experience). He has under 1 year. Minimum required > 2 yrs -> DEAD. "Preferred"/"ideally" 3+ yrs -> DEAD unless the JD also says freshers or 0-2 yrs are welcome. Mid-level, "II"/"2" level, "experienced" or LinkedIn "Mid-Senior level" -> DEAD. Years not stated -> keep, flag "Experience not stated".
 
-DEAD if any: customer support / customer service / helpdesk / ticket-queue work as the main duty; remote only for residents of a country other than India ("US only", "must be based in", "Remote - Mexico"); sales quota / BD / SDR / BDR / cold calling; coding as a core duty; required language other than English, Hindi, Odia; shift ending after 10pm IST or starting before 6am IST; 3 or more culture red flags ("hustle", "high agency", "fast-paced", "own it end to end", "work hard play hard", "24/7"). Fewer than 3 such phrases -> keep, but list each in flags as "Culture risk: <phrase>".
+SUPPORT: customer support / customer service / helpdesk / ticket-queue work as the main duty -> DEAD, unless the JD states pay of at least Rs ${SUPPORT_MIN_PAY.inrMonthInHand.toLocaleString("en-IN")}/month in hand or USD ${SUPPORT_MIN_PAY.usdYear.toLocaleString("en-US")}/yr; then PARK at best with flag "Support role - high pay".
+
+DEAD if any: remote only for residents of a country other than India ("US only", "must be based in", "Remote - Mexico"); sales quota / BD / SDR / BDR / cold calling; coding as a core duty; required language other than English, Hindi, Odia; shift ending after 10pm IST or starting before 6am IST; 3 or more culture red flags ("hustle", "high agency", "fast-paced", "own it end to end", "work hard play hard", "24/7"). Fewer than 3 such phrases -> keep, but list each in flags as "Culture risk: <phrase>".
 
 Return ONLY JSON:
 {"verdict":"PASS|PARK|HIGHPAY|ABROAD|CHECK|DEAD","pay":"pay exactly as stated in the JD, else UNKNOWN","pay_source":"stated|none","why":"one sentence: fit + location/pay reason","flags":"pipe-separated risks or checks"}`;

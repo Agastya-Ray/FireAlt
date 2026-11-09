@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { atsBoardFromUrl, boardSlugGuesses, buildCanonicalId, dedupKey, filterJobInCode, formatLeadsCsv, guardVerdict, isJobStillLive, mergeRows, scoreJobWithLlm, type LeadRow } from "./sweep.ts";
+import { atsBoardFromUrl, boardSlugGuesses, buildCanonicalId, dedupKey, filterJobInCode, formatLeadsCsv, guardVerdict, isJobStillLive, isPostingUrl, landedOffPosting, lockedToOtherCountry, mergeRows, minYearsRequired, tooSenior, scoreJobWithLlm, type LeadRow } from "./sweep.ts";
 
 const J = (title: string, location = "Remote - India", remote: "Remote" | "Onsite" | "Hybrid" | "Unknown" = "Remote") => ({ title, location, remote });
 
@@ -23,8 +23,9 @@ test("location buckets", () => {
   assert.equal(b("Mumbai, India"), "REJECT");
   assert.equal(b("Nagpur"), "REJECT");
   assert.equal(b("Gurugram, Haryana"), "india_office");
-  assert.equal(b("London, UK"), "foreign_non_remote");
-  assert.equal(b("London, UK", "Onsite", "enterprise_backup"), "REJECT");
+  assert.equal(b("London, UK"), "REJECT");
+  assert.equal(b("Multiple locations"), "foreign_non_remote");
+  assert.equal(b("Multiple locations", "Onsite", "enterprise_backup"), "REJECT");
 });
 
 test("canonical id uses native ATS job id", () => {
@@ -59,10 +60,11 @@ test("scoreJobWithLlm: LLM failure -> CHECK, pay never invented", async () => {
 });
 
 test("liveness: 404 and closed text kill, network error keeps", async () => {
-  assert.equal(await isJobStillLive("u", async () => ({ status: 404, body: "" })), false);
-  assert.equal(await isJobStillLive("u", async () => ({ status: 200, body: "Sorry, this job is no longer available" })), false);
-  assert.equal(await isJobStillLive("u", async () => { throw new Error("timeout"); }), true);
-  assert.equal(await isJobStillLive("u", async () => ({ status: 200, body: "Apply now" })), true);
+  const u = "https://job-boards.greenhouse.io/twilio/jobs/8097524";
+  assert.equal(await isJobStillLive(u, async () => ({ status: 404, body: "" })), false);
+  assert.equal(await isJobStillLive(u, async () => ({ status: 200, body: "Sorry, this job is no longer available" })), false);
+  assert.equal(await isJobStillLive(u, async () => { throw new Error("timeout"); }), true);
+  assert.equal(await isJobStillLive(u, async () => ({ status: 200, body: "Apply now" })), true);
 });
 
 const row = (id: string, verdict: LeadRow["verdict"], first_seen: string): LeadRow => ({
@@ -114,7 +116,47 @@ test("atsBoardFromUrl: greenhouse/lever/ashby job and board urls", () => {
 });
 
 test("title filter: adjacent titles that found leads on 2026-10-21", () => {
-  for (const t of ["Implementation Coordinator", "Technical Onboarding Specialist", "Business Systems Analyst", "Project Coordinator", "Support Analyst"]) {
+  for (const t of ["Implementation Coordinator", "Technical Onboarding Specialist", "Business Systems Analyst", "Project Coordinator"]) {
     assert.equal(filterJobInCode(J(t)).pass, true, t);
   }
+});
+
+test("2026-11-09: support, mid-level and country-locked roles are rejected", () => {
+  for (const t of ["Customer Support Analyst - APAC", "Product Support Analyst", "Technical Support Analyst", "Support Analyst", "Customer Service Associate", "Data Analyst II", "Fast Track Operations Specialist 2", "Business Analyst (Mid) | Offshore", "Enterprise Implementation Consultant - US Remote", "Deal Desk Analyst - Mexico"]) {
+    assert.equal(filterJobInCode(J(t, "Remote")).pass, false, t);
+  }
+  for (const t of ["Junior Trade Support (Trading Assistant)", "Product Manager I", "Business Analyst | Offshore", "Operations Analyst, India"]) {
+    assert.equal(filterJobInCode(J(t)).pass, true, t);
+  }
+  assert.equal(lockedToOtherCountry("Remote - USA"), true);
+  assert.equal(lockedToOtherCountry("Seattle, WA - Remote"), true);
+  assert.equal(lockedToOtherCountry("Europe (Remote)"), true);
+  assert.equal(lockedToOtherCountry("Remote - India"), false);
+  assert.equal(lockedToOtherCountry("Anywhere in the World"), false);
+  assert.equal(lockedToOtherCountry("Remote"), false);
+});
+
+test("experience: required years read in code, preferred years skipped", () => {
+  assert.equal(minYearsRequired("Requirements:\n5-8 years of experience in business analysis"), 5);
+  assert.equal(minYearsRequired("You have 0-2 years of experience. Excel skills."), 0);
+  assert.equal(minYearsRequired("Minimum of three years experience in operations."), 3);
+  assert.equal(minYearsRequired("3+ years of experience preferred. Freshers welcome."), null);
+  assert.equal(minYearsRequired("Our company has 20 years of experience in payments."), null);
+  assert.equal(minYearsRequired("Great culture. Apply now."), null);
+  assert.equal(tooSenior("4+ yrs experience with SQL"), "asks 4+ yrs experience");
+  assert.equal(tooSenior("Seniority level Mid-Senior level"), "Mid-Senior level");
+  assert.equal(tooSenior("1-2 years of experience"), "");
+});
+
+test("links: homepages, careers indexes and closed-job redirects are not postings", () => {
+  for (const u of ["https://graystone-capital.com", "https://www.example.com/careers/", "https://himalayas.app/companies/turing", "https://www.linkedin.com/jobs/search?keywords=x", "https://job-boards.greenhouse.io/tide"]) {
+    assert.equal(isPostingUrl(u), false, u);
+  }
+  for (const u of ["https://job-boards.greenhouse.io/tide/jobs/7797294003", "https://in.linkedin.com/jobs/view/business-analyst-at-citi-4480490432", "https://himalayas.app/companies/turing/jobs/strategy-and-operations-associate?utm_source=api", "https://stripe.com/jobs/search?gh_jid=8175824", "https://jobs.lever.co/kpler/54736ae3", "https://capspire.com/jobs/unitedstates/associate-consultant-functional/"]) {
+    assert.equal(isPostingUrl(u), true, u);
+  }
+  assert.equal(landedOffPosting("https://job-boards.greenhouse.io/tide/jobs/1", "https://job-boards.greenhouse.io/tide?error=true"), true);
+  assert.equal(landedOffPosting("https://himalayas.app/companies/turing/jobs/x", "https://himalayas.app/companies/turing"), true);
+  assert.equal(landedOffPosting("https://in.linkedin.com/jobs/view/x-1", "https://www.linkedin.com/jobs/search?trk=expired"), true);
+  assert.equal(landedOffPosting("https://jobs.lever.co/a/b", "https://jobs.lever.co/a/b"), false);
 });

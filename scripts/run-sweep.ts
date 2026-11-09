@@ -18,14 +18,18 @@ import {
   boardSlugGuesses,
   buildCanonicalId,
   buildCandidateKeys,
+  checkPosting,
   dedupKey,
   filterJobInCode,
   formatLeadsCsv,
-  isJobStillLive,
+  htmlToText,
+  isPostingUrl,
   mapConcurrent,
   mergeRows,
   scoreJobWithLlm,
   SupabaseLeadsStore,
+  tooSenior,
+  type FetchResult,
   type CompaniesConfig,
   type CompanyEntry,
   type LeadContactCell,
@@ -37,6 +41,8 @@ const DATA_DIR = process.env.SWEEP_DATA_DIR || "data";
 const MAX_LLM = Number(process.env.SWEEP_MAX_LLM || 150);
 const POSTED_DAYS = Number(process.env.SWEEP_POSTED_DAYS || 30);
 const LIVENESS_DAYS = 2;
+/** Open leads last checked before this get one full re-check (link, experience, title/location rules) on the next run. */
+const RULES_SINCE = Date.parse(process.env.SWEEP_RULES_SINCE || "2026-11-09T12:00:00Z");
 const LLM_GAP_MS = Number(process.env.SWEEP_LLM_GAP_MS || 4_000);
 const LINKEDIN_GAP_MS = Number(process.env.SWEEP_LINKEDIN_GAP_MS || 6_000);
 const MAX_CONTACTS = Number(process.env.SWEEP_MAX_CONTACTS || 40);
@@ -74,10 +80,11 @@ class FileLeadsStore implements LeadsStore {
   }
 }
 
-async function fetchStatus(url: string): Promise<{ status: number; body: string }> {
+async function fetchStatus(url: string): Promise<FetchResult> {
   const res = await fetch(url, { headers: { "User-Agent": UA }, redirect: "follow", signal: AbortSignal.timeout(15_000) });
-  const body = res.ok ? (await res.text()).slice(0, 40_000) : "";
-  return { status: res.status, body };
+  // LinkedIn puts "No longer accepting applications" ~80KB into the page, so read well past that.
+  const body = res.ok ? (await res.text()).slice(0, 400_000) : "";
+  return { status: res.status, body, url: res.url };
 }
 
 /** JD text: board summary (details:true) first; else a cheap tag-stripped page fetch. */
@@ -86,13 +93,7 @@ async function jdText(job: Job): Promise<string> {
   try {
     const { status, body } = await fetchStatus(job.url);
     if (status >= 400) return job.summary ?? "";
-    const text = body
-      .replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi, " ")
-      .replace(/<[^>]+>/g, " ")
-      .replace(/&nbsp;|&#160;/g, " ")
-      .replace(/\s+/g, " ")
-      .trim();
-    return `${job.summary ?? ""} ${text}`.trim();
+    return `${job.summary ?? ""}\n${htmlToText(body)}`.trim();
   } catch {
     return job.summary ?? "";
   }
@@ -181,7 +182,8 @@ async function main() {
       continue;
     }
     const f = filterJobInCode(job, src.tier);
-    if (!f.pass) {
+    // A homepage, careers index or search page is no use as an apply link.
+    if (!f.pass || !isPostingUrl(job.url)) {
       codeRejected++;
       continue;
     }
@@ -193,13 +195,17 @@ async function main() {
   // Free tiers allow ~15 requests/minute: score one job at a time, spaced out, and back off on 429.
   const scored = await mapConcurrent(toScore, 1, async ({ job, src, id, bucket }) => {
     const jd = await jdText(job);
-    let out = await scoreJobWithLlm(job, jd, src.tier, bucket, candidates);
-    for (const waitMs of [20_000, 60_000]) {
+    // Years are read in code first: "5-8 years" never reaches the LLM (saves a call, and the LLM let some through).
+    const senior = tooSenior(jd);
+    let out = senior
+      ? { verdict: "DEAD" as const, pay: job.pay || "UNKNOWN", pay_source: (job.pay ? "stated" : "none") as "stated" | "none", why: `Too senior: ${senior}`, flags: senior }
+      : await scoreJobWithLlm(job, jd, src.tier, bucket, candidates);
+    for (const waitMs of senior ? [] : [20_000, 60_000]) {
       if (!/LLM failed: .*\b(429|5\d\d|timeout)\b/.test(out.flags)) break;
       await sleep(waitMs);
       out = await scoreJobWithLlm(job, jd, src.tier, bucket, candidates);
     }
-    await sleep(LLM_GAP_MS);
+    if (!senior) await sleep(LLM_GAP_MS);
     const row: LeadRow = {
       canonical_id: id,
       company: companyOf(job, src),
@@ -286,16 +292,27 @@ async function main() {
   });
   if (found.length) writeFileSync(discoveredPath, JSON.stringify([...discovered, ...found], null, 1));
 
-  // 4. Liveness: open leads not seen in this run and not checked for 2+ days.
+  // 4. Re-check open leads: those not seen in this run and not checked for 2+ days, plus every lead checked before
+  // the current rules (RULES_SINCE), so old leads also lose dead links, senior roles, support and country-locked jobs.
   const cutoff = started.getTime() - LIVENESS_DAYS * 86_400_000;
-  const stale = existing.filter(
-    (r) => r.verdict !== "DEAD" && !seenThisRun.has(r.canonical_id) && Date.parse(r.last_checked) < cutoff,
-  );
+  const stale = existing.filter((r) => {
+    if (r.verdict === "DEAD") return false;
+    const checked = Date.parse(r.last_checked);
+    return checked < RULES_SINCE || (!seenThisRun.has(r.canonical_id) && checked < cutoff);
+  });
   let killed = 0;
-  const rechecked = await mapConcurrent(stale, 4, async (r) => {
-    const live = await isJobStillLive(r.url, fetchStatus);
-    if (!live) killed++;
-    return { ...r, verdict: live ? r.verdict : ("DEAD" as const), flags: live ? r.flags : `${r.flags} | closed ${nowIso.slice(0, 10)}`.replace(/^ \| /, ""), last_checked: nowIso };
+  const kill = (r: LeadRow, why: string): LeadRow => {
+    killed++;
+    return { ...r, verdict: "DEAD", flags: `${r.flags} | removed ${nowIso.slice(0, 10)}: ${why}`.replace(/^ \| /, "").slice(0, 400), last_checked: nowIso };
+  };
+  const rechecked = await mapConcurrent(stale, 4, async (r): Promise<LeadRow> => {
+    const rule = filterJobInCode({ title: r.role, location: r.location ?? "", remote: "Unknown" }, "remote_startup");
+    if (!rule.pass) return kill(r, rule.reason);
+    const page = await checkPosting(r.url, fetchStatus);
+    if (!page.live) return kill(r, page.reason);
+    const senior = tooSenior(page.text);
+    if (senior) return kill(r, senior);
+    return { ...r, last_checked: nowIso };
   });
 
   // 5. Save + outputs.

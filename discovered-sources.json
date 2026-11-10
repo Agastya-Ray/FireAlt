@@ -509,5 +509,33 @@
   "name": "pointclickcare",
   "tier": "remote_startup",
   "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "project-expedition",
+  "name": "project-expedition",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "Spoton",
+  "name": "Spoton",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "tremendous",
+  "name": "tremendous",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "sensor-tower",
+  "name": "sensor-tower",
+  "tier": "remote_startup",
+  "verified": false
  }
 ]

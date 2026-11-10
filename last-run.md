@@ -1,13 +1,12 @@
-# Sweep 2026-11-09T11:23:49.198Z
-sources: 212 (72 discovered), jobs fetched: 1917, code-rejected: 1396, new scored: 11, waiting (over cap): 0
-new verdicts: {"DEAD":11}
-liveness re-checked: 103, closed: 45
-contacts looked up: 0 (with an email: 0)
-open leads total: 58
-ATS searches: 6, boards from urls/searches checked: 9
-company boards discovered: 1 (pointclickcare -> lever:pointclickcare)
-failed sources (2):
+# Sweep 2026-11-10T01:26:51.297Z
+sources: 213 (73 discovered), jobs fetched: 1990, code-rejected: 1420, new scored: 65, waiting (over cap): 0
+new verdicts: {"DEAD":63,"ABROAD":2}
+liveness re-checked: 0, closed: 0
+contacts looked up: 2 (with an email: 2)
+open leads total: 60
+ATS searches: 6, boards from urls/searches checked: 0
+company boards discovered: 0
+failed sources (1):
 - SwiftSku: Fetch failed (404)
-- aogarciaagency: Timed out fetching the page
 
 ## New PASS / PARK / HIGHPAY

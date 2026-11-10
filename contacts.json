@@ -729,5 +729,45 @@
   "checked": "2026-11-08T21:56:42.463Z",
   "url": "https://himalayas.app/companies/telus-digital/jobs/ai-consulting-governance-strategy-expert-ai-community?utm_source=api",
   "role": "AI Consulting Governance & Strategy Expert (AI Community)"
+ },
+ "greenhouse:formaaiinc:4691850005": {
+  "company": "formaaiinc",
+  "domain": "forma.ai",
+  "mx": true,
+  "pattern": null,
+  "contacts": [
+   {
+    "email": "info@forma.ai",
+    "kind": "general",
+    "confidence": "published",
+    "evidence": "https://www.forma.ai/contact-us"
+   }
+  ],
+  "people": [],
+  "pagesRead": 5,
+  "notes": [],
+  "checked": "2026-11-10T01:26:51.297Z",
+  "url": "https://job-boards.greenhouse.io/formaaiinc/jobs/4691850005",
+  "role": "Implementation Analyst"
+ },
+ "greenhouse:formaaiinc:4583013005": {
+  "company": "formaaiinc",
+  "domain": "forma.ai",
+  "mx": true,
+  "pattern": null,
+  "contacts": [
+   {
+    "email": "info@forma.ai",
+    "kind": "general",
+    "confidence": "published",
+    "evidence": "https://www.forma.ai/contact-us"
+   }
+  ],
+  "people": [],
+  "pagesRead": 5,
+  "notes": [],
+  "checked": "2026-11-10T01:26:51.297Z",
+  "url": "https://job-boards.greenhouse.io/formaaiinc/jobs/4583013005",
+  "role": "Implementation Associate"
  }
 }

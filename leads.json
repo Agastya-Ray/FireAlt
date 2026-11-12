@@ -1565,7 +1565,7 @@
   "source": "greenhouse:precisionaq",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "greenhouse:precisionaq:6208905004",
@@ -1709,7 +1709,7 @@
   "source": "ashby:certifyos",
   "posted": "2026-09-28",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "ashby:certifyos:ef0337a5-2e69-48ec-b6f4-a696d4770ff8",
@@ -2109,7 +2109,7 @@
   "source": "lever:meesho",
   "posted": "2026-10-16",
   "first_seen": "2026-10-16T20:56:36.422Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "workday:bpinternational:rq117043",
@@ -2301,7 +2301,7 @@
   "source": "workday:shell.wd3/ShellCareers",
   "posted": "2026-10-19",
   "first_seen": "2026-10-19T22:16:27.398Z",
-  "last_checked": "2026-11-10T01:26:51.297Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "workday:browserstack:jr103745",
@@ -2317,7 +2317,7 @@
   "source": "workday:browserstack.wd3/External",
   "posted": "2026-10-19",
   "first_seen": "2026-10-19T22:16:27.398Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "workday:hitachi:r0148056",
@@ -3869,7 +3869,7 @@
   "source": "himalayas:India",
   "posted": "2026-10-03",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "himalayas:datahash:himalayas-app-companies-datahash-jobs-revenue-operations-and-ai-systems-engineer",
@@ -4157,7 +4157,7 @@
   "source": "himalayas:India",
   "posted": "2026-10-02",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "himalayas:pradeepit-consulting-services-pvt-ltd:ayas-app-companies-pradeepit-consulting-services-pvt-ltd-jobs-operations-analyst",
@@ -4925,7 +4925,7 @@
   "source": "linkedin:India",
   "posted": "2026-10-20",
   "first_seen": "2026-10-20T21:31:48.359Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "linkedin:cvent:4481561586",
@@ -5021,7 +5021,7 @@
   "source": "greenhouse:financialtechnologypartners",
   "posted": "2026-10-20",
   "first_seen": "2026-10-20T21:31:48.359Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8049722",
@@ -5453,7 +5453,7 @@
   "source": "greenhouse:numerix",
   "posted": "2026-10-21",
   "first_seen": "2026-10-21T21:33:37.250Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "ashby:certifyos:d918e2d0-96d5-4000-aeed-b0fd768fc17d",
@@ -5581,7 +5581,7 @@
   "source": "linkedin:India",
   "posted": "2026-10-21",
   "first_seen": "2026-10-22T21:28:07.327Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "linkedin:c-raa:4480775782",
@@ -5901,7 +5901,7 @@
   "source": "smartrecruiters:LouisDreyfusCompany",
   "posted": "2026-10-22",
   "first_seen": "2026-10-22T21:28:07.327Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "smartrecruiters:louis-dreyfus-company:744000157039229",
@@ -6429,7 +6429,7 @@
   "source": "himalayas:India",
   "posted": "2026-10-25",
   "first_seen": "2026-10-26T22:35:29.114Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "jobicy:binance:157147",
@@ -6605,7 +6605,7 @@
   "source": "linkedin:India",
   "posted": "2026-10-27",
   "first_seen": "2026-10-27T22:05:50.330Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "linkedin:telus-digital-ai-community:4474738208",
@@ -6701,7 +6701,7 @@
   "source": "ashby:arketa",
   "posted": "2026-10-27",
   "first_seen": "2026-10-27T22:05:50.330Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "greenhouse:gongio:4713724006",
@@ -8477,7 +8477,7 @@
   "source": "himalayas:India",
   "posted": "2026-10-29",
   "first_seen": "2026-10-30T03:38:43.027Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "himalayas:miratech:himalayas-app-companies-miratech-jobs-junior-project-coordinator-1347393549",
@@ -8493,7 +8493,7 @@
   "source": "himalayas:India",
   "posted": "2026-10-29",
   "first_seen": "2026-10-30T03:38:43.027Z",
-  "last_checked": "2026-11-10T23:09:55.529Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "himalayas:ligadata:himalayas-app-companies-ligadata-jobs-digital-marketing-project-coordinator",
@@ -8557,7 +8557,7 @@
   "source": "remoterocketship:india",
   "posted": "2026-10-30",
   "first_seen": "2026-10-30T03:38:43.027Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "remoterocketship:vinyl-equity:583f5b68-bfdd-4942-acf0-5c153a0f3f5e",
@@ -9293,7 +9293,7 @@
   "source": "linkedin:India",
   "posted": "2026-10-28",
   "first_seen": "2026-10-30T22:12:52.469Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "linkedin:healthedge:4483553139",
@@ -9533,7 +9533,7 @@
   "source": "remoterocketship:india",
   "posted": "2026-10-30",
   "first_seen": "2026-10-30T22:12:52.469Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "remoterocketship:esyconnect:744000068340155",
@@ -9549,7 +9549,7 @@
   "source": "remoterocketship:india",
   "posted": "2026-10-30",
   "first_seen": "2026-10-30T22:12:52.469Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "remoterocketship:berry-virtual:8caa570a3b",
@@ -10317,7 +10317,7 @@
   "source": "greenhouse:addepar1",
   "posted": "2026-10-30",
   "first_seen": "2026-10-30T22:12:52.469Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "greenhouse:addepar1:8511171002",
@@ -10541,7 +10541,7 @@
   "source": "linkedin:India",
   "posted": "2026-10-31",
   "first_seen": "2026-10-31T21:24:59.235Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "linkedin:hb:4484811054",
@@ -10669,7 +10669,7 @@
   "source": "remoterocketship:india",
   "posted": "2026-10-31",
   "first_seen": "2026-10-31T21:24:59.235Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "remoterocketship:alvotech:jr100346",
@@ -10781,7 +10781,7 @@
   "source": "himalayas:India",
   "posted": "2026-11-01",
   "first_seen": "2026-11-01T21:56:46.655Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "himalayas:kemin:himalayas-app-companies-kemin-jobs-global-erp-business-analyst",
@@ -12477,7 +12477,7 @@
   "source": "remoterocketship:india",
   "posted": "2026-10-30",
   "first_seen": "2026-11-04T23:33:50.680Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "lever:kpler:03daf6b2-51ae-477d-8085-59bfa125b1fa",
@@ -12845,7 +12845,7 @@
   "source": "linkedin:India",
   "posted": "2026-11-04",
   "first_seen": "2026-11-05T23:32:39.001Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "linkedin:bebo-technologies:4486586897",
@@ -12877,7 +12877,7 @@
   "source": "himalayas:India",
   "posted": "2026-11-05",
   "first_seen": "2026-11-05T23:32:39.001Z",
-  "last_checked": "2026-11-10T23:09:55.529Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "himalayas:venn:himalayas-app-companies-venn-ca-jobs-revenue-operations-engineer",
@@ -13117,7 +13117,7 @@
   "source": "lever:kpler",
   "posted": "2026-11-05",
   "first_seen": "2026-11-05T23:32:39.001Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "ashby:airwallex:52dfc23a-08ff-49bd-859a-fd4512b93792",
@@ -13389,7 +13389,7 @@
   "source": "lever:veeva",
   "posted": "2026-11-05",
   "first_seen": "2026-11-05T23:32:39.001Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "lever:veeva:e22e3336-1398-4c0a-8890-9de1571c0683",
@@ -13581,7 +13581,7 @@
   "source": "himalayas:India",
   "posted": "2026-11-06",
   "first_seen": "2026-11-06T22:59:26.937Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "cutshort:neogencode-technologies-pvt-ltd:adp-globalview-payroll-consultant-sap-successfactors-neogencode-technologies-pvt-ltd-ch7ycr2j",
@@ -13997,7 +13997,7 @@
   "source": "lever:brillio-2",
   "posted": "2026-10-27",
   "first_seen": "2026-11-06T22:59:26.937Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "lever:brillio-2:0caf0afc-a346-480b-8e55-a6fc0707e647",
@@ -14013,7 +14013,7 @@
   "source": "lever:brillio-2",
   "posted": "2026-10-14",
   "first_seen": "2026-11-06T22:59:26.937Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "lever:thinkahead:ea80b14a-f179-4457-869b-5496d98cf5f1",
@@ -14269,7 +14269,7 @@
   "source": "himalayas:India",
   "posted": "2026-11-08",
   "first_seen": "2026-11-08T21:56:42.463Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "himalayas:gruve:himalayas-app-companies-gruve-jobs-security-operations-analyst-l1-ms-defender",
@@ -15053,7 +15053,7 @@
   "source": "greenhouse:formaaiinc",
   "posted": "2026-11-03",
   "first_seen": "2026-11-10T01:26:51.297Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "greenhouse:formaaiinc:4583013005",
@@ -15069,7 +15069,7 @@
   "source": "greenhouse:formaaiinc",
   "posted": "2026-11-03",
   "first_seen": "2026-11-10T01:26:51.297Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "greenhouse:fictiv:8140305002",
@@ -15645,7 +15645,7 @@
   "source": "linkedin:India",
   "posted": "2026-11-10",
   "first_seen": "2026-11-10T23:09:55.529Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "linkedin:guidepoint:4488066691",
@@ -15725,7 +15725,7 @@
   "source": "linkedin:India",
   "posted": "2026-11-10",
   "first_seen": "2026-11-10T23:09:55.529Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "linkedin:smartagro-farms-pvt-ltd:4488853416",
@@ -15837,7 +15837,7 @@
   "source": "linkedin:Bhubaneswar, Odisha, India",
   "posted": "2026-11-10",
   "first_seen": "2026-11-10T23:09:55.529Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "remoterocketship:gp-strategies-corporation:eetz-fa-us6-oraclecloud-com-hcmui-candidateexperience-en-sites-cx-1-job-2600731",
@@ -15965,7 +15965,7 @@
   "source": "ashby:tandem-health",
   "posted": "2026-11-10",
   "first_seen": "2026-11-10T23:09:55.529Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "greenhouse:precisionmedicinegroup:6226391004",
@@ -16029,7 +16029,7 @@
   "source": "greenhouse:globalhealthcareexchangeinc",
   "posted": "2026-11-10",
   "first_seen": "2026-11-10T23:09:55.529Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "lever:brillio-2:0aa83771-4fc6-4ed0-8898-dc79d718d9f6",
@@ -16077,7 +16077,7 @@
   "source": "lever:aogarciaagency",
   "posted": "2026-11-10",
   "first_seen": "2026-11-10T23:09:55.529Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "lever:aogarciaagency:16313030-12ee-4ab1-be5f-8551606d37e0",
@@ -16109,7 +16109,7 @@
   "source": "lever:aogarciaagency",
   "posted": "2026-11-10",
   "first_seen": "2026-11-10T23:09:55.529Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "lever:aogarciaagency:0178460b-589f-4658-8b7b-9861f7302752",
@@ -16253,7 +16253,7 @@
   "source": "himalayas:India",
   "posted": "2026-11-12",
   "first_seen": "2026-11-12T00:30:58.324Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "himalayas:bitwarden:layas-app-companies-bitwarden-jobs-implementation-engineer-customer-support-apac",
@@ -16429,7 +16429,7 @@
   "source": "ashby:junipersquare",
   "posted": "2026-11-11",
   "first_seen": "2026-11-12T00:30:58.324Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "greenhouse:connectwise:4753271005",
@@ -16589,7 +16589,7 @@
   "source": "ashby:Spoton",
   "posted": "2026-10-27",
   "first_seen": "2026-11-12T00:30:58.324Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
  },
  {
   "canonical_id": "ashby:spoton:a7118ea2-f4e8-49be-9769-f7ddaaf5874c",
@@ -16621,6 +16621,678 @@
   "source": "ashby:sensor-tower",
   "posted": "2026-10-15",
   "first_seen": "2026-11-12T00:30:58.324Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "wwr:veeva-systems:tely-com-remote-jobs-veeva-systems-it-consultant-system-analyst-cloud-crm-remote",
+  "company": "Veeva Systems",
+  "role": "IT Consultant - System Analyst - Cloud CRM (Remote)",
+  "url": "https://weworkremotely.com/remote-jobs/veeva-systems-it-consultant-system-analyst-cloud-crm-remote",
+  "location": "Anywhere in the World",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Dead because the JD requires 3+ years of experience, exceeding Swastik's ~6 months.",
+  "flags": "Experience required 3+ years",
+  "source": "wwr",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "wwr:stayd-collective:weworkremotely-com-remote-jobs-stayd-collective-cleaning-operations-coordinator",
+  "company": "Stayd Collective",
+  "role": "Cleaning Operations Coordinator",
+  "url": "https://weworkremotely.com/remote-jobs/stayd-collective-cleaning-operations-coordinator",
+  "location": "Latin America Only",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Role is remote LATAM only, not eligible for India",
+  "flags": "DEAD",
+  "source": "wwr",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "wwr:vector-outsourcing-solutions-phils-inc:urcing-solutions-phils-inc-medical-billing-collections-consultant-work-from-home",
+  "company": "Vector Outsourcing Solutions Phils. Inc.",
+  "role": "Medical Billing Collections Consultant | Work from Home",
+  "url": "https://weworkremotely.com/remote-jobs/vector-outsourcing-solutions-phils-inc-medical-billing-collections-consultant-work-from-home",
+  "location": "Asia Only",
+  "pay": "PHP 35,000- PHP 40,000/ month",
+  "pay_source": "stated",
+  "verdict": "DEAD",
+  "why": "Role requires phone collections and BPO experience outside Swastik's product/finance profile, and remote location is restricted to Asia/Philippines rather than confirmed for India.",
+  "flags": "Asia only remote | Non-target profile (BPO collections)",
+  "source": "wwr",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "linkedin:termgrid:4489969394",
+  "company": "Termgrid",
+  "role": "Revenue Operations Specialist",
+  "url": "https://in.linkedin.com/jobs/view/revenue-operations-specialist-at-termgrid-4489969394",
+  "location": "India (LinkedIn: remote)",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Candidate lacks required 4+ years experience for Revenue Operations Specialist role",
+  "flags": "experience required >3 yrs",
+  "source": "linkedin:India",
+  "posted": "2026-10-19",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "linkedin:ibm:4488505601",
+  "company": "IBM",
+  "role": "Strategy Consultant-Enterprise Strategy",
+  "url": "https://in.linkedin.com/jobs/view/strategy-consultant-enterprise-strategy-at-ibm-4488505601",
+  "location": "Greater Kolkata Area (LinkedIn: remote)",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "CHECK",
+  "why": "Strategy consultant role at IBM matching graduate profile but remote eligibility from India and pay are unclear from snippet.",
+  "flags": "Remote eligibility unclear - LinkedIn location says Greater Kolkata Area but body mentions Cheyenne WY | Pay UNKNOWN - ask band",
+  "source": "linkedin:India",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "linkedin:aisteth:4489081111",
+  "company": "AiSteth",
+  "role": "Chief of Staff",
+  "url": "https://in.linkedin.com/jobs/view/chief-of-staff-at-aisteth-4489081111",
+  "location": "Bengaluru, Karnataka, India (LinkedIn: remote)",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "The job description is incomplete and lacks details on experience requirements and pay.",
+  "flags": "Incomplete JD text",
+  "source": "linkedin:India",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "linkedin:michael-page:4489277142",
+  "company": "Michael Page",
+  "role": "Chief of Staff to the Co Founder / Hyderabad / HR Tech",
+  "url": "https://in.linkedin.com/jobs/view/chief-of-staff-to-the-co-founder-hyderabad-hr-tech-at-michael-page-4489277142",
+  "location": "Hyderabad, Telangana, India (LinkedIn: remote)",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Role is located in Hyderabad and the LinkedIn remote tag is not proof of remote eligibility from India, plus insufficient JD details provided.",
+  "flags": "Location unclear",
+  "source": "linkedin:India",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "linkedin:green-portfolio:4488295432",
+  "company": "Green Portfolio",
+  "role": "Onboarding Specialist - PMS/AIF",
+  "url": "https://in.linkedin.com/jobs/view/onboarding-specialist-pms-aif-at-green-portfolio-4488295432",
+  "location": "Gurugram, Haryana, India (LinkedIn: remote)",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "CHECK",
+  "why": "No pay or remote eligibility stated; office role in Gurugram",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month",
+  "source": "linkedin:India",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "linkedin:rws:4488554091",
+  "company": "RWS",
+  "role": "Project Coordinator",
+  "url": "https://in.linkedin.com/jobs/view/project-coordinator-at-rws-4488554091",
+  "location": "Mumbai Metropolitan Region (LinkedIn: remote)",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Location is Mumbai Metropolitan Region which is explicitly designated as DEAD for India office roles, and remote eligibility from India is not confirmed.",
+  "flags": "Noida Mumbai Nagpur DEAD",
+  "source": "linkedin:India",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "linkedin:smartstream:4490305490",
+  "company": "Smartstream",
+  "role": "Project Coordinator",
+  "url": "https://in.linkedin.com/jobs/view/project-coordinator-at-smartstream-4490305490",
+  "location": "Bengaluru, Karnataka, India (LinkedIn: remote)",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "CHECK",
+  "why": "Role requires project coordination experience and the location is Bengaluru with conflicting remote tags.",
+  "flags": "Pay UNKNOWN - ask band | Remote eligibility unclear from India",
+  "source": "linkedin:India",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "linkedin:iqvia:4489275687",
+  "company": "IQVIA",
+  "role": "Customer Support Analyst",
+  "url": "https://in.linkedin.com/jobs/view/customer-support-analyst-at-iqvia-4489275687",
+  "location": "Bengaluru, Karnataka, India (LinkedIn: remote)",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "The job description has insufficient text and details to properly evaluate experience, pay, and remote eligibility.",
+  "flags": "Insufficient JD details",
+  "source": "linkedin:India",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "linkedin:infospeed-services-inc:4490300264",
+  "company": "InfoSpeed Services, Inc.",
+  "role": "Oracle Consultant",
+  "url": "https://in.linkedin.com/jobs/view/oracle-consultant-at-infospeed-services-inc-4490300264",
+  "location": "Bhubaneswar, Odisha, India",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "PARK",
+  "why": "Role matches preferred location Bhubaneswar, but experience requirements and pay are not stated in the snippet.",
+  "flags": "Pay UNKNOWN - ask band|Experience not stated",
+  "source": "linkedin:Bhubaneswar, Odisha, India",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "himalayas:micro1:malayas-app-companies-micro1-jobs-go-to-market-and-revenue-operations-specialist",
+  "company": "micro1",
+  "role": "Go-to-Market and Revenue Operations Specialist",
+  "url": "https://himalayas.app/companies/micro1/jobs/go-to-market-and-revenue-operations-specialist?utm_source=api",
+  "location": "Anywhere",
+  "pay": "50-90 USD hourly",
+  "pay_source": "stated",
+  "verdict": "DEAD",
+  "why": "The role requires extensive experience in go-to-market, sales operations, or revenue operations, which does not match the candidate's product analyst background.",
+  "flags": "Extensive experience required",
+  "source": "himalayas:India",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "himalayas:firework:himalayas-app-companies-firework-jobs-chief-of-staff-office-of-the-cbo",
+  "company": "Firework",
+  "role": "Chief of Staff (Office of the CBO)",
+  "url": "https://himalayas.app/companies/firework/jobs/chief-of-staff-office-of-the-cbo?utm_source=api",
+  "location": "India",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Chief of Staff roles require senior executive management experience well beyond Swastik's ~6 months of experience.",
+  "flags": "Seniority mismatch: Chief of Staff role requires extensive experience",
+  "source": "himalayas:India",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "instahyre:digit-insurance:www-instahyre-com-job-446464-ai-business-analyst-at-digit-insurance-bangalore",
+  "company": "Digit Insurance",
+  "role": "AI Business Analyst",
+  "url": "https://www.instahyre.com/job-446464-ai-business-analyst-at-digit-insurance-bangalore/",
+  "location": "Bangalore",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Location is Bangalore and pay is not stated, making it fail the India office pay criteria.",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month",
+  "source": "instahyre",
+  "posted": null,
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "learnetrm:veson-nautical:software-implementation-consultant-emea-mwaf5p8a",
+  "company": "Veson Nautical",
+  "role": "Software Implementation Consultant - EMEA",
+  "url": "https://jobs.learnetrm.com/jobs/software-implementation-consultant-emea-mwaf5p8a",
+  "location": "United Kingdom · HYBRID",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Role requires 3-5 years+ experience, which exceeds the candidate's ~6 months, and is based in the UK with required travel.",
+  "flags": "Minimum 3-5 years+ experience required | Location is United Kingdom HYBRID | Culture risk: fast-paced",
+  "source": "learnetrm",
+  "posted": "2026-11-10",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "learnetrm:set-europa:murex-back-office-business-analyst-mwaf4jj9",
+  "company": "SET Europa",
+  "role": "Murex Back Office Business Analyst",
+  "url": "https://jobs.learnetrm.com/jobs/murex-back-office-business-analyst-mwaf4jj9",
+  "location": "Paris, Île-de-France, France · ONSITE",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Requires 5+ years of Murex experience, relocation to Paris, France, and fluency in both English and French.",
+  "flags": "Experience > 3 yrs required: 5+ years | Location mismatch: Paris ONSITE | Required language other than English: French",
+  "source": "learnetrm",
+  "posted": "2026-11-10",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "remoterocketship:bcd-travel:1377288257",
+  "company": "BCD Travel",
+  "role": "Business Analyst",
+  "url": "https://jobs.bcdtravel.com/bcdme/job/Business-Analyst/1377288257/",
+  "location": "Remote - India",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Senior/Lead seniority requires more than Swastik's ~6 months of experience.",
+  "flags": "Senior role requires higher experience",
+  "source": "remoterocketship:india",
+  "posted": "2026-11-11",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "remoterocketship:first-advantage:r10633",
+  "company": "First Advantage",
+  "role": "Associate Business Data Analyst",
+  "url": "https://firstadvantage.wd5.myworkdayjobs.com/firstadvantage/job/in_bangalore_virtual/associate-business-data-analyst_r10633",
+  "location": "Remote - India",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "CHECK",
+  "why": "Role is remote from India requiring data and analytics skills, but pay is not stated.",
+  "flags": "Pay UNKNOWN - ask band",
+  "source": "remoterocketship:india",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "remoterocketship:mashreq:hcld-fa-em2-oraclecloud-com-hcmui-candidateexperience-en-sites-cx-1-job-7154",
+  "company": "Mashreq",
+  "role": "Associate – Cards Operations",
+  "url": "https://hcld.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/job/7154",
+  "location": "Remote - India",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Operations role focused on merchant onboarding and chargebacks is a mismatch for a product analyst profile.",
+  "flags": "Operations role mismatch",
+  "source": "remoterocketship:india",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "remoterocketship:astreya:r0018269",
+  "company": "Astreya",
+  "role": "Data Analyst II",
+  "url": "https://astreya.wd5.myworkdayjobs.com/life-at-astreya-opportunities/job/remote-india/data-analyst-ii_r0018269",
+  "location": "Remote - India",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "The JD requires Mid/Senior seniority, which exceeds the candidate's ~6 months of experience.",
+  "flags": "Seniority Mid/Senior exceeds candidate experience",
+  "source": "remoterocketship:india",
+  "posted": "2026-11-03",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "greenhouse:stripe:8281536",
+  "company": "Stripe",
+  "role": "Implementation Consultant (Global)",
+  "url": "https://stripe.com/jobs/search?gh_jid=8281536",
+  "location": "Toronto",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Requires 6+ years of experience which exceeds Swastik's ~6 months, and is an on-site foreign role that does not meet remote EOR criteria.",
+  "flags": "Requires 6+ years experience",
+  "source": "greenhouse:stripe",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "greenhouse:stripe:8353180",
+  "company": "Stripe",
+  "role": "Operations Associate, Tax Jar",
+  "url": "https://stripe.com/jobs/search?gh_jid=8353180",
+  "location": "Mexico",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Role is based in Mexico City office which requires working outside India without EOR/contractor provision for India.",
+  "flags": "Foreign non-remote role outside India eligibility",
+  "source": "greenhouse:stripe",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "greenhouse:stripe:8248102",
+  "company": "Stripe",
+  "role": "People Operations Associate (11-Month FTC)",
+  "url": "https://stripe.com/jobs/search?gh_jid=8248102",
+  "location": "Dublin, Ireland",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Role is located in Dublin, Ireland with an Onsite board tag and does not meet remote contractor/EOR criteria for India.",
+  "flags": "Foreign non-remote location outside India",
+  "source": "greenhouse:stripe",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "greenhouse:coinbase:8382720",
+  "company": "Coinbase",
+  "role": "Compliance, International Investigations Associate",
+  "url": "https://www.coinbase.com/careers/positions/8382720?gh_jid=8382720",
+  "location": "Remote - Luxembourg",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "The role requires 4+ years of experience, exceeding the candidate's ~6 months, and is remote from Luxembourg without confirmed India eligibility.",
+  "flags": "Required experience 4+ years exceeds candidate profile|Remote location Luxembourg not confirmed for India eligibility",
+  "source": "greenhouse:coinbase",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "ashby:ramp:55bd9ab4-8edc-4493-b577-4277ad2f9ae6",
+  "company": "Ramp",
+  "role": "Risk Operations Specialist, Onboarding",
+  "url": "https://jobs.ashbyhq.com/ramp/55bd9ab4-8edc-4493-b577-4277ad2f9ae6",
+  "location": "New York, NY (HQ)",
+  "pay": "$100K – $155K",
+  "pay_source": "stated",
+  "verdict": "DEAD",
+  "why": "Role is based in New York, NY with no indication of remote eligibility from India or hiring via an Indian EOR.",
+  "flags": "Foreign location not eligible for remote from India",
+  "source": "ashby:ramp",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "html:capspire:capspire-com-jobs-unitedkingdom-managing-consultant-endur-functional-2",
+  "company": "capSpire",
+  "role": "Managing Consultant – Endur Functional",
+  "url": "https://capspire.com/jobs/unitedkingdom/managing-consultant-endur-functional-2/",
+  "location": "Location: UK",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Role is based in the UK with location bucket foreign_non_remote and company tier data_fintech, which does not allow for a remote India hire under 2 years experience.",
+  "flags": "Foreign non-remote role",
+  "source": "html:https://capspire.com/careers/",
+  "posted": null,
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "greenhouse:precisionaq:6256195004",
+  "company": "Precision AQ",
+  "role": "Project Coordinator, Product Solutions",
+  "url": "https://job-boards.greenhouse.io/precisionaq/jobs/6256195004",
+  "location": "Remote, United States",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "The job requires the candidate to be based in the United States and does not confirm remote eligibility from India.",
+  "flags": "JD says remote only in another country",
+  "source": "greenhouse:precisionaq",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "greenhouse:precisionmedicinegroup:6254079004",
+  "company": "precisionmedicinegroup",
+  "role": "Project Coordinator, Product Solutions",
+  "url": "https://job-boards.greenhouse.io/precisionmedicinegroup/jobs/6254079004",
+  "location": "Remote, United States",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Role requires US location and work authorization, making it unavailable for remote work from India.",
+  "flags": "Remote-from-India not confirmed|JD specifies US location",
+  "source": "greenhouse:precisionmedicinegroup",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "greenhouse:gomotive:8938072002",
+  "company": "gomotive",
+  "role": "Financial Product Specialist II",
+  "url": "https://job-boards.greenhouse.io/gomotive/jobs/8938072002",
+  "location": "Remote - Islamabad & Lahore",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Remote role limited to Islamabad & Lahore, not eligible for India; 3+ years experience required exceeds 2-year threshold",
+  "flags": "",
+  "source": "greenhouse:gomotive",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "greenhouse:gomotive:8939112002",
+  "company": "gomotive",
+  "role": "Associate General Counsel, Commercial",
+  "url": "https://job-boards.greenhouse.io/gomotive/jobs/8939112002",
+  "location": "United States - Remote",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "The role requires senior legal qualifications (Associate General Counsel) which completely mismatch the candidate's product analyst and finance background.",
+  "flags": "Wrong role level and domain: legal counsel",
+  "source": "greenhouse:gomotive",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "greenhouse:connectwise:4753162005",
+  "company": "connectwise",
+  "role": "Software Training Consultant II",
+  "url": "https://job-boards.greenhouse.io/connectwise/jobs/4753162005",
+  "location": "USA Remote",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "The job requires 7+ years of relevant experience preferred, and is located in USA Remote without confirmation of India remote eligibility.",
+  "flags": "Experience preferred 7+ years, not required|Remote from USA - India eligibility unclear",
+  "source": "greenhouse:connectwise",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "lever:workwave:ece8257a-6e7b-49b3-960b-f3c36bb2b37a",
+  "company": "workwave",
+  "role": "Implementation Specialist",
+  "url": "https://jobs.lever.co/workwave/ece8257a-6e7b-49b3-960b-f3c36bb2b37a",
+  "location": "Melbourne, VIC",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "The JD is cut off and lacks required location and eligibility information for India.",
+  "flags": "Incomplete JD text",
+  "source": "lever:workwave",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "greenhouse:boxinc:8144891",
+  "company": "boxinc",
+  "role": "Business Systems Analyst III (Marketing)",
+  "url": "https://job-boards.greenhouse.io/boxinc/jobs/8144891",
+  "location": "Remote",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "DEAD because the role requires 3+ years of Business Systems Analyst experience, exceeding the maximum allowed for his 6-month experience.",
+  "flags": "Experience required 3+ years",
+  "source": "greenhouse:boxinc",
+  "posted": "2026-11-09",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "lever:aogarciaagency:0bf6a3e1-0c70-4f48-ae3a-ba68da122d37",
+  "company": "aogarciaagency",
+  "role": "Client Onboarding Specialist - Remote",
+  "url": "https://jobs.lever.co/aogarciaagency/0bf6a3e1-0c70-4f48-ae3a-ba68da122d37",
+  "location": "Savannah, Georgia",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Dead because the remote location is restricted to the US and does not confirm eligibility from India.",
+  "flags": "Pay UNKNOWN - ask band|Remote not confirmed for India",
+  "source": "lever:aogarciaagency",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "lever:aogarciaagency:04b01766-aaad-45b0-a4d4-841e7c20bf29",
+  "company": "aogarciaagency",
+  "role": "Fully Remote Client Retention Associate",
+  "url": "https://jobs.lever.co/aogarciaagency/04b01766-aaad-45b0-a4d4-841e7c20bf29",
+  "location": "Augusta, Maine",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Role requires sales or client retention relationship management with competitive drive, and location is restricted to Augusta, Maine without confirmation of hire from India.",
+  "flags": "Culture risk: Driven|Culture risk: Comfortable competing",
+  "source": "lever:aogarciaagency",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "lever:aogarciaagency:0445886d-b45f-4743-bb6f-97b664cc8778",
+  "company": "aogarciaagency",
+  "role": "Remote - Client Experience Associate",
+  "url": "https://jobs.lever.co/aogarciaagency/0445886d-b45f-4743-bb6f-97b664cc8778",
+  "location": "Fort Collins, Colorado",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Dead because the role requires work from the United States with no confirmation of India remote eligibility.",
+  "flags": "Remote-from-India not confirmed",
+  "source": "lever:aogarciaagency",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "lever:aogarciaagency:01053a95-0d2c-4e1c-8d77-be786141024a",
+  "company": "aogarciaagency",
+  "role": "Work From Home - Protection Services Associate",
+  "url": "https://jobs.lever.co/aogarciaagency/01053a95-0d2c-4e1c-8d77-be786141024a",
+  "location": "Hastings, Nebraska",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "CHECK",
+  "why": "Remote role with no pay stated and no confirmation of eligibility for India; requires further clarification",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month",
+  "source": "lever:aogarciaagency",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "lever:aogarciaagency:1a770668-2200-4404-943d-70d53a927891",
+  "company": "aogarciaagency",
+  "role": "Fully Remote - Virtual Consultation Associate",
+  "url": "https://jobs.lever.co/aogarciaagency/1a770668-2200-4404-943d-70d53a927891",
+  "location": "Gilbert, Arizona",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "The job description is for a sales/consultation role based in Gilbert, Arizona with no confirmation of remote eligibility from India.",
+  "flags": "Pay UNKNOWN - ask band|Location unclear for India eligibility",
+  "source": "lever:aogarciaagency",
+  "posted": "2026-11-11",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "lever:aogarciaagency:2241b399-6dcc-4177-9bb7-fa9612e5aff1",
+  "company": "aogarciaagency",
+  "role": "Protection Services Associate - Remote",
+  "url": "https://jobs.lever.co/aogarciaagency/2241b399-6dcc-4177-9bb7-fa9612e5aff1",
+  "location": "Leavenworth, Kansas",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Remote role in the US with no pay stated and no confirmation of eligibility for remote work from India",
+  "flags": "DEAD",
+  "source": "lever:aogarciaagency",
+  "posted": "2026-11-11",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "lever:aogarciaagency:0dae94eb-3d48-4440-bcb8-5c7997b25f79",
+  "company": "aogarciaagency",
+  "role": "Work From Home - Benefits Guidance Associate",
+  "url": "https://jobs.lever.co/aogarciaagency/0dae94eb-3d48-4440-bcb8-5c7997b25f79",
+  "location": "Hudson, New Hampshire",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "The role involves sales or warm leads in a financial-services setting without confirmed remote eligibility from India, and no pay is stated.",
+  "flags": "Sales/lead generation role|Pay UNKNOWN - ask band|JD unclear on India eligibility",
+  "source": "lever:aogarciaagency",
+  "posted": "2026-11-11",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
+ },
+ {
+  "canonical_id": "lever:pointclickcare:ff531031-8596-4ade-a81d-193053e07230",
+  "company": "pointclickcare",
+  "role": "US-Solutions Analyst (Financial)",
+  "url": "https://jobs.lever.co/pointclickcare/ff531031-8596-4ade-a81d-193053e07230",
+  "location": "Remote, USA",
+  "pay": "60000-70000 USD",
+  "pay_source": "stated",
+  "verdict": "DEAD",
+  "why": "The JD explicitly states the remote role is only for candidates living in North America.",
+  "flags": "Requires residency in North America",
+  "source": "lever:pointclickcare",
+  "posted": "2026-11-12",
+  "first_seen": "2026-11-12T23:29:20.442Z",
+  "last_checked": "2026-11-12T23:29:20.442Z"
  }
 ]

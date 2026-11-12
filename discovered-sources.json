@@ -537,5 +537,12 @@
   "name": "sensor-tower",
   "tier": "remote_startup",
   "verified": false
+ },
+ {
+  "type": "greenhouse",
+  "board": "madisonlogicinc",
+  "name": "madisonlogicinc",
+  "tier": "remote_startup",
+  "verified": false
  }
 ]

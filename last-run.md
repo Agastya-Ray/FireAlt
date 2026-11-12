@@ -1,13 +1,16 @@
-# Sweep 2026-11-10T23:09:55.529Z
-sources: 213 (73 discovered), jobs fetched: 2017, code-rejected: 1444, new scored: 31, waiting (over cap): 0
-new verdicts: {"CHECK":6,"DEAD":24,"ABROAD":1}
-liveness re-checked: 0, closed: 0
-contacts looked up: 2 (with an email: 0)
-open leads total: 67
-ATS searches: 6, boards from urls/searches checked: 23
-company boards discovered: 4 (project-expedition -> ashby:project-expedition, Spoton -> ashby:Spoton, tremendous -> ashby:tremendous, sensor-tower -> ashby:sensor-tower)
-failed sources (2):
-- Mindtickle: Timed out fetching the page
+# Sweep 2026-11-12T00:30:58.324Z
+sources: 217 (77 discovered), jobs fetched: 2045, code-rejected: 1502, new scored: 31, waiting (over cap): 0
+new verdicts: {"DEAD":27,"CHECK":3,"ABROAD":1}
+liveness re-checked: 22, closed: 0
+contacts looked up: 1 (with an email: 1)
+open leads total: 71
+ATS searches: 6, boards from urls/searches checked: 15
+company boards discovered: 1 (madisonlogicinc -> greenhouse:madisonlogicinc)
+failed sources (5):
+- Himalayas [implementation specialist, onboarding specialist, implementation coordinator]: Fetch failed (429)
+- Himalayas [technical onboarding, customer onboarding, solutions analyst]: Fetch failed (429)
+- Himalayas [business systems analyst, project coordinator, support analyst]: Fetch failed (429)
 - SwiftSku: Fetch failed (404)
+- leverdemo-8: Timed out fetching the page
 
 ## New PASS / PARK / HIGHPAY

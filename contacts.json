@@ -785,5 +785,27 @@
   "checked": "2026-11-10T23:09:55.529Z",
   "url": "https://jobs.ashbyhq.com/tandem-health/565d0c74-cecf-4dac-a646-259082c2d586",
   "role": "Revenue Operations Specialist"
+ },
+ "ashby:spoton:d73e793e-dd2f-47b8-9970-a9f03d854106": {
+  "company": "Spoton",
+  "domain": "spoton.com",
+  "mx": true,
+  "pattern": "{f}{last}",
+  "contacts": [
+   {
+    "email": "careers@spoton.com",
+    "kind": "hiring",
+    "confidence": "published",
+    "evidence": "https://jobs.ashbyhq.com/spoton/d73e793e-dd2f-47b8-9970-a9f03d854106"
+   }
+  ],
+  "people": [],
+  "pagesRead": 7,
+  "notes": [
+   "GitHub org SpotOnInc: 7 staff address(es) in public commits"
+  ],
+  "checked": "2026-11-12T00:30:58.324Z",
+  "url": "https://jobs.ashbyhq.com/spoton/d73e793e-dd2f-47b8-9970-a9f03d854106",
+  "role": "Client Onboarding Specialist"
  }
 }

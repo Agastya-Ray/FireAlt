@@ -544,5 +544,26 @@
   "name": "madisonlogicinc",
   "tier": "remote_startup",
   "verified": false
+ },
+ {
+  "type": "greenhouse",
+  "board": "cleoindia",
+  "name": "Cleo Consulting, Inc.",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "Scale Army Careers",
+  "name": "Scale Army Careers",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "onhires",
+  "name": "onhires",
+  "tier": "remote_startup",
+  "verified": false
  }
 ]

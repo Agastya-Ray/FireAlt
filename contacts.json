@@ -823,5 +823,21 @@
   "checked": "2026-11-12T23:29:20.442Z",
   "url": "https://in.linkedin.com/jobs/view/oracle-consultant-at-infospeed-services-inc-4490300264",
   "role": "Oracle Consultant"
+ },
+ "remoterocketship:cleo-consulting-inc:4753875005": {
+  "company": "Cleo Consulting, Inc.",
+  "domain": null,
+  "mx": false,
+  "pattern": null,
+  "contacts": [],
+  "people": [],
+  "pagesRead": 1,
+  "notes": [
+   "company website not found",
+   "no published or pattern-backed email found"
+  ],
+  "checked": "2026-11-13T23:27:50.414Z",
+  "url": "https://boards.greenhouse.io/cleoindia/jobs/4753875005",
+  "role": "Onboarding Specialist"
  }
 }

@@ -29,7 +29,7 @@
   "source": "wwr",
   "posted": "2026-10-11",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "wwr:coinbase:weworkremotely-com-remote-jobs-coinbase-associate-general-counsel-privacy",
@@ -61,7 +61,7 @@
   "source": "wwr",
   "posted": "2026-10-12",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "greenhouse:arcesiumllc:5250105007",
@@ -1149,7 +1149,7 @@
   "source": "lever:meesho",
   "posted": "2026-09-16",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "lever:zeta:8623c195-f912-4d87-952f-7114cd258413",
@@ -1453,7 +1453,7 @@
   "source": "workday:bpinternational.wd3/bpCareers",
   "posted": "2026-10-12",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "workday:bpinternational:rq116246",
@@ -1501,7 +1501,7 @@
   "source": "workday:hitachi.wd1/hitachi",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "workday:hitachi:r0147094-1",
@@ -1565,7 +1565,7 @@
   "source": "greenhouse:precisionaq",
   "posted": "2026-10-14",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "greenhouse:precisionaq:6208905004",
@@ -1709,7 +1709,7 @@
   "source": "ashby:certifyos",
   "posted": "2026-09-28",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "ashby:certifyos:ef0337a5-2e69-48ec-b6f4-a696d4770ff8",
@@ -1719,13 +1719,13 @@
   "location": "Bengaluru, India",
   "pay": "UNKNOWN",
   "pay_source": "none",
-  "verdict": "CHECK",
+  "verdict": "DEAD",
   "why": "Eligible experience but pay not stated for India office role",
-  "flags": "Office role - needs pay >= Rs 1,20,000/month",
+  "flags": "Office role - needs pay >= Rs 1,20,000/month | closed 2026-11-14",
   "source": "ashby:certifyos",
   "posted": "2026-10-01",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "greenhouse:yipitdata:8074621",
@@ -1789,7 +1789,7 @@
   "source": "greenhouse:yipitdata",
   "posted": "2026-09-18",
   "first_seen": "2026-10-15T08:36:11.402Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "greenhouse:yipitdata:7607324",
@@ -2317,7 +2317,7 @@
   "source": "workday:browserstack.wd3/External",
   "posted": "2026-10-19",
   "first_seen": "2026-10-19T22:16:27.398Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "workday:hitachi:r0148056",
@@ -2813,7 +2813,7 @@
   "source": "linkedin:India",
   "posted": "2026-10-04",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "linkedin:integrichain:4473216498",
@@ -3405,7 +3405,7 @@
   "source": "linkedin:Bhubaneswar, Odisha, India",
   "posted": "2026-10-03",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "linkedin:infosys:4444646896",
@@ -3661,7 +3661,7 @@
   "source": "himalayas:India",
   "posted": "2026-10-12",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "himalayas:quantum-strides-llc:anies-quantum-strides-llc-jobs-product-business-analyst-saas-products-remote-wfh",
@@ -3869,7 +3869,7 @@
   "source": "himalayas:India",
   "posted": "2026-10-03",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "himalayas:datahash:himalayas-app-companies-datahash-jobs-revenue-operations-and-ai-systems-engineer",
@@ -3917,7 +3917,7 @@
   "source": "himalayas:India",
   "posted": "2026-10-02",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "himalayas:quantumloopai:-quantumloopai-jobs-hubspot-crm-implementation-assistant-india-remote-7599107249",
@@ -3997,7 +3997,7 @@
   "source": "himalayas:India",
   "posted": "2026-09-27",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "himalayas:addepto:himalayas-app-companies-addepto-jobs-business-analyst-product-owner",
@@ -4045,7 +4045,7 @@
   "source": "himalayas:India",
   "posted": "2026-10-16",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "himalayas:crazygames:himalayas-app-companies-crazygames-jobs-remote-product-analyst",
@@ -4157,7 +4157,7 @@
   "source": "himalayas:India",
   "posted": "2026-10-02",
   "first_seen": "2026-10-20T09:18:44.576Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "himalayas:pradeepit-consulting-services-pvt-ltd:ayas-app-companies-pradeepit-consulting-services-pvt-ltd-jobs-operations-analyst",
@@ -4925,7 +4925,7 @@
   "source": "linkedin:India",
   "posted": "2026-10-20",
   "first_seen": "2026-10-20T21:31:48.359Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "linkedin:cvent:4481561586",
@@ -5021,7 +5021,7 @@
   "source": "greenhouse:financialtechnologypartners",
   "posted": "2026-10-20",
   "first_seen": "2026-10-20T21:31:48.359Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "greenhouse:stripe:8049722",
@@ -5309,7 +5309,7 @@
   "source": "linkedin:Bhubaneswar, Odisha, India",
   "posted": "2026-10-21",
   "first_seen": "2026-10-21T21:33:37.250Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "himalayas:sporty-group:himalayas-app-companies-sporty-group-jobs-analytics-implementation-consultant",
@@ -5453,7 +5453,7 @@
   "source": "greenhouse:numerix",
   "posted": "2026-10-21",
   "first_seen": "2026-10-21T21:33:37.250Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "ashby:certifyos:d918e2d0-96d5-4000-aeed-b0fd768fc17d",
@@ -5581,7 +5581,7 @@
   "source": "linkedin:India",
   "posted": "2026-10-21",
   "first_seen": "2026-10-22T21:28:07.327Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "linkedin:c-raa:4480775782",
@@ -5901,7 +5901,7 @@
   "source": "smartrecruiters:LouisDreyfusCompany",
   "posted": "2026-10-22",
   "first_seen": "2026-10-22T21:28:07.327Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "smartrecruiters:louis-dreyfus-company:744000157039229",
@@ -6429,7 +6429,7 @@
   "source": "himalayas:India",
   "posted": "2026-10-25",
   "first_seen": "2026-10-26T22:35:29.114Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "jobicy:binance:157147",
@@ -6605,7 +6605,7 @@
   "source": "linkedin:India",
   "posted": "2026-10-27",
   "first_seen": "2026-10-27T22:05:50.330Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "linkedin:telus-digital-ai-community:4474738208",
@@ -6701,7 +6701,7 @@
   "source": "ashby:arketa",
   "posted": "2026-10-27",
   "first_seen": "2026-10-27T22:05:50.330Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "greenhouse:gongio:4713724006",
@@ -7629,7 +7629,7 @@
   "source": "remoterocketship:india",
   "posted": "2026-10-23",
   "first_seen": "2026-10-29T06:46:58.929Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "remoterocketship:ciena:r031880",
@@ -8477,7 +8477,7 @@
   "source": "himalayas:India",
   "posted": "2026-10-29",
   "first_seen": "2026-10-30T03:38:43.027Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "himalayas:miratech:himalayas-app-companies-miratech-jobs-junior-project-coordinator-1347393549",
@@ -8557,7 +8557,7 @@
   "source": "remoterocketship:india",
   "posted": "2026-10-30",
   "first_seen": "2026-10-30T03:38:43.027Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "remoterocketship:vinyl-equity:583f5b68-bfdd-4942-acf0-5c153a0f3f5e",
@@ -8621,7 +8621,7 @@
   "source": "remoterocketship:india",
   "posted": "2026-10-29",
   "first_seen": "2026-10-30T03:38:43.027Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "remoterocketship:oc-agency:owenscorning-applytojob-com-apply-iz01q3m9dn-it-buyer-financial-analyst",
@@ -9181,7 +9181,7 @@
   "source": "linkedin:India",
   "posted": "2026-10-29",
   "first_seen": "2026-10-30T22:12:52.469Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "linkedin:meolaa:4477586028",
@@ -9293,7 +9293,7 @@
   "source": "linkedin:India",
   "posted": "2026-10-28",
   "first_seen": "2026-10-30T22:12:52.469Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "linkedin:healthedge:4483553139",
@@ -9533,7 +9533,7 @@
   "source": "remoterocketship:india",
   "posted": "2026-10-30",
   "first_seen": "2026-10-30T22:12:52.469Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "remoterocketship:esyconnect:744000068340155",
@@ -9549,7 +9549,7 @@
   "source": "remoterocketship:india",
   "posted": "2026-10-30",
   "first_seen": "2026-10-30T22:12:52.469Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "remoterocketship:berry-virtual:8caa570a3b",
@@ -10317,7 +10317,7 @@
   "source": "greenhouse:addepar1",
   "posted": "2026-10-30",
   "first_seen": "2026-10-30T22:12:52.469Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "greenhouse:addepar1:8511171002",
@@ -10541,7 +10541,7 @@
   "source": "linkedin:India",
   "posted": "2026-10-31",
   "first_seen": "2026-10-31T21:24:59.235Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "linkedin:hb:4484811054",
@@ -10573,7 +10573,7 @@
   "source": "himalayas:India",
   "posted": "2026-10-31",
   "first_seen": "2026-10-31T21:24:59.235Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "himalayas:banco-plata-s-a-instituci-n-de-banca-m-ltiple:-a-institucion-de-banca-multiple-jobs-business-analyst-junior-antifraud-disputes",
@@ -10669,7 +10669,7 @@
   "source": "remoterocketship:india",
   "posted": "2026-10-31",
   "first_seen": "2026-10-31T21:24:59.235Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "remoterocketship:alvotech:jr100346",
@@ -10685,7 +10685,7 @@
   "source": "remoterocketship:india",
   "posted": "2026-10-31",
   "first_seen": "2026-10-31T21:24:59.235Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "greenhouse:tide:6234225003",
@@ -10781,7 +10781,7 @@
   "source": "himalayas:India",
   "posted": "2026-11-01",
   "first_seen": "2026-11-01T21:56:46.655Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "himalayas:kemin:himalayas-app-companies-kemin-jobs-global-erp-business-analyst",
@@ -10909,7 +10909,7 @@
   "source": "himalayas:India",
   "posted": "2026-11-01",
   "first_seen": "2026-11-01T21:56:46.655Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "himalayas:pradeepit-consulting-services-pvt-ltd:ies-pradeepit-consulting-services-pvt-ltd-jobs-sap-support-analyst-configurer-mm",
@@ -11325,7 +11325,7 @@
   "source": "himalayas:India",
   "posted": "2026-11-02",
   "first_seen": "2026-11-03T00:53:00.420Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "jobicy:binance:158437",
@@ -11837,7 +11837,7 @@
   "source": "linkedin:Bhubaneswar, Odisha, India",
   "posted": "2026-11-03",
   "first_seen": "2026-11-03T23:12:32.878Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "linkedin:hb:4484668772",
@@ -12477,7 +12477,7 @@
   "source": "remoterocketship:india",
   "posted": "2026-10-30",
   "first_seen": "2026-11-04T23:33:50.680Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "lever:kpler:03daf6b2-51ae-477d-8085-59bfa125b1fa",
@@ -12845,7 +12845,7 @@
   "source": "linkedin:India",
   "posted": "2026-11-04",
   "first_seen": "2026-11-05T23:32:39.001Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "linkedin:bebo-technologies:4486586897",
@@ -13037,7 +13037,7 @@
   "source": "remoterocketship:india",
   "posted": "2026-10-29",
   "first_seen": "2026-11-05T23:32:39.001Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "remoterocketship:h1:e81aa85e-048e-4abf-8943-1a5e2d4f3c43",
@@ -13117,7 +13117,7 @@
   "source": "lever:kpler",
   "posted": "2026-11-05",
   "first_seen": "2026-11-05T23:32:39.001Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "ashby:airwallex:52dfc23a-08ff-49bd-859a-fd4512b93792",
@@ -13389,7 +13389,7 @@
   "source": "lever:veeva",
   "posted": "2026-11-05",
   "first_seen": "2026-11-05T23:32:39.001Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "lever:veeva:e22e3336-1398-4c0a-8890-9de1571c0683",
@@ -13581,7 +13581,7 @@
   "source": "himalayas:India",
   "posted": "2026-11-06",
   "first_seen": "2026-11-06T22:59:26.937Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "cutshort:neogencode-technologies-pvt-ltd:adp-globalview-payroll-consultant-sap-successfactors-neogencode-technologies-pvt-ltd-ch7ycr2j",
@@ -13997,7 +13997,7 @@
   "source": "lever:brillio-2",
   "posted": "2026-10-27",
   "first_seen": "2026-11-06T22:59:26.937Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "lever:brillio-2:0caf0afc-a346-480b-8e55-a6fc0707e647",
@@ -14013,7 +14013,7 @@
   "source": "lever:brillio-2",
   "posted": "2026-10-14",
   "first_seen": "2026-11-06T22:59:26.937Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "lever:thinkahead:ea80b14a-f179-4457-869b-5496d98cf5f1",
@@ -14077,7 +14077,7 @@
   "source": "linkedin:India",
   "posted": "2026-11-07",
   "first_seen": "2026-11-07T21:42:39.769Z",
-  "last_checked": "2026-11-12T00:30:58.324Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "learnetrm:accenture:strategy-consultant-for-commodity-markets-mw61ckhc",
@@ -14269,7 +14269,7 @@
   "source": "himalayas:India",
   "posted": "2026-11-08",
   "first_seen": "2026-11-08T21:56:42.463Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "himalayas:gruve:himalayas-app-companies-gruve-jobs-security-operations-analyst-l1-ms-defender",
@@ -15053,7 +15053,7 @@
   "source": "greenhouse:formaaiinc",
   "posted": "2026-11-03",
   "first_seen": "2026-11-10T01:26:51.297Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "greenhouse:formaaiinc:4583013005",
@@ -15069,7 +15069,7 @@
   "source": "greenhouse:formaaiinc",
   "posted": "2026-11-03",
   "first_seen": "2026-11-10T01:26:51.297Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "greenhouse:fictiv:8140305002",
@@ -15645,7 +15645,7 @@
   "source": "linkedin:India",
   "posted": "2026-11-10",
   "first_seen": "2026-11-10T23:09:55.529Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "linkedin:guidepoint:4488066691",
@@ -15725,7 +15725,7 @@
   "source": "linkedin:India",
   "posted": "2026-11-10",
   "first_seen": "2026-11-10T23:09:55.529Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "linkedin:smartagro-farms-pvt-ltd:4488853416",
@@ -15837,7 +15837,7 @@
   "source": "linkedin:Bhubaneswar, Odisha, India",
   "posted": "2026-11-10",
   "first_seen": "2026-11-10T23:09:55.529Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "remoterocketship:gp-strategies-corporation:eetz-fa-us6-oraclecloud-com-hcmui-candidateexperience-en-sites-cx-1-job-2600731",
@@ -15965,7 +15965,7 @@
   "source": "ashby:tandem-health",
   "posted": "2026-11-10",
   "first_seen": "2026-11-10T23:09:55.529Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "greenhouse:precisionmedicinegroup:6226391004",
@@ -16029,7 +16029,7 @@
   "source": "greenhouse:globalhealthcareexchangeinc",
   "posted": "2026-11-10",
   "first_seen": "2026-11-10T23:09:55.529Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "lever:brillio-2:0aa83771-4fc6-4ed0-8898-dc79d718d9f6",
@@ -16077,7 +16077,7 @@
   "source": "lever:aogarciaagency",
   "posted": "2026-11-10",
   "first_seen": "2026-11-10T23:09:55.529Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "lever:aogarciaagency:16313030-12ee-4ab1-be5f-8551606d37e0",
@@ -16109,7 +16109,7 @@
   "source": "lever:aogarciaagency",
   "posted": "2026-11-10",
   "first_seen": "2026-11-10T23:09:55.529Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "lever:aogarciaagency:0178460b-589f-4658-8b7b-9861f7302752",
@@ -16253,7 +16253,7 @@
   "source": "himalayas:India",
   "posted": "2026-11-12",
   "first_seen": "2026-11-12T00:30:58.324Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "himalayas:bitwarden:layas-app-companies-bitwarden-jobs-implementation-engineer-customer-support-apac",
@@ -16429,7 +16429,7 @@
   "source": "ashby:junipersquare",
   "posted": "2026-11-11",
   "first_seen": "2026-11-12T00:30:58.324Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "greenhouse:connectwise:4753271005",
@@ -16589,7 +16589,7 @@
   "source": "ashby:Spoton",
   "posted": "2026-10-27",
   "first_seen": "2026-11-12T00:30:58.324Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "ashby:spoton:a7118ea2-f4e8-49be-9769-f7ddaaf5874c",
@@ -16701,7 +16701,7 @@
   "source": "linkedin:India",
   "posted": "2026-11-12",
   "first_seen": "2026-11-12T23:29:20.442Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "linkedin:aisteth:4489081111",
@@ -16749,7 +16749,7 @@
   "source": "linkedin:India",
   "posted": "2026-11-12",
   "first_seen": "2026-11-12T23:29:20.442Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "linkedin:rws:4488554091",
@@ -16781,7 +16781,7 @@
   "source": "linkedin:India",
   "posted": "2026-11-12",
   "first_seen": "2026-11-12T23:29:20.442Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "linkedin:iqvia:4489275687",
@@ -16925,7 +16925,7 @@
   "source": "remoterocketship:india",
   "posted": "2026-11-12",
   "first_seen": "2026-11-12T23:29:20.442Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "remoterocketship:mashreq:hcld-fa-em2-oraclecloud-com-hcmui-candidateexperience-en-sites-cx-1-job-7154",
@@ -17229,7 +17229,7 @@
   "source": "lever:aogarciaagency",
   "posted": "2026-11-12",
   "first_seen": "2026-11-12T23:29:20.442Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "lever:aogarciaagency:1a770668-2200-4404-943d-70d53a927891",
@@ -17357,7 +17357,7 @@
   "source": "linkedin:India",
   "posted": "2026-11-13",
   "first_seen": "2026-11-13T23:27:50.414Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "linkedin:world-courier:4488956365",
@@ -17453,7 +17453,7 @@
   "source": "linkedin:India",
   "posted": "2026-11-13",
   "first_seen": "2026-11-13T23:27:50.414Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "linkedin:winntus-formwork-pvt-ltd:4489571956",
@@ -17501,7 +17501,7 @@
   "source": "himalayas:India",
   "posted": "2026-11-13",
   "first_seen": "2026-11-13T23:27:50.414Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "himalayas:mercor:companies-mercor-jobs-implementation-planner-fully-remote-upto-120-hr-2418213202",
@@ -17725,7 +17725,7 @@
   "source": "remoterocketship:india",
   "posted": "2026-11-13",
   "first_seen": "2026-11-13T23:27:50.414Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "greenhouse:coinbase:8382331",
@@ -17837,7 +17837,7 @@
   "source": "lever:aogarciaagency",
   "posted": "2026-11-10",
   "first_seen": "2026-11-13T23:27:50.414Z",
-  "last_checked": "2026-11-13T23:27:50.414Z"
+  "last_checked": "2026-11-14T22:15:16.114Z"
  },
  {
   "canonical_id": "lever:aogarciaagency:0491bc3e-9677-4193-ad47-31f07e7d8ffb",
@@ -17902,5 +17902,213 @@
   "posted": "2026-11-13",
   "first_seen": "2026-11-13T23:27:50.414Z",
   "last_checked": "2026-11-13T23:27:50.414Z"
+ },
+ {
+  "canonical_id": "wwr:dln-consulting-group:weworkremotely-com-remote-jobs-dln-consulting-group-data-analyst-part-time",
+  "company": "DLN Consulting Group",
+  "role": "Data Analyst-Part Time",
+  "url": "https://weworkremotely.com/remote-jobs/dln-consulting-group-data-analyst-part-time",
+  "location": "USA Only",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Dead because the location is restricted to USA Only, which violates the India residency requirement for remote roles.",
+  "flags": "USA only location restriction",
+  "source": "wwr",
+  "posted": "2026-11-14",
+  "first_seen": "2026-11-14T22:15:16.114Z",
+  "last_checked": "2026-11-14T22:15:16.114Z"
+ },
+ {
+  "canonical_id": "wwr:vituity:s-vituity-desktop-support-analyst-i-remote-southern-california-remote-nationwide",
+  "company": "Vituity",
+  "role": "Desktop Support Analyst I (Remote - Southern California) - Remote - Nationwide",
+  "url": "https://weworkremotely.com/remote-jobs/vituity-desktop-support-analyst-i-remote-southern-california-remote-nationwide",
+  "location": "USA Only",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Job requires work authorisation in the US and is restricted to Southern California / USA only.",
+  "flags": "Remote only in another country or needs work authorisation outside India",
+  "source": "wwr",
+  "posted": "2026-11-14",
+  "first_seen": "2026-11-14T22:15:16.114Z",
+  "last_checked": "2026-11-14T22:15:16.114Z"
+ },
+ {
+  "canonical_id": "wwr:compsych-corporation:weworkremotely-com-remote-jobs-compsych-corporation-guidance-consultant",
+  "company": "ComPsych Corporation",
+  "role": "مستشار توجيه (Guidance Consultant)",
+  "url": "https://weworkremotely.com/remote-jobs/compsych-corporation-guidance-consultant",
+  "location": "EMEA Only",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "The role requires residency in the United Arab Emirates and is not confirmed to be remote from India.",
+  "flags": "Culture risk: fast-paced|Location restricted to UAE",
+  "source": "wwr",
+  "posted": "2026-11-14",
+  "first_seen": "2026-11-14T22:15:16.114Z",
+  "last_checked": "2026-11-14T22:15:16.114Z"
+ },
+ {
+  "canonical_id": "himalayas:teladoc-health:layas-app-companies-teladoc-health-jobs-tier-1-cyber-security-operations-analyst",
+  "company": "Teladoc Health",
+  "role": "Tier 1 Cyber Security Operations Analyst",
+  "url": "https://himalayas.app/companies/teladoc-health/jobs/tier-1-cyber-security-operations-analyst?utm_source=api",
+  "location": "India",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Role requires 3-4 years of experience, exceeding the candidate's ~6 months background.",
+  "flags": "Experience 3-4 years required >2 years",
+  "source": "himalayas:India",
+  "posted": "2026-11-14",
+  "first_seen": "2026-11-14T22:15:16.114Z",
+  "last_checked": "2026-11-14T22:15:16.114Z"
+ },
+ {
+  "canonical_id": "ashby:junction:da1aa06a-9f20-4a71-a37a-d8a4b5e4cce9",
+  "company": "Junction",
+  "role": "Customer Support Associate",
+  "url": "https://jobs.ashbyhq.com/Junction/da1aa06a-9f20-4a71-a37a-d8a4b5e4cce9",
+  "location": "Philippines (Remote)",
+  "pay": "$1,200/month",
+  "pay_source": "stated",
+  "verdict": "DEAD",
+  "why": "Required 4+ years experience, exceeds 2-year limit for this candidate",
+  "flags": "experience required 4+ years",
+  "source": "ashby:junction",
+  "posted": "2026-10-29",
+  "first_seen": "2026-11-14T22:15:16.114Z",
+  "last_checked": "2026-11-14T22:15:16.114Z"
+ },
+ {
+  "canonical_id": "lever:aogarciaagency:09b31563-7809-463c-b551-2164fa05f507",
+  "company": "aogarciaagency",
+  "role": "Remote - Client Onboarding Specialist",
+  "url": "https://jobs.lever.co/aogarciaagency/09b31563-7809-463c-b551-2164fa05f507",
+  "location": "Kent, Washington",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "CHECK",
+  "why": "Remote role with no pay stated and no confirmation of India eligibility",
+  "flags": "",
+  "source": "lever:aogarciaagency",
+  "posted": "2026-11-07",
+  "first_seen": "2026-11-14T22:15:16.114Z",
+  "last_checked": "2026-11-14T22:15:16.114Z"
+ },
+ {
+  "canonical_id": "lever:aogarciaagency:064e3653-1d70-43bb-9969-43afc6cf0a0d",
+  "company": "aogarciaagency",
+  "role": "Remote - Protection Services Associate",
+  "url": "https://jobs.lever.co/aogarciaagency/064e3653-1d70-43bb-9969-43afc6cf0a0d",
+  "location": "Sandy, Utah",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Dead because the role requires sales or insurance/protection advisory work for families, which is outside the product analyst profile.",
+  "flags": "Culture risk: do the work",
+  "source": "lever:aogarciaagency",
+  "posted": "2026-11-14",
+  "first_seen": "2026-11-14T22:15:16.114Z",
+  "last_checked": "2026-11-14T22:15:16.114Z"
+ },
+ {
+  "canonical_id": "lever:aogarciaagency:05fd0904-3bd3-4e7e-a5ff-48be22d8de6c",
+  "company": "aogarciaagency",
+  "role": "Work From Home - Benefits Guidance Associate",
+  "url": "https://jobs.lever.co/aogarciaagency/05fd0904-3bd3-4e7e-a5ff-48be22d8de6c",
+  "location": "Woonsocket, Rhode Island",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Role involves sales/benefits guidance which resembles sales quota or BD work, and lacks confirmed remote eligibility for India.",
+  "flags": "Culture risk: do the work | Pay UNKNOWN - ask band",
+  "source": "lever:aogarciaagency",
+  "posted": "2026-11-14",
+  "first_seen": "2026-11-14T22:15:16.114Z",
+  "last_checked": "2026-11-14T22:15:16.114Z"
+ },
+ {
+  "canonical_id": "lever:aogarciaagency:1b35639d-5446-45d7-971a-2824245a94f9",
+  "company": "aogarciaagency",
+  "role": "Remote Part-Time - Benefits Guidance Associate",
+  "url": "https://jobs.lever.co/aogarciaagency/1b35639d-5446-45d7-971a-2824245a94f9",
+  "location": "Mandan, North Dakota",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Remote role listed for Mandan, ND with no confirmation of remote-from-India eligibility and no pay stated",
+  "flags": "DEAD",
+  "source": "lever:aogarciaagency",
+  "posted": "2026-11-13",
+  "first_seen": "2026-11-14T22:15:16.114Z",
+  "last_checked": "2026-11-14T22:15:16.114Z"
+ },
+ {
+  "canonical_id": "ashby:scale-army-careers:0ab8c480-dbd9-4151-9d9b-982bfdaf9a6b",
+  "company": "Scale Army Careers",
+  "role": "Marketing Data Analyst (Python & SQL)",
+  "url": "https://jobs.ashbyhq.com/Scale%20Army%20Careers/0ab8c480-dbd9-4151-9d9b-982bfdaf9a6b",
+  "location": "Egypt",
+  "pay": "$2K – $2.4K per month",
+  "pay_source": "stated",
+  "verdict": "DEAD",
+  "why": "Job requires remote work only for LATAM, Africa, or Eastern Europe, not India",
+  "flags": "DEAD",
+  "source": "ashby:Scale Army Careers",
+  "posted": "2026-11-11",
+  "first_seen": "2026-11-14T22:15:16.114Z",
+  "last_checked": "2026-11-14T22:15:16.114Z"
+ },
+ {
+  "canonical_id": "ashby:scale-army-careers:6eb09884-301d-4cfe-aa17-ceb8646fa8c4",
+  "company": "Scale Army Careers",
+  "role": "Cin7 Core Consultant",
+  "url": "https://jobs.ashbyhq.com/Scale%20Army%20Careers/6eb09884-301d-4cfe-aa17-ceb8646fa8c4",
+  "location": "Egypt",
+  "pay": "$2.4K – $2.7K per month",
+  "pay_source": "stated",
+  "verdict": "DEAD",
+  "why": "The JD restricts remote candidates to LATAM, Africa, and Eastern Europe, excluding India.",
+  "flags": "Location restriction excludes India",
+  "source": "ashby:Scale Army Careers",
+  "posted": "2026-11-10",
+  "first_seen": "2026-11-14T22:15:16.114Z",
+  "last_checked": "2026-11-14T22:15:16.114Z"
+ },
+ {
+  "canonical_id": "ashby:onhires:a8164683-4e17-444c-bebb-6324a0c22b27",
+  "company": "onhires",
+  "role": "Менеджер з трейдингового супроводу /Trade Support Specialist",
+  "url": "https://jobs.ashbyhq.com/onhires/a8164683-4e17-444c-bebb-6324a0c22b27",
+  "location": "Kyiv",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "DEAD",
+  "why": "Role is based in Kyiv with no remote-from-India option and no pay stated",
+  "flags": "DEAD",
+  "source": "ashby:onhires",
+  "posted": "2026-11-03",
+  "first_seen": "2026-11-14T22:15:16.114Z",
+  "last_checked": "2026-11-14T22:15:16.114Z"
+ },
+ {
+  "canonical_id": "ashby:onhires:e0408735-3f89-447b-beba-ce518e77aa11",
+  "company": "onhires",
+  "role": "CRM / Data Platform Consultant",
+  "url": "https://jobs.ashbyhq.com/onhires/e0408735-3f89-447b-beba-ce518e77aa11",
+  "location": "USA",
+  "pay": "UNKNOWN",
+  "pay_source": "none",
+  "verdict": "CHECK",
+  "why": "Remote role with no pay stated; eligibility from India unclear.",
+  "flags": "Pay UNKNOWN - ask band",
+  "source": "ashby:onhires",
+  "posted": "2026-11-02",
+  "first_seen": "2026-11-14T22:15:16.114Z",
+  "last_checked": "2026-11-14T22:15:16.114Z"
  }
 ]

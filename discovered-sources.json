@@ -565,5 +565,12 @@
   "name": "onhires",
   "tier": "remote_startup",
   "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "instructure",
+  "name": "instructure",
+  "tier": "remote_startup",
+  "verified": false
  }
 ]

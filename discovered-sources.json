@@ -579,5 +579,26 @@
   "name": "apolloio",
   "tier": "remote_startup",
   "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "amplify",
+  "name": "amplify",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "vitalize",
+  "name": "vitalize",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "whippy",
+  "name": "whippy",
+  "tier": "remote_startup",
+  "verified": false
  }
 ]

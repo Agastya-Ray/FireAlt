@@ -839,5 +839,99 @@
   "checked": "2026-11-13T23:27:50.414Z",
   "url": "https://boards.greenhouse.io/cleoindia/jobs/4753875005",
   "role": "Onboarding Specialist"
+ },
+ "remoterocketship:fortrea:266775": {
+  "company": "Fortrea",
+  "domain": "fortrea.com",
+  "mx": true,
+  "pattern": null,
+  "contacts": [
+   {
+    "email": "employmentverification@fortrea.com",
+    "kind": "general",
+    "confidence": "published",
+    "evidence": "https://www.fortrea.com/"
+   }
+  ],
+  "people": [
+   {
+    "name": "Anshul Thakral",
+    "title": "Chief Executive Officer",
+    "source": "https://www.fortrea.com/about-us/our-leadership"
+   },
+   {
+    "name": "Mark Morais",
+    "title": "Chief Operations Officer and President, Clinical Development",
+    "source": "https://www.fortrea.com/about-us/our-leadership"
+   },
+   {
+    "name": "Georgina Strickland",
+    "title": "Chief of Staff, Head of Strategy",
+    "source": "https://www.fortrea.com/about-us/our-leadership"
+   },
+   {
+    "name": "Drayton Virkler",
+    "title": "President and Chief Commercial Officer",
+    "source": "https://www.fortrea.com/about-us/our-leadership"
+   }
+  ],
+  "pagesRead": 6,
+  "notes": [
+   "job page unreachable",
+   "domain guessed from name: fortrea.com (homepage title matches)",
+   "GitHub org Fortrea-CyberSecurity: 0 staff address(es) in public commits"
+  ],
+  "checked": "2026-11-17T01:50:09.634Z",
+  "url": "https://fortrea.wd1.myworkdayjobs.com/fortrea/job/pune/regulatory-operations-specialist-ii_266775",
+  "role": "Regulatory Operations Specialist II"
+ },
+ "remoterocketship:first-advantage:r10602": {
+  "company": "First Advantage",
+  "domain": "erafirst.com",
+  "mx": true,
+  "pattern": null,
+  "contacts": [],
+  "people": [],
+  "pagesRead": 1,
+  "notes": [
+   "job page unreachable",
+   "domain guessed from name: firstadvantage.com (homepage title matches)",
+   "no published or pattern-backed email found"
+  ],
+  "checked": "2026-11-17T01:50:09.634Z",
+  "url": "https://firstadvantage.wd5.myworkdayjobs.com/firstadvantage/job/in_mumbai_virtual/associate-customer-success-partner_r10602",
+  "role": "Associate Customer Success Partner"
+ },
+ "remoterocketship:nestifytech-solutions-pvt-ltd:jobs-dover-com-nestifytech-f6654690-072f-48f5-8551-906f6d218925": {
+  "company": "Nestifytech Solutions Pvt Ltd",
+  "domain": null,
+  "mx": false,
+  "pattern": null,
+  "contacts": [],
+  "people": [],
+  "pagesRead": 1,
+  "notes": [
+   "company website not found",
+   "no published or pattern-backed email found"
+  ],
+  "checked": "2026-11-17T01:50:09.634Z",
+  "url": "https://jobs.dover.com/nestifytech/f6654690-072f-48f5-8551-906f6d218925",
+  "role": "Client Onboarding Specialist"
+ },
+ "remoterocketship:kintsugi:jobs-dover-com-trykintsugi-e1f9da22-c292-44cf-a641-42c7684970bc": {
+  "company": "Kintsugi",
+  "domain": "kintsugi.ai",
+  "mx": true,
+  "pattern": null,
+  "contacts": [],
+  "people": [],
+  "pagesRead": 5,
+  "notes": [
+   "domain guessed from name: kintsugi.ai (homepage title matches)",
+   "no published or pattern-backed email found"
+  ],
+  "checked": "2026-11-17T01:50:09.634Z",
+  "url": "https://jobs.dover.com/trykintsugi/e1f9da22-c292-44cf-a641-42c7684970bc",
+  "role": "Digital Customer Success Associate, Growth"
  }
 }

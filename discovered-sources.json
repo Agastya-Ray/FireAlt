@@ -600,5 +600,33 @@
   "name": "whippy",
   "tier": "remote_startup",
   "verified": false
+ },
+ {
+  "type": "lever",
+  "board": "hevodata",
+  "name": "Hevo Data",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "1password",
+  "name": "1password",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "kafene",
+  "name": "kafene",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "andela",
+  "name": "andela",
+  "tier": "remote_startup",
+  "verified": false
  }
 ]

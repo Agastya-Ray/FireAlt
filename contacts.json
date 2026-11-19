@@ -589,7 +589,7 @@
    "company website not found",
    "no published or pattern-backed email found"
   ],
-  "checked": "2026-11-04T23:33:50.680Z",
+  "checked": "2026-11-19T00:13:43.225Z",
   "url": "https://xflow.bamboohr.com/careers/142",
   "role": "IT Operations Specialist"
  },
@@ -969,5 +969,22 @@
   "checked": "2026-11-18T00:53:45.642Z",
   "url": "https://apply.workable.com/apna/j/E057E98A07",
   "role": "Verification & Onboarding Operations Executive"
+ },
+ "himalayas:sprinto:s-sprinto-jobs-revenue-operations-analyst-customer-experience-partner-operations": {
+  "company": "Sprinto",
+  "domain": null,
+  "mx": false,
+  "pattern": null,
+  "contacts": [],
+  "people": [],
+  "pagesRead": 0,
+  "notes": [
+   "job page unreachable",
+   "company website not found",
+   "no published or pattern-backed email found"
+  ],
+  "checked": "2026-11-19T00:13:43.225Z",
+  "url": "https://himalayas.app/companies/sprinto/jobs/revenue-operations-analyst-customer-experience-partner-operations?utm_source=api",
+  "role": "Revenue Operations Analyst - Customer Experience & Partner Operations"
  }
 }

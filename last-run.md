@@ -1,23 +1,26 @@
-# Sweep 2026-11-18T00:53:45.642Z
-sources: 226 (86 discovered), jobs fetched: 1874, code-rejected: 1317, new scored: 42, waiting (over cap): 0
-new verdicts: {"DEAD":37,"CHECK":3,"PASS":1,"PARK":1}
-liveness re-checked: 11, closed: 1
-contacts looked up: 4 (with an email: 1)
-open leads total: 95
-ATS searches: 6, boards from urls/searches checked: 20
-company boards discovered: 4 (Hevo Data -> lever:hevodata, 1password -> ashby:1password, kafene -> ashby:kafene, andela -> ashby:andela)
-failed sources (10):
+# Sweep 2026-11-19T00:13:43.225Z
+sources: 229 (90 discovered), jobs fetched: 1825, code-rejected: 1305, new scored: 41, waiting (over cap): 0
+new verdicts: {"DEAD":35,"CHECK":5,"PARK":1}
+liveness re-checked: 0, closed: 0
+contacts looked up: 2 (with an email: 0)
+open leads total: 101
+ATS searches: 6, boards from urls/searches checked: 0
+company boards discovered: 0
+failed sources (14):
+- Himalayas [ctrm, etrm, commodity]: Fetch failed (429)
+- Himalayas [implementation specialist, onboarding specialist, implementation coordinator]: Fetch failed (429)
+- Himalayas [technical onboarding, customer onboarding, solutions analyst]: Fetch failed (429)
+- Himalayas [business systems analyst, project coordinator, support analyst]: Fetch failed (429)
 - Trafigura: Fetch failed (429)
 - Gunvor: Fetch failed (429)
 - Shell: Fetch failed (429)
 - S&P Global: Fetch failed (429)
-- ICIS (RELX): Fetch failed (429)
 - BP: Fetch failed (429)
+- ICIS (RELX): Fetch failed (429)
 - Hitachi: Fetch failed (429)
 - BrowserStack: Fetch failed (429)
-- Himalayas [business systems analyst, project coordinator, support analyst]: Fetch failed (429)
+- ION Group: Timed out fetching the page
 - SwiftSku: Fetch failed (404)
 
 ## New PASS / PARK / HIGHPAY
-- PASS | Verification & Onboarding Operations Executive - apna | UNKNOWN | https://apply.workable.com/apna/j/E057E98A07
-- PARK | Data Analyst - Peakflo (YC W22) | UNKNOWN | https://jobs.dover.com/peakflo/577d81ef-4565-4516-810b-5cdc39630d66
+- PARK | Revenue Operations Analyst - Customer Experience & Partner Operations - Sprinto | UNKNOWN | https://himalayas.app/companies/sprinto/jobs/revenue-operations-analyst-customer-experience-partner-operations?utm_source=api

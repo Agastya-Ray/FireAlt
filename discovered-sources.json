@@ -628,5 +628,40 @@
   "name": "andela",
   "tier": "remote_startup",
   "verified": false
+ },
+ {
+  "type": "greenhouse",
+  "board": "blackduck",
+  "name": "blackduck",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "greenhouse",
+  "board": "roo",
+  "name": "roo",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "greenhouse",
+  "board": "openfx",
+  "name": "openfx",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "lever",
+  "board": "modeln",
+  "name": "modeln",
+  "tier": "remote_startup",
+  "verified": false
+ },
+ {
+  "type": "lever",
+  "board": "revinate",
+  "name": "revinate",
+  "tier": "remote_startup",
+  "verified": false
  }
 ]

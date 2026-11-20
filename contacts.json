@@ -678,7 +678,7 @@
    "domain guessed from name: turing.com (homepage title matches)",
    "no published or pattern-backed email found"
   ],
-  "checked": "2026-11-06T22:59:26.937Z",
+  "checked": "2026-11-20T23:56:08.233Z",
   "url": "https://himalayas.app/companies/turing/jobs/strategy-and-operations-associate-platform-nishad?utm_source=api",
   "role": "Strategy and Operations Associate (Platform - Nishad)"
  },
@@ -986,5 +986,50 @@
   "checked": "2026-11-19T00:13:43.225Z",
   "url": "https://himalayas.app/companies/sprinto/jobs/revenue-operations-analyst-customer-experience-partner-operations?utm_source=api",
   "role": "Revenue Operations Analyst - Customer Experience & Partner Operations"
+ },
+ "linkedin:indian-institutes-of-public-health-iiphs:4492950606": {
+  "company": "Indian Institutes of Public Health (IIPHs)",
+  "domain": null,
+  "mx": false,
+  "pattern": null,
+  "contacts": [
+   {
+    "email": "recruit@phfi.org",
+    "kind": "hiring",
+    "confidence": "published",
+    "evidence": "https://in.linkedin.com/jobs/view/consultant-%E2%80%93-district-level-at-indian-institutes-of-public-health-iiphs-4492950606"
+   }
+  ],
+  "people": [],
+  "pagesRead": 1,
+  "notes": [
+   "company website not found"
+  ],
+  "checked": "2026-11-20T23:56:08.233Z",
+  "url": "https://in.linkedin.com/jobs/view/consultant-%E2%80%93-district-level-at-indian-institutes-of-public-health-iiphs-4492950606",
+  "role": "Consultant – District Level"
+ },
+ "himalayas:coverforce:-jobs-business-analyst-carrier-data-integrations-automation-commercial-insurance": {
+  "company": "CoverForce",
+  "domain": "coverforce.com",
+  "mx": true,
+  "pattern": null,
+  "contacts": [],
+  "people": [
+   {
+    "name": "Cyrus Karai",
+    "title": "CEO & Co",
+    "source": "https://www.coverforce.com/about"
+   }
+  ],
+  "pagesRead": 4,
+  "notes": [
+   "job page unreachable",
+   "domain guessed from name: coverforce.com (homepage title matches)",
+   "no published or pattern-backed email found"
+  ],
+  "checked": "2026-11-20T23:56:08.233Z",
+  "url": "https://himalayas.app/companies/coverforce/jobs/business-analyst-carrier-data-integrations-automation-commercial-insurance?utm_source=api",
+  "role": "Business Analyst: Carrier Data, Integrations & Automation (Commercial Insurance)"
  }
 }

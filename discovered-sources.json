@@ -663,5 +663,12 @@
   "name": "revinate",
   "tier": "remote_startup",
   "verified": false
+ },
+ {
+  "type": "ashby",
+  "board": "icon",
+  "name": "ICON plc",
+  "tier": "remote_startup",
+  "verified": false
  }
 ]

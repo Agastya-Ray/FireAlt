@@ -23,6 +23,7 @@ import { Route as ApiV1SearchRouteImport } from './routes/api/v1/search'
 import { Route as ApiV1StatusRouteImport } from './routes/api/v1/status'
 import { Route as ApiV1GptBriefRouteImport } from './routes/api/v1/gpt/brief'
 import { Route as ApiV1GptCheckRouteImport } from './routes/api/v1/gpt/check'
+import { Route as ApiV1GptNextRouteImport } from './routes/api/v1/gpt/next'
 import { Route as ApiV1GptOpenapiRouteImport } from './routes/api/v1/gpt/openapi'
 import { Route as ApiV1GptStageRouteImport } from './routes/api/v1/gpt/stage'
 import { Route as ApiV1GptStagedRouteImport } from './routes/api/v1/gpt/staged'
@@ -97,6 +98,11 @@ const ApiV1GptCheckRoute = ApiV1GptCheckRouteImport.update({
   path: '/api/v1/gpt/check',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiV1GptNextRoute = ApiV1GptNextRouteImport.update({
+  id: '/api/v1/gpt/next',
+  path: '/api/v1/gpt/next',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiV1GptOpenapiRoute = ApiV1GptOpenapiRouteImport.update({
   id: '/api/v1/gpt/openapi',
   path: '/api/v1/gpt/openapi',
@@ -128,6 +134,7 @@ export interface FileRoutesByFullPath {
   '/api/v1/status': typeof ApiV1StatusRoute
   '/api/v1/gpt/brief': typeof ApiV1GptBriefRoute
   '/api/v1/gpt/check': typeof ApiV1GptCheckRoute
+  '/api/v1/gpt/next': typeof ApiV1GptNextRoute
   '/api/v1/gpt/openapi': typeof ApiV1GptOpenapiRoute
   '/api/v1/gpt/stage': typeof ApiV1GptStageRoute
   '/api/v1/gpt/staged': typeof ApiV1GptStagedRoute
@@ -147,6 +154,7 @@ export interface FileRoutesByTo {
   '/api/v1/status': typeof ApiV1StatusRoute
   '/api/v1/gpt/brief': typeof ApiV1GptBriefRoute
   '/api/v1/gpt/check': typeof ApiV1GptCheckRoute
+  '/api/v1/gpt/next': typeof ApiV1GptNextRoute
   '/api/v1/gpt/openapi': typeof ApiV1GptOpenapiRoute
   '/api/v1/gpt/stage': typeof ApiV1GptStageRoute
   '/api/v1/gpt/staged': typeof ApiV1GptStagedRoute
@@ -167,6 +175,7 @@ export interface FileRoutesById {
   '/api/v1/status': typeof ApiV1StatusRoute
   '/api/v1/gpt/brief': typeof ApiV1GptBriefRoute
   '/api/v1/gpt/check': typeof ApiV1GptCheckRoute
+  '/api/v1/gpt/next': typeof ApiV1GptNextRoute
   '/api/v1/gpt/openapi': typeof ApiV1GptOpenapiRoute
   '/api/v1/gpt/stage': typeof ApiV1GptStageRoute
   '/api/v1/gpt/staged': typeof ApiV1GptStagedRoute
@@ -188,6 +197,7 @@ export interface FileRouteTypes {
     | '/api/v1/status'
     | '/api/v1/gpt/brief'
     | '/api/v1/gpt/check'
+    | '/api/v1/gpt/next'
     | '/api/v1/gpt/openapi'
     | '/api/v1/gpt/stage'
     | '/api/v1/gpt/staged'
@@ -207,6 +217,7 @@ export interface FileRouteTypes {
     | '/api/v1/status'
     | '/api/v1/gpt/brief'
     | '/api/v1/gpt/check'
+    | '/api/v1/gpt/next'
     | '/api/v1/gpt/openapi'
     | '/api/v1/gpt/stage'
     | '/api/v1/gpt/staged'
@@ -226,6 +237,7 @@ export interface FileRouteTypes {
     | '/api/v1/status'
     | '/api/v1/gpt/brief'
     | '/api/v1/gpt/check'
+    | '/api/v1/gpt/next'
     | '/api/v1/gpt/openapi'
     | '/api/v1/gpt/stage'
     | '/api/v1/gpt/staged'
@@ -246,6 +258,7 @@ export interface RootRouteChildren {
   ApiV1StatusRoute: typeof ApiV1StatusRoute
   ApiV1GptBriefRoute: typeof ApiV1GptBriefRoute
   ApiV1GptCheckRoute: typeof ApiV1GptCheckRoute
+  ApiV1GptNextRoute: typeof ApiV1GptNextRoute
   ApiV1GptOpenapiRoute: typeof ApiV1GptOpenapiRoute
   ApiV1GptStageRoute: typeof ApiV1GptStageRoute
   ApiV1GptStagedRoute: typeof ApiV1GptStagedRoute
@@ -351,6 +364,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiV1GptCheckRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/v1/gpt/next': {
+      id: '/api/v1/gpt/next'
+      path: '/api/v1/gpt/next'
+      fullPath: '/api/v1/gpt/next'
+      preLoaderRoute: typeof ApiV1GptNextRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/v1/gpt/openapi': {
       id: '/api/v1/gpt/openapi'
       path: '/api/v1/gpt/openapi'
@@ -390,6 +410,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiV1StatusRoute: ApiV1StatusRoute,
   ApiV1GptBriefRoute: ApiV1GptBriefRoute,
   ApiV1GptCheckRoute: ApiV1GptCheckRoute,
+  ApiV1GptNextRoute: ApiV1GptNextRoute,
   ApiV1GptOpenapiRoute: ApiV1GptOpenapiRoute,
   ApiV1GptStageRoute: ApiV1GptStageRoute,
   ApiV1GptStagedRoute: ApiV1GptStagedRoute,

@@ -9,6 +9,7 @@
  * - staged(): read the staging area back (for review).
  */
 import { get, list, put } from "@vercel/blob";
+import { waitUntil } from "@vercel/functions";
 import seenClaude from "../../../data/gpt/seen-claude.json";
 import slicesFile from "../../../data/gpt/slices.json";
 import { dedupKey } from "./sweep.ts";
@@ -193,12 +194,17 @@ export async function loadServed(): Promise<ServedRun[]> {
   if (!blobReady()) return [];
   const paths = await listPaths(`${PREFIX}served/`);
   const out: ServedRun[] = [];
-  for (let i = 0; i < paths.length; i += 8) {
-    const chunk = await Promise.all(paths.slice(i, i + 8).map((p) => readBlobJson(p)));
-    for (const d of chunk) if (d && typeof d === "object" && (d as ServedRun).kind === "served") out.push(d as ServedRun);
+  for (let i = 0; i < paths.length; i += 32) {
+    const chunk = await Promise.all(paths.slice(i, i + 32).map((p) => readBlobJson(p)));
+    for (const d of chunk)
+      if (d && typeof d === "object" && (d as ServedRun).kind === "served" && !VOID_RUNS.has((d as ServedRun).run))
+        out.push(d as ServedRun);
   }
   return out;
 }
+
+/** Runs whose page never reached ChatGPT (its browser timed out), so their jobs were never judged. */
+const VOID_RUNS = new Set(["202611221245", "202611221247"]);
 
 export async function loadBatches(): Promise<StageBatch[]> {
   if (!blobReady()) return [];
@@ -211,8 +217,8 @@ export async function loadBatches(): Promise<StageBatch[]> {
   } while (cursor);
   paths.sort();
   const out: StageBatch[] = [];
-  for (let i = 0; i < paths.length; i += 8) {
-    const chunk = await Promise.all(paths.slice(i, i + 8).map((p) => readBlobJson(p)));
+  for (let i = 0; i < paths.length; i += 32) {
+    const chunk = await Promise.all(paths.slice(i, i + 32).map((p) => readBlobJson(p)));
     for (const d of chunk) if (d && typeof d === "object" && (d as StageBatch).kind === "batch") out.push(d as StageBatch);
   }
   return out;
@@ -481,6 +487,26 @@ async function fetchSlice(s: GptSlice): Promise<{ jobs: Job[]; failed: string[] 
   };
 }
 
+const FAST_MS = 12_000;
+
+type CachedSlice = { slice: string; at: string; jobs: Job[]; failed: string[] };
+
+/** Background-fetched slice results that are newer than the slice's last served/staged run. */
+async function loadSliceCache(lastRun: Record<string, string>): Promise<Map<string, CachedSlice>> {
+  const out = new Map<string, CachedSlice>();
+  if (!blobReady()) return out;
+  const paths = await listPaths(`${PREFIX}cache/`);
+  const docs = await Promise.all(paths.slice(-60).map((p) => readBlobJson(p)));
+  for (const d of docs) {
+    const c = d as CachedSlice | null;
+    if (!c?.slice || !Array.isArray(c.jobs)) continue;
+    if (lastRun[c.slice] && lastRun[c.slice] >= c.at) continue;
+    const prev = out.get(c.slice);
+    if (!prev || c.at > prev.at) out.set(c.slice, c);
+  }
+  return out;
+}
+
 /**
  * Hand out the next batch: walks the least-recently-run slices (2 at a time) until `maxCandidates`
  * new jobs are collected or `maxSlices` were tried. One served record per slice, sharing one run id.
@@ -500,15 +526,51 @@ export async function serveNext(maxCandidates = 40, dryRun = false, maxSlices = 
   const candidates: (ServedRun["candidates"][number] & { slice: string })[] = [];
   const records: ServedRun[] = [];
   const tried: string[] = [];
-  // Walk slices oldest-first, 4 at a time, until the round is full or ~3.5 min have passed.
-  const deadline = Date.now() + 210_000;
-  for (let i = 0; i < ordered.length && candidates.length < maxCandidates && Date.now() < deadline; i += 4) {
-    const pair = ordered.slice(i, i + 4);
-    const got = await Promise.all(pair.map((s) => fetchSlice(s)));
-    pair.forEach((s, k) => {
+  // Speed matters: ChatGPT's browser gives up after ~30-45s. So:
+  // 1. Slice results fetched earlier (in the background) and not yet served are used instantly from cache.
+  // 2. The oldest slices without cache are fetched in parallel; whatever finishes within FAST_MS is used now.
+  // 3. Stragglers keep running after the response (waitUntil) and land in cache for the next round.
+  const cache = dryRun ? new Map<string, CachedSlice>() : await loadSliceCache(gptLast);
+  const fetchList = ordered.filter((s) => !cache.has(s.id)).slice(0, 12);
+  const pending = new Map<string, Promise<{ jobs: Job[]; failed: string[] }>>();
+  for (const s of fetchList) {
+    const p = fetchSlice(s).catch((e: unknown) => ({ jobs: [] as Job[], failed: [String(e).slice(0, 160)] }));
+    pending.set(s.id, p);
+  }
+  const results = new Map<string, { jobs: Job[]; failed: string[] }>();
+  for (const [id, c] of cache) results.set(id, { jobs: c.jobs, failed: c.failed });
+  const t0 = Date.now();
+  const needFetch = candidates.length < maxCandidates;
+  if (needFetch && pending.size) {
+    const timer = new Promise<"t">((r) => setTimeout(() => r("t"), FAST_MS));
+    await Promise.all(
+      [...pending].map(([id, p]) => Promise.race([p.then((v) => void results.set(id, v)), timer])),
+    );
+  }
+  const debug = `cache ${cache.size}, fetched ${fetchList.length}, done in time ${[...pending.keys()].filter((id) => results.has(id)).join(",") || "none"} after ${Date.now() - t0}ms`;
+  // Anything still running finishes in the background and is cached for the next round.
+  if (!dryRun && blobReady()) {
+    for (const [id, p] of pending) {
+      if (results.has(id)) continue;
+      waitUntil(
+        p.then((v) =>
+          put(`${PREFIX}cache/${new Date().toISOString().replace(/[:.]/g, "-")}-s${id}.json`, JSON.stringify({ slice: id, at: new Date().toISOString(), ...v }), {
+            access: "private",
+            addRandomSuffix: true,
+            contentType: "application/json",
+          }),
+        ).catch(() => undefined),
+      );
+    }
+  }
+  for (const s of ordered) {
+    if (candidates.length >= maxCandidates) break;
+    const got = results.get(s.id);
+    if (!got) continue;
+    {
       tried.push(s.id);
       const fresh: Job[] = [];
-      for (const j of got[k].jobs) {
+      for (const j of got.jobs) {
         if (!j.url || TITLE_DROP.test(j.title)) continue;
         if (FOREIGN_LOC.test(j.location ?? "") && !OK_LOC.test(j.location ?? "")) continue;
         // LinkedIn "remote" outside India means remote within that country.
@@ -524,7 +586,7 @@ export async function serveNext(maxCandidates = 40, dryRun = false, maxSlices = 
       }
       fresh.sort((a, b) => (b.posted ?? "").localeCompare(a.posted ?? ""));
       const mine = fresh.slice(0, Math.max(0, maxCandidates - candidates.length)).map((j) => ({
-        n: candidates.length + 1, // placeholder, renumbered below
+        n: 0,
         company: j.company && j.company.toLowerCase() !== "jobgether" ? j.company : companyFromUrl(j.url),
         role: j.title,
         url: j.url,
@@ -538,8 +600,8 @@ export async function serveNext(maxCandidates = 40, dryRun = false, maxSlices = 
         c.n = candidates.length + 1;
         candidates.push(c);
       }
-      records.push({ kind: "served", run, at, slice: s.id, failed: got[k].failed, candidates: mine.map(({ slice: _s, ...c }) => c) });
-    });
+      records.push({ kind: "served", run, at, slice: s.id, failed: got.failed, candidates: mine.map(({ slice: _s, ...c }) => c) });
+    }
   }
   if (blobReady() && !dryRun) {
     await Promise.all(
@@ -552,9 +614,9 @@ export async function serveNext(maxCandidates = 40, dryRun = false, maxSlices = 
       ),
     );
   }
-  if (!candidates.length) return null;
+  if (!candidates.length) return dryRun ? { run, at, tried, candidates, slice_names: [], debug } : null;
   const names = Object.fromEntries(ordered.map((s) => [s.id, s.name]));
-  return { run, at, tried, candidates, slice_names: tried.map((id) => `${id}: ${names[id]}`) };
+  return { run, at, tried, candidates, slice_names: tried.map((id) => `${id}: ${names[id]}`), debug };
 }
 
 export function renderServedPage(
@@ -573,6 +635,7 @@ export function renderServedPage(
     'Add keepers to the same canvas under a heading "Own search", same line format, with the direct posting link (never a search page). Skip anything already in the canvas. Claude removes jobs already on the board.',
     "Aim for 15+ keepers from this phase. Quality over speed: read the posting before judging.",
   ].join("\n");
+  if (r && !r.candidates.length) return `DRY RUN: 0 candidates. ${r.debug}`;
   if (!r) {
     return `No new jobs from Claude's boards right now (everything was already seen).\n\n${GPT_PROFILE_HINT}\n\n${ownSearch}\n\nWhen Phase 2 is done: ${finish}`;
   }

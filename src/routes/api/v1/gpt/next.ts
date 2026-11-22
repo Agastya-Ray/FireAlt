@@ -14,7 +14,9 @@ export const Route = createFileRoute("/api/v1/gpt/next")({
         const denied = guardV1(request);
         if (denied) return denied;
         try {
-          const page = renderServedPage(await serveNext());
+          const page = renderServedPage(
+            await serveNext(20, new URL(request.url).searchParams.get("dry") === "1"),
+          );
           return new Response(page, {
             status: 200,
             headers: corsHeaders({

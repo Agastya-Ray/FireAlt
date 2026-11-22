@@ -406,7 +406,7 @@ function isLooseSource(s: unknown): boolean {
   return t === "html" || t === "url";
 }
 
-export async function serveNext(maxCandidates = 20) {
+export async function serveNext(maxCandidates = 20, dryRun = false) {
   const [served, batches] = await Promise.all([loadServed(), loadBatches()]);
   const gptLast: Record<string, string> = {};
   for (const r of [...served, ...batches]) if (!gptLast[r.slice] || r.at > gptLast[r.slice]) gptLast[r.slice] = r.at;
@@ -467,7 +467,7 @@ export async function serveNext(maxCandidates = 20) {
         summary: j.summary?.slice(0, 600),
       })),
     };
-    if (blobReady()) {
+    if (blobReady() && !dryRun) {
       await put(`${PREFIX}served/${at.replace(/[:.]/g, "-")}-s${s.id}.json`, JSON.stringify(rec, null, 1), {
         access: "private",
         addRandomSuffix: true,

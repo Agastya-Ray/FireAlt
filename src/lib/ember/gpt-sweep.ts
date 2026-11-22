@@ -405,7 +405,12 @@ export async function staged(since?: string, run?: string) {
 const gptProfile = () => (process.env.EMBER_GPT_PROFILE ?? "").trim();
 
 const TITLE_DROP =
-  /\b(senior|sr\.?|staff|principal|lead|head|director|vp|vice president|manager|engineer|engineering|developer|designer|sales|account executive|business development|representative|intern|mid[- ]level|ii|iii|iv)\b/i;
+  /\b(senior|sr\.?|staff|principal|lead|head|director|vp|vice president|manager|engineer|engineering|developer|designer|sales|account executive|business development|representative|intern|mid[- ]level|ii|iii|iv|chief|leader|expert|werkstudent|working student|stage de|speaker)\b/i;
+
+// Loose (html/url) sources carry no location filter, so drop clearly foreign, non-remote places here.
+const FOREIGN_LOC =
+  /\b(london|paris|munich|berlin|hamburg|darmstadt|z[uü]rich|amsterdam|nantes|boulogne|madrid|dublin|stockholm|new york|san francisco|toronto|singapore|dubai|sydney|france|germany|deutschland|switzerland|netherlands|spain|ireland|united kingdom|uk|usa|united states|canada|australia|homeoffice)\b/i;
+const OK_LOC = /\b(india|remote|anywhere|worldwide|global|apac)\b/i;
 
 function isLooseSource(s: unknown): boolean {
   const t = (s as { type?: string })?.type;
@@ -469,6 +474,7 @@ export async function serveNext(maxCandidates = 40, dryRun = false, maxSlices = 
       const fresh: Job[] = [];
       for (const j of got[k].jobs) {
         if (!j.url || TITLE_DROP.test(j.title)) continue;
+        if (FOREIGN_LOC.test(j.location ?? "") && !OK_LOC.test(j.location ?? "")) continue;
         // Jobgether puts the age in the location field; 30+ days is stale.
         if (/\b30\+\s*days?\s*ago\b/i.test(`${j.location} ${j.posted ?? ""}`)) continue;
         if (isSeen(ix, j.company, j.title, j.url)) continue;

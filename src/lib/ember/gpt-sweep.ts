@@ -196,10 +196,15 @@ export async function loadServed(): Promise<ServedRun[]> {
   const out: ServedRun[] = [];
   for (let i = 0; i < paths.length; i += 32) {
     const chunk = await Promise.all(paths.slice(i, i + 32).map((p) => readBlobJson(p)));
-    for (const d of chunk) if (d && typeof d === "object" && (d as ServedRun).kind === "served") out.push(d as ServedRun);
+    for (const d of chunk)
+      if (d && typeof d === "object" && (d as ServedRun).kind === "served" && !VOID_RUNS.has((d as ServedRun).run))
+        out.push(d as ServedRun);
   }
   return out;
 }
+
+/** Runs whose page never reached ChatGPT (its browser timed out), so their jobs were never judged. */
+const VOID_RUNS = new Set(["202611221245", "202611221247"]);
 
 export async function loadBatches(): Promise<StageBatch[]> {
   if (!blobReady()) return [];
@@ -534,6 +539,7 @@ export async function serveNext(maxCandidates = 40, dryRun = false, maxSlices = 
   }
   const results = new Map<string, { jobs: Job[]; failed: string[] }>();
   for (const [id, c] of cache) results.set(id, { jobs: c.jobs, failed: c.failed });
+  const t0 = Date.now();
   const needFetch = candidates.length < maxCandidates;
   if (needFetch && pending.size) {
     const timer = new Promise<"t">((r) => setTimeout(() => r("t"), FAST_MS));
@@ -541,6 +547,7 @@ export async function serveNext(maxCandidates = 40, dryRun = false, maxSlices = 
       [...pending].map(([id, p]) => Promise.race([p.then((v) => void results.set(id, v)), timer])),
     );
   }
+  const debug = `cache ${cache.size}, fetched ${fetchList.length}, done in time ${[...pending.keys()].filter((id) => results.has(id)).join(",") || "none"} after ${Date.now() - t0}ms`;
   // Anything still running finishes in the background and is cached for the next round.
   if (!dryRun && blobReady()) {
     for (const [id, p] of pending) {
@@ -607,9 +614,9 @@ export async function serveNext(maxCandidates = 40, dryRun = false, maxSlices = 
       ),
     );
   }
-  if (!candidates.length) return null;
+  if (!candidates.length) return dryRun ? { run, at, tried, candidates, slice_names: [], debug } : null;
   const names = Object.fromEntries(ordered.map((s) => [s.id, s.name]));
-  return { run, at, tried, candidates, slice_names: tried.map((id) => `${id}: ${names[id]}`) };
+  return { run, at, tried, candidates, slice_names: tried.map((id) => `${id}: ${names[id]}`), debug };
 }
 
 export function renderServedPage(
@@ -628,6 +635,7 @@ export function renderServedPage(
     'Add keepers to the same canvas under a heading "Own search", same line format, with the direct posting link (never a search page). Skip anything already in the canvas. Claude removes jobs already on the board.',
     "Aim for 15+ keepers from this phase. Quality over speed: read the posting before judging.",
   ].join("\n");
+  if (r && !r.candidates.length) return `DRY RUN: 0 candidates. ${r.debug}`;
   if (!r) {
     return `No new jobs from Claude's boards right now (everything was already seen).\n\n${GPT_PROFILE_HINT}\n\n${ownSearch}\n\nWhen Phase 2 is done: ${finish}`;
   }

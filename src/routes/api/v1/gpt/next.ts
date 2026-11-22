@@ -29,11 +29,15 @@ export const Route = createFileRoute("/api/v1/gpt/next")({
           next.protocol = "https:";
           next.searchParams.set("round", String(round + 1));
           next.searchParams.delete("dry");
-          const page = renderServedPage(await serveNext(n, p.get("dry") === "1"), {
+          const dry = p.get("dry") === "1";
+          const t0 = Date.now();
+          const served = await serveNext(n, dry);
+          const page0 = renderServedPage(served, {
             nextUrl: next.toString(),
             round,
             rounds,
           });
+          const page = dry ? `${page0}\n\nDEBUG (${Date.now() - t0}ms): ${served?.debug ?? ""}` : page0;
           return new Response(page, {
             status: 200,
             headers: corsHeaders({

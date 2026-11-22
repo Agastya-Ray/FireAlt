@@ -1221,6 +1221,244 @@
     "product analyst",
     "implementation"
    ]
+  },
+  {
+   "id": "li-9",
+   "name": "LinkedIn remote India: junior business analyst / associate business analyst / business systems analyst",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "linkedin",
+     "board": "India"
+    }
+   ],
+   "include": [
+    "junior business analyst",
+    "associate business analyst",
+    "business systems analyst"
+   ]
+  },
+  {
+   "id": "li-10",
+   "name": "LinkedIn remote India: product specialist / product operations analyst / associate product analyst",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "linkedin",
+     "board": "India"
+    }
+   ],
+   "include": [
+    "product specialist",
+    "product operations analyst",
+    "associate product analyst"
+   ]
+  },
+  {
+   "id": "li-11",
+   "name": "LinkedIn remote India: implementation specialist / customer onboarding / solutions consultant",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "linkedin",
+     "board": "India"
+    }
+   ],
+   "include": [
+    "implementation specialist",
+    "customer onboarding",
+    "solutions consultant"
+   ]
+  },
+  {
+   "id": "li-12",
+   "name": "LinkedIn remote India: operations associate / business operations analyst / strategy analyst",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "linkedin",
+     "board": "India"
+    }
+   ],
+   "include": [
+    "operations associate",
+    "business operations analyst",
+    "strategy analyst"
+   ]
+  },
+  {
+   "id": "li-13",
+   "name": "LinkedIn remote India: pricing analyst / commercial analyst / trade operations",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "linkedin",
+     "board": "India"
+    }
+   ],
+   "include": [
+    "pricing analyst",
+    "commercial analyst",
+    "trade operations"
+   ]
+  },
+  {
+   "id": "li-14",
+   "name": "LinkedIn remote India: management consultant analyst / process analyst / program coordinator",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "linkedin",
+     "board": "India"
+    }
+   ],
+   "include": [
+    "management consultant analyst",
+    "process analyst",
+    "program coordinator"
+   ]
+  },
+  {
+   "id": "li-15",
+   "name": "LinkedIn remote India: fintech analyst / payments operations / risk analyst",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "linkedin",
+     "board": "India"
+    }
+   ],
+   "include": [
+    "fintech analyst",
+    "payments operations",
+    "risk analyst"
+   ]
+  },
+  {
+   "id": "li-16",
+   "name": "LinkedIn remote India: game analyst / player insights / monetization",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "linkedin",
+     "board": "India"
+    }
+   ],
+   "include": [
+    "game analyst",
+    "player insights",
+    "monetization"
+   ]
+  },
+  {
+   "id": "li-17",
+   "name": "LinkedIn remote India: data migration analyst / UAT analyst / functional analyst",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "linkedin",
+     "board": "India"
+    }
+   ],
+   "include": [
+    "data migration analyst",
+    "UAT analyst",
+    "functional analyst"
+   ]
+  },
+  {
+   "id": "li-18",
+   "name": "LinkedIn remote India: associate consultant / analyst consultant / digital transformation analyst",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "linkedin",
+     "board": "India"
+    }
+   ],
+   "include": [
+    "associate consultant",
+    "analyst consultant",
+    "digital transformation analyst"
+   ]
+  },
+  {
+   "id": "li-19",
+   "name": "LinkedIn remote India: investment operations / fund operations analyst / treasury analyst",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "linkedin",
+     "board": "India"
+    }
+   ],
+   "include": [
+    "investment operations",
+    "fund operations analyst",
+    "treasury analyst"
+   ]
+  },
+  {
+   "id": "li-20",
+   "name": "LinkedIn remote India: energy analyst / supply chain analyst / logistics analyst",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "linkedin",
+     "board": "India"
+    }
+   ],
+   "include": [
+    "energy analyst",
+    "supply chain analyst",
+    "logistics analyst"
+   ]
+  },
+  {
+   "id": "li-21",
+   "name": "LinkedIn remote India: product owner associate / requirements analyst / techno functional consultant",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "linkedin",
+     "board": "India"
+    }
+   ],
+   "include": [
+    "product owner associate",
+    "requirements analyst",
+    "techno functional consultant"
+   ]
+  },
+  {
+   "id": "li-22",
+   "name": "LinkedIn remote India: customer success associate / account management associate / partner operations",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "linkedin",
+     "board": "India"
+    }
+   ],
+   "include": [
+    "customer success associate",
+    "account management associate",
+    "partner operations"
+   ]
   }
  ]
 }

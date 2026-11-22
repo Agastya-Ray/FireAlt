@@ -53,13 +53,6 @@
    "claude_last_run": "2026-11-21T23:38:22+05:30"
   },
   {
-   "id": "14",
-   "name": "SLICE 14 ",
-   "sources": [],
-   "notes": "SLICE 14 \nRemote-first company sweep: check the ATS boards (Greenhouse/Lever/Ashby/Workable) of remote-first companies known to hire in India: GitLab, Automattic, Zapier, Doist, Toggl, Hotjar, Canonical, Wikimedia, Mozilla, Elastic, HashiCorp, Deel, Remote.com, Oyster, Multiplier, Rippling, BrowserStack, Postman, Hevo, Atlan, Sprinto, Chargebee, Zeta, Razorpay, Freshworks, Zoho, Kpler, Vortexa, Arcesium, JLS Trading Co. (Swastik's favourite - remote-first, hires in India; check https://jlstradingco.applytojob.com/apply every run of this slice and add ANY non-warehouse, non-sales opening as a lead, flagging pay UNKNOWN if not stated), Coinbase, Stripe, Databricks, Atlassian, Google (APM India), Robinhood, Duolingo, FourKites, AppLovin, Fanatics, IXL Learning, Adobe (India product roles only). For these big names look for India-based or remote-India entry PM/APM/analyst roles; US-based new-grad programs fail unless visa sponsorship is stated. Filter titles for analyst/product/operations/implementation/business.\nREMOTE-COMPANY LIST (added 2026-10-02, works without Firecrawl): slice 14 runs ALSO pull 25 companies per run from the GitHub list remoteintech/remote-jobs (Bash: git clone --depth 1 https://github.com/remoteintech/remote-jobs.git ; company files in src/companies/*.md with frontmatter 'region' and 'website'). Use only region worldwide, asia-pacific or other; skip pure-engineering shops. Rotate through them alphabetically, tracking the last company used in slice_state/s14 'rij_last'. For each, open its careers page/ATS and screen non-sales, non-engineering roles under the normal rules.",
-   "claude_last_run": "2026-11-22T03:38:16+05:30"
-  },
-  {
    "id": "16",
    "name": "Recently funded startups",
    "sources": [
@@ -474,20 +467,6 @@
    ],
    "notes": "SLICE 13 - Remote startup boards (Indeed/Glassdoor blocked) . Call Ember jobs with `sources` below (own call, never reuse another slice's results). Indeed + Glassdoor are Cloudflare-blocked for Ember - never try them. html/url sources carry no reliable location/remote/date: call them WITHOUT locations/excludeLocations/postedWithinDays (keep include/exclude), then decide remote-India + freshness from each JD (scrape). Wellfound JD pages: scrape; if unreadable keep CHECK. Arbeitnow is mostly EU on-site: keep only remote-worldwide/India.",
    "claude_last_run": "2026-11-21T23:38:36+05:30"
-  },
-  {
-   "id": "10",
-   "name": "SLICE 10 ",
-   "sources": [],
-   "notes": "SLICE 10 \nStartup boards: Wellfound (public job pages), Y Combinator (ycombinator.com/jobs and ycombinator.com/companies/*/jobs), Welcome to the Jungle. Startups need evidence of real funding/size (a round or 25+ staff) mentioned on the page.",
-   "claude_last_run": "2026-11-22T03:45:00+05:30"
-  },
-  {
-   "id": "19",
-   "name": "SLICE 19 ",
-   "sources": [],
-   "notes": "SLICE 19 \nAdjacent industries (his CTRM + finance + botany fit): Indian energy & commodity markets (IEX India Energy Exchange, MCX, NCDEX, PXIL, power traders like PTC India, Tata Power Trading, Manikaran), agri-commodity fintech (Arya.ag, Samunnati, Kshema, AgriBazaar, Agriwatch, DeHaat, Ninjacart, CropIn), carbon & sustainability data (Xpansiv, Sylvera, BeZero, Carbonfuture, Patch, Climate Impact Partners, TraceX, Satelligence, Koltiva - EUDR traceability), trade-finance fintech (Drip Capital, Vayana, Credlix, Mintifi, Komgo, Contour), supply-chain & logistics SaaS (project44, FourKites, Shipsy, GoComet, Flexport, Freightos), treasury/risk SaaS (Kyriba, Coupa, HighRadius - big India presence, FIS commodities), capital-markets software with BA seats (Murex, Calypso/Adenza, Broadridge, SS&C, Clearwater, Arcesium). Check each careers page for analyst/implementation/product/ops roles.",
-   "claude_last_run": "2026-11-22T03:45:00+05:30"
   },
   {
    "id": "21",
@@ -929,6 +908,319 @@
    ],
    "notes": "Usable only after PR #10 (ember-coverage-2) is merged + deployed. Use the shared search parameters. Max 25 sources per jobs call.",
    "claude_last_run": "2026-11-22T16:20:00+05:30"
+  },
+  {
+   "id": "li-1",
+   "name": "LinkedIn remote India: BA / product analyst / implementation",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "linkedin",
+     "board": "India"
+    }
+   ],
+   "include": [
+    "business analyst",
+    "product analyst",
+    "implementation consultant"
+   ]
+  },
+  {
+   "id": "li-2",
+   "name": "LinkedIn remote India: functional consultant / ops analyst / onboarding",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "linkedin",
+     "board": "India"
+    }
+   ],
+   "include": [
+    "functional consultant",
+    "operations analyst",
+    "onboarding specialist"
+   ]
+  },
+  {
+   "id": "li-3",
+   "name": "LinkedIn remote India: strategy & ops / RevOps / research",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "linkedin",
+     "board": "India"
+    }
+   ],
+   "include": [
+    "strategy and operations",
+    "revenue operations analyst",
+    "research analyst"
+   ]
+  },
+  {
+   "id": "li-4",
+   "name": "LinkedIn remote India: APM / solutions analyst / project coordinator",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "linkedin",
+     "board": "India"
+    }
+   ],
+   "include": [
+    "associate product manager",
+    "solutions analyst",
+    "project coordinator"
+   ]
+  },
+  {
+   "id": "li-5",
+   "name": "LinkedIn remote India: CTRM / ETRM / commodities",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "linkedin",
+     "board": "India"
+    }
+   ],
+   "include": [
+    "CTRM",
+    "ETRM",
+    "commodity analyst"
+   ]
+  },
+  {
+   "id": "li-6",
+   "name": "LinkedIn remote India: gaming ops / finance analyst / CS ops",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "linkedin",
+     "board": "India"
+    }
+   ],
+   "include": [
+    "game economy analyst",
+    "financial analyst",
+    "customer success operations"
+   ]
+  },
+  {
+   "id": "li-7",
+   "name": "LinkedIn remote India: implementation analyst / process analyst / data analyst",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "linkedin",
+     "board": "India"
+    }
+   ],
+   "include": [
+    "implementation analyst",
+    "business process analyst",
+    "junior data analyst"
+   ]
+  },
+  {
+   "id": "li-8",
+   "name": "LinkedIn remote India: consulting analyst / pre-sales / product ops",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "linkedin",
+     "board": "India"
+    }
+   ],
+   "include": [
+    "consulting analyst",
+    "presales consultant",
+    "product operations"
+   ]
+  },
+  {
+   "id": "rr-hn",
+   "name": "Remote Rocketship India + HN Who is hiring",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "remoterocketship",
+     "board": "india"
+    },
+    {
+     "type": "hn"
+    }
+   ],
+   "include": [
+    "business analyst",
+    "product analyst",
+    "operations"
+   ]
+  },
+  {
+   "id": "in-boards",
+   "name": "Cutshort + Instahyre + LearnETRM + ETRM Connect",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "cutshort"
+    },
+    {
+     "type": "instahyre"
+    },
+    {
+     "type": "learnetrm"
+    },
+    {
+     "type": "etrmconnect"
+    }
+   ],
+   "include": [
+    "analyst",
+    "consultant",
+    "implementation",
+    "operations"
+   ]
+  },
+  {
+   "id": "workable-2",
+   "name": "Workable search: more titles",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "url",
+     "url": "https://jobs.workable.com/api/v1/jobs?query=business%20analyst&location=India&workplace=remote"
+    },
+    {
+     "type": "url",
+     "url": "https://jobs.workable.com/api/v1/jobs?query=onboarding&location=India&workplace=remote"
+    },
+    {
+     "type": "url",
+     "url": "https://jobs.workable.com/api/v1/jobs?query=customer%20success&location=India&workplace=remote"
+    },
+    {
+     "type": "url",
+     "url": "https://jobs.workable.com/api/v1/jobs?query=revenue&location=India&workplace=remote"
+    },
+    {
+     "type": "url",
+     "url": "https://jobs.workable.com/api/v1/jobs?query=research&location=India&workplace=remote"
+    },
+    {
+     "type": "url",
+     "url": "https://jobs.workable.com/api/v1/jobs?query=finance&location=India&workplace=remote"
+    },
+    {
+     "type": "url",
+     "url": "https://jobs.workable.com/api/v1/jobs?query=liveops&location=India&workplace=remote"
+    },
+    {
+     "type": "url",
+     "url": "https://jobs.workable.com/api/v1/jobs?query=strategy&location=India&workplace=remote"
+    },
+    {
+     "type": "url",
+     "url": "https://jobs.workable.com/api/v1/jobs?query=project&location=India&workplace=remote"
+    },
+    {
+     "type": "url",
+     "url": "https://jobs.workable.com/api/v1/jobs?query=solutions&location=India&workplace=remote"
+    }
+   ]
+  },
+  {
+   "id": "jobgether-2",
+   "name": "Jobgether India remote: more roles",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "html",
+     "url": "https://jobgether.com/remote-jobs/india/product-analyst",
+     "pattern": "/offer/[0-9a-f]+-"
+    },
+    {
+     "type": "html",
+     "url": "https://jobgether.com/remote-jobs/india/operations-analyst",
+     "pattern": "/offer/[0-9a-f]+-"
+    },
+    {
+     "type": "html",
+     "url": "https://jobgether.com/remote-jobs/india/implementation-consultant",
+     "pattern": "/offer/[0-9a-f]+-"
+    },
+    {
+     "type": "html",
+     "url": "https://jobgether.com/remote-jobs/india/research-analyst",
+     "pattern": "/offer/[0-9a-f]+-"
+    },
+    {
+     "type": "html",
+     "url": "https://jobgether.com/remote-jobs/india/financial-analyst",
+     "pattern": "/offer/[0-9a-f]+-"
+    },
+    {
+     "type": "html",
+     "url": "https://jobgether.com/remote-jobs/india/project-manager",
+     "pattern": "/offer/[0-9a-f]+-"
+    },
+    {
+     "type": "html",
+     "url": "https://jobgether.com/remote-jobs/india/customer-success-manager",
+     "pattern": "/offer/[0-9a-f]+-"
+    },
+    {
+     "type": "html",
+     "url": "https://jobgether.com/remote-jobs/india/product-manager",
+     "pattern": "/offer/[0-9a-f]+-"
+    },
+    {
+     "type": "html",
+     "url": "https://jobgether.com/remote-jobs/india/consultant",
+     "pattern": "/offer/[0-9a-f]+-"
+    },
+    {
+     "type": "html",
+     "url": "https://jobgether.com/remote-jobs/india/operations-manager",
+     "pattern": "/offer/[0-9a-f]+-"
+    }
+   ]
+  },
+  {
+   "id": "aggr-2",
+   "name": "Himalayas + Jobicy + Working Nomads + RemoteOK (global remote)",
+   "notes": "Added 2026-11-22 for ChatGPT rounds",
+   "claude_last_run": null,
+   "sources": [
+    {
+     "type": "himalayas"
+    },
+    {
+     "type": "jobicy"
+    },
+    {
+     "type": "workingnomads"
+    },
+    {
+     "type": "remoteok"
+    }
+   ],
+   "include": [
+    "business analyst",
+    "product analyst",
+    "implementation"
+   ]
   }
  ]
 }

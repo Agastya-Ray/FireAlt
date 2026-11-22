@@ -487,7 +487,7 @@ async function fetchSlice(s: GptSlice): Promise<{ jobs: Job[]; failed: string[] 
   };
 }
 
-const FAST_MS = 18_000;
+const FAST_MS = 12_000;
 
 type CachedSlice = { slice: string; at: string; jobs: Job[]; failed: string[] };
 

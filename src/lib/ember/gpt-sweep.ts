@@ -71,7 +71,7 @@ HARD REJECTS (any one = REJECT, with a short reason):
 4. No sales, quotas, commission, BDR/SDR, account executive, lead generation. No engineering/coding as a core duty. No trading-desk seats. No gig marketplaces (Mercor, micro1, Toptal-style task work) - he has an exclusivity clause.
 5. Support roles (customer/technical/product/application support, helpdesk, ticket queues) = reject UNLESS stated pay >= Rs 1,50,000/month in hand or USD 30,000/yr (then PARK, flag "Support role - high pay"). Trade support / deal desk is fine.
 6. Shifts ending after ~10pm IST or starting before ~6am IST = reject. Required language other than English/Hindi/Odia = reject.
-7. Pay floor: remote Indian payroll >= Rs 75,000/month in hand (about Rs 10.5 LPA CTC); foreign employer >= USD 9,000/yr. Pay not stated = allowed, verdict PARK with flag "Pay UNKNOWN - ask band". Stated below floor = reject.
+7. Pay floor: remote Indian payroll >= Rs 65,000/month in hand (about Rs 9 LPA CTC); foreign employer >= USD 9,000/yr. Pay not stated = allowed, verdict PARK with flag "Pay UNKNOWN - ask band". Stated below floor = reject.
 8. Culture: "hustle", "work hard play hard", "24/7", "fast-paced", "wear many hats" -> add flag "Culture risk: <phrase>". Three or more such phrases = reject.
 
 VERDICTS for leads: PASS (all rules met, pay stated or clearly above floor), PARK (fits but pay unknown or asks up to 2 yrs), HIGHPAY (India office with stated pay >= Rs 95k/month in hand), CHECK (looks like a fit but you could not read the JD - add flag saying why).
@@ -413,7 +413,7 @@ export async function staged(since?: string, run?: string) {
 const gptProfile = () => (process.env.EMBER_GPT_PROFILE ?? "").trim();
 
 const GPT_PROFILE_HINT =
-  "Use the profile and rules from the earlier pages of this session (0-2 years, fully remote from India or high-pay India office, no sales/support/coding, pay floor Rs 75k/month in hand).";
+  "Use the profile and rules from the earlier pages of this session (0-2 years, fully remote from India or high-pay India office, no sales/support/coding, pay floor Rs 65k/month in hand for remote).";
 
 const OWN_SEARCHES = [
   'site:in.indeed.com "remote" "business analyst" 0-2 years',

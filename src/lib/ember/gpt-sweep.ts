@@ -441,6 +441,8 @@ export async function serveNext(maxCandidates = 20, dryRun = false) {
     const local = new Set<string>();
     for (const j of results.flatMap((r) => r.jobs)) {
       if (!j.url || TITLE_DROP.test(j.title)) continue;
+      // Jobgether puts the age in the location field; 30+ days is stale.
+      if (/\b30\+\s*days?\s*ago\b/i.test(`${j.location} ${j.posted ?? ""}`)) continue;
       if (isSeen(ix, j.company, j.title, j.url)) continue;
       const k = urlKey(j.url);
       if (local.has(k)) continue;
@@ -490,7 +492,11 @@ export function renderServedPage(r: Awaited<ReturnType<typeof serveNext>>): stri
     "You are helping Swastik find jobs. Below are NEW job postings (already de-duplicated against everything Claude has seen). For EACH one, open its link, read the posting, and decide a verdict using the rules. Then reply with ONLY the block at the bottom, filled in.",
   );
   lines.push("");
-  lines.push(GPT_RULES.split("HOW TO WORK")[0].trim());
+  lines.push(
+    GPT_RULES.split("HOW TO WORK")[0]
+      .replace(/^You are continuing[\s\S]*?delete anything\.\n\n/, "")
+      .trim(),
+  );
   lines.push("");
   lines.push("## Candidates");
   for (const c of r.candidates) {

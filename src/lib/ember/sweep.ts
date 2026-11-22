@@ -173,8 +173,40 @@ const HARD_SENIOR_OR_TECH_REJECT_RE =
 
 const GENERIC_MANAGER_REJECT_RE = /\b(manager|head)\b/i;
 
+/** Mid/experienced levels: "Analyst II", "Specialist 2", "Mid", "Experienced". "Product Manager I" stays. */
+const LEVEL_REJECT_RE = /\b(mid(?:[- ]level|[- ]senior)?|experienced|ii|iii|iv)\b|\s[2-9]\s*(?:$|[-–(,|])/i;
+
+/**
+ * Customer support / service desk work. He dislikes it but takes it for exceptional pay (2026-11-09), so it is not
+ * rejected in code: the rubric keeps it only with stated pay >= SUPPORT_MIN_PAY, and run-sweep drops it when no pay
+ * is stated. Trade/deal support is CTRM back office, not support work.
+ */
+const SUPPORT_REJECT_RE =
+  /\b(customer\s+(?:support|service|care|experience)|support|help\s*desk|service\s+desk|call\s+cent(?:er|re)|contact\s+cent(?:er|re)|ticketing)\b/i;
+const SUPPORT_KEEP_RE = /\b(trade|deal|decision|bid|presales?|pre-sales)\s+support\b/gi;
+
+/** true for customer/technical/product support titles (not trade/deal support). */
+export function isSupportTitle(title: string): boolean {
+  return SUPPORT_REJECT_RE.test(title.replace(SUPPORT_KEEP_RE, " "));
+}
+
+/** Pay a support role must state to be worth it to him. */
+export const SUPPORT_MIN_PAY = { inrMonthInHand: 150_000, usdYear: 30_000 };
+
+/** Places that lock a "remote" job to another country or region. Upper-case codes are matched case-sensitively. */
+const FOREIGN_PLACE_RE =
+  /\b(usa|u\.s\.a?\.?|united\s+states|america|americas|canada|united\s+kingdom|england|scotland|ireland|london|europe|european|emea|latam|latin\s+america|north\s+america|south\s+america|mexico|brazil|argentina|colombia|chile|peru|costa\s+rica|australia|new\s+zealand|germany|france|spain|portugal|poland|netherlands|belgium|italy|romania|ukraine|serbia|switzerland|austria|sweden|denmark|norway|finland|nordics|dach|greece|cyprus|malta|luxembourg|czechia|czech\s+republic|hungary|bulgaria|croatia|slovakia|slovenia|estonia|latvia|lithuania|georgia|armenia|morocco|baltics|philippines|singapore|malaysia|indonesia|vietnam|thailand|japan|korea|china|hong\s+kong|taiwan|israel|turkey|t[uü]rkiye|uae|dubai|saudi|qatar|south\s+africa|nigeria|kenya|egypt|pakistan|bangladesh|sri\s+lanka|nepal)\b/i;
+const FOREIGN_CODE_RE = /\b(US|UK|EU|ANZ|CET|EST|PST|GMT|BST)\b|,\s*(?:AL|AZ|CA|CO|CT|FL|GA|IL|MA|MD|MI|MN|NC|NJ|NY|OH|OR|PA|TN|TX|UT|VA|WA|WI)\b/;
+const GLOBAL_RE = /\b(anywhere|worldwide|global(?:ly)?|international|any\s+(?:location|country))\b/i;
+
+/** true when the text names a foreign country/region and neither India nor "anywhere". */
+export function lockedToOtherCountry(text: string): boolean {
+  if (!text.trim() || INDIA_ANY_RE.test(text) || ODISHA_LOC_RE.test(text) || GLOBAL_RE.test(text)) return false;
+  return FOREIGN_PLACE_RE.test(text) || FOREIGN_CODE_RE.test(text);
+}
+
 const INCLUDE_ROLE_RE =
-  /\b(business\s+analyst|product\s+analyst|data\s+analyst|financial\s+analyst|associate\s+product\s+manager|product\s+manager\s+i\b|project\s+manager\s+i\b|junior\s+(?:product|project)\s+manager|implementation|solutions?\s+(?:analyst|consultant|specialist)|onboarding|(?:business\s+systems|systems|process|reporting|support|insights?)\s+analyst|(?:project|program|operations)\s+coordinator|functional\s+(?:analyst|consultant)|customer\s+success\s+operations|revenue\s+operations|revops|strategy|operations\s+(?:analyst|associate|specialist|executive)|business\s+operations|bizops|research\s+analyst|pricing\s+analyst|market\s+access|advisory\s+associate|chief\s+of\s+staff|founder'?s\s+office|liveops|game\s+economy|moneti[sz]ation|ctrm|etrm|commodit(?:y|ies)|deals?\s+desk|trade\s+support|product\s+specialist|product\s+operations|graduate\s+program(?:me)?|consultant|associate)\b/i;
+  /\b(business\s+analyst|product\s+analyst|data\s+analyst|financial\s+analyst|associate\s+product\s+manager|product\s+manager\s+i\b|project\s+manager\s+i\b|junior\s+(?:product|project)\s+manager|implementation|solutions?\s+(?:analyst|consultant|specialist)|onboarding|(?:business\s+systems|systems|process|reporting|insights?)\s+analyst|(?:project|program|operations)\s+coordinator|functional\s+(?:analyst|consultant)|customer\s+success\s+operations|revenue\s+operations|revops|strategy|operations\s+(?:analyst|associate|specialist|executive)|business\s+operations|bizops|research\s+analyst|pricing\s+analyst|market\s+access|advisory\s+associate|chief\s+of\s+staff|founder'?s\s+office|liveops|game\s+economy|moneti[sz]ation|ctrm|etrm|commodit(?:y|ies)|deals?\s+desk|trade\s+support|product\s+specialist|product\s+operations|graduate\s+program(?:me)?|consultant|associate)\b/i;
 
 export const ODISHA_LOC_RE = /\b(odisha|orissa|bhubaneswar|bhubaneshwar|cuttack|rourkela|puri|sambalpur|berhampur)\b/i;
 
@@ -199,20 +231,24 @@ export function filterJobInCode(
   const titleForReject = title.replace(/chief\s+of\s+staff/gi, " ");
 
   if (HARD_SENIOR_OR_TECH_REJECT_RE.test(titleForReject)) return { pass: false, reason: `rejected_title:${title}` };
+  if (LEVEL_REJECT_RE.test(titleForReject)) return { pass: false, reason: `rejected_level:${title}` };
   if (GENERIC_MANAGER_REJECT_RE.test(titleForReject) && !SAFE_KEEP_TITLE_RE.test(title)) {
     return { pass: false, reason: `rejected_manager_title:${title}` };
   }
-  if (!INCLUDE_ROLE_RE.test(title)) return { pass: false, reason: `not_target_role:${title}` };
+  if (!INCLUDE_ROLE_RE.test(title) && !isSupportTitle(title)) return { pass: false, reason: `not_target_role:${title}` };
 
   const loc = job.location.trim();
   const remote = job.remote === "Remote" || REMOTE_TEXT_RE.test(loc);
+  // "Remote - US", "Deal Desk Analyst - Mexico": remote only inside another country is no use from India.
+  if (lockedToOtherCountry(loc) || lockedToOtherCountry(title)) return { pass: false, reason: `other_country:${loc || title}` };
 
   // A "remote" tag next to a forbidden city (e.g. "Mumbai / Remote") still goes to the LLM, which reads the JD.
   if (remote) return { pass: true, locationBucket: "remote" };
   if (ODISHA_LOC_RE.test(loc)) return { pass: true, locationBucket: "odisha" };
   if (FORBIDDEN_INDIA_OFFICE_RE.test(loc)) return { pass: false, reason: `forbidden_city:${loc}` };
   if (INDIA_ANY_RE.test(loc)) return { pass: true, locationBucket: "india_office" };
-  if (tier === "enterprise_backup") return { pass: false, reason: `foreign_onsite_large_company:${loc}` };
+  // Named foreign places were rejected above; what is left is vague ("Multiple locations", blank), so the LLM reads the JD.
+  if (tier === "enterprise_backup") return { pass: false, reason: `unclear_location_large_company:${loc}` };
   return { pass: true, locationBucket: "foreign_non_remote" };
 }
 
@@ -254,9 +290,11 @@ LOCATION AND PAY (locationBucket is pre-computed by code):
 - india_office: office/hybrid elsewhere in India. Keep ONLY as HIGHPAY if stated pay is >= ${inr(R.indiaOfficeFloorInr)}/month in hand (about 0.8 x CTC / 12). Pay not stated -> CHECK with flag "Office role - needs pay >= ${inr(R.indiaOfficeFloorInr)}/month". Below floor -> DEAD. Noida, Mumbai, Nagpur -> DEAD.
 - foreign_non_remote: ABROAD only if companyTier is "remote_startup" OR the JD says they hire contractors/EOR in India, AND experience <= 2 yrs. Otherwise DEAD.
 
-EXPERIENCE (read in context; company age is not required experience). Use the MINIMUM the JD requires, not "preferred", "ideally" or "nice to have" years: a JD that says "3-5 years preferred" or "ideally 4+ years" with no hard minimum counts as a stretch, not a requirement. Required <=2 yrs eligible; required >2 and <=3 yrs -> PARK at best; required >3 yrs -> DEAD; only "preferred" years >3 (no stated minimum) -> PARK with flag "experience preferred N yrs, not required".
+EXPERIENCE (read in context; company age is not required experience). He has under 1 year. Minimum required > 2 yrs -> DEAD. "Preferred"/"ideally" 3+ yrs -> DEAD unless the JD also says freshers or 0-2 yrs are welcome. Mid-level, "II"/"2" level, "experienced" or LinkedIn "Mid-Senior level" -> DEAD. Years not stated -> keep, flag "Experience not stated".
 
-DEAD if any: sales quota / BD / SDR / BDR / cold calling; coding as a core duty; required language other than English, Hindi, Odia; shift ending after 10pm IST or starting before 6am IST; 3 or more culture red flags ("hustle", "high agency", "fast-paced", "own it end to end", "work hard play hard", "24/7"). Fewer than 3 such phrases -> keep, but list each in flags as "Culture risk: <phrase>".
+SUPPORT: customer support / customer service / helpdesk / ticket-queue work as the main duty -> DEAD, unless the JD states pay of at least Rs ${SUPPORT_MIN_PAY.inrMonthInHand.toLocaleString("en-IN")}/month in hand or USD ${SUPPORT_MIN_PAY.usdYear.toLocaleString("en-US")}/yr; then PARK at best with flag "Support role - high pay".
+
+DEAD if any: remote only for residents of a country other than India ("US only", "must be based in", "Remote - Mexico"); sales quota / BD / SDR / BDR / cold calling; coding as a core duty; required language other than English, Hindi, Odia; shift ending after 10pm IST or starting before 6am IST; 3 or more culture red flags ("hustle", "high agency", "fast-paced", "own it end to end", "work hard play hard", "24/7"). Fewer than 3 such phrases -> keep, but list each in flags as "Culture risk: <phrase>".
 
 Return ONLY JSON:
 {"verdict":"PASS|PARK|HIGHPAY|ABROAD|CHECK|DEAD","pay":"pay exactly as stated in the JD, else UNKNOWN","pay_source":"stated|none","why":"one sentence: fit + location/pay reason","flags":"pipe-separated risks or checks"}`;
@@ -322,25 +360,121 @@ export async function scoreJobWithLlm(
 }
 
 // ---------------------------------------------------------------------------
+// EXPERIENCE + LINK CHECKS (0 tokens)
+// ---------------------------------------------------------------------------
+
+const NUM_WORDS: Record<string, number> = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10 };
+const YEARS_RE = /\b(\d{1,2}|one|two|three|four|five|six|seven|eight|nine|ten)\s*\+?\s*(?:(?:-|–|—|to)\s*(?:\d{1,2}|one|two|three|four|five|six|seven|eight|nine|ten)\s*\+?\s*)?(?:years?|yrs?)\b/gi;
+const SOFT_YEARS_RE = /\b(prefer(?:red|ably)?|ideally|nice\s+to\s+have|bonus|a\s+plus|advantage)/i;
+const SENIORITY_LABEL_RE = /\b(mid[- ]senior\s+level|seniority\s+level\s*:?\s*(?:mid|senior|director))/i;
+
+/**
+ * Smallest experience the JD demands, as the largest lower bound found on lines about experience
+ * ("5-8 years of experience" -> 5). Lines that only prefer years are skipped. null = not stated.
+ */
+export function minYearsRequired(text: string): number | null {
+  let best: number | null = null;
+  for (const chunk of text.split(/\n|(?<=[.;!?•])\s+|\s[•·]\s/)) {
+    if (!/experience|\bexp\b|work(?:ed|ing)?\s+in/i.test(chunk) || SOFT_YEARS_RE.test(chunk)) continue;
+    for (const m of chunk.matchAll(YEARS_RE)) {
+      const raw = m[1]!.toLowerCase();
+      const n = NUM_WORDS[raw] ?? Number(raw);
+      // "over 20 years in business" is the company's age, not his.
+      if (n > 15 || /\b(founded|in\s+business\s+(?:for|since)|history|track\s+record|our\s+(?:company|firm)|we\s+have)\b/i.test(chunk.slice(0, 160))) continue;
+      best = best === null ? n : Math.max(best, n);
+    }
+  }
+  return best;
+}
+
+/** Why a JD is too senior for him (under 1 year), or "" when it is not. */
+export function tooSenior(text: string, maxYears = 2): string {
+  const n = minYearsRequired(text);
+  if (n !== null && n > maxYears) return `asks ${n}+ yrs experience`;
+  if (SENIORITY_LABEL_RE.test(text)) return "Mid-Senior level";
+  return "";
+}
+
+/**
+ * true when a url points at one job, not a company homepage, careers index or search page
+ * (those open fine but leave him hunting for the role).
+ */
+export function isPostingUrl(url: string): boolean {
+  let u: URL;
+  try {
+    u = new URL(url);
+  } catch {
+    return false;
+  }
+  const host = u.hostname.toLowerCase();
+  const path = u.pathname.replace(/\/+$/, "");
+  if (u.searchParams.has("gh_jid") || u.searchParams.has("jobId") || u.searchParams.has("jid")) return true;
+  if (!path) return false;
+  if (host.endsWith("linkedin.com")) return /^\/jobs\/view\/./.test(path);
+  if (host.endsWith("himalayas.app")) return /\/jobs\/[^/]+$/.test(path);
+  if (host.includes("greenhouse.io")) return /\/jobs\/\d+/.test(path) || u.searchParams.has("token");
+  if (host === "jobs.lever.co" || host === "jobs.ashbyhq.com") return path.split("/").filter(Boolean).length >= 2;
+  if (/(^|\/)(search|results)(\/|$)/i.test(path)) return false;
+  return !/^(\/[a-z]{2}(-[a-z]{2})?)?\/(careers?|jobs?|join(-us)?|work-with-us|open-(?:positions|roles)|opportunities|vacancies|about)$/i.test(path);
+}
+
+/** A redirect that drops the job from the url (closed job sent to the board, company page or search). */
+export function landedOffPosting(requested: string, landed: string | undefined): boolean {
+  if (!landed || landed === requested) return false;
+  try {
+    const f = new URL(landed);
+    if (f.searchParams.get("error") === "true") return true; // Greenhouse: closed job -> board index
+    return isPostingUrl(requested) && !isPostingUrl(landed);
+  } catch {
+    return false;
+  }
+}
+
+// ---------------------------------------------------------------------------
 // LIVENESS + CSV
 // ---------------------------------------------------------------------------
 
 const CLOSED_JOB_RE =
-  /(this\s+job\s+is\s+no\s+longer\s+available|position\s+has\s+been\s+filled|job\s+posting\s+no\s+longer\s+exists|no\s+longer\s+accepting\s+applications|this\s+(?:opening|position|job)\s+(?:is|has been)\s+closed|job\s+not\s+found|the\s+page\s+you\s+are\s+looking\s+for\s+does\s+not\s+exist)/i;
+  /(no\s+longer\s+accepting|job\s+(?:has\s+)?expired|this\s+job\s+has\s+(?:been\s+)?(?:closed|filled|removed)|this\s+job\s+is\s+no\s+longer\s+available|position\s+has\s+been\s+filled|job\s+posting\s+no\s+longer\s+exists|no\s+longer\s+accepting\s+applications|this\s+(?:opening|position|job)\s+(?:is|has been)\s+closed|job\s+not\s+found|the\s+page\s+you\s+are\s+looking\s+for\s+does\s+not\s+exist)/i;
 
-/** true = still live. Network errors count as live (re-checked next time); only 404/410 or closed text kill a lead. */
-export async function isJobStillLive(
-  url: string,
-  fetchFn: (u: string) => Promise<{ status: number; body: string }>,
-): Promise<boolean> {
+export type FetchResult = { status: number; body: string; url?: string };
+export type PostingCheck = { live: boolean; reason: string; text: string };
+
+/** Page html -> plain text (for closed-job wording and experience lines). */
+export function htmlToText(html: string): string {
+  return html
+    .replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<(?:br|\/p|\/li|\/div|\/h\d)[^>]*>/gi, "\n")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;|&#160;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/[ \t]+/g, " ")
+    .replace(/\n\s*/g, "\n")
+    .trim();
+}
+
+/**
+ * Opens a lead's url. Dead = 404/410, closed-job wording, or a redirect away from the posting (closed jobs on
+ * Greenhouse, Himalayas and LinkedIn bounce to the board, company page or search, which still answer 200).
+ * Network errors and bot walls count as live (re-checked next time).
+ */
+export async function checkPosting(url: string, fetchFn: (u: string) => Promise<FetchResult>): Promise<PostingCheck> {
+  if (!isPostingUrl(url)) return { live: false, reason: "link is not a job posting", text: "" };
   try {
     const res = await fetchFn(url);
-    if (res.status === 404 || res.status === 410) return false;
-    if (CLOSED_JOB_RE.test(res.body.slice(0, 20_000))) return false;
-    return true;
+    if (res.status === 404 || res.status === 410) return { live: false, reason: `HTTP ${res.status}`, text: "" };
+    if (landedOffPosting(url, res.url)) return { live: false, reason: `redirects to ${res.url}`, text: "" };
+    const text = htmlToText(res.body);
+    if (CLOSED_JOB_RE.test(text)) return { live: false, reason: "posting says closed", text };
+    return { live: true, reason: "", text };
   } catch {
-    return true;
+    return { live: true, reason: "", text: "" };
   }
+}
+
+/** true = still live (see checkPosting). */
+export async function isJobStillLive(url: string, fetchFn: (u: string) => Promise<FetchResult>): Promise<boolean> {
+  return (await checkPosting(url, fetchFn)).live;
 }
 
 const VERDICT_ORDER: Record<LeadVerdict, number> = { PASS: 1, PARK: 2, HIGHPAY: 3, CHECK: 4, ABROAD: 5, DEAD: 6 };

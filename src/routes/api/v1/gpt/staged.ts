@@ -11,7 +11,8 @@ export const Route = createFileRoute("/api/v1/gpt/staged")({
         if (denied) return denied;
         try {
           const since = new URL(request.url).searchParams.get("since") ?? undefined;
-          return json({ success: true, data: await staged(since) });
+          const run = new URL(request.url).searchParams.get("run") ?? undefined;
+          return json({ success: true, data: await staged(since, run) });
         } catch (err) {
           return errorToResponse(err);
         }

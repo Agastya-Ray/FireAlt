@@ -383,9 +383,11 @@ export async function stage(body: Record<string, unknown>) {
   return { saved: true, slice, at, leads_saved: leads.length, rejects_saved: rejects.length, dropped };
 }
 
-export async function staged(since?: string) {
+export async function staged(since?: string, run?: string) {
   const batches = (await loadBatches()).filter((b) => !since || b.at >= since);
+  const served = (await loadServed()).filter((r) => (!since || r.at >= since) && (!run || r.run === run));
   return {
+    served,
     batches: batches.length,
     leads: batches.flatMap((b) => b.leads.map((l) => ({ ...l, slice: b.slice, staged_at: b.at }))),
     rejects: batches.flatMap((b) => b.rejects.map((l) => ({ ...l, slice: b.slice, staged_at: b.at }))),

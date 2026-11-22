@@ -62,7 +62,7 @@ WHO HE IS: India (IST). Product Analyst at a CTRM software vendor, about 6 month
 
 ROLES WANTED: business analyst, product analyst, associate/junior PM, implementation or functional consultant, solutions analyst, onboarding, CS ops, RevOps, strategy & ops, operations / finance / research analyst, consulting, gaming non-coding ops (LiveOps, game economy, monetization analyst). CTRM/ETRM, commodities, fintech preferred, not required.
 
-HARD REJECTS (put these in "rejects" with a short reason, never in "leads"):
+HARD REJECTS (any one = REJECT, with a short reason):
 1. Link must open ONE specific job posting. Company homepage, careers index, board index, search page, closed / "no longer accepting" / 404 / redirect = reject. Never guess a URL.
 2. Experience: minimum required > 2 years = reject. "Preferred 3+" = reject unless freshers/0-2 yrs welcome. Titles with Senior, Sr, Lead, Head, Manager (of people), Director, VP, Principal, Staff, Mid, II, III, Experienced, or LinkedIn "Mid-Senior level" = reject.
 3. Remote: must be fully remote AND workable from India, per the JD text (board tags are not proof). Remote only for US/Canada/UK/EU/LATAM/Australia/another country, "must reside in", or on-site/hybrid abroad = reject.

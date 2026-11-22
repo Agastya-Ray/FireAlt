@@ -3,8 +3,10 @@ import { renderServedPage, serveNext } from "@/lib/ember/gpt-sweep";
 import { corsHeaders, errorToResponse, guardV1, preflight } from "@/lib/ember/http";
 
 /**
- * One-link mode for ChatGPT (any plan): open /api/v1/gpt/next?key=... and it gets the next slice's
- * new jobs plus the rules and the reply format, as plain text. Every open hands out the next slice.
+ * One-link mode for ChatGPT (any plan): open /api/v1/gpt/next?key=... and it gets the next batch of new
+ * jobs plus profile, rules and instructions as plain text. Each page links to the next round (&round=N),
+ * so ChatGPT chains rounds on its own and keeps the keepers in one canvas for the user to paste to Claude.
+ * Params: n (jobs per round, 10-60, default 40), rounds (1-10, default 5), round (current), dry=1 (no record).
  */
 export const Route = createFileRoute("/api/v1/gpt/next")({
   server: {
@@ -14,9 +16,24 @@ export const Route = createFileRoute("/api/v1/gpt/next")({
         const denied = guardV1(request);
         if (denied) return denied;
         try {
-          const page = renderServedPage(
-            await serveNext(20, new URL(request.url).searchParams.get("dry") === "1"),
-          );
+          const u = new URL(request.url);
+          const p = u.searchParams;
+          const clamp = (v: string | null, lo: number, hi: number, d: number) => {
+            const x = Number.parseInt(v ?? "", 10);
+            return Number.isFinite(x) ? Math.min(hi, Math.max(lo, x)) : d;
+          };
+          const n = clamp(p.get("n"), 10, 60, 40);
+          const rounds = clamp(p.get("rounds"), 1, 10, 5);
+          const round = clamp(p.get("round"), 1, rounds, 1);
+          const next = new URL(u.toString());
+          next.protocol = "https:";
+          next.searchParams.set("round", String(round + 1));
+          next.searchParams.delete("dry");
+          const page = renderServedPage(await serveNext(n, p.get("dry") === "1"), {
+            nextUrl: next.toString(),
+            round,
+            rounds,
+          });
           return new Response(page, {
             status: 200,
             headers: corsHeaders({

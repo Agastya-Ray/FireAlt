@@ -397,8 +397,12 @@ export async function staged(since?: string, run?: string) {
 
 // ----------------------------------------------------------------------------- one-link mode (any ChatGPT plan)
 // ChatGPT only has to OPEN one link. Ember fetches the next slice's jobs, drops everything already seen,
-// records the slice as handed out, and returns a plain page: rules + numbered candidates + the reply format.
-// ChatGPT judges each candidate and prints a short block; the user pastes that block to Claude, who reviews it.
+// records each slice as handed out, and returns a plain page: profile + rules + numbered candidates + next link.
+// ChatGPT chains rounds itself, keeps non-rejects in one canvas, and the user pastes that canvas to Claude.
+
+
+/** Fuller profile for one-link mode. Kept in a Vercel env var, not in this public repo. */
+const gptProfile = () => (process.env.EMBER_GPT_PROFILE ?? "").trim();
 
 const TITLE_DROP =
   /\b(senior|sr\.?|staff|principal|lead|head|director|vp|vice president|manager|engineer|engineering|developer|designer|sales|account executive|business development|representative|intern|mid[- ]level|ii|iii|iv)\b/i;
@@ -408,111 +412,153 @@ function isLooseSource(s: unknown): boolean {
   return t === "html" || t === "url";
 }
 
-export async function serveNext(maxCandidates = 20, dryRun = false) {
+function companyFromUrl(url: string): string {
+  const m = /-at-([^/?#]+)$/.exec(decodeURIComponent(url));
+  return m ? m[1].replace(/-/g, " ") : "";
+}
+
+async function fetchSlice(s: GptSlice): Promise<{ jobs: Job[]; failed: string[] }> {
+  const all = (s.sources ?? []) as JobSource[];
+  const strict = all.filter((x) => !isLooseSource(x)).slice(0, 25);
+  const loose = all.filter(isLooseSource).slice(0, 25);
+  const base = { include: SHARED_PARAMS.include, exclude: SHARED_PARAMS.exclude, details: true, limit: 60 };
+  const calls: Promise<{ jobs: Job[]; failed: { source: string; error: string }[] }>[] = [];
+  if (strict.length)
+    calls.push(
+      findJobs({
+        ...base,
+        sources: strict,
+        locations: SHARED_PARAMS.locations,
+        excludeLocations: SHARED_PARAMS.excludeLocations,
+        postedWithinDays: SHARED_PARAMS.postedWithinDays,
+      }).catch((e: unknown) => ({ jobs: [], failed: [{ source: "all", error: String(e) }] })),
+    );
+  if (loose.length)
+    calls.push(findJobs({ ...base, sources: loose }).catch((e: unknown) => ({ jobs: [], failed: [{ source: "html/url", error: String(e) }] })));
+  const results = await Promise.all(calls);
+  return {
+    jobs: results.flatMap((r) => r.jobs),
+    failed: results.flatMap((r) => r.failed.map((f) => `${f.source}: ${f.error}`.slice(0, 160))),
+  };
+}
+
+/**
+ * Hand out the next batch: walks the least-recently-run slices (2 at a time) until `maxCandidates`
+ * new jobs are collected or `maxSlices` were tried. One served record per slice, sharing one run id.
+ */
+export async function serveNext(maxCandidates = 40, dryRun = false, maxSlices = 6) {
   const [served, batches] = await Promise.all([loadServed(), loadBatches()]);
   const gptLast: Record<string, string> = {};
   for (const r of [...served, ...batches]) if (!gptLast[r.slice] || r.at > gptLast[r.slice]) gptLast[r.slice] = r.at;
   const ordered = slices()
     .map((s) => ({ ...s, last: [s.claude_last_run, gptLast[s.id]].filter(Boolean).sort().pop() ?? "" }))
-    .sort((a, b) => a.last.localeCompare(b.last));
+    .sort((a, b) => a.last.localeCompare(b.last))
+    .slice(0, maxSlices);
   const ix = await buildSeenIndex(batches);
+  const at = new Date().toISOString();
+  const run = `${at.slice(0, 16).replace(/[-:T]/g, "")}`;
+  const local = new Set<string>();
+  const candidates: (ServedRun["candidates"][number] & { slice: string })[] = [];
+  const records: ServedRun[] = [];
   const tried: string[] = [];
-  // Try up to 3 slices so one link never comes back empty.
-  for (const s of ordered.slice(0, 3)) {
-    tried.push(s.id);
-    const all = (s.sources ?? []) as JobSource[];
-    const strict = all.filter((x) => !isLooseSource(x)).slice(0, 25);
-    const loose = all.filter(isLooseSource).slice(0, 25);
-    const base = { include: SHARED_PARAMS.include, exclude: SHARED_PARAMS.exclude, details: true, limit: 50 };
-    const calls: Promise<{ jobs: Job[]; failed: { source: string; error: string }[] }>[] = [];
-    if (strict.length)
-      calls.push(
-        findJobs({
-          ...base,
-          sources: strict,
-          locations: SHARED_PARAMS.locations,
-          excludeLocations: SHARED_PARAMS.excludeLocations,
-          postedWithinDays: SHARED_PARAMS.postedWithinDays,
-        }).catch((e: unknown) => ({ jobs: [], failed: [{ source: "all", error: String(e) }] })),
-      );
-    if (loose.length)
-      calls.push(findJobs({ ...base, sources: loose }).catch((e: unknown) => ({ jobs: [], failed: [{ source: "html/url", error: String(e) }] })));
-    const results = await Promise.all(calls);
-    const failed = results.flatMap((r) => r.failed.map((f) => `${f.source}: ${f.error}`.slice(0, 160)));
-    const fresh: Job[] = [];
-    const local = new Set<string>();
-    for (const j of results.flatMap((r) => r.jobs)) {
-      if (!j.url || TITLE_DROP.test(j.title)) continue;
-      // Jobgether puts the age in the location field; 30+ days is stale.
-      if (/\b30\+\s*days?\s*ago\b/i.test(`${j.location} ${j.posted ?? ""}`)) continue;
-      if (isSeen(ix, j.company, j.title, j.url)) continue;
-      const k = urlKey(j.url);
-      if (local.has(k)) continue;
-      local.add(k);
-      fresh.push(j);
-    }
-    fresh.sort((a, b) => (b.posted ?? "").localeCompare(a.posted ?? ""));
-    const at = new Date().toISOString();
-    const run = `${at.slice(0, 16).replace(/[-:T]/g, "")}-s${s.id}`;
-    const rec: ServedRun = {
-      kind: "served",
-      run,
-      at,
-      slice: s.id,
-      failed,
-      candidates: fresh.slice(0, maxCandidates).map((j, i) => ({
-        n: i + 1,
-        company: j.company,
+  for (let i = 0; i < ordered.length && candidates.length < maxCandidates; i += 2) {
+    const pair = ordered.slice(i, i + 2);
+    const got = await Promise.all(pair.map((s) => fetchSlice(s)));
+    pair.forEach((s, k) => {
+      tried.push(s.id);
+      const fresh: Job[] = [];
+      for (const j of got[k].jobs) {
+        if (!j.url || TITLE_DROP.test(j.title)) continue;
+        // Jobgether puts the age in the location field; 30+ days is stale.
+        if (/\b30\+\s*days?\s*ago\b/i.test(`${j.location} ${j.posted ?? ""}`)) continue;
+        if (isSeen(ix, j.company, j.title, j.url)) continue;
+        const key = urlKey(j.url);
+        if (local.has(key)) continue;
+        local.add(key);
+        fresh.push(j);
+      }
+      fresh.sort((a, b) => (b.posted ?? "").localeCompare(a.posted ?? ""));
+      const mine = fresh.slice(0, Math.max(0, maxCandidates - candidates.length)).map((j) => ({
+        n: candidates.length + 1, // placeholder, renumbered below
+        company: j.company && j.company.toLowerCase() !== "jobgether" ? j.company : companyFromUrl(j.url),
         role: j.title,
         url: j.url,
         location: j.location,
         posted: j.posted,
         pay: j.pay,
         summary: j.summary?.slice(0, 600),
-      })),
-    };
-    if (blobReady() && !dryRun) {
-      await put(`${PREFIX}served/${at.replace(/[:.]/g, "-")}-s${s.id}.json`, JSON.stringify(rec, null, 1), {
-        access: "private",
-        addRandomSuffix: true,
-        contentType: "application/json",
-      });
-    }
-    if (rec.candidates.length) return { ...rec, slice_name: s.name, notes: s.notes, tried };
+        slice: s.id,
+      }));
+      for (const c of mine) {
+        c.n = candidates.length + 1;
+        candidates.push(c);
+      }
+      records.push({ kind: "served", run, at, slice: s.id, failed: got[k].failed, candidates: mine.map(({ slice: _s, ...c }) => c) });
+    });
   }
-  return null;
+  if (blobReady() && !dryRun) {
+    await Promise.all(
+      records.map((rec) =>
+        put(`${PREFIX}served/${at.replace(/[:.]/g, "-")}-s${rec.slice}.json`, JSON.stringify(rec, null, 1), {
+          access: "private",
+          addRandomSuffix: true,
+          contentType: "application/json",
+        }),
+      ),
+    );
+  }
+  if (!candidates.length) return null;
+  const names = Object.fromEntries(ordered.map((s) => [s.id, s.name]));
+  return { run, at, tried, candidates, slice_names: tried.map((id) => `${id}: ${names[id]}`) };
 }
 
-export function renderServedPage(r: Awaited<ReturnType<typeof serveNext>>): string {
+export function renderServedPage(
+  r: Awaited<ReturnType<typeof serveNext>>,
+  opts: { nextUrl?: string; round?: number; rounds?: number } = {},
+): string {
+  const round = opts.round ?? 1;
+  const rounds = opts.rounds ?? 5;
+  const finish =
+    'Then tell the user: "Done. Copy the Sweep keepers canvas and paste it to Claude." Nothing else.';
   if (!r) {
-    return "No new jobs right now: the next 3 slices had nothing that Claude or Ember has not already seen. Tell the user: \"Nothing new this round, try again tomorrow.\"";
+    return `No new jobs right now: the next slices had nothing that Claude or Ember has not already seen. Stop here. ${finish}`;
   }
   const lines: string[] = [];
-  lines.push(`# Job sweep run ${r.run} (slice ${r.slice}: ${r.slice_name})`);
+  lines.push(`# Job sweep, round ${round} of ${rounds} (run ${r.run})`);
   lines.push("");
   lines.push(
-    "You are helping Swastik find jobs. Below are NEW job postings (already de-duplicated against everything Claude has seen). For EACH one, open its link, read the posting, and decide a verdict using the rules. Then reply with ONLY the block at the bottom, filled in.",
+    "You are helping Swastik find jobs, continuing Claude's sweep. Below are NEW job postings, already de-duplicated against everything Claude has seen. Work through ALL of them on your own, without asking the user anything.",
   );
   lines.push("");
+  const profile = gptProfile();
+  if (profile) lines.push(profile, "");
   lines.push(
     GPT_RULES.split("HOW TO WORK")[0]
       .replace(/^You are continuing[\s\S]*?delete anything\.\n\n/, "")
+      .replace(profile ? /^WHO HE IS:.*\n\n/m : /^$^/, "")
       .trim(),
   );
   lines.push("");
-  lines.push("## Candidates");
+  lines.push(`## Candidates (sources: ${r.slice_names.join("; ")})`);
   for (const c of r.candidates) {
     lines.push(`${c.n}. ${c.role} | ${c.company || "company: see page"} | ${c.location || "location: see page"} | posted ${c.posted ?? "?"} | pay ${c.pay ?? "?"}`);
     lines.push(`   ${c.url}`);
-    if (c.summary) lines.push(`   JD notes: ${c.summary.replace(/\s+/g, " ").slice(0, 400)}`);
+    if (c.summary) lines.push(`   JD notes: ${c.summary.replace(/\s+/g, " ").slice(0, 300)}`);
   }
   lines.push("");
-  lines.push("## Your reply (copy this format exactly, one line per candidate, nothing else)");
-  lines.push("```");
-  lines.push(`RUN ${r.run}`);
-  lines.push("<number> | <PASS or PARK or HIGHPAY or CHECK or REJECT> | <pay or UNKNOWN> | <short reason, with a few exact words from the posting about remote and experience>");
-  lines.push("```");
-  lines.push("Do not skip any number. If a link does not open, use CHECK with reason \"could not open\". Never invent pay, quotes or details.");
-  lines.push("After the block, tell the user in one line: \"Paste this block to Claude.\"");
+  lines.push("## What to do");
+  lines.push("1. Open each link and read the posting. Judge it with the rules above. Never invent pay, quotes or details.");
+  lines.push(
+    '2. Keep ONE canvas document named "Sweep keepers" for the whole session (create it in round 1, then add to it each round; never delete lines). Add every candidate that is NOT a REJECT as one line:',
+  );
+  lines.push("   `<verdict> | <company> | <role> | <full link> | <pay or UNKNOWN> | <short reason with exact words about remote and experience>`");
+  lines.push(`   Then add one line: \`Run ${r.run}: <k> kept, <m> rejected\`. Do not list the rejects.`);
+  if (round < rounds && opts.nextUrl) {
+    lines.push(`3. As soon as this round is done, open this link for round ${round + 1} and keep going in the same way, without waiting for the user:`);
+    lines.push(`   ${opts.nextUrl}`);
+    lines.push(`4. After round ${rounds}, or when a page says "No new jobs", stop. ${finish}`);
+  } else {
+    lines.push(`3. This is the last round. ${finish}`);
+  }
   return lines.join("\n");
 }

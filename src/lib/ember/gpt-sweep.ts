@@ -235,7 +235,7 @@ async function loadEmberLeads(): Promise<{ company?: string; role?: string; url?
   return emberCache?.rows ?? [];
 }
 
-export async function buildSeenIndex(batches?: StageBatch[]): Promise<SeenIndex> {
+export async function buildSeenIndex(batches?: StageBatch[], served?: ServedRun[]): Promise<SeenIndex> {
   const ix = emptyIndex();
   const snap = seenClaude as SeenSnapshot;
   for (const u of snap.urls) ix.urls.add(u);
@@ -247,6 +247,8 @@ export async function buildSeenIndex(batches?: StageBatch[]): Promise<SeenIndex>
     for (const l of b.leads) addToIndex(ix, l.company, l.role, l.url, "gpt_staging");
     for (const l of b.rejects) addToIndex(ix, l.company, l.role, l.url, "gpt_staging");
   }
+  // Everything already handed to ChatGPT counts as seen, so later rounds never repeat a job.
+  for (const r of served ?? (await loadServed())) for (const c of r.candidates) addToIndex(ix, c.company, c.role, c.url, "gpt_served");
   return ix;
 }
 
@@ -318,7 +320,7 @@ export async function stage(body: Record<string, unknown>) {
     throw Object.assign(new Error("too many rows in one call (max 100 leads, 300 rejects)"), { code: "bad_request" });
   }
   const batches = await loadBatches();
-  const ix = await buildSeenIndex(batches);
+  const ix = await buildSeenIndex(batches, []);
   const leads: StagedLead[] = [];
   const dropped: { company: string; role: string; url: string; why: string }[] = [];
   for (const r of rawLeads as Record<string, unknown>[]) {
@@ -426,7 +428,8 @@ async function fetchSlice(s: GptSlice): Promise<{ jobs: Job[]; failed: string[] 
   const all = (s.sources ?? []) as JobSource[];
   const strict = all.filter((x) => !isLooseSource(x)).slice(0, 25);
   const loose = all.filter(isLooseSource).slice(0, 25);
-  const base = { include: SHARED_PARAMS.include, exclude: SHARED_PARAMS.exclude, details: true, limit: 60 };
+  const include = (s as GptSlice & { include?: string[] }).include ?? SHARED_PARAMS.include;
+  const base = { include, exclude: SHARED_PARAMS.exclude, details: true, limit: 80 };
   const calls: Promise<{ jobs: Job[]; failed: { source: string; error: string }[] }>[] = [];
   if (strict.length)
     calls.push(
@@ -459,7 +462,7 @@ export async function serveNext(maxCandidates = 40, dryRun = false, maxSlices = 
     .map((s) => ({ ...s, last: [s.claude_last_run, gptLast[s.id]].filter(Boolean).sort().pop() ?? "" }))
     .sort((a, b) => a.last.localeCompare(b.last))
     .slice(0, maxSlices);
-  const ix = await buildSeenIndex(batches);
+  const ix = await buildSeenIndex(batches, served);
   const at = new Date().toISOString();
   const run = `${at.slice(0, 16).replace(/[-:T]/g, "")}`;
   const local = new Set<string>();
@@ -523,7 +526,7 @@ export function renderServedPage(
   opts: { nextUrl?: string; round?: number; rounds?: number } = {},
 ): string {
   const round = opts.round ?? 1;
-  const rounds = opts.rounds ?? 5;
+  const rounds = opts.rounds ?? 8;
   const finish =
     'Then tell the user: "Done. Copy the Sweep keepers canvas and paste it to Claude." Nothing else.';
   if (!r) {
@@ -558,7 +561,8 @@ export function renderServedPage(
     '2. Keep ONE canvas document named "Sweep keepers" for the whole session (create it in round 1, then add to it each round; never delete lines). Add every candidate that is NOT a REJECT as one line:',
   );
   lines.push("   `<verdict> | <company> | <role> | <full link> | <pay or UNKNOWN> | <short reason with exact words about remote and experience>`");
-  lines.push(`   Then add one line: \`Run ${r.run}: <k> kept, <m> rejected\`. Do not list the rejects.`);
+  lines.push(`   Then add one line: \`Run ${r.run}: <k> kept, <m> rejected\`, and one line grouping the rejected numbers by reason, e.g. \`Rejects: 3+ yrs 2,5,9 | not remote from India 1,4 | closed 7 | senior title 3\`.`);
+  lines.push("   Take your time: open every link before judging it. A quick wrong reject loses a real job; Claude spot-checks rejects.");
   if (round < rounds && opts.nextUrl) {
     lines.push(`3. As soon as this round is done, open this link for round ${round + 1} and keep going in the same way, without waiting for the user:`);
     lines.push(`   ${opts.nextUrl}`);

@@ -407,7 +407,7 @@ export async function staged(since?: string, run?: string) {
 const gptProfile = () => (process.env.EMBER_GPT_PROFILE ?? "").trim();
 
 const TITLE_DROP =
-  /\b(senior|sr\.?|staff|principal|lead|head|director|vp|vice president|manager|engineer|engineering|developer|designer|sales|account executive|business development|representative|intern|mid[- ]level|ii|iii|iv|chief|leader|expert|werkstudent|working student|stage de|speaker)\b/i;
+  /\b(senior|sr\.?|staff|principal|lead|head|director|a?vp|vice president|manager|engineer|engineering|developer|designer|sales|account executive|business development|representative|intern|mid[- ]level|ii|iii|iv|chief|leader|expert|werkstudent|working student|stage de|speaker)\b/i;
 
 // Loose (html/url) sources carry no location filter, so drop clearly foreign, non-remote places here.
 const FOREIGN_LOC =
@@ -454,7 +454,7 @@ async function fetchSlice(s: GptSlice): Promise<{ jobs: Job[]; failed: string[] 
  * Hand out the next batch: walks the least-recently-run slices (2 at a time) until `maxCandidates`
  * new jobs are collected or `maxSlices` were tried. One served record per slice, sharing one run id.
  */
-export async function serveNext(maxCandidates = 40, dryRun = false, maxSlices = 6) {
+export async function serveNext(maxCandidates = 40, dryRun = false, maxSlices = 8) {
   const [served, batches] = await Promise.all([loadServed(), loadBatches()]);
   const gptLast: Record<string, string> = {};
   for (const r of [...served, ...batches]) if (!gptLast[r.slice] || r.at > gptLast[r.slice]) gptLast[r.slice] = r.at;

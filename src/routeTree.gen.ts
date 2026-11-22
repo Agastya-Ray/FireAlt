@@ -21,6 +21,11 @@ import { Route as ApiV1MapRouteImport } from './routes/api/v1/map'
 import { Route as ApiV1ScrapeRouteImport } from './routes/api/v1/scrape'
 import { Route as ApiV1SearchRouteImport } from './routes/api/v1/search'
 import { Route as ApiV1StatusRouteImport } from './routes/api/v1/status'
+import { Route as ApiV1GptBriefRouteImport } from './routes/api/v1/gpt/brief'
+import { Route as ApiV1GptCheckRouteImport } from './routes/api/v1/gpt/check'
+import { Route as ApiV1GptOpenapiRouteImport } from './routes/api/v1/gpt/openapi'
+import { Route as ApiV1GptStageRouteImport } from './routes/api/v1/gpt/stage'
+import { Route as ApiV1GptStagedRouteImport } from './routes/api/v1/gpt/staged'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -82,6 +87,31 @@ const ApiV1StatusRoute = ApiV1StatusRouteImport.update({
   path: '/api/v1/status',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiV1GptBriefRoute = ApiV1GptBriefRouteImport.update({
+  id: '/api/v1/gpt/brief',
+  path: '/api/v1/gpt/brief',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiV1GptCheckRoute = ApiV1GptCheckRouteImport.update({
+  id: '/api/v1/gpt/check',
+  path: '/api/v1/gpt/check',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiV1GptOpenapiRoute = ApiV1GptOpenapiRouteImport.update({
+  id: '/api/v1/gpt/openapi',
+  path: '/api/v1/gpt/openapi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiV1GptStageRoute = ApiV1GptStageRouteImport.update({
+  id: '/api/v1/gpt/stage',
+  path: '/api/v1/gpt/stage',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiV1GptStagedRoute = ApiV1GptStagedRouteImport.update({
+  id: '/api/v1/gpt/staged',
+  path: '/api/v1/gpt/staged',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -96,6 +126,11 @@ export interface FileRoutesByFullPath {
   '/api/v1/scrape': typeof ApiV1ScrapeRoute
   '/api/v1/search': typeof ApiV1SearchRoute
   '/api/v1/status': typeof ApiV1StatusRoute
+  '/api/v1/gpt/brief': typeof ApiV1GptBriefRoute
+  '/api/v1/gpt/check': typeof ApiV1GptCheckRoute
+  '/api/v1/gpt/openapi': typeof ApiV1GptOpenapiRoute
+  '/api/v1/gpt/stage': typeof ApiV1GptStageRoute
+  '/api/v1/gpt/staged': typeof ApiV1GptStagedRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -110,6 +145,11 @@ export interface FileRoutesByTo {
   '/api/v1/scrape': typeof ApiV1ScrapeRoute
   '/api/v1/search': typeof ApiV1SearchRoute
   '/api/v1/status': typeof ApiV1StatusRoute
+  '/api/v1/gpt/brief': typeof ApiV1GptBriefRoute
+  '/api/v1/gpt/check': typeof ApiV1GptCheckRoute
+  '/api/v1/gpt/openapi': typeof ApiV1GptOpenapiRoute
+  '/api/v1/gpt/stage': typeof ApiV1GptStageRoute
+  '/api/v1/gpt/staged': typeof ApiV1GptStagedRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -125,6 +165,11 @@ export interface FileRoutesById {
   '/api/v1/scrape': typeof ApiV1ScrapeRoute
   '/api/v1/search': typeof ApiV1SearchRoute
   '/api/v1/status': typeof ApiV1StatusRoute
+  '/api/v1/gpt/brief': typeof ApiV1GptBriefRoute
+  '/api/v1/gpt/check': typeof ApiV1GptCheckRoute
+  '/api/v1/gpt/openapi': typeof ApiV1GptOpenapiRoute
+  '/api/v1/gpt/stage': typeof ApiV1GptStageRoute
+  '/api/v1/gpt/staged': typeof ApiV1GptStagedRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -141,6 +186,11 @@ export interface FileRouteTypes {
     | '/api/v1/scrape'
     | '/api/v1/search'
     | '/api/v1/status'
+    | '/api/v1/gpt/brief'
+    | '/api/v1/gpt/check'
+    | '/api/v1/gpt/openapi'
+    | '/api/v1/gpt/stage'
+    | '/api/v1/gpt/staged'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -155,6 +205,11 @@ export interface FileRouteTypes {
     | '/api/v1/scrape'
     | '/api/v1/search'
     | '/api/v1/status'
+    | '/api/v1/gpt/brief'
+    | '/api/v1/gpt/check'
+    | '/api/v1/gpt/openapi'
+    | '/api/v1/gpt/stage'
+    | '/api/v1/gpt/staged'
   id:
     | '__root__'
     | '/'
@@ -169,6 +224,11 @@ export interface FileRouteTypes {
     | '/api/v1/scrape'
     | '/api/v1/search'
     | '/api/v1/status'
+    | '/api/v1/gpt/brief'
+    | '/api/v1/gpt/check'
+    | '/api/v1/gpt/openapi'
+    | '/api/v1/gpt/stage'
+    | '/api/v1/gpt/staged'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -184,6 +244,11 @@ export interface RootRouteChildren {
   ApiV1ScrapeRoute: typeof ApiV1ScrapeRoute
   ApiV1SearchRoute: typeof ApiV1SearchRoute
   ApiV1StatusRoute: typeof ApiV1StatusRoute
+  ApiV1GptBriefRoute: typeof ApiV1GptBriefRoute
+  ApiV1GptCheckRoute: typeof ApiV1GptCheckRoute
+  ApiV1GptOpenapiRoute: typeof ApiV1GptOpenapiRoute
+  ApiV1GptStageRoute: typeof ApiV1GptStageRoute
+  ApiV1GptStagedRoute: typeof ApiV1GptStagedRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -272,6 +337,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiV1StatusRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/v1/gpt/brief': {
+      id: '/api/v1/gpt/brief'
+      path: '/api/v1/gpt/brief'
+      fullPath: '/api/v1/gpt/brief'
+      preLoaderRoute: typeof ApiV1GptBriefRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/v1/gpt/check': {
+      id: '/api/v1/gpt/check'
+      path: '/api/v1/gpt/check'
+      fullPath: '/api/v1/gpt/check'
+      preLoaderRoute: typeof ApiV1GptCheckRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/v1/gpt/openapi': {
+      id: '/api/v1/gpt/openapi'
+      path: '/api/v1/gpt/openapi'
+      fullPath: '/api/v1/gpt/openapi'
+      preLoaderRoute: typeof ApiV1GptOpenapiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/v1/gpt/stage': {
+      id: '/api/v1/gpt/stage'
+      path: '/api/v1/gpt/stage'
+      fullPath: '/api/v1/gpt/stage'
+      preLoaderRoute: typeof ApiV1GptStageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/v1/gpt/staged': {
+      id: '/api/v1/gpt/staged'
+      path: '/api/v1/gpt/staged'
+      fullPath: '/api/v1/gpt/staged'
+      preLoaderRoute: typeof ApiV1GptStagedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -288,6 +388,11 @@ const rootRouteChildren: RootRouteChildren = {
   ApiV1ScrapeRoute: ApiV1ScrapeRoute,
   ApiV1SearchRoute: ApiV1SearchRoute,
   ApiV1StatusRoute: ApiV1StatusRoute,
+  ApiV1GptBriefRoute: ApiV1GptBriefRoute,
+  ApiV1GptCheckRoute: ApiV1GptCheckRoute,
+  ApiV1GptOpenapiRoute: ApiV1GptOpenapiRoute,
+  ApiV1GptStageRoute: ApiV1GptStageRoute,
+  ApiV1GptStagedRoute: ApiV1GptStagedRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

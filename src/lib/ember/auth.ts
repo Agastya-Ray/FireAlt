@@ -5,7 +5,9 @@ export type AccessResult =
   | { ok: false; status: 401 | 429; code: "unauthorized" | "rate_limited"; error: string; retryAfter?: number };
 
 export function allowedKeys(env: Record<string, string | undefined> = process.env): string[] {
-  return (env.EMBER_API_KEYS ?? "")
+  // EMBER_GPT_KEYS: separate keys for the ChatGPT sweep helper, so they can be rotated on their own.
+  return [env.EMBER_API_KEYS ?? "", env.EMBER_GPT_KEYS ?? ""]
+    .join(",")
     .split(",")
     .map((k) => k.trim())
     .filter(Boolean);

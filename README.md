@@ -172,3 +172,19 @@ Scrape/map/crawl/search do not need an LLM key. Extract does (`llmApiKey` + `llm
 6. Writes `open-leads.csv` (with the best contact per lead), `contacts.csv` (up to 4 emails per lead), `contacts.json`, `leads.json` and `last-run.md` to the `leads-data` branch (open it on GitHub mobile). Vercel ignores that branch.
 
 Repo secrets (Settings → Secrets and variables → Actions): `GROQ_API_KEY` and/or `GEMINI_API_KEY` (required, at least one). Optional: `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` (run `supabase/schema.sql` first) to store leads in Supabase instead of `leads.json`; `HUNTER_API_KEY` (free at hunter.io, 25 domain searches/month) adds Hunter-verified recruiter emails. Set it on Vercel too to use it in the `contacts` tool.
+
+## ChatGPT sweep helper (Custom GPT)
+
+A ChatGPT Custom GPT can continue the sweeps without repeating work. It writes only to a
+separate, append-only review list (private Vercel Blob store `ember-gpt-sweep`), never to the real board.
+
+| Route | Purpose |
+| --- | --- |
+| `GET /api/v1/gpt/openapi` | Public schema the GPT imports as its Actions |
+| `GET /api/v1/gpt/brief` | Rules + next slices (oldest last run across Claude and the GPT) |
+| `POST /api/v1/gpt/check` | Already-seen check: Claude board snapshot (`data/gpt/seen-claude.json`), `leads-data/leads.json`, GPT staging |
+| `POST /api/v1/gpt/stage` | Append one slice's leads/rejects (drops already-seen) |
+| `GET /api/v1/gpt/staged` | Read the review list (`?since=<ISO>`) |
+
+Auth: `EMBER_GPT_KEYS` (separate from `EMBER_API_KEYS`, so it can be revoked alone). Storage: `BLOB_READ_WRITE_TOKEN`.
+Refresh `data/gpt/seen-claude.json` and `data/gpt/slices.json` from the Leads Board DB when they go stale.

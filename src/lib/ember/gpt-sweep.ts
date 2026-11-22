@@ -12,6 +12,7 @@ import { get, list, put } from "@vercel/blob";
 import seenClaude from "../../../data/gpt/seen-claude.json";
 import slicesFile from "../../../data/gpt/slices.json";
 import { dedupKey } from "./sweep.ts";
+import { findJobs, type Job, type JobSource } from "./jobs.ts";
 
 const PREFIX = "gpt-sweep/";
 const LEADS_JSON_URL =
@@ -61,7 +62,7 @@ WHO HE IS: India (IST). Product Analyst at a CTRM software vendor, about 6 month
 
 ROLES WANTED: business analyst, product analyst, associate/junior PM, implementation or functional consultant, solutions analyst, onboarding, CS ops, RevOps, strategy & ops, operations / finance / research analyst, consulting, gaming non-coding ops (LiveOps, game economy, monetization analyst). CTRM/ETRM, commodities, fintech preferred, not required.
 
-HARD REJECTS (put these in "rejects" with a short reason, never in "leads"):
+HARD REJECTS (any one = REJECT, with a short reason):
 1. Link must open ONE specific job posting. Company homepage, careers index, board index, search page, closed / "no longer accepting" / 404 / redirect = reject. Never guess a URL.
 2. Experience: minimum required > 2 years = reject. "Preferred 3+" = reject unless freshers/0-2 yrs welcome. Titles with Senior, Sr, Lead, Head, Manager (of people), Director, VP, Principal, Staff, Mid, II, III, Experienced, or LinkedIn "Mid-Senior level" = reject.
 3. Remote: must be fully remote AND workable from India, per the JD text (board tags are not proof). Remote only for US/Canada/UK/EU/LATAM/Australia/another country, "must reside in", or on-site/hybrid abroad = reject.
@@ -168,6 +169,37 @@ async function readBlobJson(pathname: string): Promise<unknown> {
 }
 
 /** Every staged batch, oldest first. */
+export type ServedRun = {
+  kind: "served";
+  run: string;
+  at: string;
+  slice: string;
+  candidates: { n: number; company: string; role: string; url: string; location: string; posted: string | null; pay: string | null; summary?: string }[];
+  failed: string[];
+};
+
+async function listPaths(prefix: string): Promise<string[]> {
+  const paths: string[] = [];
+  let cursor: string | undefined;
+  do {
+    const page = await list({ prefix, cursor, limit: 1000 });
+    for (const b of page.blobs) paths.push(b.pathname);
+    cursor = page.hasMore ? page.cursor : undefined;
+  } while (cursor);
+  return paths.sort();
+}
+
+export async function loadServed(): Promise<ServedRun[]> {
+  if (!blobReady()) return [];
+  const paths = await listPaths(`${PREFIX}served/`);
+  const out: ServedRun[] = [];
+  for (let i = 0; i < paths.length; i += 8) {
+    const chunk = await Promise.all(paths.slice(i, i + 8).map((p) => readBlobJson(p)));
+    for (const d of chunk) if (d && typeof d === "object" && (d as ServedRun).kind === "served") out.push(d as ServedRun);
+  }
+  return out;
+}
+
 export async function loadBatches(): Promise<StageBatch[]> {
   if (!blobReady()) return [];
   const paths: string[] = [];
@@ -351,12 +383,136 @@ export async function stage(body: Record<string, unknown>) {
   return { saved: true, slice, at, leads_saved: leads.length, rejects_saved: rejects.length, dropped };
 }
 
-export async function staged(since?: string) {
+export async function staged(since?: string, run?: string) {
   const batches = (await loadBatches()).filter((b) => !since || b.at >= since);
+  const served = (await loadServed()).filter((r) => (!since || r.at >= since) && (!run || r.run === run));
   return {
+    served,
     batches: batches.length,
     leads: batches.flatMap((b) => b.leads.map((l) => ({ ...l, slice: b.slice, staged_at: b.at }))),
     rejects: batches.flatMap((b) => b.rejects.map((l) => ({ ...l, slice: b.slice, staged_at: b.at }))),
     runs: batches.map((b) => ({ at: b.at, slice: b.slice, counts: b.counts, notes: b.notes })),
   };
+}
+
+// ----------------------------------------------------------------------------- one-link mode (any ChatGPT plan)
+// ChatGPT only has to OPEN one link. Ember fetches the next slice's jobs, drops everything already seen,
+// records the slice as handed out, and returns a plain page: rules + numbered candidates + the reply format.
+// ChatGPT judges each candidate and prints a short block; the user pastes that block to Claude, who reviews it.
+
+const TITLE_DROP =
+  /\b(senior|sr\.?|staff|principal|lead|head|director|vp|vice president|manager|engineer|engineering|developer|designer|sales|account executive|business development|representative|intern|mid[- ]level|ii|iii|iv)\b/i;
+
+function isLooseSource(s: unknown): boolean {
+  const t = (s as { type?: string })?.type;
+  return t === "html" || t === "url";
+}
+
+export async function serveNext(maxCandidates = 20, dryRun = false) {
+  const [served, batches] = await Promise.all([loadServed(), loadBatches()]);
+  const gptLast: Record<string, string> = {};
+  for (const r of [...served, ...batches]) if (!gptLast[r.slice] || r.at > gptLast[r.slice]) gptLast[r.slice] = r.at;
+  const ordered = slices()
+    .map((s) => ({ ...s, last: [s.claude_last_run, gptLast[s.id]].filter(Boolean).sort().pop() ?? "" }))
+    .sort((a, b) => a.last.localeCompare(b.last));
+  const ix = await buildSeenIndex(batches);
+  const tried: string[] = [];
+  // Try up to 3 slices so one link never comes back empty.
+  for (const s of ordered.slice(0, 3)) {
+    tried.push(s.id);
+    const all = (s.sources ?? []) as JobSource[];
+    const strict = all.filter((x) => !isLooseSource(x)).slice(0, 25);
+    const loose = all.filter(isLooseSource).slice(0, 25);
+    const base = { include: SHARED_PARAMS.include, exclude: SHARED_PARAMS.exclude, details: true, limit: 50 };
+    const calls: Promise<{ jobs: Job[]; failed: { source: string; error: string }[] }>[] = [];
+    if (strict.length)
+      calls.push(
+        findJobs({
+          ...base,
+          sources: strict,
+          locations: SHARED_PARAMS.locations,
+          excludeLocations: SHARED_PARAMS.excludeLocations,
+          postedWithinDays: SHARED_PARAMS.postedWithinDays,
+        }).catch((e: unknown) => ({ jobs: [], failed: [{ source: "all", error: String(e) }] })),
+      );
+    if (loose.length)
+      calls.push(findJobs({ ...base, sources: loose }).catch((e: unknown) => ({ jobs: [], failed: [{ source: "html/url", error: String(e) }] })));
+    const results = await Promise.all(calls);
+    const failed = results.flatMap((r) => r.failed.map((f) => `${f.source}: ${f.error}`.slice(0, 160)));
+    const fresh: Job[] = [];
+    const local = new Set<string>();
+    for (const j of results.flatMap((r) => r.jobs)) {
+      if (!j.url || TITLE_DROP.test(j.title)) continue;
+      // Jobgether puts the age in the location field; 30+ days is stale.
+      if (/\b30\+\s*days?\s*ago\b/i.test(`${j.location} ${j.posted ?? ""}`)) continue;
+      if (isSeen(ix, j.company, j.title, j.url)) continue;
+      const k = urlKey(j.url);
+      if (local.has(k)) continue;
+      local.add(k);
+      fresh.push(j);
+    }
+    fresh.sort((a, b) => (b.posted ?? "").localeCompare(a.posted ?? ""));
+    const at = new Date().toISOString();
+    const run = `${at.slice(0, 16).replace(/[-:T]/g, "")}-s${s.id}`;
+    const rec: ServedRun = {
+      kind: "served",
+      run,
+      at,
+      slice: s.id,
+      failed,
+      candidates: fresh.slice(0, maxCandidates).map((j, i) => ({
+        n: i + 1,
+        company: j.company,
+        role: j.title,
+        url: j.url,
+        location: j.location,
+        posted: j.posted,
+        pay: j.pay,
+        summary: j.summary?.slice(0, 600),
+      })),
+    };
+    if (blobReady() && !dryRun) {
+      await put(`${PREFIX}served/${at.replace(/[:.]/g, "-")}-s${s.id}.json`, JSON.stringify(rec, null, 1), {
+        access: "private",
+        addRandomSuffix: true,
+        contentType: "application/json",
+      });
+    }
+    if (rec.candidates.length) return { ...rec, slice_name: s.name, notes: s.notes, tried };
+  }
+  return null;
+}
+
+export function renderServedPage(r: Awaited<ReturnType<typeof serveNext>>): string {
+  if (!r) {
+    return "No new jobs right now: the next 3 slices had nothing that Claude or Ember has not already seen. Tell the user: \"Nothing new this round, try again tomorrow.\"";
+  }
+  const lines: string[] = [];
+  lines.push(`# Job sweep run ${r.run} (slice ${r.slice}: ${r.slice_name})`);
+  lines.push("");
+  lines.push(
+    "You are helping Swastik find jobs. Below are NEW job postings (already de-duplicated against everything Claude has seen). For EACH one, open its link, read the posting, and decide a verdict using the rules. Then reply with ONLY the block at the bottom, filled in.",
+  );
+  lines.push("");
+  lines.push(
+    GPT_RULES.split("HOW TO WORK")[0]
+      .replace(/^You are continuing[\s\S]*?delete anything\.\n\n/, "")
+      .trim(),
+  );
+  lines.push("");
+  lines.push("## Candidates");
+  for (const c of r.candidates) {
+    lines.push(`${c.n}. ${c.role} | ${c.company || "company: see page"} | ${c.location || "location: see page"} | posted ${c.posted ?? "?"} | pay ${c.pay ?? "?"}`);
+    lines.push(`   ${c.url}`);
+    if (c.summary) lines.push(`   JD notes: ${c.summary.replace(/\s+/g, " ").slice(0, 400)}`);
+  }
+  lines.push("");
+  lines.push("## Your reply (copy this format exactly, one line per candidate, nothing else)");
+  lines.push("```");
+  lines.push(`RUN ${r.run}`);
+  lines.push("<number> | <PASS or PARK or HIGHPAY or CHECK or REJECT> | <pay or UNKNOWN> | <short reason, with a few exact words from the posting about remote and experience>");
+  lines.push("```");
+  lines.push("Do not skip any number. If a link does not open, use CHECK with reason \"could not open\". Never invent pay, quotes or details.");
+  lines.push("After the block, tell the user in one line: \"Paste this block to Claude.\"");
+  return lines.join("\n");
 }

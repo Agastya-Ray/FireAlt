@@ -6,7 +6,7 @@ import { corsHeaders, errorToResponse, guardV1, preflight } from "@/lib/ember/ht
  * One-link mode for ChatGPT (any plan): open /api/v1/gpt/next?key=... and it gets the next batch of new
  * jobs plus profile, rules and instructions as plain text. Each page links to the next round (&round=N),
  * so ChatGPT chains rounds on its own and keeps the keepers in one canvas for the user to paste to Claude.
- * Params: n (jobs per round, 10-60, default 40), rounds (1-12, default 8), round (current), dry=1 (no record).
+ * Params: n (jobs per round, 10-80, default 60), rounds (1-12, default 8), round (current), dry=1 (no record).
  */
 export const Route = createFileRoute("/api/v1/gpt/next")({
   server: {
@@ -22,7 +22,7 @@ export const Route = createFileRoute("/api/v1/gpt/next")({
             const x = Number.parseInt(v ?? "", 10);
             return Number.isFinite(x) ? Math.min(hi, Math.max(lo, x)) : d;
           };
-          const n = clamp(p.get("n"), 10, 60, 40);
+          const n = clamp(p.get("n"), 10, 80, 60);
           const rounds = clamp(p.get("rounds"), 1, 12, 8);
           const round = clamp(p.get("round"), 1, rounds, 1);
           const next = new URL(u.toString());

@@ -406,6 +406,37 @@ export async function staged(since?: string, run?: string) {
 /** Fuller profile for one-link mode. Kept in a Vercel env var, not in this public repo. */
 const gptProfile = () => (process.env.EMBER_GPT_PROFILE ?? "").trim();
 
+const GPT_PROFILE_HINT =
+  "Use the profile and rules from the earlier pages of this session (0-2 years, fully remote from India or high-pay India office, no sales/support/coding, pay floor Rs 75k/month in hand).";
+
+const OWN_SEARCHES = [
+  'site:in.indeed.com "remote" "business analyst" 0-2 years',
+  'site:in.indeed.com "remote" "product analyst"',
+  'site:in.indeed.com "work from home" "implementation consultant"',
+  'site:in.indeed.com "remote" "operations analyst"',
+  'site:naukri.com "work from home" "business analyst" 0-2 years',
+  'site:naukri.com "remote" "functional consultant" fresher',
+  'site:foundit.in "remote" "product analyst"',
+  'site:iimjobs.com "remote" "strategy" analyst 0-2 years',
+  'site:instahyre.com "remote" "business analyst"',
+  'site:linkedin.com/jobs "remote" India "junior business analyst"',
+  '"remote" "India" "associate product manager" 0-2 years job',
+  '"remote" "India" "onboarding specialist" SaaS job posting',
+  '"remote" "India" "revenue operations analyst" job',
+  '"remote" "India" "implementation analyst" fintech job',
+  '"CTRM" OR "ETRM" "business analyst" remote India job',
+  '"commodity" "trade operations" analyst remote India job',
+  '"game economy" OR "liveops" analyst remote India job',
+  '"strategy and operations" associate remote India job',
+  '"research analyst" remote India "0-2 years" job',
+  '"financial analyst" remote India "1-2 years" job',
+  'greenhouse.io "remote" India "business analyst"',
+  'lever.co "remote - india" analyst',
+  'ashbyhq.com "India" remote "operations"',
+  'workable.com "remote" India "analyst"',
+  '"we are hiring" "product analyst" remote India 2026',
+];
+
 const TITLE_DROP =
   /\b(senior|sr\.?|staff|principal|lead|head|director|a?vp|vice president|manager|engineer|engineering|developer|designer|sales|account executive|business development|representative|intern|mid[- ]level|ii|iii|iv|chief|leader|expert|werkstudent|working student|stage de|speaker)\b/i;
 
@@ -454,7 +485,7 @@ async function fetchSlice(s: GptSlice): Promise<{ jobs: Job[]; failed: string[] 
  * Hand out the next batch: walks the least-recently-run slices (2 at a time) until `maxCandidates`
  * new jobs are collected or `maxSlices` were tried. One served record per slice, sharing one run id.
  */
-export async function serveNext(maxCandidates = 40, dryRun = false, maxSlices = 8) {
+export async function serveNext(maxCandidates = 40, dryRun = false, maxSlices = 99) {
   const [served, batches] = await Promise.all([loadServed(), loadBatches()]);
   const gptLast: Record<string, string> = {};
   for (const r of [...served, ...batches]) if (!gptLast[r.slice] || r.at > gptLast[r.slice]) gptLast[r.slice] = r.at;
@@ -469,8 +500,10 @@ export async function serveNext(maxCandidates = 40, dryRun = false, maxSlices = 
   const candidates: (ServedRun["candidates"][number] & { slice: string })[] = [];
   const records: ServedRun[] = [];
   const tried: string[] = [];
-  for (let i = 0; i < ordered.length && candidates.length < maxCandidates; i += 2) {
-    const pair = ordered.slice(i, i + 2);
+  // Walk slices oldest-first, 4 at a time, until the round is full or ~3.5 min have passed.
+  const deadline = Date.now() + 210_000;
+  for (let i = 0; i < ordered.length && candidates.length < maxCandidates && Date.now() < deadline; i += 4) {
+    const pair = ordered.slice(i, i + 4);
     const got = await Promise.all(pair.map((s) => fetchSlice(s)));
     pair.forEach((s, k) => {
       tried.push(s.id);
@@ -529,8 +562,16 @@ export function renderServedPage(
   const rounds = opts.rounds ?? 8;
   const finish =
     'Then tell the user: "Done. Copy the Sweep keepers canvas and paste it to Claude." Nothing else.';
+  const ownSearch = [
+    "## Phase 2: search on your own (do this once, after the last round or when a page says \"No new jobs\")",
+    "Use web search to find MORE postings Claude's tools cannot reach (Indeed India, Naukri, foundit, iimjobs, Instahyre, company career pages, LinkedIn). Posted in the last 14 days only. Run at least 30 different searches, for example:",
+    ...OWN_SEARCHES.map((q) => `- ${q}`),
+    "Also try your own variations (other titles from ROLES WANTED, other sites). Open each promising posting and judge it with the same rules and profile.",
+    'Add keepers to the same canvas under a heading "Own search", same line format, with the direct posting link (never a search page). Skip anything already in the canvas. Claude removes jobs already on the board.',
+    "Aim for 15+ keepers from this phase. Quality over speed: read the posting before judging.",
+  ].join("\n");
   if (!r) {
-    return `No new jobs right now: the next slices had nothing that Claude or Ember has not already seen. Stop here. ${finish}`;
+    return `No new jobs from Claude's boards right now (everything was already seen).\n\n${GPT_PROFILE_HINT}\n\n${ownSearch}\n\nWhen Phase 2 is done: ${finish}`;
   }
   const lines: string[] = [];
   lines.push(`# Job sweep, round ${round} of ${rounds} (run ${r.run})`);
@@ -566,9 +607,11 @@ export function renderServedPage(
   if (round < rounds && opts.nextUrl) {
     lines.push(`3. As soon as this round is done, open this link for round ${round + 1} and keep going in the same way, without waiting for the user:`);
     lines.push(`   ${opts.nextUrl}`);
-    lines.push(`4. After round ${rounds}, or when a page says "No new jobs", stop. ${finish}`);
+    lines.push(`4. After round ${rounds}, or when a page says "No new jobs", do Phase 2 below, then stop. ${finish}`);
   } else {
-    lines.push(`3. This is the last round. ${finish}`);
+    lines.push(`3. This is the last round. Do Phase 2 below, then stop. ${finish}`);
   }
+  lines.push("");
+  lines.push(ownSearch);
   return lines.join("\n");
 }

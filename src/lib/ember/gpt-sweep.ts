@@ -512,7 +512,8 @@ export async function serveNext(maxCandidates = 40, dryRun = false, maxSlices = 
         if (!j.url || TITLE_DROP.test(j.title)) continue;
         if (FOREIGN_LOC.test(j.location ?? "") && !OK_LOC.test(j.location ?? "")) continue;
         // LinkedIn "remote" outside India means remote within that country.
-        if (/linkedin\.com\/jobs\//i.test(j.url) && !/\bindia\b/i.test(j.location ?? "")) continue;
+        const li = /^https?:\/\/([a-z]+)\.linkedin\.com\/jobs\//i.exec(j.url);
+        if (li && li[1].toLowerCase() !== "in" && !/\bindia\b/i.test(j.location ?? "")) continue;
         // Jobgether puts the age in the location field; 30+ days is stale.
         if (/\b30\+\s*days?\s*ago\b/i.test(`${j.location} ${j.posted ?? ""}`)) continue;
         if (isSeen(ix, j.company, j.title, j.url)) continue;
